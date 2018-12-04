@@ -1,0 +1,12 @@
+page-profile {
+    .toolbar {
+      height: 50px;
+      width: 100%;
+        buttom:first-child {
+            float: left;
+        }
+        buttom:last-child {
+            float: right;
+        }
+    }
+}
