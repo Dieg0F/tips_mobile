@@ -1,19 +1,67 @@
+<ion-menu [content]="mycontent" type="overlay">
+  <ion-content>
+    <ion-list> <button ion-item>Close Menu</button> </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-nav #mycontent></ion-nav>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons (click)="search()">
+      <button ion-button icon-only><ion-icon name="search"></ion-icon></button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content padding>
-  <div class="toolbar">
-    <!-- Only icon (no text) -->
-    <button ion-button icon-only text-start (click)="menu()">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <!-- Only icon (no text) -->
-    <button ion-button icon-only text-end (click)="search()">
-      <ion-icon name="search"></ion-icon>
-    </button>
+  <div class="profilePhoto"></div>
+  <div class="mainTitle">
+    <h1>Bem Vindo<br />Diego Fraga</h1>
   </div>
-  <div><h1>Professional Profile</h1></div>
-  <button ion-button color="secondary" (click)="ranking()">
-    Ranking</button
-  ><br />
-  <button ion-button color="danger" (click)="rating()">
-    Rating</button
-  ><br />
+  <div class="card">
+    <div class="cardTitle"><h2>Apresentação:</h2></div>
+    <div class="cardBody">
+      <p>
+        Estudante do curso de Sistemas de Informações, Univás, Pouso Alegre -
+        MG. Trabalho atualmente com desenvolvimento mobile, nativo e hiblrido.
+        Trabalhei por dois anos com desenvolvimento Web, com HTML 5, CSS 3,
+        JavaScript e Asp.NET.
+      </p>
+    </div>
+    <div class="cardFooter"><h5>Mais Informações</h5></div>
+  </div>
+  <div class="card">
+    <div class="cardTitle"><h2>Minhas Avaliação:</h2></div>
+    <div class="cardBody rating">
+      <div>
+        <p>Menor nota:</p>
+        <ion-icon name="star" class="bronze"></ion-icon>
+        <ion-icon name="star" class="bronze"></ion-icon>
+        <ion-icon name="star-half" class="bronze"></ion-icon>
+        <ion-icon name="md-star-outline" class="bronze"></ion-icon>
+        <ion-icon name="md-star-outline" class="bronze"></ion-icon>
+      </div>
+      <div>
+        <p>Maior nota:</p>
+        <ion-icon name="star" class="gold"></ion-icon>
+        <ion-icon name="star" class="gold"></ion-icon>
+        <ion-icon name="star" class="gold"></ion-icon>
+        <ion-icon name="star" class="gold"></ion-icon>
+        <ion-icon name="star" class="gold"></ion-icon>
+      </div>
+    </div>
+    <div class="cardFooter" (click)="rating()"><h5>Ver Avaliações</h5></div>
+  </div>
+  <div class="card">
+    <div class="cardTitle"><h2>Minha Pontuação:</h2></div>
+    <div class="cardBody">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+    <div class="cardFooter" (click)="ranking()"><h5>Ranking</h5></div>
+  </div>
 </ion-content>

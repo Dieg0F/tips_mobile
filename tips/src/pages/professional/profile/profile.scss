@@ -1,12 +1,5 @@
 page-profile {
-    .toolbar {
-      height: 50px;
-      width: 100%;
-        buttom:first-child {
-            float: left;
-        }
-        buttom:last-child {
-            float: right;
-        }
+    .toolbar-content-md{
+      margin-top: -30px !important;
     }
 }

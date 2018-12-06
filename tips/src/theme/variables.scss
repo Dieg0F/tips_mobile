@@ -33,13 +33,48 @@ $app-direction: ltr;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
-$colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222
-);
+$coldBackground: #273A56;
+
+$darkPrimaryColor: #3F51B5;
+$lightPrimaryColor: #B3E5FC;
+$lightBackground: #FFFFFF;
+
+$darkTextColor: #212121;
+$greyTextColor: #999999;
+$lightTextColor: #FFFFFF;
+
+$primaryColor: #29B6F6;
+
+// Colors for rating stars
+$goldStar: #DAA520;
+$silverStar: #C0C0C0;
+$bronzeStar: #CD7F32;
+
+
+// Default Spacings
+// -------------------------------------------------
+
+$smallSpace: 8px;
+$mediumSpace: 16px;
+$highSpace: 24px;
+$largeSpace: 32px;
+
+// Radius Sizes
+// -------------------------------------------------
+
+$tinyRadius: 2px;
+$smallRadius: 4px;
+$mediumRadius: 8px;
+$bigRadius: 16px;
+
+// Card Sizes
+// ------------------------------------------------
+
+$cardTitleSize: 22px;
+$cardBodySize: 16px;
+$cardBodyLineHeight: 16px;
+$cardFooterTextSize: 14px;
+$cardFooterTextHeight: 22px;
 
 
 // App iOS Variables
@@ -84,5 +119,5 @@ $colors: (
 // Fonts
 // --------------------------------------------------
 
-@import "roboto";
 @import "noto-sans";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');

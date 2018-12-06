@@ -1,11 +1,77 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>search</ion-title>
-  </ion-navbar>
+  <ion-navbar> <ion-title>Busca</ion-title> </ion-navbar>
 </ion-header>
+
 <ion-content padding>
-
-  <button ion-button color="danger" (click)="result()">
-    Result</button><br />
-
+  <div class="mainTitle">
+    <h1>Que profissional<br />está a procura?</h1>
+  </div>
+  <div class="card search">
+    <div class="cardBody">
+      <ion-item>
+        <ion-label>Área</ion-label>
+        <ion-select [(ngModel)]="area">
+          <ion-option value="nes">NES</ion-option>
+          <ion-option value="n64">Nintendo64</ion-option>
+          <ion-option value="ps">PlayStation</ion-option>
+          <ion-option value="genesis">Sega Genesis</ion-option>
+          <ion-option value="saturn">Sega Saturn</ion-option>
+          <ion-option value="snes">SNES</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Profissional</ion-label>
+        <ion-select [(ngModel)]="professional">
+          <ion-option value="nes">NES</ion-option>
+          <ion-option value="n64">Nintendo64</ion-option>
+          <ion-option value="ps">PlayStation</ion-option>
+          <ion-option value="genesis">Sega Genesis</ion-option>
+          <ion-option value="saturn">Sega Saturn</ion-option>
+          <ion-option value="snes">SNES</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Avaliação</ion-label>
+        <ion-select [(ngModel)]="rating">
+          <ion-option value="nes">NES</ion-option>
+          <ion-option value="n64">Nintendo64</ion-option>
+          <ion-option value="ps">PlayStation</ion-option>
+          <ion-option value="genesis">Sega Genesis</ion-option>
+          <ion-option value="saturn">Sega Saturn</ion-option>
+          <ion-option value="snes">SNES</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Ranking</ion-label>
+        <ion-select [(ngModel)]="ranking">
+          <ion-option value="nes">NES</ion-option>
+          <ion-option value="n64">Nintendo64</ion-option>
+          <ion-option value="ps">PlayStation</ion-option>
+          <ion-option value="genesis">Sega Genesis</ion-option>
+          <ion-option value="saturn">Sega Saturn</ion-option>
+          <ion-option value="snes">SNES</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="cardBody location">
+      <ion-list radio-group>
+        <ion-list-header>
+          Localização:
+          <br />
+          Rua Camanducaia, 240, Boa Vista
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Perto de mim</ion-label>
+          <ion-radio checked="true" value="go"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Selecionar um local</ion-label>
+          <ion-radio value="rust"></ion-radio>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div class="cardFooter" (click)="result()">
+      <h5>Buscar</h5>
+    </div>
+  </div>
 </ion-content>
