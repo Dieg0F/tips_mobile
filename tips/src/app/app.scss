@@ -12,8 +12,10 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+page-login,
 page-profile,
 page-search,
+page-forgot-password,
 page-results {
     ion-header {
         ion-buttons,
@@ -142,6 +144,99 @@ page-results {
     }
 }
 
+.card.login {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 320px;
+    height: 475px;
+}
+
+.card.login,
+.card.forgotPassword {
+    .cardTitle {
+        text-align: center;
+        img {
+            width: 50px;
+            height: 50px;
+            margin: $smallSpace;
+        }
+        h2 {
+            color: $greyTextColor;
+            font-size: $cardTitleSize;
+            margin: 0px 0px $smallSpace;
+            font-size: 25px;
+            text-align: center;
+        }
+    }
+    .cardBody {
+        button {
+            margin: 0 auto !important;
+            display: inline-block;
+            border-radius: $bigRadius;
+            width: 100%;
+            background-color: $primaryColor !important;
+        }
+        .item-md,
+        .item-ios {
+            padding-left: 0px !important;
+            margin: 5px 0 !important;
+        }
+        .label-md,
+        .label-ios {
+            margin: 0px !important;
+        }
+         padding: $smallSpace;
+        .socialLogin {
+            width: 112px;
+            height: 40px !important;
+            margin: $mediumSpace auto;
+            div {
+                width: 40px;
+                height: 40px;
+                float: left;
+                text-align: center;
+                margin: 0 $smallSpace;
+                ion-icon {
+                    font-size: 40px;
+                }
+                .logo-google {
+                    color: #dd4b39 !important;
+                }
+                .logo-facebook {
+                    color: #3b5999 !important;
+                }
+            }
+        }
+    }
+    .cardFooter h5 {
+        margin: $mediumSpace 0px 0px;
+        text-align: center;
+        display: block;
+    }
+}
+
+.card.forgotPassword {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 320px;
+    height: 405px;
+    .cardBody {
+        button {
+            margin: $largeSpace auto !important;
+        }
+        p {
+            margin-top: 0px;
+        }
+    }
+}
+
 .search {
     .item-md,
     .item-ios {
@@ -194,4 +289,9 @@ page-results {
         color: $bronzeStar;
         font-size: 25px;
     }
+}
+
+.hintText {
+    margin-top: $smallSpace !important;
+    font-size: 12px !important;
 }

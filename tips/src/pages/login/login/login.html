@@ -1,10 +1,34 @@
 <ion-content padding>
-  <div><h1>Login Page</h1></div>
-  <button ion-button (click)="login()">Login</button><br />
-  <button ion-button color="secondary" (click)="newAccount()">
-    New Account</button
-  ><br />
-  <button ion-button color="danger" (click)="forgotPassword()">
-    Forgot Password</button
-  ><br />
+  <div class="card login">
+    <div class="cardTitle">
+      <img src="../../../assets/imgs/logo.png" />
+      <h2>Tips</h2>
+    </div>
+    <div class="cardBody">
+      <ion-item>
+        <ion-label floating>E-mail</ion-label>
+        <ion-input type="text" value=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Senha</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <div class="socialLogin">
+        <div>
+          <ion-icon name="logo-facebook" class="logo-facebook"></ion-icon>
+        </div>
+        <div>
+          <ion-icon name="logo-google" class="logo-google"></ion-icon>
+        </div>
+      </div>
+      <button ion-button (click)="login()">Login</button>
+    </div>
+    <div class="cardFooter">
+      <h5 (click)="newAccount()">Nova Conta</h5>
+      <h5 (click)="forgotPassword()">Esqueci minha senha</h5>
+    </div>
+  </div>
+  <div class="devBy">
+    <p>Develop by Tips <sup>®</sup></p>
+  </div>
 </ion-content>

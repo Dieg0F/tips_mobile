@@ -11,13 +11,28 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
+      if ('MobileAccessibility' in window) {
+        const { MobileAccessibility }: any = window;
+        MobileAccessibility.usePreferredTextZoom(false);
+      }
+      this.disabledTextZoom()
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.backgroundColorByHexString("#273A56");
       statusBar.styleLightContent();
 
-      splashScreen.hide();
+      splashScreen.hide();      
     });
+  }
+
+  /**
+	 * disabled text zoom
+	 */
+  disabledTextZoom() {
+    if ('MobileAccessibility' in window) {
+      const { MobileAccessibility }: any = window;
+      MobileAccessibility.usePreferredTextZoom(false);
+    }
   }
 }
 
