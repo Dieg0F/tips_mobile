@@ -1,18 +1,33 @@
-<!--
-  Generated template for the NewAccountPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>new-account</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content padding>
-
+  <div class="card newAccount">
+    <div class="cardBody">
+      <p>
+        Para criar uma nova conta, digite seu Nome(Nome Fantasia), e-mail e escolha uma senha.
+      </p>
+      <ion-item>
+        <ion-label floating>Nome</ion-label>
+        <ion-input type="text" value=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>E-mail</ion-label>
+        <ion-input type="email" value=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Nova Senha</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Confirmar Senha</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <p class="hintText">
+        Você poderá alterar o seu nome e sua senha na tela de configurações de conta!
+      </p>    
+      <button ion-button (click)="login()">Criar Conta</button>
+    </div>
+  </div>
 </ion-content>

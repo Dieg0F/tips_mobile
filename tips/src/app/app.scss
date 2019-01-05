@@ -15,6 +15,7 @@
 page-login,
 page-profile,
 page-search,
+page-new-account,
 page-forgot-password,
 page-results {
     ion-header {
@@ -156,6 +157,7 @@ page-results {
 }
 
 .card.login,
+.card.newAccount,
 .card.forgotPassword {
     .cardTitle {
         text-align: center;
@@ -189,7 +191,7 @@ page-results {
         .label-ios {
             margin: 0px !important;
         }
-         padding: $smallSpace;
+        padding: $smallSpace;
         .socialLogin {
             width: 112px;
             height: 40px !important;
@@ -219,7 +221,8 @@ page-results {
     }
 }
 
-.card.forgotPassword {
+.card.forgotPassword,
+.card.newAccount {
     position: absolute;
     margin: auto;
     top: 0;
@@ -235,6 +238,11 @@ page-results {
             margin-top: 0px;
         }
     }
+}
+
+.card.newAccount {
+    width: 320px;
+    height: 490px;
 }
 
 .search {
@@ -293,5 +301,5 @@ page-results {
 
 .hintText {
     margin-top: $smallSpace !important;
-    font-size: 12px !important;
+    font-size: 10px !important;
 }
