@@ -1,0 +1,65 @@
+profile-menu {
+    .menu {
+        background-color: #000;
+        button {
+            height: 45px;
+            width: 100%;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 14px;
+            padding: $mediumSpace;
+            color: $darkTextColor;
+            background-color: $lightBackground !important;
+            font-family: "Roboto", sans-serif;
+        }
+        .menuHeader {
+            width: 100%;
+            height: 130px;
+            background-image: url('../../assets/imgs/menu_bg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: $lightTextColor;
+            padding: $mediumSpace;
+            .profilePhoto {
+                width: 75px;
+                height: 75px;
+                float: left;
+                margin: $smallSpace 0 $smallSpace $smallSpace;
+            }
+            .profileData {
+                width: calc(100% - 85px);
+                height: 40px;
+                margin-top: $highSpace;
+                padding-left: $mediumSpace;
+                float: left;
+                overflow: hidden;
+                h4 {
+                    margin: 0px !important;
+                    font-size: 18px;
+                    font-family: "Roboto", sans-serif;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                p {
+                    margin: 0px !important;
+                    font-size: 12px;
+                    font-family: "Open Sans", sans-serif;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+            }
+        }
+        .menuProfileOptions {
+            padding-top: $mediumSpace;
+            background-color: $lightBackground;
+        }
+        .menuAppOptions {
+            position: absolute;
+            width: 100%;
+            bottom: 0px;
+            left: 0px;
+        }
+    }
+}
