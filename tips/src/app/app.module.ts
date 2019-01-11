@@ -12,6 +12,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MyApp } from './app.component';
 
 import { ComponentsModule } from '../components/components.module';
+import { AuthProvider } from '../providers/auth/auth';
 
 const config = {
   apiKey: "AIzaSyDlOsZfCTUVq4WdVUQReZaQqUb_6UCJWqo",
@@ -41,7 +42,8 @@ const config = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider
   ]
 })
 export class AppModule {}

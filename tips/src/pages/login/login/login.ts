@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NgForm } from '@angular/forms';
+
+import { AuthProvider } from '../../../providers/auth/auth';
+
 
 @IonicPage()
 @Component({
@@ -9,12 +13,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class LoginPage {
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public afAuth: AuthProvider
     ) {}
 
-  login() {
-    this.navCtrl.setRoot("ProfilePage");
-    this.navCtrl.goToRoot;
+  login(form: NgForm): void {
+    console.log(form.value.email, form.value.password)
+    this.afAuth.login(form);
+    //this.navCtrl.setRoot("ProfilePage");
+    //this.navCtrl.goToRoot;
   }
 
   newAccount() {

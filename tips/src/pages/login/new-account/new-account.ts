@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
+import { AuthProvider } from '../../../providers/auth/auth';
 
 /**
  * Generated class for the NewAccountPage page.
@@ -15,11 +19,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NewAccountPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewAccountPage');
   }
 
+  newAccount(form: NgForm): void {
+    this.authProvider.createNewAccount(form);
+  }
 }

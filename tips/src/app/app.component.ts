@@ -16,6 +16,7 @@ export class MyApp {
       //Verifica se usuário já está logado
       afAuth.auth.onAuthStateChanged((_user) => {
         if(_user != null) { //Logado
+          this.rootPage = "ProfilePage";
           console.log('logado');
         } else { //não logado
           this.rootPage = "LoginPage";
@@ -33,7 +34,7 @@ export class MyApp {
       statusBar.backgroundColorByHexString("#273A56");
       statusBar.styleLightContent();
 
-      splashScreen.hide();      
+      splashScreen.hide();
     });
   }
 

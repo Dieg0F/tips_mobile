@@ -5,28 +5,33 @@
       <h2>Tips</h2>
     </div>
     <div class="cardBody">
-      <ion-item>
-        <ion-label floating>E-mail</ion-label>
-        <ion-input type="text" value=""></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Senha</ion-label>
-        <ion-input type="password"></ion-input>
-      </ion-item>
-      <div class="socialLogin">
-        <div>
-          <ion-icon name="logo-facebook" class="logo-facebook"></ion-icon>
+
+      <form #form="ngForm" (submit)="login(form)">
+        <ion-item>
+          <ion-label floating>E-mail</ion-label>
+          <ion-input type="text" name="email" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Senha</ion-label>
+          <ion-input type="password" name="password" ngModel></ion-input>
+        </ion-item>
+        <div class="socialLogin">
+          <div>
+            <ion-icon name="logo-facebook" class="logo-facebook"></ion-icon>
+          </div>
+          <div>
+            <ion-icon name="logo-google" class="logo-google"></ion-icon>
+          </div>
         </div>
-        <div>
-          <ion-icon name="logo-google" class="logo-google"></ion-icon>
-        </div>
-      </div>
-      <button ion-button (click)="login()">Login</button>
+        <button ion-button>Login</button>
+      </form>
     </div>
+
     <div class="cardFooter">
       <h5 (click)="newAccount()">Nova Conta</h5>
       <h5 (click)="forgotPassword()">Esqueci minha senha</h5>
     </div>
+
   </div>
   <div class="devBy">
     <p>Develop by Tips <sup>®</sup></p>
