@@ -13,6 +13,7 @@ import { MyApp } from './app.component';
 
 import { ComponentsModule } from '../components/components.module';
 import { AuthProvider } from '../providers/auth/auth';
+import { UserProvider } from '../providers/user/user';
 
 const config = {
   apiKey: "AIzaSyDlOsZfCTUVq4WdVUQReZaQqUb_6UCJWqo",
@@ -43,7 +44,8 @@ const config = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    UserProvider
   ]
 })
 export class AppModule {}
