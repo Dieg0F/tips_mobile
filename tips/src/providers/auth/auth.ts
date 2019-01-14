@@ -42,7 +42,7 @@ export class AuthProvider {
           email: email,
           confimPass: confimPass
         }
-        this.db.collection('user').doc(newUser.uid).set(newUser);//salva o novo usuário
+        this.db.collection('users').doc(newUser.uid).set(newUser);//salva o novo usuário
       })
       .catch((error) => {
         this.showMessage(error.message);
