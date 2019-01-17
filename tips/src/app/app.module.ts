@@ -16,12 +16,13 @@ import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/user';
 
 const config = {
-  apiKey: "AIzaSyDlOsZfCTUVq4WdVUQReZaQqUb_6UCJWqo",
-  authDomain: "tips-36c4a.firebaseapp.com",
-  databaseURL: "https://tips-36c4a.firebaseio.com",
-  projectId: "tips-36c4a",
-  storageBucket: "tips-36c4a.appspot.com",
-  messagingSenderId: "1068679955578"};
+  apiKey: "AIzaSyDXRsRIsmwSqxhOq6DhPygoRFLP0ng5AeQ",
+  authDomain: "tips-8112e.firebaseapp.com",
+  databaseURL: "https://tips-8112e.firebaseio.com",
+  projectId: "tips-8112e",
+  storageBucket: "tips-8112e.appspot.com",
+  messagingSenderId: "1067203153657"
+};
 
 @NgModule({
   declarations: [
@@ -43,9 +44,9 @@ const config = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     UserProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }

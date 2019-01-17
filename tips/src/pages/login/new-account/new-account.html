@@ -9,7 +9,6 @@
         Para criar uma nova conta, digite seu Nome(Nome Fantasia), e-mail e escolha uma senha.
       </p>
       <form #form="ngForm" (submit)="newAccount(form)">
-
         <ion-item>
           <ion-label floating>Nome</ion-label>
           <ion-input type="text" name="name" ngModel></ion-input>
@@ -30,9 +29,7 @@
           Você poderá alterar o seu nome e sua senha na tela de configurações de conta!
         </p>
         <button ion-button>Criar Conta</button>
-
       </form>
-
     </div>
   </div>
 </ion-content>

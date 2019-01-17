@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
 import { AuthProvider } from '../../../providers/auth/auth';
 
 /**

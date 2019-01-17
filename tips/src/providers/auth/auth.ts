@@ -6,12 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AlertController } from 'ionic-angular';
 
-/*
-  Generated class for the AuthProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class AuthProvider {
 
@@ -49,6 +44,10 @@ export class AuthProvider {
       })
   }
 
+  updateAccount(form: NgForm): Promise<void> {
+    return this.afAuth.auth.sendPasswordResetEmail(form.value.email)
+  }
+
   logout(): void { //Sai do sistema
     console.log("sair");
     this.afAuth.auth.signOut();
@@ -62,4 +61,5 @@ export class AuthProvider {
     });
     alert.present();
   }
+   
 }
