@@ -14,6 +14,9 @@ import { MyApp } from './app.component';
 import { ComponentsModule } from '../components/components.module';
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/user';
+import { Alert } from '../util/alert/alert';
+import { Toast } from '../util/toast/toast';
+import { Loading } from '../util/loading/loading';
 
 const config = {
   apiKey: "AIzaSyDXRsRIsmwSqxhOq6DhPygoRFLP0ng5AeQ",
@@ -35,7 +38,7 @@ const config = {
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    FormsModule
+    FormsModule    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -45,8 +48,11 @@ const config = {
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthProvider,
-    UserProvider
+    AuthProvider,    
+    UserProvider,
+    Alert,
+    Loading,
+    Toast
   ]
 })
 export class AppModule { }
