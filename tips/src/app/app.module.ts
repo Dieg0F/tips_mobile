@@ -17,6 +17,7 @@ import { UserProvider } from '../providers/user/user';
 import { Alert } from '../util/alert/alert';
 import { Toast } from '../util/toast/toast';
 import { Loading } from '../util/loading/loading';
+import { HttpClientModule } from '@angular/common/http';
 
 const config = {
   apiKey: "AIzaSyDXRsRIsmwSqxhOq6DhPygoRFLP0ng5AeQ",
@@ -38,6 +39,7 @@ const config = {
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    HttpClientModule,
     FormsModule    
   ],
   bootstrap: [IonicApp],

@@ -4,47 +4,30 @@ import { NgForm } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { AlertController } from 'ionic-angular';
-
-
 @Injectable()
 export class AuthProvider {
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private alertCtrl: AlertController) { }
+  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) { }
 
   //Faz logon no sistema
-  login(form: NgForm) {
+  login(form: NgForm): Promise<any> {
+    console.log("login");
     let email: string = form.value.email;
     let pass: string = form.value.password;
 
-    this.afAuth.auth.signInWithEmailAndPassword(email, pass)
-      .catch((_error) => {
-        this.showMessage(_error.message)
-      })
+    return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
   }
 
-  createNewAccount(form: NgForm): void {
-    //captura os dados do form
-    let name = form.value.name;
+  createNewAccount(form: NgForm): Promise<any> {
+    console.log("criar conta");
     let email = form.value.email;
     let pass = form.value.password;
-    let confimPass = form.value.confirmPass;
-    this.afAuth.auth.createUserWithEmailAndPassword(email, pass)//cria um usuário valido
-      .then((result) => {
-        let newUser = { //cria um novo usuário
-          uid: result.user.uid,
-          name: name,
-          email: email,
-          confimPass: confimPass
-        }
-        this.db.collection('users').doc(newUser.uid).set(newUser);//salva o novo usuário
-      })
-      .catch((error) => {
-        this.showMessage(error.message);
-      })
+
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
   }
 
   updateAccount(form: NgForm): Promise<void> {
+    console.log("reset de senha");
     return this.afAuth.auth.sendPasswordResetEmail(form.value.email)
   }
 
@@ -52,14 +35,4 @@ export class AuthProvider {
     console.log("sair");
     this.afAuth.auth.signOut();
   }
-
-  private showMessage(text: string): void {
-    let alert = this.alertCtrl.create({
-      title: 'Falha no login!',
-      subTitle: text,
-      buttons: ['Ok']
-    });
-    alert.present();
-  }
-   
 }

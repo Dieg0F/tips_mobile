@@ -2,18 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthUser } from '../../model/AuthUser/authUser';
 
-/*
-  Generated class for the UserProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class UserProvider {
 
   constructor(public http: HttpClient, private db: AngularFirestore) {
-    console.log('Hello UserProvider Provider');
+  }
+
+  saveNewUser(user: any): Promise<void> {
+    console.log('Criando um novo usuário')
+    return this.db.collection('users').doc(user.uid).set(user);
   }
 
   editProfile(): void {

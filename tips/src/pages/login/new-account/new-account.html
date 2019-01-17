@@ -11,7 +11,7 @@
       <form #form="ngForm" (submit)="newAccount(form)">
         <ion-item>
           <ion-label floating>Nome</ion-label>
-          <ion-input type="text" name="name" ngModel></ion-input>
+          <ion-input type="text" name="name" ngModel maxLength="30"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>E-mail</ion-label>
@@ -19,11 +19,11 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Nova Senha</ion-label>
-          <ion-input type="password" name="password" ngModel></ion-input>
+          <ion-input type="password" name="password" ngModel maxLength="10"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Confirmar Senha</ion-label>
-          <ion-input type="password" name="confirmPass" ngModel></ion-input>
+          <ion-input type="password" name="confirmPass" ngModel maxLength="10"></ion-input>
         </ion-item>
         <p class="hintText">
           Você poderá alterar o seu nome e sua senha na tela de configurações de conta!
