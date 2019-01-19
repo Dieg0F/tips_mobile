@@ -27,9 +27,7 @@ export class MyApp {
 
       this.disabledTextZoom()
       this.statusBar.backgroundColorByHexString("#273A56");
-      this.statusBar.styleLightContent();
-
-      this.splashScreen.hide();
+      this.statusBar.styleLightContent();      
     });
   }
 
@@ -43,8 +41,7 @@ export class MyApp {
     }
   }
 
-  verifyUser(): any {
-    this.loading.showLoading('Carregando informações...')   
+  verifyUser(): any {      
     this.storage.getItem('userAuth')
       .then((result) => {
         console.log('verifyUser: ', result)
@@ -54,10 +51,10 @@ export class MyApp {
         } else {
           this.rootPage = 'LoginPage'
         }
-        this.loading.hideLoading()
+        this.splashScreen.hide();
       })
       .catch((error) => {
-        this.loading.hideLoading()
+        this.splashScreen.hide();
         this.toast.showToast('Sessão finalizada!')
         console.log('Error: ', error)
       })

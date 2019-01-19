@@ -322,6 +322,16 @@ page-results {
     }
 }
 
+.loading-ios .loading-wrapper,
+.loading-md .loading-wrapper {
+    border-radius: $smallRadius !important;
+    padding: 12px $mediumSpace !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4) !important;
+    .spinner-crescent circle {
+        stroke: $primaryColor !important;
+    }
+}
+
 .alert-md [aria-checked=true] .alert-radio-label,
 .alert-ios [aria-checked=true] .alert-radio-label {
     color: $primaryColor !important;
