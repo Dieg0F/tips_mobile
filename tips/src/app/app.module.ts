@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -18,6 +19,7 @@ import { Alert } from '../util/alert/alert';
 import { Toast } from '../util/toast/toast';
 import { Loading } from '../util/loading/loading';
 import { HttpClientModule } from '@angular/common/http';
+import { StorageProvider } from '../providers/storage/storage';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -36,6 +38,7 @@ const config = {
     BrowserModule,
     ComponentsModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -52,6 +55,7 @@ const config = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,    
     UserProvider,
+    StorageProvider,
     Alert,
     Loading,
     Toast

@@ -8,6 +8,7 @@ import { Alert } from '../../../util/alert/alert';
 import { Toast } from '../../../util/toast/toast';
 import { Regex } from '../../../util/regex/regex';
 import { UserProvider } from '../../../providers/user/user';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 
 @IonicPage()
@@ -25,6 +26,7 @@ export class LoginPage {
     public afAuth: AuthProvider,
     public loading: Loading,
     public userProvider: UserProvider,
+    public storage: StorageProvider,
     public alert: Alert,
     public toast: Toast) { }
 
@@ -32,11 +34,12 @@ export class LoginPage {
     if (this.validateAccount(form)) {
       this.loading.showLoading('Entrando em sua conta...');
       this.afAuth.login(form)
-        .then((result) => {
+        .then(async (result) => {
           console.log(result)
-          console.log('Login com sucesso!')
-          this.loading.hideLoading();
-          this.toast.showToast('Bem vindo!')
+          return this.saveUserLogin(result.user)
+            .then(() => {
+              this.goToProfilePage();
+            });
         })
         .catch((error) => {
           console.log('Erro ao fazer login: ', error)
@@ -46,10 +49,21 @@ export class LoginPage {
     }
   }
 
-  googleLogin() {    
+  private goToProfilePage() {
+    this.navCtrl.setRoot('ProfilePage');
+    this.navCtrl.goToRoot;
+    this.loading.hideLoading();
+    this.toast.showToast('Bem vindo!');
+  }
+
+  private saveUserLogin(user: any): Promise<void> {
+    return this.storage.setItem('userAuth', user)
+  }
+
+  googleLogin() {
     this.loading.showLoading('Entrando em com sua conta...');
     this.afAuth.googleLogin()
-      .then((result) => {
+      .then(async (result) => {
         console.log(result)
         let newUser = {
           uid: result.user.uid,
@@ -58,23 +72,25 @@ export class LoginPage {
           confimPass: "",
           accountType: 'GOOGLE'
         }
-        this.userProvider.saveNewUser(newUser)
-          .then(() =>{
-            this.loading.hideLoading();
-            this.toast.showToast('Bem vindo, ' + newUser.name + '!')
+        return this.userProvider.saveNewUser(newUser)
+          .then(async () => {
+            return this.saveUserLogin(result.user)
+              .then(() => {
+                this.goToProfilePage();
+              });
           })
-          .catch((error) =>{
-            console.log('Erro ao fazer login: ', error)
-            this.loading.hideLoading();
-            this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta Google!')
-          })
+      })
+      .catch((error) => {
+        console.log('Erro ao fazer login: ', error)
+        this.loading.hideLoading();
+        this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta Google!')
       })
   }
 
   facebookLogin() {
     this.loading.showLoading('Entrando em com sua conta...');
     this.afAuth.facebookLogin()
-      .then((result) => {
+      .then(async (result) => {
         console.log(result)
         let newUser = {
           uid: result.user.uid,
@@ -83,16 +99,18 @@ export class LoginPage {
           confimPass: "",
           accountType: 'FACEBOOK'
         }
-        this.userProvider.saveNewUser(newUser)
-          .then(() => {
-            this.loading.hideLoading();
-            this.toast.showToast('Bem vindo, ' + newUser.name + '!')
+        return this.userProvider.saveNewUser(newUser)
+          .then(async () => {
+            return this.saveUserLogin(result.user)
+              .then(() => {
+                this.goToProfilePage();
+              });
           })
-          .catch((error) => {
-            console.log('Erro ao fazer login: ', error)
-            this.loading.hideLoading();
-            this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta Google!')
-          })
+      })
+      .catch((error) => {
+        console.log('Erro ao fazer login: ', error)
+        this.loading.hideLoading();
+        this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta do Facebook!')
       })
   }
 

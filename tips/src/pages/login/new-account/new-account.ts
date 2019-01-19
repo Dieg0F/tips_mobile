@@ -31,6 +31,7 @@ export class NewAccountPage {
       this.loading.showLoading('Estamos criando a sua conta...')
       this.authProvider.createNewAccount(form)
         .then((result) => {
+          console.log(result)
           let newUser = {
             uid: result.user.uid,
             name: form.value.name,
@@ -40,6 +41,11 @@ export class NewAccountPage {
           }
           this.saveUser(newUser);
         })
+        .catch((error) => {
+          this.loading.hideLoading();
+          this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
+          console.log('erro ao criar conta: ', error);
+        });
     }
   }
 

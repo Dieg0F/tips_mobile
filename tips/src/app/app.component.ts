@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StorageProvider } from '../providers/storage/storage';
+import { Loading } from '../util/loading/loading';
+import { Toast } from '../util/toast/toast';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,24 +13,23 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   rootPage: any = null;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, afAuth: AngularFireAuth) {
-    platform.ready().then(() => {
+  constructor(
+    private platform: Platform,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private loading: Loading,
+    private toast: Toast,
+    private storage: StorageProvider) {
+
+    this.platform.ready().then(() => {
       // //Verifica se usuário já está logado
-      afAuth.auth.onAuthStateChanged((_user) => {
-        if (_user != null) { //Logado
-          this.rootPage = "ProfilePage";
-          console.log('logado');
-        } else { //não logado
-          this.rootPage = "LoginPage";
-          console.log('não logado, faça login ou cadastre-se');
-        }
-      })
+      this.verifyUser()
 
       this.disabledTextZoom()
-      statusBar.backgroundColorByHexString("#273A56");
-      statusBar.styleLightContent();
+      this.statusBar.backgroundColorByHexString("#273A56");
+      this.statusBar.styleLightContent();
 
-      splashScreen.hide();
+      this.splashScreen.hide();
     });
   }
 
@@ -40,6 +41,26 @@ export class MyApp {
       const { MobileAccessibility }: any = window;
       MobileAccessibility.usePreferredTextZoom(false);
     }
+  }
+
+  verifyUser(): any {
+    this.loading.showLoading('Carregando informações...')   
+    this.storage.getItem('userAuth')
+      .then((result) => {
+        console.log('verifyUser: ', result)
+        if (result != null) {
+          this.rootPage = 'ProfilePage'
+          this.toast.showToast('Bem vindo novamente!')
+        } else {
+          this.rootPage = 'LoginPage'
+        }
+        this.loading.hideLoading()
+      })
+      .catch((error) => {
+        this.loading.hideLoading()
+        this.toast.showToast('Sessão finalizada!')
+        console.log('Error: ', error)
+      })
   }
 }
 

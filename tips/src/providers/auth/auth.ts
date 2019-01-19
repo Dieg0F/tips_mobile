@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+
 import firebase from 'firebase';
 
 @Injectable()
@@ -41,17 +42,13 @@ export class AuthProvider {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
   }
 
-  updateAccount() {
-
-  }
-
   resetPassword(form: NgForm): Promise<void> {
     console.log("reset de senha");
     return this.afAuth.auth.sendPasswordResetEmail(form.value.email)
   }
 
-  logout(): void { //Sai do sistema
+  logout(): Promise<void> { //Sai do sistema
     console.log("sair");
-    this.afAuth.auth.signOut();
+    return this.afAuth.auth.signOut();
   }
 }
