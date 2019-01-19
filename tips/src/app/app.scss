@@ -299,6 +299,43 @@ page-results {
     }
 }
 
+.select-alert.single-select-alert {
+    .alert-wrapper {
+        border-radius: $smallRadius !important;
+        max-width: 300px !important;
+        min-width: 280px !important;
+        .alert-head {
+            padding: $mediumSpace $highSpace !important;
+        }
+        .alert-radio-group {
+            border: none !important;
+            padding: $smallSpace;
+        }
+        .alert-radio-label {
+            font-family: "Open Sans", sans-serif !important;
+        }
+        .alert-button-group {
+            .alert-button {
+                color: $primaryColor !important;
+            }
+        }
+    }
+}
+
+.alert-md [aria-checked=true] .alert-radio-label,
+.alert-ios [aria-checked=true] .alert-radio-label {
+    color: $primaryColor !important;
+}
+
+.alert-md [aria-checked=true] .alert-radio-icon,
+.alert-ios [aria-checked=true] .alert-radio-icon {
+    border-color: $primaryColor !important;
+    .alert-radio-inner,
+    .alert-radio-inner {
+        background-color: $primaryColor !important;
+    }
+}
+
 .hintText {
     margin-top: $smallSpace !important;
     font-size: 10px !important;
