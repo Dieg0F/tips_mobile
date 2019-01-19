@@ -16,10 +16,10 @@
           <ion-input type="password" name="password" ngModel></ion-input>
         </ion-item>
         <div class="socialLogin">
-          <div>
+          <div (click)="facebookLogin()">
             <ion-icon name="logo-facebook" class="logo-facebook"></ion-icon>
           </div>
-          <div>
+          <div (click)="googleLogin()">
             <ion-icon name="logo-google" class="logo-google"></ion-icon>
           </div>
         </div>

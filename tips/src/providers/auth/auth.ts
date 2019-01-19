@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import firebase from 'firebase';
 
 @Injectable()
 export class AuthProvider {
@@ -18,6 +19,20 @@ export class AuthProvider {
     return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
   }
 
+  googleLogin(): Promise<any> {
+    console.log("Google Login");
+
+    var provider = new firebase.auth.GoogleAuthProvider();    
+    return firebase.auth().signInWithPopup(provider)
+  }
+
+  facebookLogin(): Promise<any> {
+    console.log("Facebook Login");
+
+    var provider = new firebase.auth.FacebookAuthProvider();
+    return firebase.auth().signInWithPopup(provider)
+  }
+
   createNewAccount(form: NgForm): Promise<any> {
     console.log("criar conta");
     let email = form.value.email;
@@ -26,7 +41,11 @@ export class AuthProvider {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
   }
 
-  updateAccount(form: NgForm): Promise<void> {
+  updateAccount() {
+
+  }
+
+  resetPassword(form: NgForm): Promise<void> {
     console.log("reset de senha");
     return this.afAuth.auth.sendPasswordResetEmail(form.value.email)
   }

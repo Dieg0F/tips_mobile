@@ -7,6 +7,7 @@ import { Loading } from '../../../util/loading/loading';
 import { Alert } from '../../../util/alert/alert';
 import { Toast } from '../../../util/toast/toast';
 import { Regex } from '../../../util/regex/regex';
+import { UserProvider } from '../../../providers/user/user';
 
 
 @IonicPage()
@@ -23,6 +24,7 @@ export class LoginPage {
     public navParams: NavParams,
     public afAuth: AuthProvider,
     public loading: Loading,
+    public userProvider: UserProvider,
     public alert: Alert,
     public toast: Toast) { }
 
@@ -30,7 +32,8 @@ export class LoginPage {
     if (this.validateAccount(form)) {
       this.loading.showLoading('Entrando em sua conta...');
       this.afAuth.login(form)
-        .then(() => {
+        .then((result) => {
+          console.log(result)
           console.log('Login com sucesso!')
           this.loading.hideLoading();
           this.toast.showToast('Bem vindo!')
@@ -41,6 +44,56 @@ export class LoginPage {
           this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!')
         });
     }
+  }
+
+  googleLogin() {    
+    this.loading.showLoading('Entrando em com sua conta...');
+    this.afAuth.googleLogin()
+      .then((result) => {
+        console.log(result)
+        let newUser = {
+          uid: result.user.uid,
+          name: result.user.displayName,
+          email: result.user.email,
+          confimPass: "",
+          accountType: 'GOOGLE'
+        }
+        this.userProvider.saveNewUser(newUser)
+          .then(() =>{
+            this.loading.hideLoading();
+            this.toast.showToast('Bem vindo, ' + newUser.name + '!')
+          })
+          .catch((error) =>{
+            console.log('Erro ao fazer login: ', error)
+            this.loading.hideLoading();
+            this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta Google!')
+          })
+      })
+  }
+
+  facebookLogin() {
+    this.loading.showLoading('Entrando em com sua conta...');
+    this.afAuth.facebookLogin()
+      .then((result) => {
+        console.log(result)
+        let newUser = {
+          uid: result.user.uid,
+          name: result.user.displayName,
+          email: result.user.email,
+          confimPass: "",
+          accountType: 'FACEBOOK'
+        }
+        this.userProvider.saveNewUser(newUser)
+          .then(() => {
+            this.loading.hideLoading();
+            this.toast.showToast('Bem vindo, ' + newUser.name + '!')
+          })
+          .catch((error) => {
+            console.log('Erro ao fazer login: ', error)
+            this.loading.hideLoading();
+            this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta Google!')
+          })
+      })
   }
 
   validateAccount(form: NgForm): Boolean {

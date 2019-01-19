@@ -20,12 +20,12 @@ import { Loading } from '../util/loading/loading';
 import { HttpClientModule } from '@angular/common/http';
 
 const config = {
-  apiKey: "AIzaSyDXRsRIsmwSqxhOq6DhPygoRFLP0ng5AeQ",
-  authDomain: "tips-8112e.firebaseapp.com",
-  databaseURL: "https://tips-8112e.firebaseio.com",
-  projectId: "tips-8112e",
-  storageBucket: "tips-8112e.appspot.com",
-  messagingSenderId: "1067203153657"
+  apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
+  authDomain: "tips-app-418.firebaseapp.com",
+  databaseURL: "https://tips-app-418.firebaseio.com",
+  projectId: "tips-app-418",
+  storageBucket: "tips-app-418.appspot.com",
+  messagingSenderId: "896288102091"
 };
 
 @NgModule({

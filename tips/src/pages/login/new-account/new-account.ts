@@ -8,7 +8,6 @@ import { Toast } from '../../../util/toast/toast';
 import { UserProvider } from '../../../providers/user/user';
 import { Regex } from '../../../util/regex/regex';
 
-
 @IonicPage()
 @Component({
   selector: 'page-new-account',
@@ -36,7 +35,8 @@ export class NewAccountPage {
             uid: result.user.uid,
             name: form.value.name,
             email: form.value.email,
-            confimPass: form.value.password
+            confimPass: form.value.password,
+            accountType: 'APPLICATION'
           }
           this.saveUser(newUser);
         })
