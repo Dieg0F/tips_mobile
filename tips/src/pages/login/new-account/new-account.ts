@@ -52,8 +52,8 @@ export class NewAccountPage {
   private saveUser(newUser: any) {
     this.userProvider.saveNewUser(newUser)
       .then(() => {
-        this.loading.hideLoading();
-        this.toast.showToast('Sua conta foi criada com sucesso!');
+        this.goToProfilePage();
+
         console.log('sucesso ao salvar usuário');
       })
       .catch((error) => {
@@ -62,6 +62,13 @@ export class NewAccountPage {
         this.alert.simpleAlert('Erro 555', 'Houve um erro ao criar conta!');
         console.log('erro ao salvar usuário: ', error);
       });
+  }
+
+  private goToProfilePage() {
+    this.navCtrl.setRoot('ProfilePage');
+    this.navCtrl.goToRoot;
+    this.loading.hideLoading();
+    this.toast.showToast('Sua conta foi criada com sucesso!');
   }
 
   validateAccount(form: NgForm): Boolean {
