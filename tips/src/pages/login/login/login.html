@@ -1,0 +1,41 @@
+<ion-content padding>
+  <div class="card login">
+    <div class="cardTitle">
+      <img src="../../../assets/imgs/logo.png" />
+      <h2>Tips</h2>
+    </div>
+    <div class="cardBody">
+
+      <form #form="ngForm" (submit)="login(form)">
+        <ion-item>
+          <ion-label floating>E-mail</ion-label>
+          <ion-input type="email" name="email" ngModel maxLength="60"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Senha</ion-label>
+          <ion-input type="password" name="password" ngModel maxLength="10"></ion-input>
+        </ion-item>
+        <br>
+        <br>
+        <!-- <div class="socialLogin">
+          <div (click)="facebookLogin()">
+            <ion-icon name="logo-facebook" class="logo-facebook"></ion-icon>
+          </div>
+          <div (click)="googleLogin()">
+            <ion-icon name="logo-google" class="logo-google"></ion-icon>
+          </div>
+        </div> -->
+        <button ion-button>Login</button>
+      </form>
+    </div>
+
+    <div class="cardFooter">
+      <h5 (click)="newAccount()">Nova Conta</h5>
+      <h5 (click)="forgotPassword()">Esqueci minha senha</h5>
+    </div>
+
+  </div>
+  <div class="devBy">
+    <p>Develop by Tips <sup>®</sup></p>
+  </div>
+</ion-content>

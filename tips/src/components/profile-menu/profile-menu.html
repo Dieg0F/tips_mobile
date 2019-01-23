@@ -1,0 +1,45 @@
+<div class="menu">
+  <div class="menuHeader">
+    <div class="profilePhoto"></div>
+    <div class="profileData">
+      <h4>Diego Fraga</h4>
+      <p>dfraga2012@gmail.com</p>
+    </div>
+  </div>
+  <div class="menuProfileOptions">
+    <button icon-start>
+      <ion-icon name="person"></ion-icon>
+      Minha Conta
+    </button>
+    <button icon-start (click)="editProfile()">
+      <ion-icon name="create"></ion-icon>
+      Editar Perfil
+    </button>
+    <button icon-start>
+      <ion-icon name="briefcase"></ion-icon>
+      Meus Contratos
+    </button>
+    <button icon-start>
+      <ion-icon name="star"></ion-icon>
+      Minhas Avaliações
+    </button>
+    <button icon-start>
+      <ion-icon name="stats"></ion-icon>
+      Ranking
+    </button>
+  </div>
+  <div class="menuAppOptions">
+    <button icon-start>
+      <ion-icon name="settings"></ion-icon>
+      Configurações
+    </button>
+    <button icon-start>
+      <ion-icon name="information-circle"></ion-icon>
+      Sobre
+    </button>
+    <button icon-start (click)="logout()">
+      <ion-icon name="exit" ></ion-icon>
+      Sair
+    </button>
+  </div>
+</div>

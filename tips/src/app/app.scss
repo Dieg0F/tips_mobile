@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,3 +12,341 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+page-login,
+page-profile,
+page-search,
+page-new-account,
+page-forgot-password,
+page-results {
+    ion-header {
+        ion-buttons,
+        ion-title {
+            display: inline-block !important;
+        }
+        ion-title {
+            margin-left: 40px;
+            margin-top: 3px;
+        }
+        ion-buttons:last-child {
+            position: absolute;
+            right: 10px;
+        }
+        ion-buttons:first-child {
+            position: absolute;
+        }
+    }
+    .bar-button-default-md,
+    .bar-button-default-ios,
+    .toolbar-title-md,
+    .toolbar-title-ios {
+        color: $lightTextColor !important;
+    }
+    .header-md::after {
+        background: none !important;
+    }
+    .toolbar-background-md,
+    .toolbar-background-ios {
+        background-color: $coldBackground;
+    }
+    .content-md,
+    .content-ios {
+        background-color: $coldBackground;
+    }
+    ion-menu {
+        .content-md,
+        .content-ios {
+            background-color: $lightBackground;
+        }
+    }
+}
+
+.profilePhoto {
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #ffffff;
+    background-size: cover;
+    background-image: url("https://scontent.fplu9-2.fna.fbcdn.net/v/t1.0-9/37067131_1014214982061207_5979646837508800512_n.jpg?_nc_cat=104&_nc_ht=scontent.fplu9-2.fna&oh=714a00ff15e0e10da907e7bb93a88301&oe=5C65BC7F");
+    margin: $smallSpace auto;
+}
+
+.mainTitle {
+    padding: $smallSpace;
+    margin-bottom: $highSpace;
+    h1 {
+        text-align: center;
+        margin: 0px !important;
+        color: $lightTextColor !important;
+    }
+}
+
+.card {
+    min-height: 70px;
+    border-radius: $smallRadius;
+    background-color: $lightBackground;
+    padding: $mediumSpace;
+    margin-bottom: $mediumSpace;
+    -webkit-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+    font-family: "Open Sans", sans-serif;
+    .cardTitle h2 {
+        color: $darkTextColor;
+        font-size: $cardTitleSize;
+        margin: 0px;
+        text-align: left;
+    }
+    .cardBody p {
+        color: $darkTextColor;
+        font-size: $cardBodySize;
+        line-height: cardBodyLineHeight;
+        opacity: 0.5;
+        margin: $smallSpace 0;
+        text-align: left;
+    }
+    .cardFooter h5 {
+        color: $primaryColor;
+        font-size: $cardFooterTextSize;
+        line-height: $cardFooterTextHeight;
+        margin: $largeSpace 0px 0px;
+        text-align: right;
+        font-family: "Roboto", sans-serif;
+        cursor: pointer;
+    }
+}
+
+.card.profile {
+    .profileTitle {
+        width: 100%;
+        display: inline-block;
+        clear: both;
+    }
+    .profilePhoto {
+        width: 50px !important;
+        height: 50px !important;
+        margin: 0px !important;
+        float: left;
+    }
+    .profileName {
+        margin: 0 0 0 $mediumSpace;
+        height: 50px !important;
+        float: left;
+        h3 {
+            line-height: 50px !important;
+            font-size: 1.8rem;
+        }
+    }
+    .profileRating {
+        float: right;
+        margin-top: 12px;
+        ion-icon {
+            font-size: 20px !important;
+        }
+    }
+}
+
+.card.login {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 320px;
+    height: 475px;
+}
+
+.card.login,
+.card.newAccount,
+.card.forgotPassword {
+    .cardTitle {
+        text-align: center;
+        img {
+            width: 50px;
+            height: 50px;
+            margin: $smallSpace;
+        }
+        h2 {
+            color: $greyTextColor;
+            font-size: $cardTitleSize;
+            margin: 0px 0px $smallSpace;
+            font-size: 25px;
+            text-align: center;
+        }
+    }
+    .cardBody {
+        button {
+            margin: 0 auto !important;
+            display: inline-block;
+            border-radius: $bigRadius;
+            width: 100%;
+            background-color: $primaryColor !important;
+        }
+        .item-md,
+        .item-ios {
+            padding-left: 0px !important;
+            margin: 5px 0 !important;
+        }
+        .label-md,
+        .label-ios {
+            margin: 0px !important;
+        }
+        padding: $smallSpace;
+        .socialLogin {
+            width: 112px;
+            height: 40px !important;
+            margin: $mediumSpace auto;
+            div {
+                width: 40px;
+                height: 40px;
+                float: left;
+                text-align: center;
+                margin: 0 $smallSpace;
+                ion-icon {
+                    font-size: 40px;
+                }
+                .logo-google {
+                    color: #dd4b39 !important;
+                }
+                .logo-facebook {
+                    color: #3b5999 !important;
+                }
+            }
+        }
+    }
+    .cardFooter h5 {
+        margin: $mediumSpace 0px 0px;
+        text-align: center;
+        display: block;
+    }
+}
+
+.card.forgotPassword,
+.card.newAccount {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 320px;
+    height: 405px;
+    .cardBody {
+        button {
+            margin: $largeSpace auto !important;
+        }
+        p {
+            margin-top: 0px;
+        }
+    }
+}
+
+.card.newAccount {
+    width: 320px;
+    height: 490px;
+}
+
+.search {
+    .item-md,
+    .item-ios {
+        padding-left: $smallSpace !important;
+        margin-bottom: $smallSpace !important;
+    }
+    .item-md.item-block .item-inner,
+    .item-ios.item-block .item-inner {
+        border: none !important;
+    }
+}
+
+.location {
+    ion-list-header .item-inner {
+        margin-top: $largeSpace !important;
+    }
+    .item-md {
+        color: $greyTextColor;
+    }
+    .item-radio-checked.item-md ion-label,
+    .item-radio-checked.item-ios ion-label {
+        color: $primaryColor !important;
+    }
+    .radio-md .radio-checked,
+    .radio-ios .radio-checked {
+        border-color: $primaryColor !important;
+    }
+    .radio-md .radio-inner,
+    .radio-ios .radio-inner {
+        background-color: $primaryColor !important;
+    }
+}
+
+.rating {
+    display: inline;
+    div {
+        width: 50%;
+        float: left;
+        margin: $mediumSpace 0;
+    }
+    ion-icon.gold {
+        color: $goldStar;
+        font-size: 25px;
+    }
+    ion-icon.silver {
+        color: $silverStar;
+        font-size: 25px;
+    }
+    ion-icon.bronze {
+        color: $bronzeStar;
+        font-size: 25px;
+    }
+}
+
+.select-alert.single-select-alert {
+    .alert-wrapper {
+        border-radius: $smallRadius !important;
+        max-width: 300px !important;
+        min-width: 280px !important;
+        .alert-head {
+            padding: $mediumSpace $highSpace !important;
+        }
+        .alert-radio-group {
+            border: none !important;
+            padding: $smallSpace;
+        }
+        .alert-radio-label {
+            font-family: "Open Sans", sans-serif !important;
+        }
+        .alert-button-group {
+            .alert-button {
+                color: $primaryColor !important;
+            }
+        }
+    }
+}
+
+.loading-ios .loading-wrapper,
+.loading-md .loading-wrapper {
+    border-radius: $smallRadius !important;
+    padding: 12px $mediumSpace !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4) !important;
+    .spinner-crescent circle {
+        stroke: $primaryColor !important;
+    }
+}
+
+.alert-md [aria-checked=true] .alert-radio-label,
+.alert-ios [aria-checked=true] .alert-radio-label {
+    color: $primaryColor !important;
+}
+
+.alert-md [aria-checked=true] .alert-radio-icon,
+.alert-ios [aria-checked=true] .alert-radio-icon {
+    border-color: $primaryColor !important;
+    .alert-radio-inner,
+    .alert-radio-inner {
+        background-color: $primaryColor !important;
+    }
+}
+
+.hintText {
+    margin-top: $smallSpace !important;
+    font-size: 10px !important;
+}

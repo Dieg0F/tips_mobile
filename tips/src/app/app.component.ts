@@ -1,22 +1,63 @@
 import { Component } from '@angular/core';
+
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StorageProvider } from '../providers/storage/storage';
+import { Loading } from '../util/loading/loading';
+import { Toast } from '../util/toast/toast';
 
-import { HomePage } from '../pages/home/home';
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage: any = null;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+  constructor(
+    private platform: Platform,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private loading: Loading,
+    private toast: Toast,
+    private storage: StorageProvider) {
+
+    this.platform.ready().then(() => {
+      // //Verifica se usuário já está logado
+      this.verifyUser()
+
+      this.disabledTextZoom()
+      this.statusBar.backgroundColorByHexString("#273A56");
+      this.statusBar.styleLightContent();      
     });
+  }
+
+  /**
+	 * disabled text zoom
+	 */
+  disabledTextZoom() {
+    if ('MobileAccessibility' in window) {
+      const { MobileAccessibility }: any = window;
+      MobileAccessibility.usePreferredTextZoom(false);
+    }
+  }
+
+  verifyUser(): any {      
+    this.storage.getItem('userAuth')
+      .then((result) => {
+        console.log('verifyUser: ', result)
+        if (result != null) {
+          this.rootPage = 'ProfilePage'
+          this.toast.showToast('Bem vindo novamente!')
+        } else {
+          this.rootPage = 'LoginPage'
+        }
+        this.splashScreen.hide();
+      })
+      .catch((error) => {
+        this.splashScreen.hide();
+        this.toast.showToast('Sessão finalizada!')
+        console.log('Error: ', error)
+      })
   }
 }
 
