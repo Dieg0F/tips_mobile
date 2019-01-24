@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the EditProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ViewChild } from '@angular/core';
+import { Slides } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -15,11 +11,34 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EditProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  @ViewChild(Slides) slides: Slides;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams) { }
+
+  ngAfterViewInit() {
+    this.slides.lockSwipes(true);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditProfilePage');
+  skipProfile() {
+    this.navCtrl.setRoot('ProfilePage');
+    this.navCtrl.goToRoot;
   }
 
+  save(){
+    console.log("Slide Finished");
+  }
+
+  slideNext(slideNumber: number) {
+    this.slides.lockSwipes(false);
+    this.slides.slideNext();
+    this.slides.lockSwipes(true);
+  }
+
+  slidePrev() {
+    this.slides.lockSwipes(false);
+    this.slides.slidePrev();
+    this.slides.lockSwipes(true);
+  }
 }

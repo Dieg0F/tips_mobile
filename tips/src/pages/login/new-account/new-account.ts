@@ -64,7 +64,7 @@ export class NewAccountPage {
   }
 
   private goToProfilePage() {
-    this.navCtrl.setRoot('ProfilePage');
+    this.navCtrl.setRoot('EditProfilePage');
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
     this.toast.showToast('Sua conta foi criada com sucesso!');
