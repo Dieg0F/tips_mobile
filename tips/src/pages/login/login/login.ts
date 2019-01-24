@@ -10,7 +10,6 @@ import { Regex } from '../../../util/regex/regex';
 import { UserProvider } from '../../../providers/user/user';
 import { StorageProvider } from '../../../providers/storage/storage';
 
-
 @IonicPage()
 @Component({
   selector: "page-login",
@@ -57,7 +56,7 @@ export class LoginPage {
   }
 
   private saveUserLogin(user: any): Promise<void> {
-    return this.storage.setItem('userAuth', user)
+    return this.storage.setItem('userAuth', user.uid)
   }
 
   googleLogin() {

@@ -36,7 +36,7 @@ export class NewAccountPage {
             uid: result.user.uid,
             name: form.value.name,
             email: form.value.email,
-            confimPass: form.value.password,
+            isCompany: form.value.isCompany,
             accountType: 'APPLICATION'
           }
           this.saveUser(newUser);
@@ -53,7 +53,6 @@ export class NewAccountPage {
     this.userProvider.saveNewUser(newUser)
       .then(() => {
         this.goToProfilePage();
-
         console.log('sucesso ao salvar usuário');
       })
       .catch((error) => {

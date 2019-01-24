@@ -38,6 +38,7 @@
     "firebase": "^5.7.3",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
+    "npm": "^6.7.0",
     "phonegap-plugin-mobile-accessibility": "^1.0.5",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
