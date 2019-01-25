@@ -19,4 +19,8 @@ export class StorageProvider {
     public removeItem(key: string): Promise<void> {
         return this.storage.remove(key)
     }
+
+    public clearAll() {
+        return this.storage.clear()
+    }
 }

@@ -15,7 +15,8 @@ import { Regex } from '../../../util/regex/regex';
 })
 export class NewAccountPage {
 
-  private regex: Regex
+  private regex: Regex;
+  private profileIsACompany: Boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -31,7 +32,6 @@ export class NewAccountPage {
       this.loading.showLoading('Estamos criando a sua conta...')
       this.authProvider.createNewAccount(form)
         .then((result) => {
-          console.log(result)
           let newUser = {
             uid: result.user.uid,
             name: form.value.name,
@@ -39,6 +39,7 @@ export class NewAccountPage {
             isCompany: form.value.isCompany,
             accountType: 'APPLICATION'
           }
+          console.log(newUser)
           this.saveUser(newUser);
         })
         .catch((error) => {
@@ -51,9 +52,12 @@ export class NewAccountPage {
 
   private saveUser(newUser: any) {
     this.userProvider.saveNewUser(newUser)
-      .then(() => {
-        this.goToProfilePage();
-        console.log('sucesso ao salvar usuário');
+      .then(async () => {
+        return this.userProvider.saveUserAuth(newUser.uid)
+          .then(() => {
+            this.goToProfilePage();
+            console.log('sucesso ao salvar usuário');
+          })
       })
       .catch((error) => {
         //TODO Criar mensagens de erro para cada codigo
@@ -64,10 +68,10 @@ export class NewAccountPage {
   }
 
   private goToProfilePage() {
-    this.navCtrl.setRoot('EditProfilePage');
+    (this.profileIsACompany) ? this.navCtrl.setRoot('CompanyProfilePage') : this.navCtrl.setRoot('ProfessionalProfilePage');
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
-    this.toast.showToast('Sua conta foi criada com sucesso!');
+    this.toast.showToast('Conta foi criada com sucesso!');
   }
 
   validateAccount(form: NgForm): Boolean {

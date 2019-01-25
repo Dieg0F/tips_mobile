@@ -20,6 +20,7 @@ import { Toast } from '../util/toast/toast';
 import { Loading } from '../util/loading/loading';
 import { HttpClientModule } from '@angular/common/http';
 import { StorageProvider } from '../providers/storage/storage';
+import { ProfileProvider } from '../providers/profile/profile';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -55,6 +56,7 @@ const config = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,    
     UserProvider,
+    ProfileProvider,
     StorageProvider,
     Alert,
     Loading,

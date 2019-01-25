@@ -35,7 +35,7 @@ export class LoginPage {
       this.afAuth.login(form)
         .then(async (result) => {
           console.log(result)
-          return this.saveUserLogin(result.user)
+          return this.userProvider.saveUserAuth(result.user.uid)
             .then(() => {
               this.goToProfilePage();
             });
@@ -55,10 +55,6 @@ export class LoginPage {
     this.toast.showToast('Bem vindo!');
   }
 
-  private saveUserLogin(user: any): Promise<void> {
-    return this.storage.setItem('userAuth', user.uid)
-  }
-
   googleLogin() {
     this.loading.showLoading('Entrando em com sua conta...');
     this.afAuth.googleLogin()
@@ -73,7 +69,7 @@ export class LoginPage {
         }
         return this.userProvider.saveNewUser(newUser)
           .then(async () => {
-            return this.saveUserLogin(result.user)
+            return this.userProvider.saveUserAuth(result.user.uid)
               .then(() => {
                 this.goToProfilePage();
               });
@@ -100,7 +96,7 @@ export class LoginPage {
         }
         return this.userProvider.saveNewUser(newUser)
           .then(async () => {
-            return this.saveUserLogin(result.user)
+            return this.userProvider.saveUserAuth(result.user.uid)
               .then(() => {
                 this.goToProfilePage();
               });

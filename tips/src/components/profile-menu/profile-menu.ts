@@ -32,7 +32,7 @@ export class ProfileMenuComponent {
     this.loading.showLoading('Desconectando sua conta...')
     this.afAuth.logout()
       .then(async (result) => {
-        return this.storage.removeItem('userAuth')
+        return this.storage.clearAll()
           .then(() => {
             this.goToLoginPage()
           })

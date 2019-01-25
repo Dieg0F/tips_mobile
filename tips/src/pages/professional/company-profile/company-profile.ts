@@ -3,19 +3,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
+import { Profile } from '../../../model/profile/profile';
+import { ProfileProvider } from '../../../providers/profile/profile';
 
 @IonicPage()
 @Component({
-  selector: 'page-edit-profile',
-  templateUrl: 'edit-profile.html',
+  selector: 'page-company-profile',
+  templateUrl: 'company-profile.html',
 })
-export class EditProfilePage {
+export class CompanyProfilePage {
 
   @ViewChild(Slides) slides: Slides;
 
+  public profile: Profile;
+
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams) { }
+    public navParams: NavParams,
+    public profileProvider: ProfileProvider) { 
+      this.profile = new Profile();      
+    }
 
   ngAfterViewInit() {
     this.slides.lockSwipes(true);
@@ -26,11 +33,12 @@ export class EditProfilePage {
     this.navCtrl.goToRoot;
   }
 
-  save(){
+  save() {
     console.log("Slide Finished");
+    this.profileProvider.saveProfile({ ...this.profile})
   }
 
-  slideNext(slideNumber: number) {
+  slideNext() {
     this.slides.lockSwipes(false);
     this.slides.slideNext();
     this.slides.lockSwipes(true);
@@ -41,4 +49,5 @@ export class EditProfilePage {
     this.slides.slidePrev();
     this.slides.lockSwipes(true);
   }
+
 }
