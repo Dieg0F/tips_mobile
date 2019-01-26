@@ -3,7 +3,6 @@ import { StorageProvider } from '../storage/storage';
 import { AppConfig } from '../../model/static/static';
 import { UserProvider } from '../user/user';
 import { ProfileProvider } from '../profile/profile';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Injectable()
 export class AppConfigProvider {

@@ -29,6 +29,7 @@ export class LoginPage {
     public toast: Toast) { }
 
   login(form: NgForm): void {
+    let awatiForLoginInterval: any
     if (this.validateAccount(form)) {
       this.loading.showLoading('Entrando em sua conta...');
       this.afAuth.login(form)
@@ -38,16 +39,16 @@ export class LoginPage {
           }
           this.appConfigProvider.appLogin(userAuth)
           let awaitForLogin = 0
-          let awatiForLoginInterval = setInterval(() => {
+          awatiForLoginInterval = setInterval(() => {
             if (AppConfig.HAS_USER) {
               this.goToProfilePage();
               clearInterval(awatiForLoginInterval)
               awatiForLoginInterval = undefined
             } else {
               awaitForLogin++
-              if (awaitForLogin == 30) {
-                clearInterval(awatiForLoginInterval)
+              if (awaitForLogin >= 30) {
                 this.errorLogin();
+                clearInterval(awatiForLoginInterval)
                 awatiForLoginInterval = undefined
               }
             }
@@ -55,6 +56,8 @@ export class LoginPage {
         })
         .catch((error) => {
           console.log('Erro ao fazer login: ', error);
+          clearInterval(awatiForLoginInterval)
+          awatiForLoginInterval = undefined
           this.errorLogin();
         });
     }
