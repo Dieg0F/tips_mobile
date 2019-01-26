@@ -5,6 +5,8 @@ import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
 import { Profile } from '../../../model/profile/profile';
 import { ProfileProvider } from '../../../providers/profile/profile';
+import { UserProvider } from '../../../providers/user/user';
+import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
@@ -15,14 +17,13 @@ export class CompanyProfilePage {
 
   @ViewChild(Slides) slides: Slides;
 
-  public profile: Profile;
+  public profile = AppConfig.USER_PROFILE
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public profileProvider: ProfileProvider) { 
-      this.profile = new Profile();      
-    }
+    public userProvider: UserProvider,
+    public profileProvider: ProfileProvider) { }
 
   ngAfterViewInit() {
     this.slides.lockSwipes(true);
@@ -35,7 +36,7 @@ export class CompanyProfilePage {
 
   save() {
     console.log("Slide Finished");
-    this.profileProvider.saveProfile({ ...this.profile})
+    this.profileProvider.saveProfile({ ...this.profile })
   }
 
   slideNext() {
@@ -48,6 +49,6 @@ export class CompanyProfilePage {
     this.slides.lockSwipes(false);
     this.slides.slidePrev();
     this.slides.lockSwipes(true);
-  }
-
+  }  
 }
+

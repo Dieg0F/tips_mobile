@@ -24,8 +24,7 @@ export class ProfileMenuComponent {
     public storage: StorageProvider) { }
 
   editProfile(): void {
-    console.log('Editar perfil');
-    this.navCtrl.push("EditProfilePage");
+    this.navCtrl.push("CompanyProfilePage");
   }
 
   logout(): void {

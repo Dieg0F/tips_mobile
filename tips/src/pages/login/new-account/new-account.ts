@@ -16,7 +16,7 @@ import { Regex } from '../../../util/regex/regex';
 export class NewAccountPage {
 
   private regex: Regex;
-  private profileIsACompany: Boolean = false;
+  private profileIsACompany: Boolean = true;
 
   constructor(
     public navCtrl: NavController,
@@ -39,7 +39,6 @@ export class NewAccountPage {
             isCompany: form.value.isCompany,
             accountType: 'APPLICATION'
           }
-          console.log(newUser)
           this.saveUser(newUser);
         })
         .catch((error) => {
@@ -55,19 +54,17 @@ export class NewAccountPage {
       .then(async () => {
         return this.userProvider.saveUserAuth(newUser.uid)
           .then(() => {
-            this.goToProfilePage();
-            console.log('sucesso ao salvar usuário');
+            this.setProfileConfigurations();
           })
       })
       .catch((error) => {
-        //TODO Criar mensagens de erro para cada codigo
         this.loading.hideLoading();
         this.alert.simpleAlert('Erro 555', 'Houve um erro ao criar conta!');
-        console.log('erro ao salvar usuário: ', error);
+        console.log('saveUser >> Error: ', error);
       });
   }
 
-  private goToProfilePage() {
+  private setProfileConfigurations() {
     (this.profileIsACompany) ? this.navCtrl.setRoot('CompanyProfilePage') : this.navCtrl.setRoot('ProfessionalProfilePage');
     this.navCtrl.goToRoot;
     this.loading.hideLoading();

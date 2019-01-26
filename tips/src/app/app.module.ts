@@ -21,6 +21,7 @@ import { Loading } from '../util/loading/loading';
 import { HttpClientModule } from '@angular/common/http';
 import { StorageProvider } from '../providers/storage/storage';
 import { ProfileProvider } from '../providers/profile/profile';
+import { AppConfigProvider } from '../providers/app-config/app-config';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -41,6 +42,7 @@ const config = {
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(config),
+    AngularFirestoreModule.enablePersistence(),
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
@@ -60,7 +62,8 @@ const config = {
     StorageProvider,
     Alert,
     Loading,
-    Toast
+    Toast,
+    AppConfigProvider
   ]
 })
 export class AppModule { }

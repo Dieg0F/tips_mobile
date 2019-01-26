@@ -7,8 +7,8 @@ import { Loading } from '../../../util/loading/loading';
 import { Alert } from '../../../util/alert/alert';
 import { Toast } from '../../../util/toast/toast';
 import { Regex } from '../../../util/regex/regex';
-import { UserProvider } from '../../../providers/user/user';
-import { StorageProvider } from '../../../providers/storage/storage';
+import { AppConfigProvider } from '../../../providers/app-config/app-config';
+import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
@@ -24,8 +24,7 @@ export class LoginPage {
     public navParams: NavParams,
     public afAuth: AuthProvider,
     public loading: Loading,
-    public userProvider: UserProvider,
-    public storage: StorageProvider,
+    public appConfigProvider: AppConfigProvider,
     public alert: Alert,
     public toast: Toast) { }
 
@@ -34,16 +33,29 @@ export class LoginPage {
       this.loading.showLoading('Entrando em sua conta...');
       this.afAuth.login(form)
         .then(async (result) => {
-          console.log(result)
-          return this.userProvider.saveUserAuth(result.user.uid)
-            .then(() => {
+          let userAuth = {
+            uid: result.user.uid
+          }
+          this.appConfigProvider.appLogin(userAuth)
+          let awaitForLogin = 0
+          let awatiForLoginInterval = setInterval(() => {
+            if (AppConfig.HAS_USER) {
               this.goToProfilePage();
-            });
+              clearInterval(awatiForLoginInterval)
+              awatiForLoginInterval = undefined
+            } else {
+              awaitForLogin++
+              if (awaitForLogin == 30) {
+                clearInterval(awatiForLoginInterval)
+                this.errorLogin();
+                awatiForLoginInterval = undefined
+              }
+            }
+          }, 1000)
         })
         .catch((error) => {
-          console.log('Erro ao fazer login: ', error)
-          this.loading.hideLoading();
-          this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!')
+          console.log('Erro ao fazer login: ', error);
+          this.errorLogin();
         });
     }
   }
@@ -55,58 +67,9 @@ export class LoginPage {
     this.toast.showToast('Bem vindo!');
   }
 
-  googleLogin() {
-    this.loading.showLoading('Entrando em com sua conta...');
-    this.afAuth.googleLogin()
-      .then(async (result) => {
-        console.log(result)
-        let newUser = {
-          uid: result.user.uid,
-          name: result.user.displayName,
-          email: result.user.email,
-          confimPass: "",
-          accountType: 'GOOGLE'
-        }
-        return this.userProvider.saveNewUser(newUser)
-          .then(async () => {
-            return this.userProvider.saveUserAuth(result.user.uid)
-              .then(() => {
-                this.goToProfilePage();
-              });
-          })
-      })
-      .catch((error) => {
-        console.log('Erro ao fazer login: ', error)
-        this.loading.hideLoading();
-        this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta Google!')
-      })
-  }
-
-  facebookLogin() {
-    this.loading.showLoading('Entrando em com sua conta...');
-    this.afAuth.facebookLogin()
-      .then(async (result) => {
-        console.log(result)
-        let newUser = {
-          uid: result.user.uid,
-          name: result.user.displayName,
-          email: result.user.email,
-          confimPass: "",
-          accountType: 'FACEBOOK'
-        }
-        return this.userProvider.saveNewUser(newUser)
-          .then(async () => {
-            return this.userProvider.saveUserAuth(result.user.uid)
-              .then(() => {
-                this.goToProfilePage();
-              });
-          })
-      })
-      .catch((error) => {
-        console.log('Erro ao fazer login: ', error)
-        this.loading.hideLoading();
-        this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login com sua conta do Facebook!')
-      })
+  private errorLogin() {
+    this.loading.hideLoading();
+    this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!')
   }
 
   validateAccount(form: NgForm): Boolean {

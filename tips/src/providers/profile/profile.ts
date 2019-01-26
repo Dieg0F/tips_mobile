@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StorageProvider } from '../storage/storage';
+import { AppConfig } from '../../model/static/static';
+import firebase from 'firebase';
 
 @Injectable()
 export class ProfileProvider {
@@ -13,11 +15,24 @@ export class ProfileProvider {
         private storage: StorageProvider) { }
 
     async saveProfile(profile: any): Promise<void> {
-        console.log('Salvando o perfil do usuário')
-        console.log('Profile: ', profile)
-        return this.db.collection('profile').doc(profile.uid).set(profile)
-            .then(() => {
-                return this.storage.setItem('userProfile', profile)
+        console.log('saveProfile >> Saving Profile')
+        this.db.collection('profile').doc(profile.uid).set(profile)
+            .then(async () => {
+                return this.saveProfileOnStorage(profile)
             })
+    }
+
+    async saveProfileOnStorage(profile: any): Promise<void> {
+        return this.storage.setItem('userProfile', profile)
+            .then(() => {
+                AppConfig.USER_PROFILE = profile;
+            });
+    }
+
+    async getProfile(userUid: string): Promise<any> {
+        console.log('getProfile >> Get Profile')
+        return this.db.collection('profile').doc(userUid)
+            .get()
+            .toPromise()
     }
 }
