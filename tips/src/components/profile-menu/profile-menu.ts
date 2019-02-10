@@ -6,6 +6,7 @@ import { StorageProvider } from '../../providers/storage/storage';
 import { Alert } from '../../util/alert/alert';
 import { Toast } from '../../util/toast/toast';
 import { Loading } from '../../util/loading/loading';
+import { AppConfig } from '../../model/static/static';
 
 @Component({
   selector: 'profile-menu',
@@ -13,7 +14,7 @@ import { Loading } from '../../util/loading/loading';
 })
 export class ProfileMenuComponent {
 
-  text: string;
+  private profile = AppConfig.USER_PROFILE
 
   constructor(
     public afAuth: AuthProvider,
@@ -24,7 +25,7 @@ export class ProfileMenuComponent {
     public storage: StorageProvider) { }
 
   editProfile(): void {
-    this.navCtrl.push("CompanyProfilePage");
+    (this.profile.isCompany) ? this.navCtrl.push("CompanyProfilePage") : this.navCtrl.push("ProfessionalProfilePage")
   }
 
   logout(): void {

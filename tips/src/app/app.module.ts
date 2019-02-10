@@ -22,6 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { StorageProvider } from '../providers/storage/storage';
 import { ProfileProvider } from '../providers/profile/profile';
 import { AppConfigProvider } from '../providers/app-config/app-config';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { Camera } from '@ionic-native/camera';
+import { CameraProvider } from '../util/camera/camera';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -59,7 +62,10 @@ const config = {
     AuthProvider,    
     UserProvider,
     ProfileProvider,
-    StorageProvider,
+    StorageProvider, 
+    CameraProvider,
+    FileChooser,
+    Camera,
     Alert,
     Loading,
     Toast,

@@ -81,6 +81,18 @@ page-company-profile {
             display: block;
             margin: $largeSpace auto;
         }
+        .image #img_profile {
+            width: 232px;
+            height: 232px;
+            border-radius: 100%;
+            background-image: url('../../../assets/imgs/photo-camera.png');
+            background-position: center;
+            background-size: 70%;
+            background-repeat: no-repeat;
+            border: 6px solid $coldBackground;
+            display: block;
+            margin: $largeSpace auto;
+        }
     }
     .slide_form {
         padding: $mediumSpace;
