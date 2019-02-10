@@ -23,7 +23,7 @@
 <ion-content padding>
   <div class="profilePhoto"></div>
   <div class="mainTitle">
-    <h1>Bem Vindo<br />Diego Fraga</h1>
+    <h1>Bem Vindo<br />{{profile.nome}}</h1>
   </div>
 
   <div class="card">
@@ -32,10 +32,7 @@
     </div>
     <div class="cardBody">
       <p>
-        Estudante do curso de Sistemas de Informações, Univás, Pouso Alegre -
-        MG. Trabalho atualmente com desenvolvimento mobile, nativo e hiblrido.
-        Trabalhei por dois anos com desenvolvimento Web, com HTML 5, CSS 3,
-        JavaScript e Asp.NET.
+        {{profile.aboutMe}}
       </p>
     </div>
 
@@ -49,7 +46,8 @@
         <h2>Serviços:</h2>
       </div>
       <div class="cardBody">
-        <p>E-mail: fulano@email.com</p>
+        <p *ngIf="profile.areaAtuacao">Área de atuação: {{profile.areaAtuacao}}</p>
+        <p *ngIf="profile.setor">Setor: {{profile.setor}}</p>
       </div>
 
       <div class="cardFooter">
@@ -62,7 +60,8 @@
       <h2>Contatos:</h2>
     </div>
     <div class="cardBody">
-      <p>E-mail: fulano@email.com</p>
+      <p>E-mail: {{profile.email}}</p>
+      <p>Telefone: {{profile.telefone}}</p>
     </div>
 
     <div class="cardFooter">
@@ -102,7 +101,7 @@
       <h2>Minha Pontuação:</h2>
     </div>
     <div class="cardBody">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p>// TODO </p>
     </div>
     <div class="cardFooter" (click)="ranking()">
       <h5>Ranking</h5>

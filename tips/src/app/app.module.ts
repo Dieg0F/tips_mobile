@@ -43,7 +43,10 @@ const config = {
     BrowserModule,
     ComponentsModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: "__userAccess",
+      driverOrder: ["sqlite", "indexeddb", "websql", "localstorage"]
+    }),
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule.enablePersistence(),
     AngularFirestoreModule,
