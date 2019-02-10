@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Perfil</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="skipProfile()">Pular</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <form #form="ngForm">
+    <ion-slides>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Configure seu perfil!</h2>
+          </div>
+          <div class="image">
+            <img src="../../../assets/imgs/shop.png" />
+          </div>
+          <div class="description">
+            <h5>Passo 1°</h5>
+            <p>Entre com seu CPF: </p>
+          </div>
+        </div>
+        <div class="slide_form">
+          <ion-item>
+            <ion-input [(ngModel)]="profile.cnpjCpf" type="tel" name="cpf" placeholder="CPF"
+              maxLength="11"></ion-input>
+          </ion-item>
+        </div>
+        <div class="slideButtons one">
+          <button (click)="slideNext()">Próximo</button>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Informações de contato!</h2>
+          </div>
+          <div class="image">
+            <img src="../../../assets/imgs/contact.png" />
+          </div>
+          <div class="description">
+            <h5>Passo 2°</h5>
+            <p>Informe seu telefone para contato!</p>
+          </div>
+        </div>
+        <div class="slide_form">
+          <ion-item>
+            <ion-input [(ngModel)]="profile.telefone" type="tel" name="telefone" placeholder="Telefone" maxLength="11">
+            </ion-input>
+          </ion-item>
+        </div>
+        <div class="slideButtons bottom">
+          <button (click)="slidePrev()">Anterior</button>
+          <button (click)="slideNext()">Próximo</button>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Onde você mora?</h2>
+          </div>
+          <div class="image">
+            <img src="../../../assets/imgs/address.png" />
+          </div>
+          <div class="description">
+            <h5>Passo 3°</h5>
+            <p>Informe o seu endereço</p>
+          </div>
+        </div>
+        <div class="slide_form">
+          <ion-item>
+            <ion-input [(ngModel)]="profile.rua" type="text" name="rua" placeholder="Rua" maxLength="40"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input [(ngModel)]="profile.bairro" type="text" name="bairro" placeholder="Bairro" maxLength="30">
+            </ion-input>
+          </ion-item>
+        </div>
+        <div class="slideButtons">
+          <button (click)="slidePrev()">Anterior</button>
+          <button (click)="slideNext()">Próximo</button>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Onde você mora?</h2>
+          </div>
+          <div class="image">
+            <img src="../../../assets/imgs/address.png" />
+          </div>
+          <div class="description">
+            <h5>Passo 4°</h5>
+            <p>Informe a cidade e o estado que você mora!</p>
+          </div>
+        </div>
+        <div class="slide_form">
+          <ion-item>
+            <ion-input [(ngModel)]="profile.cidade" type="text" name="cidade" placeholder="Cidade" maxLength="30">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input [(ngModel)]="profile.estado" type="text" name="estado" placeholder="Estado" maxLength="2">
+            </ion-input>
+          </ion-item>
+        </div>
+        <div class="slideButtons">
+          <button (click)="slidePrev()">Anterior</button>
+          <button (click)="slideNext()">Próximo</button>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Área de Atuação</h2>
+          </div>
+          <div class="image">
+            <img src="../../../assets/imgs/work.png" />
+          </div>
+          <div class="description">
+            <h5>Passo 5°</h5>
+            <p>Em qual area sua empresa atua?</p>
+          </div>
+        </div>
+        <div class="slide_form">
+          <ion-item>
+            <ion-input [(ngModel)]="profile.areaAtuacao" type="text" name="areaAtuacao" placeholder="Área de Atuação"
+              maxLength="30"></ion-input>
+          </ion-item>
+        </div>
+        <div class="slideButtons bottom">
+          <button (click)="slidePrev()">Anterior</button>
+          <button (click)="slideNext()">Próximo</button>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Descreva seu serviço!</h2>
+          </div>
+          <div class="image">
+            <img src="../../../assets/imgs/edit.png" />
+          </div>
+        </div>
+        <div class="slide_form">
+          <ion-item>
+            <ion-textarea [(ngModel)]="profile.aboutMe" name="aboutMe"
+              placeholder="Escreva um pouco sobre seu serviço aqui..." maxLength="300"></ion-textarea>
+          </ion-item>
+        </div>
+        <div class="slideButtons">
+          <button (click)="slidePrev()">Anterior</button>
+          <button (click)="slideNext()">Próximo</button>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="slide_description">
+          <div class="description">
+            <h2>Foto de perfil!</h2>
+          </div>
+          <div class="image">
+            <div id="img_profile" (click)="setProfilePhoto()"></div>
+          </div>
+          <div class="description">
+            <h5>Último passo!</h5>
+            <p>Escolha a melhor foto de sua emprasa e defina como sua foto de perfil.</p>
+          </div>
+        </div>
+        <div class="slideButtons bottom">
+          <button (click)="slidePrev()">Anterior</button>
+          <button (click)="save()">Save</button>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </form>
+</ion-content>

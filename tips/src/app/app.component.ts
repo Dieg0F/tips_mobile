@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StorageProvider } from '../providers/storage/storage';
 import { Loading } from '../util/loading/loading';
 import { Toast } from '../util/toast/toast';
+import { AppConfigProvider } from '../providers/app-config/app-config';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,15 +20,15 @@ export class MyApp {
     private splashScreen: SplashScreen,
     private loading: Loading,
     private toast: Toast,
-    private storage: StorageProvider) {
+    private appConfigProvider: AppConfigProvider) {
 
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       // //Verifica se usuário já está logado
-      this.verifyUser()
+      await this.verifyUser()
 
       this.disabledTextZoom()
       this.statusBar.backgroundColorByHexString("#273A56");
-      this.statusBar.styleLightContent();      
+      this.statusBar.styleLightContent();
     });
   }
 
@@ -41,23 +42,15 @@ export class MyApp {
     }
   }
 
-  verifyUser(): any {      
-    this.storage.getItem('userAuth')
-      .then((result) => {
-        console.log('verifyUser: ', result)
-        if (result != null) {
-          this.rootPage = 'ProfilePage'
-          this.toast.showToast('Bem vindo novamente!')
-        } else {
-          this.rootPage = 'LoginPage'
-        }
-        this.splashScreen.hide();
-      })
-      .catch((error) => {
-        this.splashScreen.hide();
-        this.toast.showToast('Sessão finalizada!')
-        console.log('Error: ', error)
-      })
+  async verifyUser() {
+    this.rootPage = 'LoginPage';
+    if (await this.appConfigProvider.verifyAuth()) {
+      this.rootPage = 'ProfilePage';
+      this.toast.showToast('Bem vindo novamente!');
+    } else {
+      this.rootPage = 'LoginPage';
+    }
+    this.splashScreen.hide();
   }
 }
 

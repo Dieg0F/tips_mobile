@@ -17,7 +17,7 @@ export class AuthProvider {
     let email: string = form.value.email;
     let pass: string = form.value.password;
 
-    return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
+    return firebase.auth().signInWithEmailAndPassword(email, pass)
   }
 
   googleLogin(): Promise<any> {

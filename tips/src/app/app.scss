@@ -175,12 +175,26 @@ page-results {
         }
     }
     .cardBody {
-        button {
+        .button-md,
+        .button-ios {
             margin: 0 auto !important;
             display: inline-block;
             border-radius: $bigRadius;
             width: 100%;
             background-color: $primaryColor !important;
+        }
+        .item-md.item-toggle {
+            margin: $mediumSpace 0 0 0 !important;
+            color: $greyTextColor !important;
+            .item-inner {
+                border: none !important;
+                .toggle-md.toggle-checked .toggle-icon {
+                    background-color: $lightPrimaryColor;
+                }
+                .toggle-md.toggle-checked .toggle-inner {
+                    background-color: $primaryColor;
+                }
+            }
         }
         .item-md,
         .item-ios {
@@ -242,7 +256,13 @@ page-results {
 
 .card.newAccount {
     width: 320px;
-    height: 490px;
+    height: 536px;
+    .cardBody {
+        .button-md,
+        .button-ios {
+            margin: $mediumSpace auto 0 !important;
+        }
+    }
 }
 
 .search {

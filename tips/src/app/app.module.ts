@@ -20,6 +20,11 @@ import { Toast } from '../util/toast/toast';
 import { Loading } from '../util/loading/loading';
 import { HttpClientModule } from '@angular/common/http';
 import { StorageProvider } from '../providers/storage/storage';
+import { ProfileProvider } from '../providers/profile/profile';
+import { AppConfigProvider } from '../providers/app-config/app-config';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { Camera } from '@ionic-native/camera';
+import { CameraProvider } from '../util/camera/camera';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -40,6 +45,7 @@ const config = {
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(config),
+    AngularFirestoreModule.enablePersistence(),
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
@@ -55,10 +61,15 @@ const config = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,    
     UserProvider,
-    StorageProvider,
+    ProfileProvider,
+    StorageProvider, 
+    CameraProvider,
+    FileChooser,
+    Camera,
     Alert,
     Loading,
-    Toast
+    Toast,
+    AppConfigProvider
   ]
 })
 export class AppModule { }
