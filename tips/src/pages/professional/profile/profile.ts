@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
@@ -7,6 +8,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: "profile.html"
 })
 export class ProfilePage {
+
+  private profile = AppConfig.USER_PROFILE
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {

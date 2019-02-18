@@ -12,7 +12,7 @@ import { AppConfigProvider } from '../providers/app-config/app-config';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = null;
+  public rootPage: any;
 
   constructor(
     private platform: Platform,
@@ -22,11 +22,10 @@ export class MyApp {
     private toast: Toast,
     private appConfigProvider: AppConfigProvider) {
 
-    this.platform.ready().then(async () => {
-      // //Verifica se usuário já está logado
-      await this.verifyUser()
-
-      this.disabledTextZoom()
+      
+      this.platform.ready().then(async () => {
+        this.verifyUser();
+        this.disabledTextZoom()
       this.statusBar.backgroundColorByHexString("#273A56");
       this.statusBar.styleLightContent();
     });
@@ -44,7 +43,7 @@ export class MyApp {
 
   async verifyUser() {
     this.rootPage = 'LoginPage';
-    if (await this.appConfigProvider.verifyAuth()) {
+    if (this.appConfigProvider.verifyAuth()) {
       this.rootPage = 'ProfilePage';
       this.toast.showToast('Bem vindo novamente!');
     } else {
