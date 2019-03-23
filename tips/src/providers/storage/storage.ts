@@ -20,7 +20,5 @@ export class StorageProvider {
 
     public clearAll() {
         return this.storage.clear()
-    }
-    
-    
+    }    
 }
