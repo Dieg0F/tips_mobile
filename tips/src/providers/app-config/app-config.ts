@@ -3,6 +3,7 @@ import { StorageProvider } from '../storage/storage';
 import { AppConfig } from '../../model/static/static';
 import { UserProvider } from '../user/user';
 import { ProfileProvider } from '../profile/profile';
+import { Toast } from '../../util/toast/toast';
 
 @Injectable()
 export class AppConfigProvider {
@@ -10,6 +11,7 @@ export class AppConfigProvider {
   constructor(
     public storage: StorageProvider,
     public userProvider: UserProvider,
+    public toast: Toast,
     public profileProvider: ProfileProvider) { }
 
   /**
@@ -18,34 +20,26 @@ export class AppConfigProvider {
    * Então os salva nas classes estaticas e retorna true, como conta já logada.
    * Caso contrario, ele retorna false, pedindo o login do usuário
    */
-  verifyAuth(): boolean {
-    let userResponse: any;
-    let userAuthResponse: any;
-    let userProfileResponse: any;
-    this.storage.getItem('userAuth')
-      .then(async (userAuth) => {
-        return this.storage.getItem('user')
+  async verifyAuth(): Promise<any> {
+    console.log("verifyAuth")
+    return this.storage.getItem('userAuth')
+      .then(async (userAuth) => {        
+        return this.storage.getItem('user')        
           .then(async (user) => {
             return this.storage.getItem('userProfile')
               .then((userProfile) => {
-                userResponse = user
-                userAuthResponse = userAuth
-                userProfileResponse = userProfile
+                AppConfig.USER = JSON.parse(user)
+                AppConfig.USER_AUTH = JSON.parse(userAuth)
+                AppConfig.USER_PROFILE = JSON.parse(userProfile)
+                console.log("verifyAuth", AppConfig.USER)
+                console.log("verifyAuth", AppConfig.USER_AUTH)
+                console.log("verifyAuth", AppConfig.USER_PROFILE)
               })
           })
       })
       .catch((error) => {
         console.log('Error: ', error)
-        return false
       })
-
-    if (userResponse && userAuthResponse && userProfileResponse) {
-      AppConfig.USER = userResponse
-      AppConfig.USER_AUTH = userAuthResponse
-      AppConfig.USER_PROFILE = userProfileResponse
-      return true
-    }
-    return false
   }
 
   /**

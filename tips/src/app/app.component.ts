@@ -7,6 +7,7 @@ import { StorageProvider } from '../providers/storage/storage';
 import { Loading } from '../util/loading/loading';
 import { Toast } from '../util/toast/toast';
 import { AppConfigProvider } from '../providers/app-config/app-config';
+import { AppConfig } from '../model/static/static';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,11 +19,8 @@ export class MyApp {
     private platform: Platform,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
-    private loading: Loading,
     private toast: Toast,
-    private appConfigProvider: AppConfigProvider) {
-
-      
+    private appConfigProvider: AppConfigProvider) {      
       this.platform.ready().then(async () => {
         this.verifyUser();
         this.disabledTextZoom()
@@ -42,14 +40,17 @@ export class MyApp {
   }
 
   async verifyUser() {
-    this.rootPage = 'LoginPage';
-    if (this.appConfigProvider.verifyAuth()) {
-      this.rootPage = 'ProfilePage';
-      this.toast.showToast('Bem vindo novamente!');
-    } else {
-      this.rootPage = 'LoginPage';
-    }
-    this.splashScreen.hide();
+    this.appConfigProvider.verifyAuth()
+    .then(() => {
+      if (AppConfig.USER.uid === AppConfig.USER_AUTH.uid && 
+        AppConfig.USER_AUTH.uid === AppConfig.USER_PROFILE.uid) {
+        this.rootPage = "ProfilePage"
+        this.toast.showToast('Bem vindo novamente!');
+      }           
+    })
+    .catch(() => {
+      this.rootPage = "Login"
+    })
   }
 }
 
