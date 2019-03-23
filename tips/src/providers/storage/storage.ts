@@ -7,7 +7,7 @@ export class StorageProvider {
     constructor(private storage: Storage) { }
 
     public getItem(key: string): Promise<any> {
-        return this.storage.get(key)        
+        return this.storage.get(key)
     }
 
     public setItem(key: string, obj: any): Promise<any> {
@@ -21,4 +21,6 @@ export class StorageProvider {
     public clearAll() {
         return this.storage.clear()
     }
+    
+    
 }

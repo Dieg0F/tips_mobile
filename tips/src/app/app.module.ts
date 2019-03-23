@@ -44,8 +44,8 @@ const config = {
     ComponentsModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot({
-      name: "__userAccess",
-      driverOrder: ["sqlite", "indexeddb", "websql", "localstorage"]
+      name: '_userData',
+      driverOrder: ['indexeddb']
     }),
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule.enablePersistence(),
