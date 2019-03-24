@@ -16,9 +16,10 @@ page-professional-profile {
     .content-ios {
         background-color: $coldBackground;
     }
-    .swiper-wrapper{
+    .swiper-wrapper {
         height: 85vh !important;
-    } .slides {
+    }
+    .slides {
         border-radius: $smallRadius;
         background-color: $lightBackground;
     }
@@ -87,7 +88,7 @@ page-professional-profile {
             display: block;
             margin: $largeSpace auto;
         }
-        .image #img_profile {
+        .image #set_profileImage {
             width: 232px;
             height: 232px;
             border-radius: 100%;

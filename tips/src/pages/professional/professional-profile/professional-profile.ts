@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
 
 import { ViewChild } from '@angular/core';
@@ -17,7 +17,7 @@ import { DataProvider } from '../../../providers/data/data';
   selector: 'page-professional-profile',
   templateUrl: 'professional-profile.html',
 })
-export class ProfessionalProfilePage {
+export class ProfessionalProfilePage implements OnInit {
 
   @ViewChild(Slides) slides: Slides;
 
@@ -49,16 +49,19 @@ export class ProfessionalProfilePage {
     console.log("setProfilePhoto >> Get Profile Photo and Save on Database");
     this.camera.getPicture()
       .then((img) => {
-        var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
+        var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)                
         this.selectedPhoto = this.dataURItoBlob(fileUrl);
         return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, this.selectedPhoto)
-          .then((snapshot)=> {
-            var elm = document.getElementById('img_profile');
-            elm.style.backgroundImage = "url(" + fileUrl + ")";
-            elm.style.backgroundSize = "cover";
-            this.storageProvider.setItem('userProfilePhotoUrl', snapshot.downloadURL)
-            this.loading.hideLoading()
-        })
+          .then((downloadURL) => {
+            AppConfig.USER_FILES.profilePhoto = downloadURL     
+            return this.storageProvider.setItem('userProfilePhotoUrl', downloadURL)
+              .then(() => {
+                var elm = document.getElementById('set_profileImage');
+                elm.style.backgroundImage = "url(" + fileUrl + ")";
+                elm.style.backgroundSize = "cover";
+                this.loading.hideLoading()
+              })
+          })
       })
       .catch((error) => {
         console.log("setProfilePhoto >> Error: ", error)
@@ -77,7 +80,7 @@ export class ProfessionalProfilePage {
 
   save() {
     this.loading.showLoading('Salvando perfil...')
-    console.log("Slide Finished");    
+    console.log("Slide Finished");
     this.profileProvider.saveProfile({ ...this.profile })
       .then(() => {
         this.loading.hideLoading();
@@ -100,6 +103,12 @@ export class ProfessionalProfilePage {
     this.slides.lockSwipes(false);
     this.slides.slidePrev();
     this.slides.lockSwipes(true);
+  }
+
+  ngOnInit() {
+    var elm = document.getElementById('set_profileImage');
+    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
+    elm.style.backgroundSize = "cover";
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { AuthProvider } from '../../providers/auth/auth';
@@ -12,7 +12,7 @@ import { AppConfig } from '../../model/static/static';
   selector: 'profile-menu',
   templateUrl: 'profile-menu.html'
 })
-export class ProfileMenuComponent {
+export class ProfileMenuComponent implements OnInit {
 
   private profile = AppConfig.USER_PROFILE
 
@@ -49,5 +49,10 @@ export class ProfileMenuComponent {
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
     this.toast.showToast('Desconectado com sucesso!');
+  }
+
+  ngOnInit() {
+    var elm = document.getElementById('menu_img_profile');
+    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
   }
 }

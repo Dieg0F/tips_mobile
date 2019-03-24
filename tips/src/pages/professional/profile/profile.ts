@@ -21,7 +21,7 @@ export class ProfilePage {
     this.profileProvider.getProfilePhoto()
       .then((res) => {
         var elm = document.getElementById('img_profile');
-        elm.style.backgroundImage = "url(" + res.toString() + ")";
+        elm.style.backgroundImage = "url(" + res + ")";
       })
   }
 
