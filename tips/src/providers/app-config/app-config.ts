@@ -74,14 +74,17 @@ export class AppConfigProvider {
                   return this.userProvider.saveUserDataOnStorage(userResponse)
                     .then(async () => {
                       return this.profileProvider.saveProfileOnStorage(userProfileResponse)
-                        .then(() => {
+                        .then(async () => {
                           AppConfig.USER = userResponse
                           AppConfig.USER_AUTH = userAuthResponse
-                          AppConfig.USER_PROFILE = userProfileResponse
-                          AppConfig.HAS_USER = true;
-                          this.dataProvider.getFile(AppConfig.PROFILE_PHOTO_PATH)
-                            .then(function (url) {
-                              AppConfig.USER_FILES.profilePhoto = url
+                          AppConfig.USER_PROFILE = userProfileResponse                          
+                          return this.dataProvider.getFile(AppConfig.PROFILE_PHOTO_PATH)
+                            .then(async (url) => {
+                              return this.storage.setItem('userProfilePhotoUrl', url)
+                              .then(() => {
+                                AppConfig.USER_FILES.profilePhoto = url
+                                AppConfig.HAS_USER = true;
+                              })                              
                             })
                         })
                     })

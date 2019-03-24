@@ -49,7 +49,7 @@ export class MyApp {
       }           
     })
     .catch(() => {
-      this.rootPage = "Login"
+      this.rootPage = "LoginPage"
     })
   }
 }

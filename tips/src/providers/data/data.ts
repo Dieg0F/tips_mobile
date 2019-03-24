@@ -15,7 +15,7 @@ export class DataProvider {
         }
     }
 
-    getFile(path: string) {
+    getFile(path: string): Promise<any> {
         return firebase.storage().ref().child(path + AppConfig.USER_AUTH.uid + '.jpg').getDownloadURL()
     }
 }
