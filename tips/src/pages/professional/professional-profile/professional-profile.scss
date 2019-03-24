@@ -16,11 +16,17 @@ page-professional-profile {
     .content-ios {
         background-color: $coldBackground;
     }
-    .slides {
+    .swiper-wrapper{
+        height: 85vh !important;
+    } .slides {
         border-radius: $smallRadius;
         background-color: $lightBackground;
     }
     .slideButtons {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
         button {
             margin-bottom: 10px;
             border-radius: $smallRadius;

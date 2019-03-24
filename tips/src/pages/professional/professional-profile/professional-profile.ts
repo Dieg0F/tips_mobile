@@ -10,6 +10,7 @@ import { CameraProvider } from '../../../util/camera/camera';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
+import { DataProvider } from '../../../providers/data/data';
 
 @IonicPage()
 @Component({
@@ -21,6 +22,7 @@ export class ProfessionalProfilePage {
   @ViewChild(Slides) slides: Slides;
 
   public profile = AppConfig.USER_PROFILE
+  private selectedPhoto: any
 
   constructor(
     public navCtrl: NavController,
@@ -29,6 +31,7 @@ export class ProfessionalProfilePage {
     public profileProvider: ProfileProvider,
     public storageProvider: StorageProvider,
     public loading: Loading,
+    public dataProvider: DataProvider,
     public toast: Toast,
     public camera: CameraProvider) { }
 
@@ -42,22 +45,38 @@ export class ProfessionalProfilePage {
   }
 
   setProfilePhoto() {
+    this.loading.showLoading("Salvando imagem...")
     console.log("setProfilePhoto >> Get Profile Photo and Save on Database");
     this.camera.getPicture()
       .then((img) => {
-        var elm = document.getElementById('img_profile');
         var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
-        elm.style.backgroundImage = "url(" + fileUrl + ")";
-        elm.style.backgroundSize = "cover";
+        this.selectedPhoto = this.dataURItoBlob(fileUrl);
+        return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, this.selectedPhoto)
+          .then((snapshot)=> {
+            var elm = document.getElementById('img_profile');
+            elm.style.backgroundImage = "url(" + fileUrl + ")";
+            elm.style.backgroundSize = "cover";
+            this.loading.hideLoading()
+        })
       })
       .catch((error) => {
         console.log("setProfilePhoto >> Error: ", error)
+        this.loading.hideLoading()
       })
   }
 
+  dataURItoBlob(dataURI) {
+    let binary = atob(dataURI.split(',')[1]);
+    let array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+  };
+
   save() {
     this.loading.showLoading('Salvando perfil...')
-    console.log("Slide Finished");
+    console.log("Slide Finished");    
     this.profileProvider.saveProfile({ ...this.profile })
       .then(() => {
         this.loading.hideLoading();

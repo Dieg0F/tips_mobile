@@ -15,6 +15,8 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad ProfilePage");
+    var elm = document.getElementById('img_profile');
+    elm.style.backgroundImage = "url(" + AppConfig.USER_FILES.profilePhoto + ")";
   }
 
   menu() {

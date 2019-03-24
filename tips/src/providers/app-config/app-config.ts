@@ -4,6 +4,7 @@ import { AppConfig } from '../../model/static/static';
 import { UserProvider } from '../user/user';
 import { ProfileProvider } from '../profile/profile';
 import { Toast } from '../../util/toast/toast';
+import { DataProvider } from '../data/data';
 
 @Injectable()
 export class AppConfigProvider {
@@ -11,6 +12,7 @@ export class AppConfigProvider {
   constructor(
     public storage: StorageProvider,
     public userProvider: UserProvider,
+    public dataProvider: DataProvider,
     public toast: Toast,
     public profileProvider: ProfileProvider) { }
 
@@ -23,8 +25,8 @@ export class AppConfigProvider {
   async verifyAuth(): Promise<any> {
     console.log("verifyAuth")
     return this.storage.getItem('userAuth')
-      .then(async (userAuth) => {        
-        return this.storage.getItem('user')        
+      .then(async (userAuth) => {
+        return this.storage.getItem('user')
           .then(async (user) => {
             return this.storage.getItem('userProfile')
               .then((userProfile) => {
@@ -77,6 +79,10 @@ export class AppConfigProvider {
                           AppConfig.USER_AUTH = userAuthResponse
                           AppConfig.USER_PROFILE = userProfileResponse
                           AppConfig.HAS_USER = true;
+                          this.dataProvider.getFile(AppConfig.PROFILE_PHOTO_PATH)
+                            .then(function (url) {
+                              AppConfig.USER_FILES.profilePhoto = url
+                            })
                         })
                     })
                 }
