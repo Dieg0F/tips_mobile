@@ -56,6 +56,7 @@ export class ProfessionalProfilePage {
             var elm = document.getElementById('img_profile');
             elm.style.backgroundImage = "url(" + fileUrl + ")";
             elm.style.backgroundSize = "cover";
+            this.storageProvider.setItem('userProfilePhotoUrl', snapshot.downloadURL)
             this.loading.hideLoading()
         })
       })

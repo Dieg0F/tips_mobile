@@ -13,18 +13,16 @@ export class ProfilePage {
   private profile = AppConfig.USER_PROFILE
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public profileProvider: ProfileProvider,
-    public navParams: NavParams) {}
+    public navParams: NavParams) { }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad ProfilePage");
+  ionViewWillLoad() {
     this.profileProvider.getProfilePhoto()
-    .then((res) => {
-      console.log(res)
-      var elm = document.getElementById('img_profile');      
-      elm.style.backgroundImage = "url(" + res + ")";
-    })
+      .then((res) => {
+        var elm = document.getElementById('img_profile');
+        elm.style.backgroundImage = "url(" + res.toString() + ")";
+      })
   }
 
   menu() {

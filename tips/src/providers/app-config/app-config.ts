@@ -82,7 +82,6 @@ export class AppConfigProvider {
                             .then(async (url) => {
                               return this.storage.setItem('userProfilePhotoUrl', url)
                               .then(() => {
-                                AppConfig.USER_FILES.profilePhoto = url
                                 AppConfig.HAS_USER = true;
                               })                              
                             })
