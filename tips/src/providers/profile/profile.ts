@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StorageProvider } from '../storage/storage';
 import { AppConfig } from '../../model/static/static';
-import firebase from 'firebase';
 
 @Injectable()
 export class ProfileProvider {
@@ -34,5 +33,9 @@ export class ProfileProvider {
         return this.db.collection('profile').doc(userUid)
             .get()
             .toPromise()
+    }
+
+    async getProfilePhoto(): Promise<any> {
+        return this.storage.getItem('userProfilePhotoUrl')
     }
 }

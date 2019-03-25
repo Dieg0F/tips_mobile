@@ -22,6 +22,10 @@ export class AppConfig {
         uid: ""     
     }
 
+    public static USER_FILES = {
+        profilePhoto: ""
+    }
+
     public static USER = {
         uid: "",
         nome: "",
@@ -30,4 +34,6 @@ export class AppConfig {
     }
 
     public static HAS_USER: boolean = false
+
+    public static PROFILE_PHOTO_PATH = 'profilePhoto/'
 }

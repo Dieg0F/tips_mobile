@@ -15,6 +15,7 @@ import { MyApp } from './app.component';
 import { ComponentsModule } from '../components/components.module';
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/user';
+import { DataProvider } from '../providers/data/data';
 import { Alert } from '../util/alert/alert';
 import { Toast } from '../util/toast/toast';
 import { Loading } from '../util/loading/loading';
@@ -67,6 +68,7 @@ const config = {
     ProfileProvider,
     StorageProvider, 
     CameraProvider,
+    DataProvider,
     FileChooser,
     Camera,
     Alert,

@@ -4,6 +4,7 @@ import { AppConfig } from '../../model/static/static';
 import { UserProvider } from '../user/user';
 import { ProfileProvider } from '../profile/profile';
 import { Toast } from '../../util/toast/toast';
+import { DataProvider } from '../data/data';
 
 @Injectable()
 export class AppConfigProvider {
@@ -11,6 +12,7 @@ export class AppConfigProvider {
   constructor(
     public storage: StorageProvider,
     public userProvider: UserProvider,
+    public dataProvider: DataProvider,
     public toast: Toast,
     public profileProvider: ProfileProvider) { }
 
@@ -23,17 +25,22 @@ export class AppConfigProvider {
   async verifyAuth(): Promise<any> {
     console.log("verifyAuth")
     return this.storage.getItem('userAuth')
-      .then(async (userAuth) => {        
-        return this.storage.getItem('user')        
+      .then(async (userAuth) => {
+        return this.storage.getItem('user')
           .then(async (user) => {
             return this.storage.getItem('userProfile')
               .then((userProfile) => {
-                AppConfig.USER = JSON.parse(user)
-                AppConfig.USER_AUTH = JSON.parse(userAuth)
-                AppConfig.USER_PROFILE = JSON.parse(userProfile)
-                console.log("verifyAuth", AppConfig.USER)
-                console.log("verifyAuth", AppConfig.USER_AUTH)
-                console.log("verifyAuth", AppConfig.USER_PROFILE)
+                return this.storage.getItem('userProfilePhotoUrl')
+                  .then((userProfilePhoto) => {
+                    AppConfig.USER = JSON.parse(user)
+                    AppConfig.USER_AUTH = JSON.parse(userAuth)
+                    AppConfig.USER_PROFILE = JSON.parse(userProfile)
+                    AppConfig.USER_FILES.profilePhoto = JSON.parse(userProfilePhoto)
+                    console.log("verifyAuth", AppConfig.USER)
+                    console.log("verifyAuth", AppConfig.USER_AUTH)
+                    console.log("verifyAuth", AppConfig.USER_PROFILE)
+                    console.log("verifyAuth", AppConfig.USER_FILES)
+                  })
               })
           })
       })
@@ -72,11 +79,17 @@ export class AppConfigProvider {
                   return this.userProvider.saveUserDataOnStorage(userResponse)
                     .then(async () => {
                       return this.profileProvider.saveProfileOnStorage(userProfileResponse)
-                        .then(() => {
+                        .then(async () => {
                           AppConfig.USER = userResponse
                           AppConfig.USER_AUTH = userAuthResponse
                           AppConfig.USER_PROFILE = userProfileResponse
-                          AppConfig.HAS_USER = true;
+                          return this.dataProvider.getFile(AppConfig.PROFILE_PHOTO_PATH)
+                            .then(async (url) => {
+                              return this.storage.setItem('userProfilePhotoUrl', url)
+                                .then(() => {
+                                  AppConfig.HAS_USER = true;
+                                })
+                            })
                         })
                     })
                 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, normalizeURL} from 'ionic-angular';
 
 import { ViewChild } from '@angular/core';
@@ -16,7 +16,7 @@ import { Toast } from '../../../util/toast/toast';
   selector: 'page-company-profile',
   templateUrl: 'company-profile.html',
 })
-export class CompanyProfilePage {
+export class CompanyProfilePage implements OnInit {
 
   @ViewChild(Slides) slides: Slides;
 
@@ -81,5 +81,11 @@ export class CompanyProfilePage {
     this.slides.slidePrev();
     this.slides.lockSwipes(true);
   }  
+
+  ngOnInit() {
+    var elm = document.getElementById('img_profile');
+    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
+    elm.style.backgroundSize = "cover";  
+  }
 }
 
