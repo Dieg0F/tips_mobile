@@ -25,7 +25,7 @@ export class ProfileMenuComponent implements OnInit {
     public storage: StorageProvider) { }
 
   editProfile(): void {
-    (this.profile.isCompany) ? this.navCtrl.push("CompanyProfilePage") : this.navCtrl.push("ProfessionalProfilePage")
+    this.navCtrl.push("MyAccountPage")
   }
 
   logout(): void {

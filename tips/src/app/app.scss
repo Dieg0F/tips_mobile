@@ -17,6 +17,7 @@ page-profile,
 page-search,
 page-new-account,
 page-forgot-password,
+page-my-account,
 page-results {
     ion-header {
         ion-buttons,
@@ -265,7 +266,7 @@ page-results {
     }
 }
 
-.search {
+.search, .my_account {
     .item-md,
     .item-ios {
         padding-left: $smallSpace !important;
