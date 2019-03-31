@@ -53,14 +53,11 @@ export class ProfessionalProfilePage implements OnInit {
         this.selectedPhoto = this.dataURItoBlob(fileUrl);
         return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, this.selectedPhoto)
           .then((downloadURL) => {
-            AppConfig.USER_FILES.profilePhoto = downloadURL
-            return this.storageProvider.setItem('userProfilePhotoUrl', downloadURL)
-              .then(() => {
-                var elm = document.getElementById('set_profileImage');
-                elm.style.backgroundImage = "url(" + fileUrl + ")";
-                elm.style.backgroundSize = "cover";
-                this.loading.hideLoading()
-              })
+            AppConfig.USER_PROFILE.profilePhotoUrl = downloadURL
+            var elm = document.getElementById('set_profileImage');
+            elm.style.backgroundImage = "url(" + fileUrl + ")";
+            elm.style.backgroundSize = "cover";
+            this.loading.hideLoading()
           })
       })
       .catch((error) => {
@@ -107,7 +104,7 @@ export class ProfessionalProfilePage implements OnInit {
 
   ngOnInit() {
     var elm = document.getElementById('set_profileImage');
-    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
+    elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
     elm.style.backgroundSize = "cover";
   }
 }

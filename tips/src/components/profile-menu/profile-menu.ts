@@ -53,6 +53,6 @@ export class ProfileMenuComponent implements OnInit {
 
   ngOnInit() {
     var elm = document.getElementById('menu_img_profile');
-    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
+    elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
   }
 }

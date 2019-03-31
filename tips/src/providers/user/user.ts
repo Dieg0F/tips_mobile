@@ -5,6 +5,7 @@ import { StorageProvider } from '../storage/storage';
 import { ProfileProvider } from '../profile/profile';
 import { AppConfig } from '../../model/static/static';
 import firebase from 'firebase';
+import { Profile } from '../../model/profile/profile';
 
 @Injectable()
 export class UserProvider {
@@ -22,19 +23,12 @@ export class UserProvider {
     console.log('saveNewUser >> Criando um novo usuário')
     return this.db.collection('users').doc(user.uid).set(user)
       .then(async () => {
-        return this.profileProvider.saveProfile(this.setProfile(user))
+        let profile = this.setProfile(user)  
+        return this.profileProvider.saveProfile(profile)
           .then(async () => {
-            AppConfig.USER_PROFILE = this.setProfile(user);
-            return this.saveUserDataOnStorage(user)
+            AppConfig.USER_PROFILE = profile;
           })
       })
-  }
-
-  async saveUserDataOnStorage(user: any): Promise<void> {
-    return this.storage.setItem('user', user)
-      .then(() => {        
-        AppConfig.USER = user;
-      });
   }
 
   async getUser(userUid: string): Promise<any> {
@@ -54,7 +48,7 @@ export class UserProvider {
   }
 
   setProfile(user: any) {
-    let profile = {
+    let profile: Profile = {
       uid: user.uid,
       nome: user.name,
       email: user.email,
@@ -70,7 +64,12 @@ export class UserProvider {
       inscMunicipal: "",
       areaAtuacao: "",
       setor: "",
-      aboutMe: ""
+      aboutMe: "",
+      profilePhotoUrl: "",
+      userGalery: [],
+      geoLocation: null,
+      avaliations: [],
+      contracts: []
     }
 
     return profile;
