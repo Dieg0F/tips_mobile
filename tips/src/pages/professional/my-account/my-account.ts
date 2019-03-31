@@ -1,25 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
-
-import { ViewChild } from '@angular/core';
-import { Slides } from 'ionic-angular';
-import { ProfileProvider } from '../../../providers/profile/profile';
 import { UserProvider } from '../../../providers/user/user';
-import { AppConfig } from '../../../model/static/static';
-import { CameraProvider } from '../../../util/camera/camera';
+import { ProfileProvider } from '../../../providers/profile/profile';
 import { StorageProvider } from '../../../providers/storage/storage';
-import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
+import { CameraProvider } from '../../../util/camera/camera';
 import { DataProvider } from '../../../providers/data/data';
+import { Loading } from '../../../util/loading/loading';
+import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
-  selector: 'page-professional-profile',
-  templateUrl: 'professional-profile.html',
+  selector: 'page-my-account',
+  templateUrl: 'my-account.html',
 })
-export class ProfessionalProfilePage implements OnInit {
-
-  @ViewChild(Slides) slides: Slides;
+export class MyAccountPage {
 
   public profile = AppConfig.USER_PROFILE
   private selectedPhoto: any
@@ -35,8 +30,10 @@ export class ProfessionalProfilePage implements OnInit {
     public toast: Toast,
     public camera: CameraProvider) { }
 
-  ngAfterViewInit() {
-    this.slides.lockSwipes(true);
+  ngOnInit() {
+    var elm = document.getElementById('set_profileImage');
+    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
+    elm.style.backgroundSize = "cover";
   }
 
   skipProfile() {
@@ -76,7 +73,7 @@ export class ProfessionalProfilePage implements OnInit {
       array.push(binary.charCodeAt(i));
     }
     return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
-  };
+  }
 
   save() {
     this.loading.showLoading('Salvando perfil...')
@@ -93,22 +90,4 @@ export class ProfessionalProfilePage implements OnInit {
       })
   }
 
-  slideNext() {
-    this.slides.lockSwipes(false);
-    this.slides.slideNext();
-    this.slides.lockSwipes(true);
-  }
-
-  slidePrev() {
-    this.slides.lockSwipes(false);
-    this.slides.slidePrev();
-    this.slides.lockSwipes(true);
-  }
-
-  ngOnInit() {
-    var elm = document.getElementById('set_profileImage');
-    elm.style.backgroundImage = "url('" + AppConfig.USER_FILES.profilePhoto + "')";
-    elm.style.backgroundSize = "cover";
-  }
 }
-
