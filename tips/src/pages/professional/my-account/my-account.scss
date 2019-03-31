@@ -3,11 +3,14 @@ page-my-account {
         margin-left: 0px !important;
         margin-top: 3px;
     }
+
     .content_form {
         padding: $smallSpace 0px;
         font-family: "Open Sans", sans-serif;
+
         .form_field {
             margin: 52px 0 $smallSpace 0;
+
             h3 {
                 color: $darkTextColor;
                 font-size: $cardBodySize;
@@ -18,12 +21,14 @@ page-my-account {
                 display: block;
             }
         }
+
         .image img {
             width: 100px;
             height: 100px;
             display: block;
             margin: $largeSpace auto;
         }
+
         .image #set_profileImage {
             width: 175px;
             height: 175px;
@@ -36,20 +41,24 @@ page-my-account {
             display: block;
             margin: $largeSpace auto;
         }
+
         .image h3 {
             text-align: center !important;
             color: $darkTextColor;
             font-size: 18px;
-            line-height: cardBodyLineHeight;
+            line-height: $cardBodyLineHeight;
             opacity: 0.5;
             margin: $smallSpace 0 $largeSpace 0;
             text-align: left;
         }
+
         .item-ios,
         .item-md {
             padding: 0 !important;
             margin-bottom: $mediumSpace !important;
+            border-bottom: 1px solid rgba(200, 200, 200, 0.3);
         }
+
         textarea.text-input-ios,
         textarea.text-input-md {
             height: 150px;

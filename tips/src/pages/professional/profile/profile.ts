@@ -10,19 +10,16 @@ import { ProfileProvider } from '../../../providers/profile/profile';
 })
 export class ProfilePage {
 
-  private profile = AppConfig.USER_PROFILE
+  public profile = { ...AppConfig.USER_PROFILE }  
 
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
     public navParams: NavParams) { }
 
-  ionViewWillLoad() {
-    this.profileProvider.getProfilePhoto()
-      .then((res) => {
-        var elm = document.getElementById('img_profile');
-        elm.style.backgroundImage = "url(" + res + ")";
-      })
+  ionViewWillEnter() {
+    var elm = document.getElementById('img_profile');
+    elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
   }
 
   menu() {

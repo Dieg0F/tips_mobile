@@ -16,8 +16,7 @@ import { AppConfig } from '../../../model/static/static';
 })
 export class MyAccountPage {
 
-  public profile = AppConfig.USER_PROFILE
-  private selectedPhoto: any
+  public profile = {...AppConfig.USER_PROFILE}  
 
   constructor(
     public navCtrl: NavController,
@@ -30,7 +29,7 @@ export class MyAccountPage {
     public toast: Toast,
     public camera: CameraProvider) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     var elm = document.getElementById('set_profileImage');
     elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
     elm.style.backgroundSize = "cover";
@@ -47,14 +46,14 @@ export class MyAccountPage {
     this.camera.getPicture()
       .then((img) => {
         var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
-        this.selectedPhoto = this.dataURItoBlob(fileUrl);
-        return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, this.selectedPhoto)
-          .then((downloadURL) => {
-            AppConfig.USER_PROFILE.profilePhotoUrl = downloadURL
+        let selectedPhoto: any = this.dataURItoBlob(fileUrl);
+        return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
+          .then((downloadURL) => {            
+            this.profile.profilePhotoUrl = downloadURL
             var elm = document.getElementById('set_profileImage');
-            elm.style.backgroundImage = "url(" + fileUrl + ")";
+            elm.style.backgroundImage = "url('" + downloadURL + "')";
             elm.style.backgroundSize = "cover";
-            this.loading.hideLoading()            
+            this.loading.hideLoading()
           })
       })
       .catch((error) => {
@@ -86,5 +85,4 @@ export class MyAccountPage {
         this.toast.showToast('Erro ao salvar o perfil!');
       })
   }
-
 }

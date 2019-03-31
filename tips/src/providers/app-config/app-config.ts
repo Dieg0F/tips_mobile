@@ -48,19 +48,13 @@ export class AppConfigProvider {
         return this.profileProvider.getProfile(userAuth.uid)
           .then(async (userProfile) => {
             userProfileResponse = userProfile.data()
-
             if (userProfileResponse) {
               console.log("Requests: ")
               console.log("       userProfileResponse: ", userProfileResponse)
-
-              return this.dataProvider.getFile(AppConfig.PROFILE_PHOTO_PATH)
-                .then(async (profilePhotoUrl) => {
-                  return this.profileProvider.saveProfileOnStorage(userProfileResponse)
-                    .then(async () => {
-                      userProfileResponse.profilePhotoUrl = profilePhotoUrl
-                      AppConfig.USER_PROFILE = userProfileResponse
-                      AppConfig.HAS_USER = true;
-                    })
+              return this.profileProvider.saveProfileOnStorage(userProfileResponse)
+                .then(async () => {
+                  AppConfig.USER_PROFILE = userProfileResponse
+                  AppConfig.HAS_USER = true;
                 })
             }
           })

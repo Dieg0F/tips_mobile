@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
 
 import { ViewChild } from '@angular/core';
@@ -17,12 +17,11 @@ import { DataProvider } from '../../../providers/data/data';
   selector: 'page-professional-profile',
   templateUrl: 'professional-profile.html',
 })
-export class ProfessionalProfilePage implements OnInit {
+export class ProfessionalProfilePage {
 
   @ViewChild(Slides) slides: Slides;
 
-  public profile = AppConfig.USER_PROFILE
-  private selectedPhoto: any
+  public profile = { ...AppConfig.USER_PROFILE }  
 
   constructor(
     public navCtrl: NavController,
@@ -34,6 +33,12 @@ export class ProfessionalProfilePage implements OnInit {
     public dataProvider: DataProvider,
     public toast: Toast,
     public camera: CameraProvider) { }
+
+  ionViewWillEnter() {
+    var elm = document.getElementById('set_profileImage');
+    elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
+    elm.style.backgroundSize = "cover";
+  }
 
   ngAfterViewInit() {
     this.slides.lockSwipes(true);
@@ -48,14 +53,14 @@ export class ProfessionalProfilePage implements OnInit {
     this.loading.showLoading("Salvando imagem...")
     console.log("setProfilePhoto >> Get Profile Photo and Save on Database");
     this.camera.getPicture()
-      .then((img) => {
+      .then(async (img) => {
         var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
-        this.selectedPhoto = this.dataURItoBlob(fileUrl);
-        return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, this.selectedPhoto)
+        let selectedPhoto: any = this.dataURItoBlob(fileUrl);
+        return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
           .then((downloadURL) => {
-            AppConfig.USER_PROFILE.profilePhotoUrl = downloadURL
+            this.profile.profilePhotoUrl = downloadURL
             var elm = document.getElementById('set_profileImage');
-            elm.style.backgroundImage = "url(" + fileUrl + ")";
+            elm.style.backgroundImage = "url('" + downloadURL + "')";
             elm.style.backgroundSize = "cover";
             this.loading.hideLoading()
           })
@@ -100,12 +105,6 @@ export class ProfessionalProfilePage implements OnInit {
     this.slides.lockSwipes(false);
     this.slides.slidePrev();
     this.slides.lockSwipes(true);
-  }
-
-  ngOnInit() {
-    var elm = document.getElementById('set_profileImage');
-    elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
-    elm.style.backgroundSize = "cover";
   }
 }
 

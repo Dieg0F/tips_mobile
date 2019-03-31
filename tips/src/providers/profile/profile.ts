@@ -34,8 +34,4 @@ export class ProfileProvider {
             .get()
             .toPromise()
     }
-
-    async getProfilePhoto(): Promise<any> {
-        return this.storage.getItem('userProfilePhotoUrl')
-    }
 }
