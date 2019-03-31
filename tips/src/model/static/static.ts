@@ -1,5 +1,7 @@
+import { Profile } from "../profile/profile";
+
 export class AppConfig {
-    public static USER_PROFILE = {
+    public static USER_PROFILE: Profile = {
         uid: "",
         nome: "",
         email: "",
@@ -15,22 +17,12 @@ export class AppConfig {
         inscMunicipal: "",
         areaAtuacao: "",
         setor: "",
-        aboutMe: ""
-    }
-
-    public static USER_AUTH = {
-        uid: ""     
-    }
-
-    public static USER_FILES = {
-        profilePhoto: ""
-    }
-
-    public static USER = {
-        uid: "",
-        nome: "",
-        email: "",
-        isCompany: false
+        aboutMe: "",
+        profilePhotoUrl: "",
+        userGalery: [],    
+        geoLocation: undefined,                
+        avaliations: [],
+        contracts: []
     }
 
     public static HAS_USER: boolean = false
