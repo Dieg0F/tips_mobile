@@ -14,14 +14,14 @@ import { DataProvider } from '../../../providers/data/data';
 
 @IonicPage()
 @Component({
-  selector: 'page-professional-profile',
-  templateUrl: 'professional-profile.html',
+  selector: 'page-profile-configuration',
+  templateUrl: 'profile-configuration.html',
 })
-export class ProfessionalProfilePage {
+export class ProfileConfigurationPage {
 
   @ViewChild(Slides) slides: Slides;
 
-  public profile = { ...AppConfig.USER_PROFILE }  
+  public profile = { ...AppConfig.USER_PROFILE }
 
   constructor(
     public navCtrl: NavController,
@@ -71,14 +71,14 @@ export class ProfessionalProfilePage {
       })
   }
 
-  dataURItoBlob(dataURI) {
+  dataURItoBlob(dataURI: string) {
     let binary = atob(dataURI.split(',')[1]);
     let array = [];
     for (let i = 0; i < binary.length; i++) {
       array.push(binary.charCodeAt(i));
     }
     return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
-  };
+  }
 
   save() {
     this.loading.showLoading('Salvando perfil...')
@@ -97,14 +97,26 @@ export class ProfessionalProfilePage {
 
   slideNext() {
     this.slides.lockSwipes(false);
-    this.slides.slideNext();
+    if (this.slides.getActiveIndex() != 0) {
+      this.slides.slideNext()
+    } else if (this.slides.getActiveIndex() == 0 && this.profile.isCompany) {
+      this.slides.slideNext()
+    } else if (!this.profile.isCompany) {
+      this.slides.slideTo(2)
+    }
     this.slides.lockSwipes(true);
   }
 
   slidePrev() {
     this.slides.lockSwipes(false);
-    this.slides.slidePrev();
+    if (this.slides.getActiveIndex() != 2) {
+      this.slides.slidePrev()
+    } else if (this.slides.getActiveIndex() == 2 && this.profile.isCompany) {
+      this.slides.slidePrev()
+    } else if (!this.profile.isCompany) {
+      this.slides.slideTo(0)
+    }
     this.slides.lockSwipes(true);
   }
-}
 
+}

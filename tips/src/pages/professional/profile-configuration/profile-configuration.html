@@ -17,18 +17,23 @@
           <div class="image">
             <img src="../../../assets/imgs/shop.png" />
           </div>
-          <div class="description">
-            <h5>Passo 1°</h5>
-            <p>Entre com a razão social de sua empresa e seu CNPJ</p>
+          <div class="description">            
+            <p>{{profile.isCompany ? 'Entre com a razão social de sua empresa e seu CNPJ:' : 'Entre com seu CPF:'}}</p>
           </div>
         </div>
-        <div class="slide_form">
+        <div class="slide_form" *ngIf="!profile.isCompany">
+          <ion-item>
+            <ion-input [(ngModel)]="profile.cnpjCpf" type="tel" name="cpf" placeholder="CPF" maxLength="11"></ion-input>
+          </ion-item>
+        </div>
+        <div class="slide_form" *ngIf="profile.isCompany">
           <ion-item>
             <ion-input [(ngModel)]="profile.razaoSocial" type="text" name="razaoSocial" placeholder="Razão Social"
               maxLength="60"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input [(ngModel)]="profile.cnpjCpf" type="text" name="cnpjCpf" placeholder="CNPJ" maxLength="14"></ion-input>
+            <ion-input [(ngModel)]="profile.cnpjCpf" type="text" name="cnpjCpf" placeholder="CNPJ" maxLength="14">
+            </ion-input>
           </ion-item>
         </div>
         <div class="slideButtons one">
@@ -43,19 +48,18 @@
           <div class="image">
             <img src="../../../assets/imgs/certificate.png" />
           </div>
-          <div class="description">
-            <h5>Passo 2°</h5>
+          <div class="description">            
             <p>Informe sua Iscrição Estadual e Municipal</p>
           </div>
         </div>
         <div class="slide_form">
           <ion-item>
-            <ion-input [(ngModel)]="profile.inscEstadual" type="text" name="inscEstadual" placeholder="Iscrição Estadual"
-              maxLength="30"></ion-input>
+            <ion-input [(ngModel)]="profile.inscEstadual" type="text" name="inscEstadual"
+              placeholder="Iscrição Estadual" maxLength="30"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input [(ngModel)]="profile.inscMunicipal" type="text" name="inscMunicipal" placeholder="Iscrição Municipal"
-              maxLength="30"></ion-input>
+            <ion-input [(ngModel)]="profile.inscMunicipal" type="text" name="inscMunicipal"
+              placeholder="Iscrição Municipal" maxLength="30"></ion-input>
           </ion-item>
         </div>
         <div class="slideButtons">
@@ -71,14 +75,14 @@
           <div class="image">
             <img src="../../../assets/imgs/contact.png" />
           </div>
-          <div class="description">
-            <h5>Passo 3°</h5>
-            <p>Informe seu telefone comercial para contato!</p>
+          <div class="description">            
+            <p>Informe seu telefone para contato!</p>
           </div>
         </div>
         <div class="slide_form">
           <ion-item>
-            <ion-input [(ngModel)]="profile.telefone" type="tel" name="telefone" placeholder="Telefone" maxLength="11"></ion-input>
+            <ion-input [(ngModel)]="profile.telefone" type="tel" name="telefone" placeholder="Telefone" maxLength="11">
+            </ion-input>
           </ion-item>
         </div>
         <div class="slideButtons bottom">
@@ -89,22 +93,33 @@
       <ion-slide>
         <div class="slide_description">
           <div class="description">
-            <h2>Onde fica sua empresa?</h2>
+            <h2>{{profile.isCompany ? 'Onde fica sua empresa?' : 'Onde você mora?' }}</h2>
           </div>
           <div class="image">
             <img src="../../../assets/imgs/address.png" />
           </div>
           <div class="description">
-            <h5>Passo 4°</h5>
-            <p>Informe a rua e o bairro que sua empresa está localizada!</p>
+            <p>
+              {{profile.isCompany ? 'Informe a rua e o bairro que sua empresa está localizada.' : 'Informe o seu endereço.'}}
+            </p>
           </div>
         </div>
         <div class="slide_form">
           <ion-item>
-            <ion-input [(ngModel)]="profile.rua" type="text" name="rua" placeholder="Rua" maxLength="40"></ion-input>
+            <ion-input [(ngModel)]="profile.rua" type="text" name="rua" placeholder="Rua" maxLength="40">
+            </ion-input>
           </ion-item>
           <ion-item>
-            <ion-input [(ngModel)]="profile.bairro" type="text" name="bairro" placeholder="Bairro" maxLength="30"></ion-input>
+            <ion-input [(ngModel)]="profile.bairro" type="text" name="bairro" placeholder="Bairro" maxLength="30">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input [(ngModel)]="profile.cidade" type="text" name="cidade" placeholder="Cidade" maxLength="30">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input [(ngModel)]="profile.estado" type="text" name="estado" placeholder="Estado" maxLength="2">
+            </ion-input>
           </ion-item>
         </div>
         <div class="slideButtons">
@@ -112,32 +127,6 @@
           <button (click)="slideNext()">Próximo</button>
         </div>
       </ion-slide>
-      <ion-slide>
-        <div class="slide_description">
-          <div class="description">
-            <h2>Onde fica sua empresa?</h2>
-          </div>
-          <div class="image">
-            <img src="../../../assets/imgs/address.png" />
-          </div>
-          <div class="description">
-            <h5>Passo 5°</h5>
-            <p>Informe a cidade e o estado que sua empresa está localizada!</p>
-          </div>
-        </div>
-        <div class="slide_form">
-          <ion-item>
-            <ion-input [(ngModel)]="profile.cidade" type="text" name="cidade" placeholder="Cidade" maxLength="30"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input [(ngModel)]="profile.estado" type="text" name="estado" placeholder="Estado" maxLength="2"></ion-input>
-          </ion-item>
-        </div>
-        <div class="slideButtons">
-          <button (click)="slidePrev()">Anterior</button>
-          <button (click)="slideNext()">Próximo</button>
-        </div>
-      </ion-slide>      
       <ion-slide>
         <div class="slide_description">
           <div class="description">
@@ -147,13 +136,17 @@
             <img src="../../../assets/imgs/work.png" />
           </div>
           <div class="description">
-            <h5>Passo 6°</h5>
-            <p>Em qual area sua empresa atua?</p>
+            <p>{{ profile.isCompany ? 'Em qual area sua empresa atua?' : 'Em qual area você atua?' }}</p>
           </div>
         </div>
         <div class="slide_form">
           <ion-item>
-            <ion-input [(ngModel)]="profile.areaAtuacao" type="text" name="areaAtuacao" placeholder="Área de Atuação" maxLength="30"></ion-input>
+            <ion-input [(ngModel)]="profile.areaAtuacao" type="text" name="areaAtuacao" placeholder="Área de Atuação"
+              maxLength="30"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input [(ngModel)]="profile.setor" type="text" name="setor" placeholder="Seu setor" maxLength="30">
+            </ion-input>
           </ion-item>
         </div>
         <div class="slideButtons bottom">
@@ -164,7 +157,7 @@
       <ion-slide>
         <div class="slide_description">
           <div class="description">
-            <h2>Descreva sua empresa!</h2>
+            <h2>Descreva o {{ profile.isCompany ? 'serviço de sdua empresa.' : 'seu serviço.' }}</h2>
           </div>
           <div class="image">
             <img src="../../../assets/imgs/edit.png" />
@@ -172,8 +165,8 @@
         </div>
         <div class="slide_form">
           <ion-item>
-            <ion-textarea [(ngModel)]="profile.aboutMe" name="aboutMe" placeholder="Escreva um pouco sobre sua empresa aqui..."
-              maxLength="300"></ion-textarea>
+            <ion-textarea [(ngModel)]="profile.aboutMe" name="aboutMe"
+              placeholder="Escreva um pouco sobre seu serviço aqui..." maxLength="300"></ion-textarea>
           </ion-item>
         </div>
         <div class="slideButtons">
@@ -187,11 +180,10 @@
             <h2>Foto de perfil!</h2>
           </div>
           <div class="image">
-            <div id="img_profile" (click)="setProfilePhoto()"></div>
+            <div id="set_profileImage" (click)="setProfilePhoto()"></div>
           </div>
-          <div class="description">
-            <h5>Último passo!</h5>
-            <p>Escolha a melhor foto de sua emprasa e defina como sua foto de perfil.</p>
+          <div class="description">            
+            <p>Escolha a melhor foto sua para seu perfil.</p>
           </div>
         </div>
         <div class="slideButtons bottom">
