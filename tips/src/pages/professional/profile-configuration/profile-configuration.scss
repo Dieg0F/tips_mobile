@@ -1,4 +1,5 @@
 page-profile-configuration {
+
     .bar-button-default-md,
     .bar-button-default-ios,
     .toolbar-title-md,
@@ -20,29 +21,34 @@ page-profile-configuration {
         background-color: $coldBackground;
     }
 
-    .swiper-wrapper {
-        height: 85vh !important;
+    .scroll-content {
+        overflow: hidden;
     }
 
-    .slides {
+    .swiper-slide {
+        padding:  0 16px;
+        
+    }
+    
+    .slide_body {
         border-radius: $smallRadius;
         background-color: $lightBackground;
+        height: 480px;
+        width: 100% !important;
+        padding: $mediumSpace 0;
+        overflow: scroll;
     }
 
     .slideButtons {
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
+        background-color: $coldBackground;
 
         button {
-            margin-bottom: 10px;
             border-radius: $smallRadius;
-            background-color: $lightBackground;
+            background-color: transparent;
             width: 50%;
             float: left;
             height: 50px;
-            color: $primaryColor;
+            color: $lightTextColor;
             font-size: 18px;
             line-height: $cardFooterTextHeight;
             text-align: center;
@@ -57,16 +63,8 @@ page-profile-configuration {
         }
     }
 
-    /* 
-    *  Se o slide tiver apenas um input, essa classe irá colocar um margin top nele,
-    *  no lugar de um input, deixando o espaço vazio e padronizando os slides
-    */
-    .slideButtons.bottom {
-        margin-top: 50px !important;
-    }
-
     .slide_description {
-        padding: $largeSpace $mediumSpace $mediumSpace;
+        padding: $mediumSpace;
         font-family: "Open Sans", sans-serif;
 
         .description {

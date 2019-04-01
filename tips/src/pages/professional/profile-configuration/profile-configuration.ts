@@ -19,9 +19,10 @@ import { DataProvider } from '../../../providers/data/data';
 })
 export class ProfileConfigurationPage {
 
-  @ViewChild(Slides) slides: Slides;
+  @ViewChild(Slides) slides: Slides;  
 
   public profile = { ...AppConfig.USER_PROFILE }
+  public slideIndex: number = 0
 
   constructor(
     public navCtrl: NavController,
@@ -38,6 +39,7 @@ export class ProfileConfigurationPage {
     var elm = document.getElementById('set_profileImage');
     elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
     elm.style.backgroundSize = "cover";
+    this.slideIndex = 0
   }
 
   ngAfterViewInit() {
@@ -105,6 +107,7 @@ export class ProfileConfigurationPage {
       this.slides.slideTo(2)
     }
     this.slides.lockSwipes(true);
+    this.slideIndex = this.slides.getActiveIndex()    
   }
 
   slidePrev() {
@@ -117,6 +120,6 @@ export class ProfileConfigurationPage {
       this.slides.slideTo(0)
     }
     this.slides.lockSwipes(true);
+    this.slideIndex = this.slides.getActiveIndex()
   }
-
 }
