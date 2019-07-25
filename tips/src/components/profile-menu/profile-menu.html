@@ -1,19 +1,15 @@
 <div class="menu">
   <div class="menuHeader">
-    <div class="profilePhoto"></div>
+    <div class="profilePhoto" id="menu_img_profile"></div>
     <div class="profileData">
-      <h4>Diego Fraga</h4>
-      <p>dfraga2012@gmail.com</p>
+      <h4>{{profile.nome}}</h4>
+      <p>{{profile.email}}</p>
     </div>
   </div>
   <div class="menuProfileOptions">
-    <button icon-start>
+    <button icon-start (click)="editProfile()">
       <ion-icon name="person"></ion-icon>
       Minha Conta
-    </button>
-    <button icon-start (click)="editProfile()">
-      <ion-icon name="create"></ion-icon>
-      Editar Perfil
     </button>
     <button icon-start>
       <ion-icon name="briefcase"></ion-icon>

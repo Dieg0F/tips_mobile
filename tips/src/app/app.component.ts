@@ -20,10 +20,10 @@ export class MyApp {
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private toast: Toast,
-    private appConfigProvider: AppConfigProvider) {      
-      this.platform.ready().then(async () => {
-        this.verifyUser();
-        this.disabledTextZoom()
+    private appConfigProvider: AppConfigProvider) {
+    this.platform.ready().then(async () => {
+      this.verifyUser();
+      this.disabledTextZoom()
       this.statusBar.backgroundColorByHexString("#273A56");
       this.statusBar.styleLightContent();
     });
@@ -41,16 +41,17 @@ export class MyApp {
 
   async verifyUser() {
     this.appConfigProvider.verifyAuth()
-    .then(() => {
-      if (AppConfig.USER.uid === AppConfig.USER_AUTH.uid && 
-        AppConfig.USER_AUTH.uid === AppConfig.USER_PROFILE.uid) {
-        this.rootPage = "ProfilePage"
-        this.toast.showToast('Bem vindo novamente!');
-      }           
-    })
-    .catch(() => {
-      this.rootPage = "Login"
-    })
+      .then(() => {
+        if (AppConfig.USER_PROFILE != undefined) {
+          this.rootPage = "ProfilePage"
+          this.toast.showToast('Bem vindo novamente!');
+        } else {
+          this.rootPage = "LoginPage"
+        }
+      })
+      .catch(() => {
+        this.rootPage = "LoginPage"
+      })
   }
 }
 

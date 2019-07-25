@@ -8,7 +8,6 @@ export class CameraProvider {
         quality: 100,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
         targetWidth: 500,
         targetHeight: 500,
         allowEdit: true,
@@ -20,5 +19,4 @@ export class CameraProvider {
     async getPicture(): Promise<any> {
         return this.camera.getPicture(this.options)
     }
-
 }

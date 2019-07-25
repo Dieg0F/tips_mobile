@@ -4,6 +4,7 @@ import { AppConfig } from '../../model/static/static';
 import { UserProvider } from '../user/user';
 import { ProfileProvider } from '../profile/profile';
 import { Toast } from '../../util/toast/toast';
+import { DataProvider } from '../data/data';
 
 @Injectable()
 export class AppConfigProvider {
@@ -11,6 +12,7 @@ export class AppConfigProvider {
   constructor(
     public storage: StorageProvider,
     public userProvider: UserProvider,
+    public dataProvider: DataProvider,
     public toast: Toast,
     public profileProvider: ProfileProvider) { }
 
@@ -22,20 +24,10 @@ export class AppConfigProvider {
    */
   async verifyAuth(): Promise<any> {
     console.log("verifyAuth")
-    return this.storage.getItem('userAuth')
-      .then(async (userAuth) => {        
-        return this.storage.getItem('user')        
-          .then(async (user) => {
-            return this.storage.getItem('userProfile')
-              .then((userProfile) => {
-                AppConfig.USER = JSON.parse(user)
-                AppConfig.USER_AUTH = JSON.parse(userAuth)
-                AppConfig.USER_PROFILE = JSON.parse(userProfile)
-                console.log("verifyAuth", AppConfig.USER)
-                console.log("verifyAuth", AppConfig.USER_AUTH)
-                console.log("verifyAuth", AppConfig.USER_PROFILE)
-              })
-          })
+    return this.storage.getItem('userProfile')
+      .then(async (userProfile) => {
+        AppConfig.USER_PROFILE = JSON.parse(userProfile)
+        console.log("verifyAuth", AppConfig.USER_PROFILE)
       })
       .catch((error) => {
         console.log('Error: ', error)
@@ -49,38 +41,22 @@ export class AppConfigProvider {
    * @param userAuthUid User Uid - Usado para requisitar ao database o perfil e usuário
    */
   appLogin(userAuth: any) {
-    let userResponse: any;
-    let userAuthResponse: any;
     let userProfileResponse: any;
 
     this.storage.setItem('userAuth', userAuth)
       .then(async () => {
-        return this.userProvider.getUser(userAuth.uid)
-          .then(async (user) => {
-            return this.profileProvider.getProfile(userAuth.uid)
-              .then(async (userProfile) => {
-                userResponse = user.data()
-                userAuthResponse = userAuth
-                userProfileResponse = userProfile.data()
-
-                if (userResponse && userAuthResponse && userProfileResponse) {
-                  console.log("Requests: ")
-                  console.log("       userResponse: ", userResponse)
-                  console.log("       userAuthResponse: ", userAuthResponse)
-                  console.log("       userProfileResponse: ", userProfileResponse)
-
-                  return this.userProvider.saveUserDataOnStorage(userResponse)
-                    .then(async () => {
-                      return this.profileProvider.saveProfileOnStorage(userProfileResponse)
-                        .then(() => {
-                          AppConfig.USER = userResponse
-                          AppConfig.USER_AUTH = userAuthResponse
-                          AppConfig.USER_PROFILE = userProfileResponse
-                          AppConfig.HAS_USER = true;
-                        })
-                    })
-                }
-              })
+        return this.profileProvider.getProfile(userAuth.uid)
+          .then(async (userProfile) => {
+            userProfileResponse = userProfile.data()
+            if (userProfileResponse) {
+              console.log("Requests: ")
+              console.log("       userProfileResponse: ", userProfileResponse)
+              return this.profileProvider.saveProfileOnStorage(userProfileResponse)
+                .then(async () => {
+                  AppConfig.USER_PROFILE = userProfileResponse
+                  AppConfig.HAS_USER = true;
+                })
+            }
           })
       })
       .catch((error) => {

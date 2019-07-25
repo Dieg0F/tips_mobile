@@ -1,3 +1,7 @@
+import { GeoLocation } from "../geoLocation/geoLocation";
+import { Avaliation } from "../Avaliation/avaliation";
+import { Contract } from "../contract/contract";
+
 /**
  * Classe para perfis, o memso obj será usado para empresas e autonomos, pois assim fica tudo em uma tabela só
  * Podendo ocorrer alterações!!!!
@@ -14,14 +18,14 @@ export interface Profile {
     bairro: string;
     cidade: string;
     estado: string;
-    // geoLocation: GeoLocation???    
+    geoLocation: GeoLocation,  
     inscEstadual?: string;
     inscMunicipal?: string;
     areaAtuacao: string;
     setor?: string;
     aboutMe: string;
-    // avaliations: Avaliations
-    // reviewsCount: number
-    // contracts: Contract
-    // contractCount: number
+    profilePhotoUrl: string;
+    userGalery: Array<string>;
+    avaliations: Array<Avaliation>;    
+    contracts: Array<Contract>;
 }

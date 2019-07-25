@@ -65,7 +65,7 @@ export class NewAccountPage {
   }
 
   private setProfileConfigurations() {
-    (this.profileIsACompany) ? this.navCtrl.setRoot('CompanyProfilePage') : this.navCtrl.setRoot('ProfessionalProfilePage');
+    this.navCtrl.setRoot('ProfileConfigurationPage');
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
     this.toast.showToast('Conta foi criada com sucesso!');

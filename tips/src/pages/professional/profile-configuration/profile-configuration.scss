@@ -1,34 +1,54 @@
-page-company-profile {
+page-profile-configuration {
+
     .bar-button-default-md,
     .bar-button-default-ios,
     .toolbar-title-md,
     .toolbar-title-ios {
         color: $lightTextColor !important;
     }
+
     .header-md::after {
         background: none !important;
     }
+
     .toolbar-background-md,
     .toolbar-background-ios {
         background-color: $coldBackground;
     }
+
     .content-md,
     .content-ios {
         background-color: $coldBackground;
     }
-    .slides {
+
+    .scroll-content {
+        overflow: hidden;
+    }
+
+    .swiper-slide {
+        padding:  0 16px;
+        
+    }
+    
+    .slide_body {
         border-radius: $smallRadius;
         background-color: $lightBackground;
+        height: 480px;
+        width: 100% !important;
+        padding: $mediumSpace 0;
+        overflow: scroll;
     }
+
     .slideButtons {
+        background-color: $coldBackground;
+
         button {
-            margin-bottom: 10px;
             border-radius: $smallRadius;
-            background-color: $lightBackground;
+            background-color: transparent;
             width: 50%;
             float: left;
             height: 50px;
-            color: $primaryColor;
+            color: $lightTextColor;
             font-size: 18px;
             line-height: $cardFooterTextHeight;
             text-align: center;
@@ -36,21 +56,17 @@ page-company-profile {
             cursor: pointer;
         }
     }
+
     .slideButtons.one {
         button {
             width: 100% !important;
         }
     }
-    /* 
-    *  Se o slide tiver apenas um input, essa classe irá colocar um margin top nele,
-    *  no lugar de um input, deixando o espaço vazio e padronizando os slides
-    */
-    .slideButtons.bottom {
-        margin-top: 50px !important;
-    }
+
     .slide_description {
-        padding: $largeSpace $mediumSpace $mediumSpace;
+        padding: $mediumSpace;
         font-family: "Open Sans", sans-serif;
+
         .description {
             h2 {
                 color: $greyTextColor;
@@ -58,6 +74,7 @@ page-company-profile {
                 margin: 0px;
                 text-align: center;
             }
+
             h5 {
                 color: $primaryColor;
                 font-size: 20px;
@@ -66,6 +83,7 @@ page-company-profile {
                 margin: 0px 0px;
                 text-align: center;
             }
+
             p {
                 color: $darkTextColor;
                 font-size: $cardBodySize;
@@ -75,13 +93,15 @@ page-company-profile {
                 text-align: center;
             }
         }
+
         .image img {
             width: 150px;
             height: 150px;
             display: block;
             margin: $largeSpace auto;
         }
-        .image #img_profile {
+
+        .image #set_profileImage {
             width: 232px;
             height: 232px;
             border-radius: 100%;
@@ -94,13 +114,16 @@ page-company-profile {
             margin: $largeSpace auto;
         }
     }
+
     .slide_form {
         padding: $mediumSpace;
         font-family: "Open Sans", sans-serif;
+
         .item-ios,
         .item-md {
             padding: 0 $mediumSpace !important;
         }
+
         textarea.text-input-ios,
         textarea.text-input-md {
             height: 137px;
