@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ProfileProvider } from '../../../providers/profile/profile';
+import { Observable } from 'rxjs';
+import { Profile } from '../../../model/profile/profile';
 
-/**
- * Generated class for the ResultsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +12,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ResultsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  profiles$: Observable<Profile[]>
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ResultsPage');
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public profileProvider: ProfileProvider) {
+
+    this.profileProvider.getProfiles()
+      .then((res) => {
+        this.profiles$ = res
+      });
   }
 
 }

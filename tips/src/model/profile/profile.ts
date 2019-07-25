@@ -18,7 +18,7 @@ export interface Profile {
     bairro: string;
     cidade: string;
     estado: string;
-    geoLocation: GeoLocation,  
+    geoLocation: GeoLocation,
     inscEstadual?: string;
     inscMunicipal?: string;
     areaAtuacao: string;
@@ -26,6 +26,7 @@ export interface Profile {
     aboutMe: string;
     profilePhotoUrl: string;
     userGalery: Array<string>;
-    avaliations: Array<Avaliation>;    
+    userRate: number;
+    avaliations: Array<Avaliation>;
     contracts: Array<Contract>;
 }

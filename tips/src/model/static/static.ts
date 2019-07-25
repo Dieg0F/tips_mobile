@@ -19,8 +19,9 @@ export class AppConfig {
         setor: "",
         aboutMe: "",
         profilePhotoUrl: "",
-        userGalery: [],    
-        geoLocation: undefined,                
+        userGalery: [],
+        geoLocation: undefined,
+        userRate: 0,
         avaliations: [],
         contracts: []
     }
