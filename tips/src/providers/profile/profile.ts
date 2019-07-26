@@ -40,6 +40,6 @@ export class ProfileProvider {
     async getProfiles() {
         console.log('getProfile >> Get All Profile')
         return this.db.collection<Profile>('/profile',
-            (ref: CollectionReference) => ref.orderBy('avaliation', 'asc')).valueChanges();
+            (ref: CollectionReference) => ref.orderBy('userRate', 'desc')).valueChanges();
     }
 }

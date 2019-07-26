@@ -26,7 +26,7 @@ export interface Profile {
     aboutMe: string;
     profilePhotoUrl: string;
     userGalery: Array<string>;
-    userRate: number;
+    userRate: Number;
     avaliations: Array<Avaliation>;
     contracts: Array<Contract>;
 }
