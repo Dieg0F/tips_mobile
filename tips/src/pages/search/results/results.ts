@@ -18,15 +18,7 @@ export class ResultsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public profileProvider: ProfileProvider) {
-
-    this.profileProvider.getProfiles().then((res) => {
-      res.subscribe((values) => {
-        this.profiles = values
-        this.profiles.forEach((el) => {
-          console.log(el.userRate)
-        })
-      })
-    })
+          
   }
 
   starsRate(value: number) {
