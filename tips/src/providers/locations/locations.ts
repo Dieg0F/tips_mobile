@@ -11,16 +11,10 @@ export class Locations {
     constructor(private http: HttpService) { }
 
     getStates() {
-        this.http.get(BASE_URL + STATE_ENDIPOINT)
-            .then((res) => {
-                console.log(res)
-            })
+        return this.http.get(BASE_URL + STATE_ENDIPOINT)
     }
 
     getCityes(state: number) {
-        this.http.get(BASE_URL + STATE_ENDIPOINT + `/${state}` + CITY_ENDIPOINT)
-            .then((res) => {
-                console.log(res)
-            })
+        return this.http.get(BASE_URL + STATE_ENDIPOINT + `/${state}` + CITY_ENDIPOINT)
     }
 }
