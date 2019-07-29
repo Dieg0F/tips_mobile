@@ -5,6 +5,7 @@ import { Locations } from '../../../providers/locations/locations';
 import { Toast } from '../../../util/toast/toast';
 import { Loading } from '../../../util/loading/loading';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
+import { ResultsPage } from '../results/results';
 
 @IonicPage()
 @Component({
@@ -26,7 +27,7 @@ export class SearchPage {
   public stateSelected: any;
   public citySelected: any;
 
-  public filterOptions: FilterOptions
+  public filterOptions: FilterOptions  
 
   constructor(
     public navCtrl: NavController,
@@ -72,7 +73,7 @@ export class SearchPage {
   }
 
   onCitySelect($event) {
-    this.filterOptions.profileCity = this.citySelected.nome    
+    this.filterOptions.profileCity = this.citySelected.nome
   }
 
   createFilter() {
@@ -86,17 +87,22 @@ export class SearchPage {
   }
 
   getProfiles() {
-    var profiles = []
-
     this.profileProvider.getProfiles(this.filterOptions).then((res) => {
       res.subscribe((values) => {
-        profiles = values
-
-        console.log(profiles)
-        // this.navParams.data('profiles', profiles)
-        // this.navCtrl.push("ResultsPage")
+        this.results(values)
       })
     })
   }
 
+  results(values: any) {
+
+    if (values.length > 0) {
+      this.navParams.data({ 'profiles': values })
+      this.toast.showToast(`Foram encontrados ${values.length} profissionais!`)
+      this.navCtrl.push("ResultsPage")
+    } else {
+      this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`)
+    }
+
+  }
 }

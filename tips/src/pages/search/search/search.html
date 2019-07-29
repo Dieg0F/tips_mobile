@@ -34,7 +34,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Cidade</ion-label>
-        <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect($event)">
+        <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect($event)" [disabled]="!stateSelected">
           <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
         </ion-select>
       </ion-item>
