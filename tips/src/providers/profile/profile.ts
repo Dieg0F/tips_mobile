@@ -6,6 +6,7 @@ import { StorageProvider } from '../storage/storage';
 import { AppConfig } from '../../model/static/static';
 import { Profile } from '../../model/profile/profile';
 import { Observable } from 'rxjs';
+import { FilterOptions } from '../../model/FilterOptions/FilterOptions';
 
 @Injectable()
 export class ProfileProvider {
@@ -37,18 +38,18 @@ export class ProfileProvider {
             .toPromise()
     }
 
-    async getProfiles(filter: any) {
+    async getProfiles(filter: FilterOptions) {
 
         console.log('getProfile >> Get All Profile :: Filter', filter)
 
         return this.db.collection('profile', ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            if (filter.nome) { query = query.where('nome', '==', filter.nome) };
-            if (filter.cidade) { query = query.where('cidade', '==', filter.cidade) };
-            if (filter.estado) { query = query.where('estado', '==', filter.estado) };
-            if (filter.setor) { query = query.where('setor', '==', filter.setor) };
-            if (filter.areaAtuacao) { query = query.where('areaAtuacao', '==', filter.areaAtuacao) };
-            if (filter.userRate) { query = query.where('userRate', '==', filter.userRate) }
+            if (filter.profileName) { query = query.where('nome', '==', filter.profileName) };
+            if (filter.profileState) { query = query.where('estado', '==', filter.profileState) };
+            if (filter.profileCity) { query = query.where('cidade', '==', filter.profileCity) };
+            if (filter.profileSector) { query = query.where('setor', '==', filter.profileSector) };
+            if (filter.profileArea) { query = query.where('areaAtuacao', '==', filter.profileArea) };
+            if (filter.profileRate) { query = query.where('userRate', '==', filter.profileRate) }
             else { query = query.orderBy('userRate', 'desc') };
             return query;
         }).valueChanges()

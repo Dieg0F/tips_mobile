@@ -17,15 +17,19 @@ export class ResultsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public profileProvider: ProfileProvider) {
+    public profileProvider: ProfileProvider) { }
 
+  ionViewWillEnter() {
+    this.getParams()
+  }
+
+  getParams() {
+    this.profiles = this.navParams.get('profiles')
   }
 
   starsRate(value: number) {
-
     var array = new Array<String>()
     var style = ""
-
 
     for (let i = 1; i <= 5; i++) {
       if (i <= value) {
@@ -53,12 +57,10 @@ export class ResultsPage {
       style = "gold"
     }
 
-
     return style;
   }
 
   goToDetails(profile: any) {
     this.navCtrl.push("ProfileDetailsPage", { 'profile': profile })
   }
-
 }
