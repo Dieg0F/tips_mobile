@@ -18,7 +18,16 @@ export class ResultsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public profileProvider: ProfileProvider) {
-          
+
+  }
+
+  ionViewWillEnter() {
+    this.getParams()
+  }
+
+
+  getParams() {
+    this.profiles = this.navParams.get('profiles')
   }
 
   starsRate(value: number) {
