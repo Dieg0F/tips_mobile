@@ -3,11 +3,10 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { StorageProvider } from '../providers/storage/storage';
-import { Loading } from '../util/loading/loading';
 import { Toast } from '../util/toast/toast';
 import { AppConfigProvider } from '../providers/app-config/app-config';
 import { AppConfig } from '../model/static/static';
+import { Locations } from '../providers/locations/locations';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,6 +18,7 @@ export class MyApp {
     private platform: Platform,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
+    private locations: Locations,
     private toast: Toast,
     private appConfigProvider: AppConfigProvider) {
     this.platform.ready().then(async () => {
@@ -40,10 +40,11 @@ export class MyApp {
   }
 
   async verifyUser() {
+
     this.appConfigProvider.verifyAuth()
       .then(() => {
         if (AppConfig.USER_PROFILE != undefined) {
-          this.rootPage = "ResultsPage"
+          this.rootPage = "ProfilePage"
           this.toast.showToast('Bem vindo novamente!');
         } else {
           this.rootPage = "LoginPage"
