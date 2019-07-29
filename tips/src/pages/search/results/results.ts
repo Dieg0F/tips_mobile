@@ -18,7 +18,7 @@ export class ResultsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public profileProvider: ProfileProvider) {
-          
+
   }
 
   starsRate(value: number) {
@@ -55,6 +55,10 @@ export class ResultsPage {
 
 
     return style;
+  }
+
+  goToDetails(profile: any) {
+    this.navCtrl.push("ProfileDetailsPage", { 'profile': profile })
   }
 
 }
