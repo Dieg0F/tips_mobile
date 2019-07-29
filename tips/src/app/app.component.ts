@@ -40,7 +40,6 @@ export class MyApp {
   }
 
   async verifyUser() {
-
     this.appConfigProvider.verifyAuth()
       .then(() => {
         if (AppConfig.USER_PROFILE != undefined) {

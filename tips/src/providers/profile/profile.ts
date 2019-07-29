@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference, fromCollectionRef, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { StorageProvider } from '../storage/storage';
 import { AppConfig } from '../../model/static/static';
 import { Profile } from '../../model/profile/profile';
@@ -37,9 +37,21 @@ export class ProfileProvider {
             .toPromise()
     }
 
-    async getProfiles() {
-        console.log('getProfile >> Get All Profile')
-        return this.db.collection<Profile>('/profile',
-            (ref: CollectionReference) => ref.orderBy('userRate', 'desc')).valueChanges();
+    async getProfiles(filter: any) {
+
+        console.log('getProfile >> Get All Profile :: Filter', filter)
+
+        return this.db.collection('profile', ref => {
+            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            if (filter.nome) { query = query.where('nome', '==', filter.nome) };
+            if (filter.cidade) { query = query.where('cidade', '==', filter.cidade) };
+            if (filter.estado) { query = query.where('estado', '==', filter.estado) };
+            if (filter.setor) { query = query.where('setor', '==', filter.setor) };
+            if (filter.areaAtuacao) { query = query.where('areaAtuacao', '==', filter.areaAtuacao) };
+            if (filter.userRate) { query = query.where('userRate', '==', filter.userRate) }
+            else { query = query.orderBy('userRate', 'desc') };
+            return query;
+        }).valueChanges()
+
     }
 }
