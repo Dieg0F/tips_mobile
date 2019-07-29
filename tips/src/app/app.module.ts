@@ -26,6 +26,9 @@ import { AppConfigProvider } from '../providers/app-config/app-config';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Camera } from '@ionic-native/camera';
 import { CameraProvider } from '../util/camera/camera';
+import { Locations } from '../providers/locations/locations';
+import { HttpService } from '../util/http/http';
+import { HttpModule } from '@angular/http';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -53,7 +56,8 @@ const config = {
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
-    FormsModule    
+    HttpModule,
+    FormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -63,17 +67,19 @@ const config = {
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthProvider,    
+    AuthProvider,
     UserProvider,
     ProfileProvider,
-    StorageProvider, 
+    StorageProvider,
     CameraProvider,
     DataProvider,
+    HttpService,
     FileChooser,
     Camera,
     Alert,
     Loading,
     Toast,
+    Locations,
     AppConfigProvider
   ]
 })
