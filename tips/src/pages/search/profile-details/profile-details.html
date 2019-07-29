@@ -1,31 +1,24 @@
-<ion-menu [content]="mycontent" type="overlay">
-  <ion-content>
-    <profile-menu></profile-menu>
-  </ion-content>
-</ion-menu>
-<ion-nav #mycontent></ion-nav>
+<!--
+  Generated template for the ProfileDetailsPage page.
 
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons>
-      <button ion-button icon-only menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons (click)="search()">
-      <button ion-button icon-only>
-        <ion-icon name="search"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+
+  <ion-navbar>
+    <ion-title>profile-details</ion-title>
+  </ion-navbar>
+
 </ion-header>
 
+
 <ion-content padding>
+
   <div class="profilePhoto" id="img_profile"></div>
   <div class="mainTitle">
-    <h1>Bem Vindo<br />{{profile.nome}}</h1>
+    <h1>{{profile.nome}}</h1>
   </div>
-
   <div class="card">
     <div class="cardTitle">
       <h2>Apresentação:</h2>

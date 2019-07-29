@@ -21,7 +21,7 @@
       <p *ngIf="profile.areaAtuacao">{{profile.areaAtuacao}}</p>
       <p *ngIf="profile.setor">{{profile.setor}}</p>
     </div>
-    <div class="cardFooter">
+    <div class="cardFooter" (click)="goToDetails(profile)">
       <div class="cardFooter">
         <h5>Ver Informações</h5>
       </div>
