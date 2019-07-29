@@ -43,7 +43,7 @@ export class MyApp {
     this.appConfigProvider.verifyAuth()
       .then(() => {
         if (AppConfig.USER_PROFILE != undefined) {
-          this.rootPage = "ProfilePage"
+          this.rootPage = "ResultsPage"
           this.toast.showToast('Bem vindo novamente!');
         } else {
           this.rootPage = "LoginPage"

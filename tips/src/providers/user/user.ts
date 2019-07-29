@@ -23,7 +23,7 @@ export class UserProvider {
     console.log('saveNewUser >> Criando um novo usuário')
     return this.db.collection('users').doc(user.uid).set(user)
       .then(async () => {
-        let profile = this.setProfile(user)  
+        let profile = this.setProfile(user)
         return this.profileProvider.saveProfile(profile)
           .then(async () => {
             AppConfig.USER_PROFILE = profile;
@@ -33,7 +33,7 @@ export class UserProvider {
 
   async getUser(userUid: string): Promise<any> {
     return this.db.collection('users').doc(userUid)
-      .get()   
+      .get()
       .toPromise()
   }
 
@@ -67,6 +67,7 @@ export class UserProvider {
       aboutMe: "",
       profilePhotoUrl: "",
       userGalery: [],
+      userRate: 0,
       geoLocation: null,
       avaliations: [],
       contracts: []
