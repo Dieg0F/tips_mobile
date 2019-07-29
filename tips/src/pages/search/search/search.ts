@@ -27,7 +27,7 @@ export class SearchPage {
   public stateSelected: any;
   public citySelected: any;
 
-  public filterOptions: FilterOptions  
+  public filterOptions: FilterOptions
 
   constructor(
     public navCtrl: NavController,
@@ -97,9 +97,8 @@ export class SearchPage {
   results(values: any) {
 
     if (values.length > 0) {
-      this.navParams.data({ 'profiles': values })
       this.toast.showToast(`Foram encontrados ${values.length} profissionais!`)
-      this.navCtrl.push("ResultsPage")
+      this.navCtrl.push("ResultsPage", { 'profiles': values })
     } else {
       this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`)
     }
