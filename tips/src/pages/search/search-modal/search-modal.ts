@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ProfileProvider } from '../../../providers/profile/profile';
+import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 import { Locations } from '../../../providers/locations/locations';
+import { ProfileProvider } from '../../../providers/profile/profile';
 import { Toast } from '../../../util/toast/toast';
 import { Loading } from '../../../util/loading/loading';
-import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
-import { ResultsPage } from '../results/results';
 
 @IonicPage()
 @Component({
-  selector: 'page-search',
-  templateUrl: 'search.html',
+  selector: 'page-search-modal',
+  templateUrl: 'search-modal.html',
 })
-export class SearchPage {
+export class SearchModalPage {
 
   public cidade = "";
   public estado = "";
@@ -38,10 +37,15 @@ export class SearchPage {
     public profileProvider: ProfileProvider) {
 
     this.filterOptions = new FilterOptions
+    this.getParams();
   }
 
   ionViewWillEnter() {
     this.getStates()
+  }
+
+  getParams() {
+    this.filterOptions = this.navParams.get('filterOptions');
   }
 
   getStates() {
@@ -96,9 +100,13 @@ export class SearchPage {
   results(values: any) {
     if (values.length > 0) {
       this.toast.showToast(`Foram encontrados ${values.length} profissionais!`)
-      this.navCtrl.push("ResultsPage", { 'profiles': values, 'filterOptions': this.filterOptions })
+      this.navCtrl.push("ResultsPage", { 'profiles': values, 'filterOptions': this.filterOptions })      
     } else {
       this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`)
     }
+  }
+
+  navigateBack() {
+    this.navCtrl.pop()
   }
 }
