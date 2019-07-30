@@ -1,0 +1,52 @@
+<ion-content padding>
+  <div class="modal" (click)="navigateBack()">
+    <div class="modal_content card">
+      <div class="cardTitle">
+        <h2>Busca</h2>
+      </div>
+      <div class="cardBody">
+        <ion-item>
+          <ion-input type="text" name="profileName" [(ngModel)]="profileName" placeholder="Nome" maxLength="60">
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Área</ion-label>
+          <ion-select [(ngModel)]="areaAtuacao">
+            <ion-option value="nes">NES</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Setor</ion-label>
+          <ion-select [(ngModel)]="setor">
+            <ion-option value="El Salvador">El Salvador</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Estado</ion-label>
+          <ion-select [(ngModel)]="stateSelected" (ionChange)="onStateSelect($event)">
+            <ion-option *ngFor="let state of states; let i of index" [value]="i">{{state.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cidade</ion-label>
+          <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect($event)" [disabled]="!stateSelected">
+            <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Avaliação</ion-label>
+          <ion-select [(ngModel)]="rating">
+            <ion-option value="5">5</ion-option>
+            <ion-option value="4">4</ion-option>
+            <ion-option value="3">3</ion-option>
+            <ion-option value="2">2</ion-option>
+            <ion-option value="1">1</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <div class="cardFooter" (click)="createFilter()">
+        <h5>Buscar</h5>
+      </div>
+    </div>
+  </div>
+</ion-content>

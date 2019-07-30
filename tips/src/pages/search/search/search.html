@@ -28,13 +28,13 @@
       </ion-item>
       <ion-item>
         <ion-label>Estado</ion-label>
-        <ion-select [(ngModel)]="stateSelected" (ionChange)="onStateSelect($event)">
+        <ion-select [(ngModel)]="stateSelected" (ionChange)="onStateSelect()">
           <ion-option *ngFor="let state of states; let i of index" [value]="i">{{state.nome}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>Cidade</ion-label>
-        <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect($event)" [disabled]="!stateSelected">
+        <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect()" [disabled]="!stateSelected">
           <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
         </ion-select>
       </ion-item>

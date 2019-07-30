@@ -63,4 +63,8 @@ export class ResultsPage {
   goToDetails(profile: any) {
     this.navCtrl.push("ProfileDetailsPage", { 'profile': profile })
   }
+
+  searchAgain() {
+    this.navCtrl.push("SearchModalPage", { 'filterOptions': this.navParams.get('filterOptions') })
+  }
 }
