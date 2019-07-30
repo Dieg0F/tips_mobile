@@ -14,6 +14,7 @@ export class ProfileDetailsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams) {
+    this.getProfile()
   }
 
   ionViewWillEnter() {

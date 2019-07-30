@@ -21,7 +21,9 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="profilePhoto" id="img_profile"></div>
+  <div class="profilePhoto" id="img_profile">
+    <img *ngIf="profile.profilePhotoUrl" src="{{profile.profilePhotoUrl}}" />
+  </div>
   <div class="mainTitle">
     <h1>Bem Vindo<br />{{profile.nome}}</h1>
   </div>
