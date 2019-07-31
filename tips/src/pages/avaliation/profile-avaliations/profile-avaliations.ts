@@ -5,6 +5,8 @@ import { AppConfig } from '../../../model/static/static';
 import { Toast } from '../../../util/toast/toast';
 import { Loading } from '../../../util/loading/loading';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
+import { Avaliation } from '../../../model/avaliation/avaliation';
+import { ProfileProvider } from '../../../providers/profile/profile';
 
 @IonicPage()
 @Component({
@@ -20,18 +22,20 @@ export class ProfileAvaliationsPage {
     public navParams: NavParams,
     public toast: Toast,
     public loading: Loading,
+    public profileProvider: ProfileProvider,
     public avaliationsProvider: AvaliationProvider) {
-    this.getAvaliations()
+    this.avaliations = new Array<Avaliation>()
+    this.getAvaliations();
   }
 
   getAvaliations() {
-    console.log(AppConfig.USER_PROFILE.uid)
     this.loading.showLoading("Buscando Avaliações...")
     this.avaliationsProvider.getAvaliationByUser(AppConfig.USER_PROFILE.uid)
       .then((res) => {
-        console.log(res)
-        this.avaliations = res;
-        this.loading.hideLoading();
+        res.subscribe((values) => {
+          this.avaliations = values;
+          this.loading.hideLoading();
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -48,5 +52,16 @@ export class ProfileAvaliationsPage {
   starsRateColor(value: number): String {
     var starsRateHelper = new StarRateHelper
     return starsRateHelper.starsRateColor(value)
+  }
+
+  goToDetails(avaliation: any) {
+
+    this.profileProvider.getProfile(avaliation.appraiserUid)
+      .then((res) => {
+        this.navCtrl.push('AvaliationDetailsPage', { 'avaliation': avaliation, 'avaliationOwner': res.data() })
+      })
+      .catch(() => {
+        this.toast.showToast("Erro ao exibir detalhes da avaliação!")
+      })
   }
 }

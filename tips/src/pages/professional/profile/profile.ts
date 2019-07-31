@@ -12,28 +12,26 @@ import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 export class ProfilePage {
 
   public profile = { ...AppConfig.USER_PROFILE }
-  private starsRateHelper: StarRateHelper
 
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
     public navParams: NavParams) {
-    this.starsRateHelper = new StarRateHelper
   }
 
   ionViewWillEnter() {
     var elm = document.getElementById('img_profile');
     elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
-
-    console.log(this.profile)
   }
 
   starsRate(value: number): Array<String> {
-    return this.starsRateHelper.starsRate(value)
+    var starsRateHelper = new StarRateHelper
+    return starsRateHelper.starsRate(value)
   }
 
   starsRateColor(value: number): String {
-    return this.starsRateHelper.starsRateColor(value)
+    var starsRateHelper = new StarRateHelper
+    return starsRateHelper.starsRateColor(value)
   }
 
   search() {

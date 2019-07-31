@@ -23,7 +23,11 @@ export class AvaliationProvider {
 
     async getAvaliationByUser(userId: string): Promise<any> {
         return this.db.collection('avaliation',
-            ref => ref.where('evaluatedUid', '==', userId))
-            .valueChanges()
+            ref => {
+                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+                if (userId) { query = query.where('evaluatedUid', '==', userId) };
+                query = query.orderBy('rate', 'desc')
+                return query;
+            }).valueChanges()
     }
 }
