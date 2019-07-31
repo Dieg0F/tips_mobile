@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Minhas Avaliações</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="avaliations.length > 1">
+    <div *ngFor="let avaliation of avaliations">
+      <h3>{{avaliation.title}}</h3>
+      <div>
+        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMaxRate); let i of index">
+          <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMaxRate)" *ngIf="i != 5"></ion-icon>
+        </div>
+      </div>
+      <p>{{avaliation.body}}</p>
+      <br>
+      <p>{{avaliation.apprisedUid}}</p>
+      <br>
+    </div>
+  </div>
+  <div *ngIf="avaliations.length <= 1">
+    <p>Zero Avaliações!! Corra atrás</p>
+  </div>
+</ion-content>

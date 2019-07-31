@@ -82,6 +82,16 @@ page-results {
   margin: $smallSpace auto;
 }
 
+.profileAvaliations {
+  margin: $smallSpace 0 $mediumSpace 0;
+  display: flow-root;
+}
+
+.profileAvaliations>div {
+  width: 50%;
+  float: left;
+}
+
 .mainTitle {
   padding: $smallSpace;
   margin-bottom: $highSpace;
@@ -499,4 +509,8 @@ page-search-modal {
       }
     }
   }
+}
+
+.clearfix {
+  clear: both;
 }

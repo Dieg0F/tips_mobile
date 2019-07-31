@@ -67,10 +67,12 @@ export class UserProvider {
       aboutMe: "",
       profilePhotoUrl: "",
       userGalery: [],
-      userRate: 0,
       geoLocation: null,
-      avaliations: [],
-      contracts: []
+      userRate: 0,
+      userMaxRate: 0,
+      userMinRate: 0,
+      contractsCount: 0,
+      avaliationsCount: 0,
     }
 
     return profile;

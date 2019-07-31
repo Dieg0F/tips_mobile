@@ -76,23 +76,20 @@
     <div class="cardTitle">
       <h2>Minhas Avaliação:</h2>
     </div>
-    <div class="cardBody rating">
+    <div class="cardBody profileAvaliations">
       <div>
         <p>Menor nota:</p>
-        <ion-icon name="star" class="bronze"></ion-icon>
-        <ion-icon name="star" class="bronze"></ion-icon>
-        <ion-icon name="star-half" class="bronze"></ion-icon>
-        <ion-icon name="md-star-outline" class="bronze"></ion-icon>
-        <ion-icon name="md-star-outline" class="bronze"></ion-icon>
+        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMinRate); let i of index">
+          <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMinRate)" *ngIf="i != 5"></ion-icon>
+        </div>
       </div>
       <div>
         <p>Maior nota:</p>
-        <ion-icon name="star" class="gold"></ion-icon>
-        <ion-icon name="star" class="gold"></ion-icon>
-        <ion-icon name="star" class="gold"></ion-icon>
-        <ion-icon name="star" class="gold"></ion-icon>
-        <ion-icon name="star" class="gold"></ion-icon>
+        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMaxRate); let i of index">
+          <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMaxRate)" *ngIf="i != 5"></ion-icon>
+        </div>
       </div>
+      <div class="clearfix"></div>
     </div>
     <div class="cardFooter" (click)="rating()">
       <h5>Ver Avaliações</h5>

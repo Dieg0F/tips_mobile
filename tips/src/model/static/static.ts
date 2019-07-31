@@ -20,10 +20,12 @@ export class AppConfig {
         aboutMe: "",
         profilePhotoUrl: "",
         userGalery: [],
-        geoLocation: undefined,
         userRate: 0,
-        avaliations: [],
-        contracts: []
+        userMaxRate: 0,
+        userMinRate: 0,
+        contractsCount: 0,
+        avaliationsCount: 0,
+        geoLocation: undefined,
     }
 
     public static HAS_USER: boolean = false

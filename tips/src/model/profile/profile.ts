@@ -1,6 +1,4 @@
 import { GeoLocation } from "../geoLocation/geoLocation";
-import { Avaliation } from "../Avaliation/avaliation";
-import { Contract } from "../contract/contract";
 
 /**
  * Classe para perfis, o memso obj será usado para empresas e autonomos, pois assim fica tudo em uma tabela só
@@ -26,7 +24,9 @@ export interface Profile {
     aboutMe: string;
     profilePhotoUrl: string;
     userGalery: Array<string>;
-    userRate: Number;
-    avaliations: Array<Avaliation>;
-    contracts: Array<Contract>;
+    userRate: number;
+    userMinRate: number;
+    userMaxRate: number;
+    contractsCount: number;
+    avaliationsCount: number;
 }
