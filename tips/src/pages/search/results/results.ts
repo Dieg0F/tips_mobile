@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProfileProvider } from '../../../providers/profile/profile';
-import { Observable } from 'rxjs';
-import { Profile } from '../../../model/profile/profile';
+import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 
 
 @IonicPage()
@@ -13,51 +12,29 @@ import { Profile } from '../../../model/profile/profile';
 export class ResultsPage {
 
   private profiles = []
+  private starsRateHelper: StarRateHelper
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public profileProvider: ProfileProvider) { }
+    public profileProvider: ProfileProvider) {
+    this.starsRateHelper = new StarRateHelper
+  }
 
   ionViewWillEnter() {
     this.getParams()
   }
 
+  starsRate(value: number): Array<String> {
+    return this.starsRateHelper.starsRate(value)
+  }
+
+  starsRateColor(value: number): String {
+    return this.starsRateHelper.starsRateColor(value)
+  }
+
   getParams() {
     this.profiles = this.navParams.get('profiles')
-  }
-
-  starsRate(value: number) {
-    var array = new Array<String>()
-    var style = ""
-
-    for (let i = 1; i <= 5; i++) {
-      if (i <= value) {
-        array.push('star')
-      } else {
-        array.push('star-outline')
-      }
-    }
-
-    array.push(style)
-
-    return array
-  }
-
-  starsRateColor(value: number) {
-    var style = ""
-
-    if (value == 0) {
-      style = "grey"
-    } else if (value > 0 && value < 2) {
-      style = "bronze"
-    } else if (value >= 2 && value < 4) {
-      style = "silver"
-    } else if (value >= 4) {
-      style = "gold"
-    }
-
-    return style;
   }
 
   goToDetails(profile: any) {

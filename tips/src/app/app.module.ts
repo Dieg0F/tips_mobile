@@ -29,6 +29,7 @@ import { CameraProvider } from '../util/camera/camera';
 import { Locations } from '../providers/locations/locations';
 import { HttpService } from '../util/http/http';
 import { HttpModule } from '@angular/http';
+import { AvaliationProvider } from '../providers/avaliation/avaliation';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -68,6 +69,7 @@ const config = {
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
+    AvaliationProvider,
     UserProvider,
     ProfileProvider,
     StorageProvider,

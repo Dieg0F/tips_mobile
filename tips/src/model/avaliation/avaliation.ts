@@ -1,9 +1,9 @@
-export class Avaliation {
-    avaliationId: string;
+export interface Avaliation {
+    uId: string;
     appraiserUid: string;
     evaluatedUid: string;
     title: string;
     body: string;
     rate: number;
-    date: string;    
+    date: string;
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
+import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 
 @IonicPage()
 @Component({
@@ -10,20 +11,27 @@ import { ProfileProvider } from '../../../providers/profile/profile';
 })
 export class ProfilePage {
 
-  public profile = { ...AppConfig.USER_PROFILE }  
+  public profile = { ...AppConfig.USER_PROFILE }
 
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
-    public navParams: NavParams) { }
+    public navParams: NavParams) {
+  }
 
   ionViewWillEnter() {
     var elm = document.getElementById('img_profile');
     elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
   }
 
-  menu() {
-    //TODO Menu popup
+  starsRate(value: number): Array<String> {
+    var starsRateHelper = new StarRateHelper
+    return starsRateHelper.starsRate(value)
+  }
+
+  starsRateColor(value: number): String {
+    var starsRateHelper = new StarRateHelper
+    return starsRateHelper.starsRateColor(value)
   }
 
   search() {
@@ -31,10 +39,10 @@ export class ProfilePage {
   }
 
   ranking() {
-    this.navCtrl.push("RankingPage");
+    this.navCtrl.push("ProfileAvaliationsPage");
   }
 
   rating() {
-    this.navCtrl.push("RatingPage");
+    this.navCtrl.push("ProfileAvaliationsPage");
   }
 }

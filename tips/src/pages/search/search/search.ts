@@ -82,10 +82,10 @@ export class SearchPage {
     this.filterOptions.profileSector = this.setor
     this.filterOptions.profileArea = this.areaAtuacao
 
-    this.getProfiles()
+    this.requestProfiles()
   }
 
-  getProfiles() {
+  requestProfiles() {
     this.profileProvider.getProfiles(this.filterOptions).then((res) => {
       res.subscribe((values) => {
         this.results(values)
