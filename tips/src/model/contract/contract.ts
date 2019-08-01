@@ -3,7 +3,10 @@
  * Pode ocorrer mudanças.
  */
 export interface Contract {
-    contractId: string; 
+    uId: string;
+    name: string;
+    description: string;
+    userUid: string; //Contratante
     hiredUid: string; //Contratado
-    hiresUid: string; //Contratante
+    date: string;
 }

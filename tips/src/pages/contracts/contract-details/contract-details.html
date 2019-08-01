@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Detalhes do contrato</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div>
+        <div><img src="{{userProfile.profilePhotoUrl}}" /></div>
+        <div>
+            <ion-icon name="sync"></ion-icon>
+        </div>
+        <div><img src="{{hiredProfile.profilePhotoUrl}}" /></div>
+    </div>
+    <div>
+        <h3>{{contract.name}}</h3>
+        <p>{{contract.description}}</p>
+    </div>
+    <div>
+        <p>Contratado os serviços de
+            <br /> {{hiredProfile.nome}}
+        </p>
+        <br />
+        <br />
+        <div>
+            <h3>{{hiredProfile.nome}}</h3>
+            <p>{{hiredProfile.email}}</p>
+        </div>
+        <div>
+            <h5>Contato:</h5>
+            <p>{{hiredProfile.telefone}}</p>
+            <p>{{hiredProfile.rua}} - {{hiredProfile.bairro}}
+                <br> {{hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
+        </div>
+    </div>
+</ion-content>

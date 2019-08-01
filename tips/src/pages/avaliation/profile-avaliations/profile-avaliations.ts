@@ -29,8 +29,13 @@ export class ProfileAvaliationsPage {
   }
 
   getAvaliations() {
+    var ownerAvaliationsUid = ""
+    if (!this.navParams.get('ownerAvaliationsUid')) {
+      ownerAvaliationsUid = AppConfig.USER_PROFILE.uid
+    } 
+
     this.loading.showLoading("Buscando Avaliações...")
-    this.avaliationsProvider.getAvaliationByUser(AppConfig.USER_PROFILE.uid)
+    this.avaliationsProvider.getAvaliationByUser(ownerAvaliationsUid)
       .then((res) => {
         res.subscribe((values) => {
           this.avaliations = values;

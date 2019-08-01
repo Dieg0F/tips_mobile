@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Meus Contratos</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="contracts.length >= 1">
+        <div *ngFor="let contract of contracts; let i of index;" (click)="goToDetails(contract)">
+            <p>{{i}} - {{contract.name}}</p>
+            <br />
+        </div>
+    </div>
+    <div *ngIf="contracts.length == 0">
+        <p>Você ainda não fechou contrato com outros profissionais!</p>
+    </div>
+</ion-content>

@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Novo Contrato</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <div *ngIf="!contractConfirmed">
+        <div>
+            <div><img src="{{userProfile.profilePhotoUrl}}" /></div>
+            <div>
+                <ion-icon name="sync"></ion-icon>
+            </div>
+            <div><img src="{{profileToContract.profilePhotoUrl}}" /></div>
+        </div>
+        <div>
+            <p>Deseja Contratar
+                <br /> os serviços de
+                <br /> {{profileToContract.nome}}
+            </p>
+            <br />
+            <br />
+            <div class="form_field">
+                <h3>Nome: </h3>
+                <ion-item>
+                    <ion-input [(ngModel)]="contractName" type="text" name="areaAtuacao" maxLength="30"></ion-input>
+                </ion-item>
+            </div>
+            <div class="form_field">
+                <h3>Descrição: </h3>
+                <ion-item>
+                    <ion-textarea [(ngModel)]="contractDesctiption" name="aboutMe" maxLength="300"></ion-textarea>
+                </ion-item>
+            </div>
+            <button ion-button (click)="makeContract()">Contratar</button>
+        </div>
+    </div>
+    <div *ngIf="contractConfirmed">
+        <div><img src="{{profileToContract.profilePhotoUrl}}" /></div>
+        <div>
+            <h3>{{profileToContract.nome}}</h3>
+            <p>{{profileToContract.email}}</p>
+        </div>
+        <div>
+            <h5>Contato:</h5>
+            <p>{{profileToContract.telefone}}</p>
+            <p>{{profileToContract.rua}} - {{profileToContract.bairro}}
+                <br> {{profileToContract.cidade}} - {{profileToContract.estado}}</p>
+        </div>
+    </div>
+</ion-content>
