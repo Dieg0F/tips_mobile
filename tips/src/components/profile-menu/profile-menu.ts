@@ -14,7 +14,7 @@ import { AppConfig } from '../../model/static/static';
 })
 export class ProfileMenuComponent implements OnInit {
 
-  private profile = AppConfig.USER_PROFILE
+  public profile = { ...AppConfig.USER_PROFILE }
 
   constructor(
     public afAuth: AuthProvider,
@@ -54,5 +54,13 @@ export class ProfileMenuComponent implements OnInit {
   ngOnInit() {
     var elm = document.getElementById('menu_img_profile');
     elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
+  }
+
+  rating() {
+    this.navCtrl.push("ProfileAvaliationsPage");
+  }
+
+  contracts() {
+    this.navCtrl.push("UserContractsPage");
   }
 }

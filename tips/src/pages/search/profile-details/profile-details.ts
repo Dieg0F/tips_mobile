@@ -35,4 +35,12 @@ export class ProfileDetailsPage {
   starsRateColor(value: number): String {
     return this.starsRateHelper.starsRateColor(value)
   }
+
+  rating() {
+    this.navCtrl.push("ProfileAvaliationsPage", { 'ownerAvaliationsUid': this.profile.uid });
+  }
+
+  makeContract() {
+    this.navCtrl.push("NewContractPage", { 'profileToContract': this.profile });
+  }
 }
