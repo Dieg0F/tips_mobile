@@ -5,6 +5,7 @@ import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 import { Loading } from '../../../util/loading/loading';
 import { Avaliation } from '../../../model/avaliation/avaliation';
 import { Profile } from '../../../model/profile/profile';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -29,8 +30,8 @@ export class AvaliationDetailsPage {
   }
 
   async getAvaliation() {
-    this.avaliation = this.navParams.get('avaliation');
-    this.avaliationOwner = this.navParams.get('avaliationOwner');
+    this.avaliation = this.navParams.get(Constants.AVALIATION_DETAILS);
+    this.avaliationOwner = this.navParams.get(Constants.AVALIATION_DETAILS_OWNER);
   }
 
   starsRate(value: number): Array<String> {

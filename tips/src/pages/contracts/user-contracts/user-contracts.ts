@@ -28,13 +28,8 @@ export class UserContractsPage {
   }
 
   getContracts() {
-    var ownerContractsUid = ""
-    if (!this.navParams.get('ownerAvaliationsUid')) {
-      ownerContractsUid = AppConfig.USER_PROFILE.uid
-    }
-
     this.loading.showLoading("Buscando Contratos...")
-    this.contractProvider.getContractsByUser(ownerContractsUid)
+    this.contractProvider.getContractsByUser(AppConfig.USER_PROFILE.uid)
       .then((res) => {
         res.subscribe((values) => {
           this.contracts = values;

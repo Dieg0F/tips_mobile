@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { Contract } from '../../../model/contract/contract';
 import { UUID } from 'angular2-uuid';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -34,7 +35,7 @@ export class NewContractPage {
 
   getProfileToContract() {
     this.userProfile = { ...AppConfig.USER_PROFILE }
-    this.profileToContract = this.navParams.get('profileToContract')
+    this.profileToContract = this.navParams.get(Constants.CONTRACT_PROFILE)
   }
 
   makeContract() {

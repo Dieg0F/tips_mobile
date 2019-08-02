@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { AngularFirestore, CollectionReference, fromCollectionRef, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { StorageProvider } from '../storage/storage';
 import { AppConfig } from '../../model/static/static';
-import { Profile } from '../../model/profile/profile';
-import { Observable } from 'rxjs';
+
 import { FilterOptions } from '../../model/FilterOptions/FilterOptions';
+import { Constants } from '../../util/constants/constants';
 
 @Injectable()
 export class ProfileProvider {
@@ -18,14 +18,14 @@ export class ProfileProvider {
 
     async saveProfile(profile: any): Promise<void> {
         console.log('saveProfile >> Saving Profile')
-        this.db.collection('profile').doc(profile.uid).set(profile)
+        this.db.collection(Constants.PROFILES_COLLECTION).doc(profile.uid).set(profile)
             .then(async () => {
                 return this.saveProfileOnStorage(profile)
             })
     }
 
     async saveProfileOnStorage(profile: any): Promise<void> {
-        return this.storage.setItem('userProfile', profile)
+        return this.storage.setItem(Constants.USER_PROFILE_LOCAL_DB, profile)
             .then(() => {
                 AppConfig.USER_PROFILE = profile;
             });
@@ -33,7 +33,7 @@ export class ProfileProvider {
 
     async getProfile(userUid: string): Promise<any> {
         console.log('getProfile >> Get Profile')
-        return this.db.collection('profile').doc(userUid)
+        return this.db.collection(Constants.PROFILES_COLLECTION).doc(userUid)
             .get()
             .toPromise()
     }
@@ -42,7 +42,7 @@ export class ProfileProvider {
 
         console.log('getProfile >> Get All Profile :: Filter', filter)
 
-        return this.db.collection('profile', ref => {
+        return this.db.collection(Constants.PROFILES_COLLECTION, ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
             if (filter.profileName) { query = query.where('nome', '==', filter.profileName) };
             if (filter.profileState) { query = query.where('estado', '==', filter.profileState) };

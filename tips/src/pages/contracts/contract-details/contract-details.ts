@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Contract } from '../../../model/contract/contract';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -30,8 +31,8 @@ export class ContractDetailsPage {
   }
 
   async getAvaliation() {
-    this.contract = this.navParams.get('contract');
-    this.hiredProfile = this.navParams.get('hiredProfile');
+    this.contract = this.navParams.get(Constants.CONTRACT_DETAILS);
+    this.hiredProfile = this.navParams.get(Constants.CONTRACT_DETAILS_HIRED);
   }
 
 }
