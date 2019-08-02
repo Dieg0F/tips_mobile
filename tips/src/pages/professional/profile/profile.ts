@@ -34,6 +34,10 @@ export class ProfilePage {
     return starsRateHelper.starsRateColor(value)
   }
 
+  contact() {
+    this.navCtrl.push("ContactPage", { 'userProfile': this.profile });
+  }
+
   search() {
     this.navCtrl.push("SearchPage");
   }
