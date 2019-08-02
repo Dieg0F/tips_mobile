@@ -57,7 +57,7 @@ export class ProfileMenuComponent implements OnInit {
   }
 
   rating() {
-    this.navCtrl.push("ProfileAvaliationsPage");
+    this.navCtrl.push("UserAvaliationsPage");
   }
 
   contracts() {

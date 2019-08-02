@@ -38,11 +38,7 @@ export class ProfilePage {
     this.navCtrl.push("SearchPage");
   }
 
-  ranking() {
-    this.navCtrl.push("ProfileAvaliationsPage");
-  }
-
   rating() {
-    this.navCtrl.push("ProfileAvaliationsPage");
+    this.navCtrl.push("UserAvaliationsPage");
   }
 }
