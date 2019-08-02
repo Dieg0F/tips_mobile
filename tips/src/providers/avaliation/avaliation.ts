@@ -22,11 +22,12 @@ export class AvaliationProvider {
             .toPromise()
     }
 
-    async getAvaliationByUser(userId: string): Promise<any> {
+    async getAvaliationByUser(userId: string = null, appraiserUid: string = null): Promise<any> {
         return this.db.collection(Constants.AVALIATIONS_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (userId) { query = query.where('evaluatedUid', '==', userId) };
+                if (appraiserUid) { query = query.where('appraiserUid', '==', appraiserUid) };
                 query = query.orderBy('rate', 'desc')
                 return query;
             }).valueChanges()

@@ -5,6 +5,15 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-item>
+    <ion-select [(ngModel)]="avaliationType" (ionChange)="onFilterChange()">
+      <ion-option value="Todos">Todas as avaliações</ion-option>
+      <ion-option value="Avaliações feitas">Avaliações feitas</ion-option>
+      <ion-option value="Avaliações recebidas">Avaliações recebidas</ion-option>
+    </ion-select>
+  </ion-item>
+  <br />
+  <br />
   <div *ngIf="avaliations.length > 1">
     <div *ngFor="let avaliation of avaliations">
       <h3>{{avaliation.title}}</h3>
