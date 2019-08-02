@@ -1,17 +1,29 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Meus Contratos</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Meus Contratos</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-item>
+    <ion-label>Filtra Contratos</ion-label>
+    <ion-select [(ngModel)]="contractType" (ionChange)="onFilterChange()">
+      <ion-option value="Todos">Todos</ion-option>
+      <ion-option value="Contratos Feitos">Contratos Feitos</ion-option>
+      <ion-option value="Contratos Recebidos">Contratos Recebidos</ion-option>
+    </ion-select>
+  </ion-item>
+  <br />
+  <br />
+  <div>
     <div *ngIf="contracts.length >= 1">
-        <div *ngFor="let contract of contracts; let i of index;" (click)="goToDetails(contract)">
-            <p>{{i}} - {{contract.name}}</p>
-            <br />
-        </div>
+      <div *ngFor="let contract of contracts; let i of index;" (click)="goToDetails(contract)">
+        <p>{{i}} - {{contract.name}}</p>
+        <br />
+      </div>
     </div>
     <div *ngIf="contracts.length == 0">
-        <p>Você ainda não fechou contrato com outros profissionais!</p>
+      <p>Você ainda não fechou contrato com outros profissionais!</p>
     </div>
+  </div>
 </ion-content>

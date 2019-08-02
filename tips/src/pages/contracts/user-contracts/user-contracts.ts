@@ -14,7 +14,10 @@ import { AppConfig } from '../../../model/static/static';
 })
 export class UserContractsPage {
 
-  public contracts = []
+  public contractType = "Todos"
+  public contracts: Array<Contract>
+  public myReceivedContracts: Array<Contract>
+  public myDoneContracts: Array<Contract>
 
   constructor(
     public navCtrl: NavController,
@@ -23,17 +26,18 @@ export class UserContractsPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public contractProvider: ContractProvider) {
-    this.contracts = new Array<Contract>()
-    this.getContracts();
+    this.contracts = new Array<Contract>();
+    this.myDoneContracts = new Array<Contract>();
+    this.myReceivedContracts = new Array<Contract>();
+    this.getMyContracts();
   }
 
-  getContracts() {
+  getMyContracts() {
     this.loading.showLoading("Buscando Contratos...")
     this.contractProvider.getContractsByUser(AppConfig.USER_PROFILE.uid)
       .then((res) => {
         res.subscribe((values) => {
-          this.contracts = values;
-          this.loading.hideLoading();
+          this.splitContracts(values);
         })
       })
       .catch((err) => {
@@ -41,6 +45,19 @@ export class UserContractsPage {
         this.loading.hideLoading();
         this.toast.showToast("Erro ao buscar contratos!")
       })
+  }
+
+  private splitContracts(values: any) {
+    values.forEach(element => {
+      if (element.userUid == AppConfig.USER_PROFILE.uid) {
+        this.myDoneContracts.push(element);
+      }
+      else if (element.hiredUid == AppConfig.USER_PROFILE.uid) {
+        this.myReceivedContracts.push(element);
+      }
+    });
+    this.onFilterChange();
+    this.loading.hideLoading();
   }
 
   goToDetails(contract: any) {
@@ -52,4 +69,20 @@ export class UserContractsPage {
         this.toast.showToast("Erro ao exibir detalhes do contrato!")
       })
   }
+
+  onFilterChange() {
+    this.contracts = new Array<Contract>()
+    switch (this.contractType) {
+      case "Contratos Feitos":
+        this.contracts = this.myDoneContracts
+        break;
+      case "Contratos Recebidos":
+        this.contracts = this.myReceivedContracts
+        break;
+      default:
+        this.contracts = this.myReceivedContracts
+        break;
+    }
+  }
+
 }
