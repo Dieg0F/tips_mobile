@@ -69,6 +69,7 @@ export class UserProvider {
       profilePhotoUrl: "",
       userGalery: [],
       geoLocation: null,
+      hideMyProfile: false,
       userRate: 0,
       userMaxRate: 0,
       userMinRate: 0,

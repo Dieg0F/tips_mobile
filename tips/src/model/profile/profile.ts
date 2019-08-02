@@ -23,6 +23,7 @@ export interface Profile {
     setor?: string;
     aboutMe: string;
     profilePhotoUrl: string;
+    hideMyProfile: boolean;
     userGalery: Array<string>;
     userRate: number;
     userMinRate: number;
