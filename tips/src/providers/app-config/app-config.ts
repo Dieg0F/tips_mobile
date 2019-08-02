@@ -5,6 +5,7 @@ import { UserProvider } from '../user/user';
 import { ProfileProvider } from '../profile/profile';
 import { Toast } from '../../util/toast/toast';
 import { DataProvider } from '../data/data';
+import { Constants } from '../../util/constants/constants';
 
 @Injectable()
 export class AppConfigProvider {
@@ -24,7 +25,7 @@ export class AppConfigProvider {
    */
   async verifyAuth(): Promise<any> {
     console.log("verifyAuth")
-    return this.storage.getItem('userProfile')
+    return this.storage.getItem(Constants.USER_PROFILE_LOCAL_DB)
       .then(async (userProfile) => {
         AppConfig.USER_PROFILE = JSON.parse(userProfile)
         console.log("verifyAuth", AppConfig.USER_PROFILE)
@@ -43,7 +44,7 @@ export class AppConfigProvider {
   appLogin(userAuth: any) {
     let userProfileResponse: any;
 
-    this.storage.setItem('userAuth', userAuth)
+    this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userAuth)
       .then(async () => {
         return this.profileProvider.getProfile(userAuth.uid)
           .then(async (userProfile) => {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
+import { Constants } from '../../../util/constants/constants';
 
 
 @IonicPage()
@@ -34,7 +35,7 @@ export class ResultsPage {
   }
 
   getParams() {
-    this.profiles = this.navParams.get('profiles')
+    this.profiles = this.navParams.get(Constants.PROFILE_LIST)
   }
 
   goToDetails(profile: any) {
