@@ -22,11 +22,12 @@ export class ContractProvider {
             .toPromise()
     }
 
-    async getContractsByUser(userId: string): Promise<any> {
+    async getContractsByUser(userId: string = null, hiredUid: string = null): Promise<any> {
         return this.db.collection(Constants.CONTRACTS_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (userId) { query = query.where('userUid', '==', userId) };
+                if (hiredUid) { query = query.where('hiredUid', '==', hiredUid) };
                 query = query.orderBy('date', 'desc')
                 return query;
             }).valueChanges()

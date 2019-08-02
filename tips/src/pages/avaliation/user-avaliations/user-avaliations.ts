@@ -19,9 +19,11 @@ export class UserAvaliationsPage {
   public receivedAvaliations: Array<Avaliation> = new Array<Avaliation>();
   public doneAvaliations: Array<Avaliation> = new Array<Avaliation>();
 
-  public avaliationType = "Todos"
+  public avaliationType = "Todas as avaliações";
 
-  public ownerAvaliationsUid = ""
+  public ownerAvaliationsUid = "";
+
+  public requestingAvaliations = true;
 
   constructor(
     public navCtrl: NavController,
@@ -95,11 +97,15 @@ export class UserAvaliationsPage {
   }
 
   private onSuccess() {
+    this.requestingAvaliations = false
     this.loading.hideLoading();
-    this.toast.showToast("Exibindo " + this.avaliations.length.toString() + " avaliações!");
+    if (this.avaliations.length > 1) {
+      this.toast.showToast("Exibindo " + this.avaliations.length.toString() + " avaliações!");
+    }
   }
 
   private onError() {
+    this.requestingAvaliations = false
     this.loading.hideLoading();
     this.toast.showToast("Erro ao buscar avaliações!");
   }
@@ -126,6 +132,7 @@ export class UserAvaliationsPage {
   }
 
   onFilterChange() {
+    this.requestingAvaliations = true
     this.avaliations = new Array<Avaliation>()
     switch (this.avaliationType) {
       case "Avaliações feitas":

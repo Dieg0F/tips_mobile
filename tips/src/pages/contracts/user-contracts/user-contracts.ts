@@ -14,7 +14,13 @@ import { AppConfig } from '../../../model/static/static';
 })
 export class UserContractsPage {
 
-  public contracts = []
+  public contracts: Array<Contract> = new Array<Contract>();
+
+  public userId = AppConfig.USER_PROFILE.uid;
+
+  public contractType = "Todos os contratos";
+
+  public requestingContracts = true;
 
   constructor(
     public navCtrl: NavController,
@@ -23,17 +29,56 @@ export class UserContractsPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public contractProvider: ContractProvider) {
-    this.contracts = new Array<Contract>()
-    this.getContracts();
+    this.onFilterChange();
   }
 
-  getContracts() {
-    this.loading.showLoading("Buscando Contratos...")
-    this.contractProvider.getContractsByUser(AppConfig.USER_PROFILE.uid)
+  getReceivedContracts() {
+    this.loading.showLoading("Buscando contratos...")
+    this.contractProvider.getContractsByUser(this.userId, null)
       .then((res) => {
         res.subscribe((values) => {
           this.contracts = values;
-          this.loading.hideLoading();
+          this.onSuccess();
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+        this.onError()
+      })
+  }
+
+  getDoneContracts() {
+    this.loading.showLoading("Buscando contratos...")
+    this.contractProvider.getContractsByUser(null, this.userId)
+      .then((res) => {
+        res.subscribe((values) => {
+          this.contracts = values;
+          this.onSuccess();
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+        this.onError();
+      })
+  }
+
+  getAllContracts() {
+    this.loading.showLoading("Buscando contratos...")
+    this.contractProvider.getContractsByUser(this.userId, null)
+      .then((received) => {
+        received.subscribe((receivedContracts) => {
+          return this.contractProvider.getContractsByUser(null, this.userId)
+            .then((done) => {
+              done.subscribe((doneAvaliations) => {
+                doneAvaliations.forEach(doneAvaliation => {
+                  this.contracts.push(doneAvaliation)
+                });
+                receivedContracts.forEach(receivedContract => {
+                  this.contracts.push(receivedContract)
+                });
+                this.onSuccess();
+              })
+            })
         })
       })
       .catch((err) => {
@@ -41,6 +86,19 @@ export class UserContractsPage {
         this.loading.hideLoading();
         this.toast.showToast("Erro ao buscar contratos!")
       })
+  }
+
+  private onSuccess() {
+    this.requestingContracts = false
+    this.loading.hideLoading();
+    if (this.contracts.length > 1) {
+      this.toast.showToast("Exibindo " + this.contracts.length.toString() + " contratos!");
+    }
+  }
+
+  private onError() {
+    this.loading.hideLoading();
+    this.toast.showToast("Erro ao buscar avaliações!");
   }
 
   goToDetails(contract: any) {
@@ -51,5 +109,21 @@ export class UserContractsPage {
       .catch(() => {
         this.toast.showToast("Erro ao exibir detalhes do contrato!")
       })
+  }
+
+  onFilterChange() {
+    this.requestingContracts = true
+    this.contracts = new Array<Contract>()
+    switch (this.contractType) {
+      case "Contratos feitos":
+        this.getDoneContracts();
+        break;
+      case "Contratos recebidos":
+        this.getReceivedContracts();
+        break;
+      default:
+        this.getAllContracts();
+        break;
+    }
   }
 }
