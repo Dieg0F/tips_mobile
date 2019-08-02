@@ -44,6 +44,7 @@ export class ProfileProvider {
 
         return this.db.collection(Constants.PROFILES_COLLECTION, ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            query = query.where('hideMyProfile', '==', true)
             if (filter.profileName) { query = query.where('nome', '==', filter.profileName) };
             if (filter.profileState) { query = query.where('estado', '==', filter.profileState) };
             if (filter.profileCity) { query = query.where('cidade', '==', filter.profileCity) };

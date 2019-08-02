@@ -20,6 +20,7 @@ export class AppConfig {
         aboutMe: "",
         profilePhotoUrl: "",
         userGalery: [],
+        hideMyProfile: false,
         userRate: 0,
         userMaxRate: 0,
         userMinRate: 0,
