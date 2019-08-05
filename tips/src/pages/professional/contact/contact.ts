@@ -54,30 +54,4 @@ export class ContactPage {
       animation: google.maps.Animation.DROP, // BOUNCE
     });
   }
-
-  route() {
-
-    const request = {
-      origin: new google.maps.LatLng(-22.2477317, -45.9757412),
-      destination: new google.maps.LatLng(-22.2575207, -45.6968707),
-      travelMode: 'DRIVING',
-      unitSystem: google.maps.UnitSystem.IMPERIAL
-    };
-
-    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    var showdirections = new google.maps.DirectionsRenderer(map)
-
-    var mapOptions = {
-      zoom: 1,
-      center: "Brazil",
-      disableDefaultUI: true
-    }
-
-    this.directionsService.route(request, function (result, status) {
-      if (status == 'OK') {
-        console.log("Success!!")
-        showdirections.setDirections(result);
-      }
-    });
-  }
 }
