@@ -26,4 +26,6 @@ export class Constants {
     static CONTRACT_PROFILE = 'profileToContract';
 
     static PROFILE_LIST = 'profiles';
+
+    static CONTACT_PROFILE = 'userProfile';
 }
