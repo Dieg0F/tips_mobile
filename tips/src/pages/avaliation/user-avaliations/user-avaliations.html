@@ -7,7 +7,7 @@
 <ion-content padding>
   <ion-item>
     <ion-select [(ngModel)]="avaliationType" (ionChange)="onFilterChange()">
-      <ion-option value="Todos">Todas as avaliações</ion-option>
+      <ion-option value="Todas as avaliações">Todas as avaliações</ion-option>
       <ion-option value="Avaliações feitas">Avaliações feitas</ion-option>
       <ion-option value="Avaliações recebidas">Avaliações recebidas</ion-option>
     </ion-select>
@@ -30,7 +30,17 @@
       <br>
     </div>
   </div>
-  <div *ngIf="avaliations.length <= 1">
-    <p>Zero Avaliações!! Corra atrás</p>
+  <div *ngIf="!requestingAvaliations">
+    <div *ngIf="avaliations.length <= 1">
+      <div *ngIf="avaliationType == 'Todas as avaliações'">
+        <p>Você não tem avaliações!</p>
+      </div>
+      <div *ngIf="avaliationType == 'Avaliações feitas'">
+        <p>Você não avaliou profissionais ainda!</p>
+      </div>
+      <div *ngIf="avaliationType == 'Avaliações recebidas'">
+        <p>Você não foi avaliado por outros usuários!</p>
+      </div>
+    </div>
   </div>
 </ion-content>
