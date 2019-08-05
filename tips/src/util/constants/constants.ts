@@ -28,4 +28,7 @@ export class Constants {
     static PROFILE_LIST = 'profiles';
 
     static CONTACT_PROFILE = 'userProfile';
+
+
+    static MAPS_API_KEY = "AIzaSyCpM3KFjfMGJsbUxrcbr4ax1Rnj3lOdfjs"    
 }

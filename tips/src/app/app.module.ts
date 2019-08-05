@@ -32,6 +32,8 @@ import { HttpService } from '../util/http/http';
 import { HttpModule } from '@angular/http';
 import { AvaliationProvider } from '../providers/avaliation/avaliation';
 
+import { Geolocation } from '@ionic-native/geolocation'
+
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
   authDomain: "tips-app-418.firebaseapp.com",
@@ -79,6 +81,7 @@ const config = {
     DataProvider,
     HttpService,
     FileChooser,
+    Geolocation,
     Camera,
     Alert,
     Loading,
