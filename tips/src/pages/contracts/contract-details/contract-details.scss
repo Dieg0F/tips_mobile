@@ -1,3 +1,106 @@
 page-contract-details {
+  ion-title {
+    margin-left: 0px !important;
+    margin-top: 3px;
+  }
+
+  .usersPhotos {
+    width: 264px;
+    height: auto;
+    margin: $mediumSpace auto;
+
+    .userProfilePhoto {
+      margin: $mediumSpace;
+    }
+
+    .hiredProfilePhoto {
+      margin: $mediumSpace;
+    }
+
+    .userProfilePhoto,
+    .hiredProfilePhoto {
+      width: 100px;
+      height: 100px;
+      float: left;
+      z-index: 2 !important;
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    .syncIcon {
+      width: 45px;
+      height: 45px;
+      position: absolute;
+      top: 74px;
+      right: 158px;
+      background-color: $primaryColor;
+      border-radius: 100%;
+      text-align: center !important;
+      z-index: 3 !important;
+      -webkit-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+      -moz-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+
+      ion-icon {
+        font-size: 18px !important;
+        color: $lightTextColor;
+        line-height: 45px !important;
+        display: block !important;
+      }
+    }
+  }
+
+  .contract {
+    padding: $largeSpace 0px;
+
+    .cardTitle {
+      font-size: 23px;
+    }
+
+    .cardTitle,
+    .cardBody p {
+      opacity: 0.5;
+      text-align: center !important;
+    }
+
+    .cardBody {
+      margin-bottom: $largeSpace;      
+    }    
+  }
+
+  .contractMainText {
+    text-align: center;
+
+    p {
+      color: $darkTextColor;
+      font-size: $cardBodySize;
+      line-height: cardBodyLineHeight;
+      opacity: 0.5;
+      margin: $largeSpace 0;
+
+      b {
+        display: block;
+        line-height: 45px;
+        font-size: 22px;
+      }
+    }
+  }
+
+  .contactWithContract {
+    text-align: center;
+    padding: 0px $mediumSpace;
+
+    p {
+      color: $darkTextColor;
+      font-size: 14px;
+      line-height: cardBodyLineHeight;
+      opacity: 0.5;
+      margin: $smallSpace 0;
+    }
+
+  }
 
 }
