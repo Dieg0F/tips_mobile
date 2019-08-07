@@ -43,4 +43,8 @@ export class ProfileDetailsPage {
   makeContract() {
     this.navCtrl.push("NewContractPage", { 'profileToContract': this.profile });
   }
+
+  contact() {
+    this.navCtrl.push("ContactPage", { 'userProfile': this.profile });
+  }
 }
