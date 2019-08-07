@@ -22,6 +22,8 @@ export class UserContractsPage {
 
   public requestingContracts = true;
 
+  private subscription: any
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -29,6 +31,10 @@ export class UserContractsPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public contractProvider: ContractProvider) {
+
+  }
+
+  ionViewWillEnter() {
     this.onFilterChange();
   }
 
@@ -36,7 +42,9 @@ export class UserContractsPage {
     this.loading.showLoading("Buscando contratos...")
     this.contractProvider.getContractsByUser(this.userId, null)
       .then((res) => {
-        res.subscribe((values) => {
+        this.subscription = res.subscribe((values) => {
+          this.contracts = new Array<Contract>()
+          console.log("getReceivedContracts", this.contracts)
           this.contracts = values;
           this.onSuccess();
         })
@@ -51,7 +59,9 @@ export class UserContractsPage {
     this.loading.showLoading("Buscando contratos...")
     this.contractProvider.getContractsByUser(null, this.userId)
       .then((res) => {
-        res.subscribe((values) => {
+        this.subscription = res.subscribe((values) => {
+          this.contracts = new Array<Contract>()
+          console.log("getDoneContracts", this.contracts)
           this.contracts = values;
           this.onSuccess();
         })
@@ -66,16 +76,21 @@ export class UserContractsPage {
     this.loading.showLoading("Buscando contratos...")
     this.contractProvider.getContractsByUser(this.userId, null)
       .then((received) => {
-        received.subscribe((receivedContracts) => {
+        this.subscription = received.subscribe((receivedContracts) => {
+          this.subscription.unsubscribe()
           return this.contractProvider.getContractsByUser(null, this.userId)
             .then((done) => {
-              done.subscribe((doneAvaliations) => {
-                doneAvaliations.forEach(doneAvaliation => {
-                  this.contracts.push(doneAvaliation)
+              this.contracts = new Array<Contract>()
+              this.contracts = []
+              console.log("getAllContracts", this.contracts)
+              this.subscription = done.subscribe((doneContracts) => {
+                doneContracts.forEach(doneContract => {
+                  this.contracts.push(doneContract)
                 });
                 receivedContracts.forEach(receivedContract => {
                   this.contracts.push(receivedContract)
                 });
+                console.log("getAllContracts", this.contracts)
                 this.onSuccess();
               })
             })
@@ -91,6 +106,7 @@ export class UserContractsPage {
   private onSuccess() {
     this.requestingContracts = false
     this.loading.hideLoading();
+    this.subscription.unsubscribe();
     if (this.contracts.length > 1) {
       this.toast.showToast("Exibindo " + this.contracts.length.toString() + " contratos!");
     }
