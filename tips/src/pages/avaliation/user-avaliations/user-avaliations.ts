@@ -25,6 +25,8 @@ export class UserAvaliationsPage {
 
   public requestingAvaliations = true;
 
+  private subscription: any;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
