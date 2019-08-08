@@ -19,6 +19,7 @@ page-new-account,
 page-forgot-password,
 page-my-account,
 page-profile-details,
+page-contact,
 page-results {
   ion-header {
 
@@ -192,7 +193,8 @@ page-results {
 
 .card.login,
 .card.newAccount,
-.card.forgotPassword {
+.card.forgotPassword,
+.card.contact {
   .cardTitle {
     text-align: center;
 

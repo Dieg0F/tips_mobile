@@ -1,19 +1,25 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Meus contato</ion-title>
+    <ion-title>Dados de contato</ion-title>
   </ion-navbar>
 </ion-header>
-
-
 <ion-content padding>
-  <div>
-    <p>Meus contato: </p>
-    <br />
-    <p>Email: {{profile.email}}</p>
-    <br />
-    <p>Telefone: {{profile.telefone}}</p>
-    <br />
-    <p>Endereço: {{profile.rua}}, {{profile.bairro}}<br />{{profile.cidade}} - {{profile.estado}}</p>
+  <div class="card contact">
+    <div class="cardTitle">
+      <h3>Meus dados de contato: </h3>
+    </div>
+    <div class="cardBody">
+      <p>Email: {{profile.email}}</p>
+      <br />
+      <p>Telefone: {{profile.telefone}}</p>
+      <br />
+      <p>Endereço: {{profile.rua}}, {{profile.bairro}}<br />{{profile.cidade}} - {{profile.estado}}</p>
+    </div>
   </div>
-  <div #map id="map" style="height: 250px; "></div>
+  <div class="mapLocation">
+    <div class="title">
+      Minha localização:
+    </div>
+    <div #map id="map" style="height: 250px; "></div>
+  </div>
 </ion-content>
