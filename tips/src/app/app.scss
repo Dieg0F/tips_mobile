@@ -22,12 +22,15 @@ page-profile-details,
 page-user-contracts,
 page-contract-details,
 page-new-contract,
+page-user-avaliations,
+page-avaliation-details,
 page-results {
   ion-header {
 
     ion-buttons,
     ion-title {
       display: inline-block !important;
+      font-family: 'Open Sans', sans-serif;
     }
 
     ion-title {
@@ -43,6 +46,15 @@ page-results {
     ion-buttons:first-child {
       position: absolute;
     }
+  }
+
+  ion-app.md,
+  ion-app.ios {
+    font-family: 'Open Sans', sans-serif !important;
+  }
+
+  ion-select {
+    font-family: 'Open Sans', sans-serif;
   }
 
   .bar-button-default-md,
@@ -144,7 +156,8 @@ page-results {
   }
 }
 
-.card.profile {
+.card.profile,
+.card.avaliation {
   .profileTitle {
     width: 100%;
     display: inline-block;
