@@ -1,3 +1,44 @@
 page-app-config {
+  ion-title {
+    margin-left: 0px !important;
+    margin-top: 3px;
+  }
 
+
+  .profileSession {
+    margin-bottom: $largeSpace;
+  }
+
+  .sessionHeader {
+    h3 {
+      color: $darkTextColor;
+      font-size: $cardTitleSize;
+      margin: 0px 0px $highSpace;
+      opacity: 0.95;
+      text-align: left;
+    }
+  }
+
+  .sessionOption {
+
+    margin-bottom: $largeSpace;
+
+    h5 {
+      color: $darkTextColor;
+      font-size: 16px;
+      margin: 0px 0px $smallSpace;
+      opacity: 0.6;
+      text-align: left;
+      font-weight: bold !important;
+    }
+
+    p {
+      color: $darkTextColor;
+      font-size: 13px;
+      line-height: cardBodyLineHeight;
+      opacity: 0.5;
+      margin: 0px;
+      text-align: left;
+    }
+  }
 }
