@@ -1,6 +1,32 @@
 page-contact {
 
-  #map {
-    height: 250px;
+  .card {
+    margin-bottom: $mediumSpace;
+
+    .cardTitle {
+      margin: $mediumSpace 0px;
+    }
+  }
+
+  ion-title {
+    margin-left: 0px !important;
+    margin-top: 3px;
+  }
+
+  .mapLocation {
+
+    .title {
+      color: $lightTextColor;
+      font-size: $cardTitleSize;
+      margin: $mediumSpace 0px $largeSpace;
+      text-align: left;
+    }
+
+    #map {
+      margin-left: -16px;
+      margin-right: -16px;
+      margin-bottom: -16px;
+      height: 400px !important;
+    }
   }
 }
