@@ -4,21 +4,27 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-  <div>
-    <div>
-      <img src="{{avaliationOwner.profilePhotoUrl}}" />
-      <h5>{{avaliationOwner.nome}}</h5>
-      <br>
-    </div>
-    <h3>{{avaliation.title}}</h3>
-    <div>
+  <div class="card avaliation">
+    <div class="profileTitle">
+      <div class="profilePhoto">
+        <img src="{{avaliationOwner.profilePhotoUrl}}" />
+      </div>
+      <div class="profileName">
+        <h3>{{avaliationOwner.nome}}</h3>
+      </div>
       <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
         <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
       </div>
     </div>
-    <p>{{avaliation.body}}</p>
-    <p>{{avaliation.date}}</p>
+    <div class="cardTitle">
+      <h3>{{avaliation.title}}</h3>
+    </div>
+    <div class="cardBody">
+      <p>{{avaliation.body}}</p>
+    </div>
+    <div class="cardFooter avaliationDate">
+      <p>Avaliado em: {{avaliation.date}}</p>
+    </div>
   </div>
 </ion-content>

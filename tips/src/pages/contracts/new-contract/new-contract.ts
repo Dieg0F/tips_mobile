@@ -22,6 +22,8 @@ export class NewContractPage {
   public contractName = "";
   public contractDesctiption = "";
 
+  public describeContract: boolean = false
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,6 +43,7 @@ export class NewContractPage {
   makeContract() {
     setTimeout(() => {
       this.contractConfirmed = true;
+      this.describeContract = false;
       this.contractUser()
     }, 2000)
   }
@@ -66,5 +69,9 @@ export class NewContractPage {
         console.log(err)
         this.contractConfirmed = false
       })
+  }
+
+  setContractDescription() {
+    this.describeContract = true;
   }
 }
