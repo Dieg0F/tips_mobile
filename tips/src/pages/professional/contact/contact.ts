@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Constants } from '../../../util/constants/constants';
+import { GoogleMaps } from '../../../util/google-map/google-map';
+import { GeoLocation } from '../../../model/geoLocation/geoLocation';
 
-declare var google;
 
 @IonicPage()
 @Component({
@@ -13,9 +14,6 @@ export class ContactPage {
 
   public profile: any;
   public map: any;
-
-  private directionsService = new google.maps.DirectionsService();
-  private directionsDisplay = new google.maps.DirectionsRenderer();
 
   constructor(
     public navCtrl: NavController,
@@ -33,25 +31,11 @@ export class ContactPage {
   }
 
   buildMap() {
-    const position = new google.maps.LatLng(-22.2477317, -45.9757412);
-
-    const mapOptions = {
-      zoom: 15,
-      center: position,
-      disableDefaultUI: true
+    var geo: GeoLocation = {
+      lat: parseFloat(this.profile.geolocation.lat),
+      lon: parseFloat(this.profile.geolocation.lon)
     }
 
-    this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-    const marker = new google.maps.Marker({
-      position: position,
-      map: this.map,
-
-      //Titulo
-      title: 'Minha posição',
-
-      //Animção
-      animation: google.maps.Animation.DROP, // BOUNCE
-    });
+    this.map = new GoogleMaps(geo, document.getElementById('map')).buildMap()
   }
 }

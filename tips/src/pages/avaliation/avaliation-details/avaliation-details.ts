@@ -14,8 +14,8 @@ import { Constants } from '../../../util/constants/constants';
 })
 export class AvaliationDetailsPage {
 
-  private avaliation: Avaliation
-  private avaliationOwner: Profile
+  public avaliation: Avaliation
+  public avaliationOwner: Profile
 
   constructor(
     public navCtrl: NavController,
@@ -32,6 +32,8 @@ export class AvaliationDetailsPage {
   async getAvaliation() {
     this.avaliation = this.navParams.get(Constants.AVALIATION_DETAILS);
     this.avaliationOwner = this.navParams.get(Constants.AVALIATION_DETAILS_OWNER);
+
+    this.avaliation.date = new Date(this.avaliation.date).toLocaleDateString()
   }
 
   starsRate(value: number): Array<String> {

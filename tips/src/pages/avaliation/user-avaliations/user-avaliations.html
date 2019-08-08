@@ -5,41 +5,45 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <ion-select [(ngModel)]="avaliationType" (ionChange)="onFilterChange()">
-      <ion-option value="Todas as avaliações">Todas as avaliações</ion-option>
-      <ion-option value="Avaliações feitas">Avaliações feitas</ion-option>
-      <ion-option value="Avaliações recebidas">Avaliações recebidas</ion-option>
-    </ion-select>
-  </ion-item>
-  <br />
-  <br />
-  <div *ngIf="avaliations.length > 1">
-    <div *ngFor="let avaliation of avaliations">
-      <h3>{{avaliation.title}}</h3>
-      <div>
-        <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
-          <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
+  <div class="filter">
+    <ion-item>
+      <ion-select [(ngModel)]="avaliationType" (ionChange)="onFilterChange()">
+        <ion-option value="Todas as avaliações">Todas as avaliações</ion-option>
+        <ion-option value="Avaliações feitas">Avaliações feitas</ion-option>
+        <ion-option value="Avaliações recebidas">Avaliações recebidas</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+  <div class="list">
+    <div *ngIf="avaliations.length > 1">
+      <div class="card" *ngFor="let avaliation of avaliations">
+        <div class="cardTitle">
+          <h2>{{avaliation.title}}</h2>
+        </div>
+        <div class="rate">
+          <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
+            <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
+          </div>
+        </div>
+        <div class="cardBody">
+          <p>{{avaliation.body}}</p>
+        </div>
+        <div class="cardFooter" (click)="goToDetails(avaliation)">
+          <h5>Detalhes</h5>
         </div>
       </div>
-      <p>{{avaliation.body}}</p>
-      <div (click)="goToDetails(avaliation)">
-        <h6>Detalhes</h6>
-      </div>
-      <br>
-      <br>
     </div>
-  </div>
-  <div *ngIf="!requestingAvaliations">
-    <div *ngIf="avaliations.length <= 1">
-      <div *ngIf="avaliationType == 'Todas as avaliações'">
-        <p>Você não tem avaliações!</p>
-      </div>
-      <div *ngIf="avaliationType == 'Avaliações feitas'">
-        <p>Você não avaliou profissionais ainda!</p>
-      </div>
-      <div *ngIf="avaliationType == 'Avaliações recebidas'">
-        <p>Você não foi avaliado por outros usuários!</p>
+    <div *ngIf="!requestingAvaliations">
+      <div *ngIf="avaliations.length <= 1">
+        <div *ngIf="avaliationType == 'Todas as avaliações'">
+          <p>Você não tem avaliações!</p>
+        </div>
+        <div *ngIf="avaliationType == 'Avaliações feitas'">
+          <p>Você não avaliou profissionais ainda!</p>
+        </div>
+        <div *ngIf="avaliationType == 'Avaliações recebidas'">
+          <p>Você não foi avaliado por outros usuários!</p>
+        </div>
       </div>
     </div>
   </div>

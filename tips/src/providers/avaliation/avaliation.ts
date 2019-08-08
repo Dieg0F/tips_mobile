@@ -30,6 +30,6 @@ export class AvaliationProvider {
                 if (appraiserUid) { query = query.where('appraiserUid', '==', appraiserUid) };
                 query = query.orderBy('rate', 'desc')
                 return query;
-            }).stateChanges()
+            }).valueChanges()
     }
 }

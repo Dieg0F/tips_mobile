@@ -1,52 +1,68 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Novo Contrato</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Novo Contrato</ion-title>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-    <div *ngIf="!contractConfirmed">
-        <div>
-            <div><img src="{{userProfile.profilePhotoUrl}}" /></div>
-            <div>
-                <ion-icon name="sync"></ion-icon>
-            </div>
-            <div><img src="{{profileToContract.profilePhotoUrl}}" /></div>
-        </div>
-        <div>
-            <p>Deseja Contratar
-                <br /> os serviços de
-                <br /> {{profileToContract.nome}}
-            </p>
-            <br />
-            <br />
-            <div class="form_field">
-                <h3>Nome: </h3>
-                <ion-item>
-                    <ion-input [(ngModel)]="contractName" type="text" name="areaAtuacao" maxLength="30"></ion-input>
-                </ion-item>
-            </div>
-            <div class="form_field">
-                <h3>Descrição: </h3>
-                <ion-item>
-                    <ion-textarea [(ngModel)]="contractDesctiption" name="aboutMe" maxLength="300"></ion-textarea>
-                </ion-item>
-            </div>
-            <button ion-button (click)="makeContract()">Contratar</button>
-        </div>
+
+  <div>
+    <div class="usersPhotos">
+      <div class="userProfilePhoto">
+        <img src="{{userProfile.profilePhotoUrl}}" />
+      </div>
+      <div class="syncIcon">
+        <ion-icon name="sync"></ion-icon>
+      </div>
+      <div class="hiredProfilePhoto">
+        <img src="{{profileToContract.profilePhotoUrl}}" />
+      </div>
+      <div class="clearfix"></div>
     </div>
-    <div *ngIf="contractConfirmed">
-        <div><img src="{{profileToContract.profilePhotoUrl}}" /></div>
-        <div>
-            <h3>{{profileToContract.nome}}</h3>
-            <p>{{profileToContract.email}}</p>
+    <div class="card contract" *ngIf="!contractConfirmed">
+      <div class="cardBody">
+        <p>Deseja Contratar os serviços de
+          <br />
+          <b>{{profileToContract.nome}}</b>?
+        </p>
+        <button ion-button (click)="setContractDescription()" *ngIf="!describeContract">Contratar</button>
+      </div>
+      <div class="contractDesciption" *ngIf="describeContract">
+        <div class="cardBody">
+          <p>
+            Informe o nome e uma breve descrição para este contrato:
+          </p>
+          <ion-item>
+            <ion-label floating>Nome</ion-label>
+            <ion-input [(ngModel)]="contractName" type="text" name="contractName" maxLength="30"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Descrição</ion-label>
+            <ion-textarea [(ngModel)]="contractDesctiption" type="text" name="contractDesctiption" maxLength="300">
+            </ion-textarea>
+          </ion-item>
+          <button ion-button (click)="makeContract()">Confirmar</button>
         </div>
-        <div>
-            <h5>Contato:</h5>
-            <p>{{profileToContract.telefone}}</p>
-            <p>{{profileToContract.rua}} - {{profileToContract.bairro}}
-                <br> {{profileToContract.cidade}} - {{profileToContract.estado}}</p>
-        </div>
+      </div>
     </div>
+    <div class="card contract" *ngIf="contractConfirmed">
+      <div class="profileContracted">
+        <div class="contractMainText">
+          <p>Você contratou os serviços de
+            <b>{{profileToContract.nome}}</b>
+            {{ profileToContract.email }}
+          </p>
+        </div>
+        <div class="contactWithContract">
+          <p>{{profileToContract.telefone}}</p>
+          <p>{{profileToContract.rua}} - {{profileToContract.bairro}}
+            <br> {{profileToContract.cidade}} - {{profileToContract.estado}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="fullBackButton" *ngIf="contractConfirmed">
+      <button ion-button (click)="makeContract()">Voltar ao meu perfil</button>
+    </div>
+  </div>
 </ion-content>
