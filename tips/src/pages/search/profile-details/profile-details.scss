@@ -2,4 +2,31 @@ page-profile-details {
   .toolbar-content-md {
     margin-top: -30px !important;
   }
+
+  ion-footer {
+
+    .toolbar-md,
+    .toolbar-ios,
+    .toolbar-title-md,
+    .toolbar-title-ios {
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+
+    .toolbar-content-md,
+    .toolbar-content-ios {
+      margin: 0px !important;
+    }
+
+    .button-md,
+    .button-ios {
+      height: 56px;
+      margin: 0px !important;
+      margin: 0 auto !important;
+      display: inline-block;
+      background-color: $primaryColor !important;
+      font-size: 20px;
+
+    }
+  }
 }
