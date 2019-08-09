@@ -1,3 +1,4 @@
+import { Constants } from './../../../util/constants/constants';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
@@ -25,6 +26,8 @@ export class UserAvaliationsPage {
 
   public requestingAvaliations = true;
 
+  public hideOptions: boolean = false;
+
   private subscription: any;
 
   constructor(
@@ -35,8 +38,16 @@ export class UserAvaliationsPage {
     public profileProvider: ProfileProvider,
     public avaliationsProvider: AvaliationProvider) {
 
-    if (!this.navParams.get('ownerAvaliationsUid')) {
+    if (!this.navParams.get(Constants.AVALIATION_HIDE_DETAILS)) {
+      this.hideOptions = false
+    } else {
+      this.hideOptions = true
+    }
+
+    if (!this.navParams.get(Constants.AVALIATION_OWNER_ID)) {
       this.ownerAvaliationsUid = AppConfig.USER_PROFILE.uid
+    } else {
+      this.ownerAvaliationsUid = this.navParams.get(Constants.AVALIATION_OWNER_ID)
     }
 
     this.onFilterChange();

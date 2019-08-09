@@ -37,7 +37,7 @@ export class ProfileDetailsPage {
   }
 
   rating() {
-    this.navCtrl.push("ProfileAvaliationsPage", { 'ownerAvaliationsUid': this.profile.uid });
+    this.navCtrl.push("UserAvaliationsPage", { 'ownerAvaliationsUid': this.profile.uid, 'hideDetailsOptions': true });
   }
 
   makeContract() {
