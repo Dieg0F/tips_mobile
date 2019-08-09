@@ -9,10 +9,11 @@
     <ion-item>
       <ion-select [(ngModel)]="avaliationType" (ionChange)="onFilterChange()">
         <ion-option value="Todas as avaliações">Todas as avaliações</ion-option>
-        <ion-option value="Avaliações feitas">Avaliações feitas</ion-option>
-        <ion-option value="Avaliações recebidas">Avaliações recebidas</ion-option>
+        <ion-option value="Avaliações feitas" *ngIf="!hideOptions">Avaliações feitas</ion-option>
+        <ion-option value="Avaliações recebidas" *ngIf="!hideOptions">Avaliações recebidas</ion-option>
       </ion-select>
     </ion-item>
+
   </div>
   <div class="list">
     <div *ngIf="avaliations.length > 1">
@@ -28,7 +29,7 @@
         <div class="cardBody">
           <p>{{avaliation.body}}</p>
         </div>
-        <div class="cardFooter" (click)="goToDetails(avaliation)">
+        <div class="cardFooter" (click)="goToDetails(avaliation)" *ngIf="!hideOptions">
           <h5>Detalhes</h5>
         </div>
       </div>
