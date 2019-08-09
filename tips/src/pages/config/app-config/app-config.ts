@@ -51,7 +51,7 @@ export class AppConfigPage {
     //Account Condition, based on account Type
     //UPDATE DATABASE, MODELS AND USERS FOR THIS
     var message = ""
-    if (true) {
+    if (message) {
       message = "Deseja alterar o tipo de sua conta para profissional?"
     } else {
       message = "Deseja alterar o tipo de sua conta para usuário simples?"

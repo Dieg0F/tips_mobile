@@ -1,3 +1,4 @@
+import { StarRateHelper } from './../../../util/stars-rate/stars-rate';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProfileProvider } from '../../../providers/profile/profile';
@@ -6,6 +7,7 @@ import { Toast } from '../../../util/toast/toast';
 import { Loading } from '../../../util/loading/loading';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 import { ResultsPage } from '../results/results';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -29,6 +31,11 @@ export class SearchPage {
 
   public filterOptions: FilterOptions
 
+  public searchIsOpen: boolean = true;
+
+  public profiles = []
+  private starsRateHelper: StarRateHelper
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -36,7 +43,7 @@ export class SearchPage {
     public toast: Toast,
     public loading: Loading,
     public profileProvider: ProfileProvider) {
-
+    this.starsRateHelper = new StarRateHelper
     this.filterOptions = new FilterOptions
   }
 
@@ -86,6 +93,7 @@ export class SearchPage {
   }
 
   requestProfiles() {
+    this.loading.showLoading("Buscando perfis...")
     this.profileProvider.getProfiles(this.filterOptions).then((res) => {
       res.subscribe((values) => {
         this.results(values)
@@ -96,9 +104,28 @@ export class SearchPage {
   results(values: any) {
     if (values.length > 0) {
       this.toast.showToast(`Foram encontrados ${values.length} profissionais!`)
-      this.navCtrl.push("ResultsPage", { 'profiles': values, 'filterOptions': this.filterOptions })
+      this.profiles = values
+      this.searchIsOpen = false;
+      this.loading.hideLoading();
     } else {
+      this.searchIsOpen = true;
       this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`)
     }
+  }
+
+  starsRate(value: number): Array<String> {
+    return this.starsRateHelper.starsRate(value)
+  }
+
+  starsRateColor(value: number): String {
+    return this.starsRateHelper.starsRateColor(value)
+  }
+
+  goToDetails(profile: any) {
+    this.navCtrl.push("ProfileDetailsPage", { 'profile': profile })
+  }
+
+  searchAgain() {
+    this.searchIsOpen = true;
   }
 }

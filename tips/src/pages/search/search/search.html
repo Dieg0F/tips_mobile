@@ -5,52 +5,84 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="mainTitle">
-    <h1>Que profissional<br />está a procura?</h1>
-  </div>
-  <div class="card search">
-    <div class="cardBody">
-      <ion-item>
-        <ion-label floating>Nome</ion-label>
-        <ion-input type="text" name="profileName" [(ngModel)]="profileName" maxLength="60"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Área</ion-label>
-        <ion-select [(ngModel)]="areaAtuacao">
-          <ion-option value="nes">NES</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Setor</ion-label>
-        <ion-select [(ngModel)]="setor">
-          <ion-option value="El Salvador">El Salvador</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Estado</ion-label>
-        <ion-select [(ngModel)]="stateSelected" (ionChange)="onStateSelect()">
-          <ion-option *ngFor="let state of states; let i of index" [value]="i">{{state.nome}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cidade</ion-label>
-        <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect()" [disabled]="!stateSelected">
-          <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Avaliação</ion-label>
-        <ion-select [(ngModel)]="rating">
-          <ion-option value="5">5</ion-option>
-          <ion-option value="4">4</ion-option>
-          <ion-option value="3">3</ion-option>
-          <ion-option value="2">2</ion-option>
-          <ion-option value="1">1</ion-option>
-        </ion-select>
-      </ion-item>
-    </div>
-    <div class="cardFooter" (click)="createFilter()">
-      <h5>Buscar</h5>
+  <div class="results scale-up-ver-top transition" *ngIf="!searchIsOpen">
+    <div class="card profile" *ngFor="let profile of profiles">
+      <div class="profileTitle">
+        <div class="profilePhoto">
+          <img src="{{profile.profilePhotoUrl}}" />
+        </div>
+        <div class="profileName">
+          <h3>{{profile.nome}}</h3>
+        </div>
+        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRate); let i of index">
+          <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRate)" *ngIf="i != 5"></ion-icon>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="cardBody">
+        <p *ngIf="profile.areaAtuacao">{{profile.areaAtuacao}}</p>
+        <p *ngIf="profile.setor">{{profile.setor}}</p>
+      </div>
+      <div class="cardFooter" (click)="goToDetails(profile)">
+        <div class="cardFooter">
+          <h5>Ver Informações</h5>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchIsOpen">
+    <div class="mainTitle">
+      <h1>Que profissional<br />está a procura?</h1>
+    </div>
+    <div class="card search">
+      <div class="cardBody">
+        <ion-item>
+          <ion-label floating>Nome</ion-label>
+          <ion-input type="text" name="profileName" [(ngModel)]="profileName" maxLength="60"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Área</ion-label>
+          <ion-select [(ngModel)]="areaAtuacao">
+            <ion-option value="nes">NES</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Setor</ion-label>
+          <ion-select [(ngModel)]="setor">
+            <ion-option value="El Salvador">El Salvador</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Estado</ion-label>
+          <ion-select [(ngModel)]="stateSelected" (ionChange)="onStateSelect()">
+            <ion-option *ngFor="let state of states; let i of index" [value]="i">{{state.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cidade</ion-label>
+          <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect()" [disabled]="!stateSelected">
+            <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Avaliação</ion-label>
+          <ion-select [(ngModel)]="rating">
+            <ion-option value="5">5 Estrelas</ion-option>
+            <ion-option value="4">4 Estrelas</ion-option>
+            <ion-option value="3">3 Estrelas</ion-option>
+            <ion-option value="2">2 Estrelas</ion-option>
+            <ion-option value="1">1 Estrelas</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <div class="cardFooter" (click)="createFilter()">
+        <h5>Buscar</h5>
+      </div>
+    </div>
+  </div>
+  <ion-fab center bottom *ngIf="!searchIsOpen">
+    <button ion-fab (click)="searchAgain()">
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
