@@ -14,6 +14,8 @@ import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 })
 export class SearchPage {
 
+  public pageTiitle = "Busca por profissionais"
+
   public cidade = "";
   public estado = "";
   public areaAtuacao = "";
@@ -101,6 +103,7 @@ export class SearchPage {
 
   results(values: any) {
     if (values.length > 0) {
+      this.pageTiitle = "Resultado da busca"
       this.toast.showToast(`Foram encontrados ${values.length} profissionais!`)
       this.profiles = values
       this.searchIsOpen = false;
@@ -124,6 +127,7 @@ export class SearchPage {
   }
 
   searchAgain() {
+    this.pageTiitle = "Busca por profissionais"
     this.searchIsOpen = true;
   }
 }
