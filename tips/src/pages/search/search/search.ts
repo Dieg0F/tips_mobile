@@ -6,8 +6,6 @@ import { Locations } from '../../../providers/locations/locations';
 import { Toast } from '../../../util/toast/toast';
 import { Loading } from '../../../util/loading/loading';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
-import { ResultsPage } from '../results/results';
-import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
