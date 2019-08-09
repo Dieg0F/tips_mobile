@@ -5,7 +5,6 @@ import { Alert } from './../../../util/alert/alert';
 import { ProfileProvider } from './../../../providers/profile/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { bind } from '@angular/core/src/render3/instructions';
 
 @IonicPage()
 @Component({
@@ -51,7 +50,7 @@ export class AppConfigPage {
     //Account Condition, based on account Type
     //UPDATE DATABASE, MODELS AND USERS FOR THIS
     var message = ""
-    if (true) {
+    if (message) {
       message = "Deseja alterar o tipo de sua conta para profissional?"
     } else {
       message = "Deseja alterar o tipo de sua conta para usuário simples?"
