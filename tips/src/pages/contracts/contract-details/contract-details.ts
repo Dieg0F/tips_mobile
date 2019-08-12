@@ -1,3 +1,4 @@
+import { Popover } from './../../../util/popover/popover';
 import { ProfileProvider } from './../../../providers/profile/profile';
 import { Loading } from './../../../util/loading/loading';
 import { Component } from '@angular/core';
@@ -22,6 +23,7 @@ export class ContractDetailsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
+    public popover: Popover,
     public profileProvider: ProfileProvider) {
     this.getAvaliation();
   }
@@ -33,6 +35,10 @@ export class ContractDetailsPage {
   async getAvaliation() {
     this.contract = this.navParams.get(Constants.CONTRACT_DETAILS);
     this.hiredProfile = this.navParams.get(Constants.CONTRACT_DETAILS_HIRED);
+  }
+
+  openOptions(event) {
+    this.popover.showPopover("ContractOptionsPage", { 'contract': this.contract }, event)
   }
 
 }

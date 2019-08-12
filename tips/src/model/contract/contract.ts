@@ -9,4 +9,7 @@ export interface Contract {
     userUid: string; //Contratante
     hiredUid: string; //Contratado
     date: string;
+    status: string;
+    isActive: boolean;
+    isRemoved: boolean;
 }

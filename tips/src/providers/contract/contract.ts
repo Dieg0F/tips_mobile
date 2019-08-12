@@ -14,6 +14,13 @@ export class ContractProvider {
             .set(contract)
     }
 
+    async updateContract(contract: any): Promise<void> {
+        console.log('createContract >> CReating Contract :: ', contract.uId)
+        return this.db.collection(Constants.CONTRACTS_COLLECTION)
+            .doc(contract.uId)
+            .set(contract)
+    }
+
     async getContract(contractUid: string): Promise<any> {
         console.log('getContract >> Get Contract')
         return this.db.collection(Constants.CONTRACTS_COLLECTION)
