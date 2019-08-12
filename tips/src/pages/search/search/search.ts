@@ -14,7 +14,9 @@ import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 })
 export class SearchPage {
 
-  public pageTiitle = "Busca por profissionais"
+  public pageTiitle = "Busca por profissionais";
+  public itemsForPage = 10;
+  public itemsOnPage = 0;
 
   public cidade = "";
   public estado = "";
@@ -94,7 +96,7 @@ export class SearchPage {
 
   requestProfiles() {
     this.loading.showLoading("Buscando perfis...")
-    this.profileProvider.getProfiles(this.filterOptions).then((res) => {
+    this.profileProvider.getProfiles(this.filterOptions, this.itemsForPage).then((res) => {
       res.subscribe((values) => {
         this.results(values)
       })
@@ -104,14 +106,24 @@ export class SearchPage {
   results(values: any) {
     if (values.length > 0) {
       this.pageTiitle = "Resultado da busca"
-      this.toast.showToast(`Foram encontrados ${values.length} profissionais!`)
-      this.profiles = values
       this.searchIsOpen = false;
       this.loading.hideLoading();
+      this.buildList(values)
     } else {
       this.searchIsOpen = true;
-      this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`)
+      this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`);
+      this.loading.hideLoading();
     }
+  }
+
+  buildList(values) {
+    this.profiles = values
+    this.itemsOnPage = this.profiles.length;
+  }
+
+  doInfinite(infiniteScroll) {
+    this.itemsForPage += 10;
+    this.requestProfiles()
   }
 
   starsRate(value: number): Array<String> {
@@ -129,5 +141,7 @@ export class SearchPage {
   searchAgain() {
     this.pageTiitle = "Busca por profissionais"
     this.searchIsOpen = true;
+    this.itemsForPage = 10;
+    this.itemsOnPage = 0;
   }
 }

@@ -38,7 +38,7 @@ export class ProfileProvider {
             .toPromise()
     }
 
-    async getProfiles(filter: FilterOptions) {
+    async getProfiles(filter: FilterOptions, limit: number) {
 
         console.log('getProfile >> Get All Profile :: Filter', filter)
 
@@ -52,8 +52,8 @@ export class ProfileProvider {
             if (filter.profileArea) { query = query.where('areaAtuacao', '==', filter.profileArea) };
             if (filter.profileRate) { query = query.where('userRate', '==', filter.profileRate) }
             else { query = query.orderBy('userRate', 'desc') };
+            query = query.limit(limit)
             return query;
         }).valueChanges()
-
     }
 }
