@@ -29,6 +29,10 @@
         </div>
       </div>
     </div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="itemsOnPage >= itemsForPage">
+      <ion-infinite-scroll-content loadingSpinner="none">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
   <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchIsOpen">
     <div class="mainTitle">
