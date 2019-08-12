@@ -4,12 +4,13 @@
  */
 export interface Contract {
     uId: string;
+    contractId: string;
+    ownerUid: string;
+    contractorUid: string;
+    hiredUid: string;
     name: string;
     description: string;
-    userUid: string; //Contratante
-    hiredUid: string; //Contratado
     date: string;
     status: string;
-    isActive: boolean;
     isRemoved: boolean;
 }

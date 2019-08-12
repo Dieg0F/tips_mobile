@@ -52,12 +52,13 @@ export class NewContractPage {
     var date: Date = new Date()
     let contract: Contract = {
       uId: UUID.UUID(),
+      contractId: UUID.UUID(),
+      ownerUid: this.userProfile.uid,
+      contractorUid: this.userProfile.uid,
+      hiredUid: this.profileToContract.uid,
       name: this.contractName,
       description: this.contractDesctiption,
-      date: date.getUTCDate().toString(),
-      userUid: this.userProfile.uid,
-      hiredUid: this.profileToContract.uid,
-      isActive: false,
+      date: date.toLocaleDateString(),
       status: Constants.CONTRACT_IS_OPEN,
       isRemoved: false
     }
