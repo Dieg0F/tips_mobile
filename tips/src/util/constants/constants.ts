@@ -29,5 +29,11 @@ export class Constants {
 
     static PROFILE_LIST = "profiles";
 
-    static CONTACT_PROFILE = "userProfile";
+    static CONTACT_PROFILE = "userProfile";    
+
+    static CONTRACT_IS_OPEN = "CONTRACT_IS_OPEN";
+    static CONTRACT_IS_RUNNING = "CONTRACT_IS_RUNNING";
+    static CONTRACT_IS_FINISHED = "CONTRACT_IS_FINISHED"
+    static CONTRACT_IS_CANCELED = "CONTRACT_IS_CANCELED";
+    static CONTRACT_IS_REMOVED = "CONTRACT_IS_REMOVED";
 }

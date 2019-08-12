@@ -33,6 +33,7 @@ import { HttpModule } from '@angular/http';
 import { AvaliationProvider } from '../providers/avaliation/avaliation';
 
 import { Geolocation } from '@ionic-native/geolocation'
+import { Popover } from '../util/popover/popover';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -56,7 +57,6 @@ const config = {
       driverOrder: ['indexeddb']
     }),
     AngularFireModule.initializeApp(config),
-    AngularFirestoreModule.enablePersistence(),
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
@@ -87,7 +87,8 @@ const config = {
     Loading,
     Toast,
     Locations,
-    AppConfigProvider
+    Popover,
+    AppConfigProvider,
   ]
 })
 export class AppModule { }

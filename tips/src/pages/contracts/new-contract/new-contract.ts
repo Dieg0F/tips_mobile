@@ -50,14 +50,16 @@ export class NewContractPage {
 
   contractUser() {
     var date: Date = new Date()
-
     let contract: Contract = {
       uId: UUID.UUID(),
       name: this.contractName,
       description: this.contractDesctiption,
       date: date.getUTCDate().toString(),
       userUid: this.userProfile.uid,
-      hiredUid: this.profileToContract.uid
+      hiredUid: this.profileToContract.uid,
+      isActive: false,
+      status: Constants.CONTRACT_IS_OPEN,
+      isRemoved: false
     }
 
     this.contractProvider.createContract(contract)
@@ -73,5 +75,9 @@ export class NewContractPage {
 
   setContractDescription() {
     this.describeContract = true;
+  }
+
+  backToMyProfile() {
+    this.navCtrl.setRoot("ProfilePage");
   }
 }
