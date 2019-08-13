@@ -63,15 +63,24 @@ export class NewContractPage {
       isRemoved: false
     }
 
+    this.saveDoubleContract(contract);
+  }
+
+  private saveDoubleContract(contract: Contract) {
     this.contractProvider.createContract(contract)
       .then((res) => {
-        console.log(res)
-        this.contractConfirmed = true
+        console.log(res);
+        contract.uId = UUID.UUID();
+        contract.ownerUid = this.profileToContract.uid;
+        return this.contractProvider.createContract(contract)
+          .then(() => {
+            this.contractConfirmed = true;
+          });
       })
       .catch((err) => {
-        console.log(err)
-        this.contractConfirmed = false
-      })
+        console.log(err);
+        this.contractConfirmed = false;
+      });
   }
 
   setContractDescription() {

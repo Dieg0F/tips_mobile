@@ -482,6 +482,16 @@ page-results {
   clear: both;
 }
 
+.filterResultsNotFound {
+  p {
+    margin: $largeSpace 0;
+    text-align: center;
+    line-height: 25px;
+    font-size: 22px;
+    color: $lightTextColor;
+  }
+}
+
 .popover-ios .popover-content,
 .popover-md .popover-content {
   min-width: 200px;

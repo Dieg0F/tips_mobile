@@ -8,9 +8,16 @@
   <div class="filter">
     <ion-item>
       <ion-select [(ngModel)]="contractType" (ionChange)="onFilterChange()">
-        <ion-option value="Todos os contratos">Todos os contratos</ion-option>
-        <ion-option value="Contratos feitos">Contratos feitos</ion-option>
-        <ion-option value="Contratos recebidos">Contratos recebidos</ion-option>
+        <ion-option value="ALL_CONTRACTS">Todos os contratos</ion-option>
+        <ion-option value="CONTRACTS_DONE">Contratos feitos</ion-option>
+        <ion-option value="CONTRACTS_RECEIVED">Contratos recebidos</ion-option>
+        <ion-option value="CONTRACT_IS_OPEN">Contratos abertos</ion-option>
+        <ion-option value="CONTRACT_IS_RUNNING">Contratos em andamento</ion-option>
+        <ion-option value="CONTRACT_IS_FINISHED">Contratos terminados</ion-option>
+        <ion-option value="CONTRACT_IS_CANCELED">Contratos cancelados</ion-option>
+        <ion-option value="CONTRACT_IS_REMOVED">Contratos removidos</ion-option>
+        <ion-option value="CONTRACT_IS_AWAIT_TO_FINISH">Contratos para terminar</ion-option>
+        <ion-option value="CONTRACT_IS_AWAIT_TO_CANCEL">Contratos para cancelar</ion-option>
       </ion-select>
     </ion-item>
   </div>
@@ -25,16 +32,13 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!requestingContracts">
+    <div class="filterResultsNotFound" *ngIf="!requestingContracts">
       <div *ngIf="contracts.length == 0">
-        <div *ngIf="contractType == 'Todos os contratos'">
+        <div *ngIf="contractType == 'ALL_CONTRACTS'">
           <p>Você não possui contratos!</p>
         </div>
-        <div *ngIf="contractType == 'Contratos feitos'">
-          <p>Você não possui contrato com outros profissionais!</p>
-        </div>
-        <div *ngIf="contractType == 'Contratos recebidos'">
-          <p>Você não recebeu nenhum contrato de outros usuários!</p>
+        <div *ngIf="contractType != 'ALL_CONTRACTS'">
+          <p>Não encontramos contratos para essa busca!</p>
         </div>
       </div>
     </div>

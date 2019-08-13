@@ -1,3 +1,4 @@
+import { Constants } from './../../../util/constants/constants';
 import { ProfileProvider } from './../../../providers/profile/profile';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
@@ -15,14 +16,13 @@ import { AppConfig } from '../../../model/static/static';
 export class UserContractsPage {
 
   public contracts: Array<Contract> = new Array<Contract>();
+  public allContracts: Array<Contract> = new Array<Contract>();
 
   public userId = AppConfig.USER_PROFILE.uid;
 
-  public contractType = "Todos os contratos";
+  public contractType = Constants.ALL_CONTRACTS;
 
   public requestingContracts = true;
-
-  private subscription: any
 
   constructor(
     public navCtrl: NavController,
@@ -31,37 +31,21 @@ export class UserContractsPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public contractProvider: ContractProvider) {
-
+    this.getContracts()
   }
 
   ionViewWillEnter() {
     this.onFilterChange();
   }
 
-  getReceivedContracts() {
-    this.loading.showLoading("Buscando contratos...")
-    this.contractProvider.getContractsByUser(this.userId, null)
+  getContracts() {
+    this.contracts = new Array<Contract>();
+    this.allContracts = new Array<Contract>();
+    this.loading.showLoading("Buscando contratos...");
+    this.contractProvider.getContracts(this.userId)
       .then((res) => {
-        this.subscription = res.subscribe((values) => {
-          this.contracts = new Array<Contract>()
-          console.log("getReceivedContracts", this.contracts)
-          this.contracts = values;
-          this.onSuccess();
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.onError()
-      })
-  }
-
-  getDoneContracts() {
-    this.loading.showLoading("Buscando contratos...")
-    this.contractProvider.getContractsByUser(null, this.userId)
-      .then((res) => {
-        this.subscription = res.subscribe((values) => {
-          this.contracts = new Array<Contract>()
-          console.log("getDoneContracts", this.contracts)
+        res.subscribe((values) => {
+          this.allContracts = values;
           this.contracts = values;
           this.onSuccess();
         })
@@ -72,41 +56,9 @@ export class UserContractsPage {
       })
   }
 
-  getAllContracts() {
-    this.loading.showLoading("Buscando contratos...")
-    this.contractProvider.getContractsByUser(this.userId, null)
-      .then((received) => {
-        this.subscription = received.subscribe((receivedContracts) => {
-          this.subscription.unsubscribe()
-          return this.contractProvider.getContractsByUser(null, this.userId)
-            .then((done) => {
-              this.contracts = new Array<Contract>()
-              this.contracts = []
-              console.log("getAllContracts", this.contracts)
-              this.subscription = done.subscribe((doneContracts) => {
-                doneContracts.forEach(doneContract => {
-                  this.contracts.push(doneContract)
-                });
-                receivedContracts.forEach(receivedContract => {
-                  this.contracts.push(receivedContract)
-                });
-                console.log("getAllContracts", this.contracts)
-                this.onSuccess();
-              })
-            })
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.loading.hideLoading();
-        this.toast.showToast("Erro ao buscar contratos!")
-      })
-  }
-
   private onSuccess() {
     this.requestingContracts = false
     this.loading.hideLoading();
-    this.subscription.unsubscribe();
     if (this.contracts.length > 1) {
       this.toast.showToast("Exibindo " + this.contracts.length.toString() + " contratos!");
     }
@@ -131,15 +83,46 @@ export class UserContractsPage {
     this.requestingContracts = true
     this.contracts = new Array<Contract>()
     switch (this.contractType) {
-      case "Contratos feitos":
-        this.getDoneContracts();
-        break;
-      case "Contratos recebidos":
-        this.getReceivedContracts();
-        break;
-      default:
+      case Constants.ALL_CONTRACTS:
         this.getAllContracts();
         break;
+      case Constants.CONTRACTS_RECEIVED:
+        this.getReceivedContracts();
+        break;
+      case Constants.CONTRACTS_DONE:
+        this.getDoneContracts();
+        break;
+      default:
+        this.getContractsByStatus(this.contractType);
+        break;
     }
+  }
+
+  private getReceivedContracts() {
+    this.allContracts.forEach(el => {
+      if (el.hiredUid == this.userId) {
+        this.contracts.push(el);
+      }
+    })
+  }
+
+  private getDoneContracts() {
+    this.allContracts.forEach(el => {
+      if (el.contractId == this.userId) {
+        this.contracts.push(el);
+      }
+    })
+  }
+
+  private getAllContracts() {
+    this.contracts = this.allContracts;
+  }
+
+  private getContractsByStatus(status: string) {
+    this.allContracts.forEach(el => {
+      if (el.status == status) {
+        this.contracts.push(el);
+      }
+    })
   }
 }
