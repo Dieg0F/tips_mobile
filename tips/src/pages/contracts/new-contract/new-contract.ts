@@ -72,6 +72,7 @@ export class NewContractPage {
         console.log(res);
         contract.uId = UUID.UUID();
         contract.ownerUid = this.profileToContract.uid;
+        contract.status = Constants.CONTRACT_IS_OPEN;
         return this.contractProvider.createContract(contract)
           .then(() => {
             this.contractConfirmed = true;

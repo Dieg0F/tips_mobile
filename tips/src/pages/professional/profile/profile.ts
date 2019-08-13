@@ -1,3 +1,6 @@
+import { Alert } from './../../../util/alert/alert';
+import { Constants } from './../../../util/constants/constants';
+import { ContractProvider } from './../../../providers/contract/contract';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
@@ -16,12 +19,15 @@ export class ProfilePage {
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
+    public contractProvider: ContractProvider,
+    public alert: Alert,
     public navParams: NavParams) {
   }
 
   ionViewWillEnter() {
     var elm = document.getElementById('img_profile');
     elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
+    this.contractManager()
   }
 
   starsRate(value: number): Array<String> {
@@ -44,5 +50,30 @@ export class ProfilePage {
 
   rating() {
     this.navCtrl.push("UserAvaliationsPage");
+  }
+
+  contractManager() {
+    this.contractProvider.getContracts(this.profile.uid)
+      .then((res) => {
+        res.subscribe((values) => {
+          var hasContractPending = false
+
+          values.forEach(element => {
+            if (element.status == Constants.CONTRACT_IS_OPEN ||
+              element.status == Constants.CONTRACT_IS_AWAIT_TO_CANCEL ||
+              element.status == Constants.CONTRACT_IS_AWAIT_TO_FINISH) {
+              hasContractPending = true
+            }
+          });
+
+          if (hasContractPending) {
+            this.alert.confirmAlert(
+              "Contratos pendentes!",
+              "Você possui contratos aguardando sua ação. Clique em 'sim' para ve-los.",
+              () => { this.navCtrl.push("UserContractsPage"); },
+              () => { })
+          }
+        })
+      })
   }
 }

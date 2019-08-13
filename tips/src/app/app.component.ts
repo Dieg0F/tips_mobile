@@ -1,3 +1,4 @@
+import { ContractProvider } from './../providers/contract/contract';
 import { Component } from '@angular/core';
 
 import { Platform } from 'ionic-angular';
@@ -17,13 +18,12 @@ export class MyApp {
   constructor(
     private platform: Platform,
     private statusBar: StatusBar,
-    private splashScreen: SplashScreen,
-    private locations: Locations,
     private toast: Toast,
+    private contractProvider: ContractProvider,
     private appConfigProvider: AppConfigProvider) {
     this.platform.ready().then(async () => {
       this.verifyUser();
-      this.disabledTextZoom()
+      this.disabledTextZoom();
       this.statusBar.backgroundColorByHexString("#273A56");
       this.statusBar.styleLightContent();
     });

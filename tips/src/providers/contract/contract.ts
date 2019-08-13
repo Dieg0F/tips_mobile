@@ -1,3 +1,4 @@
+import { Contract } from './../../model/contract/contract';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Constants } from '../../util/constants/constants';
