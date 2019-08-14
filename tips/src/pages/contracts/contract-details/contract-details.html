@@ -25,7 +25,7 @@
     <div class="contractStatus">
       <h3>{{ contractStatus }}</h3>
     </div>
-    <div class="card contract newContract">
+    <div class="card contract" [ngClass]="setContractStatusClass(contract.status)">
       <div class="cardTitle">
         <h3>{{contract.name}}</h3>
       </div>

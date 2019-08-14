@@ -87,4 +87,13 @@ page-user-contracts {
       color: #e57373;
     }
   }
+
+  .contractItemList.removedContract {
+    border-right: 10px solid #444;
+    opacity: 0.5;
+
+    .cardFooter>h3 {
+      color: #444;
+    }
+  }
 }

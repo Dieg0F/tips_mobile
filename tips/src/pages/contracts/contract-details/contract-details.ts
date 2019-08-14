@@ -68,7 +68,63 @@ export class ContractDetailsPage {
     this.popover.showPopover("ContractOptionsPage", { 'contract': this.contract }, event)
   }
 
-  responseContract() {
+  setContractStatusClass(status): String {
+    var statusClass = " "
 
+    switch (status) {
+      case Constants.CONTRACT_IS_OPEN:
+        statusClass += "newContract";
+        break;
+      case Constants.CONTRACT_IS_RUNNING:
+        statusClass += "runningContract";
+        break;
+      case Constants.CONTRACT_IS_FINISHED:
+        statusClass += "finishedContract";
+        break;
+      case Constants.CONTRACT_IS_CANCELED:
+        statusClass += "canceledContract";
+        break;
+      case Constants.CONTRACT_IS_AWAIT_TO_FINISH:
+        statusClass += "finishedContract";
+        break;
+      case Constants.CONTRACT_IS_AWAIT_TO_CANCEL:
+        statusClass += "canceledContract";
+        break;
+      case Constants.CONTRACT_IS_REMOVED:
+        statusClass += "removedContract";
+        break;
+    }
+
+    return statusClass;
+  }
+
+  setStatusValueToShow(status): String {
+    var statusValue = ""
+
+    switch (status) {
+      case Constants.CONTRACT_IS_OPEN:
+        statusValue += "Novo";
+        break;
+      case Constants.CONTRACT_IS_RUNNING:
+        statusValue += "Em Andamento";
+        break;
+      case Constants.CONTRACT_IS_FINISHED:
+        statusValue += "Finalizado";
+        break;
+      case Constants.CONTRACT_IS_CANCELED:
+        statusValue += "Cancelado";
+        break;
+      case Constants.CONTRACT_IS_AWAIT_TO_FINISH:
+        statusValue += "Finalizando";
+        break;
+      case Constants.CONTRACT_IS_AWAIT_TO_CANCEL:
+        statusValue += "Cancelando";
+        break;
+      case Constants.CONTRACT_IS_REMOVED:
+        statusValue += "Removido";
+        break;
+    }
+
+    return statusValue;
   }
 }
