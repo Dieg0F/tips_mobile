@@ -1,31 +1,32 @@
 page-user-contracts {
-  ion-title {
-    margin-left: 0px !important;
-    margin-top: 3px;
-  }
-
-  .filter {
-    margin-bottom: $mediumSpace;
-
-    .item-md,
-    .item-ios {
-      padding-left: 0px !important;
-      background-color: transparent;
-      border: none;
+    ion-title {
+        margin-left: 0px !important;
+        margin-top: 3px;
     }
-
-    ion-select {
-      width: 100% !important;
-      max-width: 100% !important;
+    .filter {
+        margin-bottom: $mediumSpace;
+        .item-md,
+        .item-ios {
+            padding-left: 0px !important;
+            background-color: transparent;
+            border: none;
+        }
+        ion-select {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        .item-inner {
+            border: none !important;
+            color: $lightTextColor !important;
+        }
+        .select-icon-inner {
+            color: $lightTextColor !important;
+        }
     }
-
-    .item-inner {
-      border: none !important;
-      color: $lightTextColor !important;
+    .contractStatus.open {
+        margin: 15px 0px 0px;
+        text-align: right;
+        font-size: 12px;
+        color: #73ec66;
     }
-
-    .select-icon-inner {
-      color: $lightTextColor !important;
-    }
-  }
 }

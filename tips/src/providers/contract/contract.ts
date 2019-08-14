@@ -34,7 +34,7 @@ export class ContractProvider {
         return this.db.collection(Constants.CONTRACTS_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (userId) { query = query.where('userUid', '==', userId) };
+                if (userId) { query = query.where('ownerUid', '==', userId) };
                 query = query.orderBy('date', 'desc')
                 return query;
             }).valueChanges()

@@ -1,46 +1,49 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Meus Contratos</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Meus Contratos</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <div class="filter">
-    <ion-item>
-      <ion-select [(ngModel)]="contractType" (ionChange)="onFilterChange()">
-        <ion-option value="ALL_CONTRACTS">Todos os contratos</ion-option>
-        <ion-option value="CONTRACTS_DONE">Contratos feitos</ion-option>
-        <ion-option value="CONTRACTS_RECEIVED">Contratos recebidos</ion-option>
-        <ion-option value="CONTRACT_IS_OPEN">Contratos abertos</ion-option>
-        <ion-option value="CONTRACT_IS_RUNNING">Contratos em andamento</ion-option>
-        <ion-option value="CONTRACT_IS_FINISHED">Contratos terminados</ion-option>
-        <ion-option value="CONTRACT_IS_CANCELED">Contratos cancelados</ion-option>
-        <ion-option value="CONTRACT_IS_REMOVED">Contratos removidos</ion-option>
-        <ion-option value="CONTRACT_IS_AWAIT_TO_FINISH">Contratos para terminar</ion-option>
-        <ion-option value="CONTRACT_IS_AWAIT_TO_CANCEL">Contratos para cancelar</ion-option>
-      </ion-select>
-    </ion-item>
-  </div>
-  <div class="list">
-    <div *ngIf="contracts.length >= 1">
-      <div class="card" *ngFor="let contract of contracts; let i of index;" (click)="goToDetails(contract)">
-        <div class="cardTitle">
-          <h3>{{contract.name}}</h3>
-        </div>
-        <div class="cardBody">
-          <p>{{contract.description}}</p>
-        </div>
-      </div>
+    <div class="filter">
+        <ion-item>
+            <ion-select [(ngModel)]="contractType" (ionChange)="onFilterChange()">
+                <ion-option value="ALL_CONTRACTS">Todos os contratos</ion-option>
+                <ion-option value="CONTRACTS_DONE">Contratos feitos</ion-option>
+                <ion-option value="CONTRACTS_RECEIVED">Contratos recebidos</ion-option>
+                <ion-option value="CONTRACT_IS_OPEN">Contratos abertos</ion-option>
+                <ion-option value="CONTRACT_IS_RUNNING">Contratos em andamento</ion-option>
+                <ion-option value="CONTRACT_IS_FINISHED">Contratos terminados</ion-option>
+                <ion-option value="CONTRACT_IS_CANCELED">Contratos cancelados</ion-option>
+                <ion-option value="CONTRACT_IS_REMOVED">Contratos removidos</ion-option>
+                <ion-option value="CONTRACT_IS_AWAIT_TO_FINISH">Contratos para terminar</ion-option>
+                <ion-option value="CONTRACT_IS_AWAIT_TO_CANCEL">Contratos para cancelar</ion-option>
+            </ion-select>
+        </ion-item>
     </div>
-    <div class="filterResultsNotFound" *ngIf="!requestingContracts">
-      <div *ngIf="contracts.length == 0">
-        <div *ngIf="contractType == 'ALL_CONTRACTS'">
-          <p>Você não possui contratos!</p>
+    <div class="list">
+        <div *ngIf="contracts.length >= 1">
+            <div class="card" *ngFor="let contract of contracts; let i of index;" (click)="goToDetails(contract)">
+                <div class="cardTitle">
+                    <h3>{{contract.name}}</h3>
+                </div>
+                <div class="cardBody">
+                    <p>{{contract.description}}</p>
+                </div>
+                <div class="cardFooter">
+                    <h3 class="contractStatus open">{{ contract.status }}</h3>
+                </div>
+            </div>
         </div>
-        <div *ngIf="contractType != 'ALL_CONTRACTS'">
-          <p>Não encontramos contratos para essa busca!</p>
+        <div class="filterResultsNotFound" *ngIf="!requestingContracts">
+            <div *ngIf="contracts.length == 0">
+                <div *ngIf="contractType == 'ALL_CONTRACTS'">
+                    <p>Você não possui contratos!</p>
+                </div>
+                <div *ngIf="contractType != 'ALL_CONTRACTS'">
+                    <p>Não encontramos contratos para essa busca!</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </ion-content>
