@@ -47,7 +47,6 @@ export class UserContractsPage {
         res.subscribe((values) => {
           this.allContracts = values;
           this.contracts = values;
-          this.setContractStatusClass()
           this.onSuccess();
         })
       })
@@ -109,7 +108,7 @@ export class UserContractsPage {
 
   private getDoneContracts() {
     this.allContracts.forEach(el => {
-      if (el.contractId == this.userId) {
+      if (el.contractorUid == this.userId) {
         this.contracts.push(el);
       }
     })
