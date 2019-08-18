@@ -22,7 +22,10 @@
       </div>
       <div class="clearfix"></div>
     </div>
-    <div class="card contract">
+    <div class="contractStatus">
+      <h3>{{ contractStatus }}</h3>
+    </div>
+    <div class="card contract" [ngClass]="setContractStatusClass(contract.status)">
       <div class="cardTitle">
         <h3>{{contract.name}}</h3>
       </div>
@@ -32,8 +35,7 @@
       <div class="profileContracted">
         <div class="contractMainText">
           <p>Você contratou os serviços de
-            <b>{{hiredProfile.nome}}</b>
-            {{ hiredProfile.email }}
+            <b>{{hiredProfile.nome}}</b> {{ hiredProfile.email }}
           </p>
         </div>
         <div class="contactWithContract">

@@ -52,25 +52,36 @@ export class NewContractPage {
     var date: Date = new Date()
     let contract: Contract = {
       uId: UUID.UUID(),
+      contractId: UUID.UUID(),
+      ownerUid: this.userProfile.uid,
+      contractorUid: this.userProfile.uid,
+      hiredUid: this.profileToContract.uid,
       name: this.contractName,
       description: this.contractDesctiption,
-      date: date.getUTCDate().toString(),
-      userUid: this.userProfile.uid,
-      hiredUid: this.profileToContract.uid,
-      isActive: false,
+      date: date.toLocaleDateString(),
       status: Constants.CONTRACT_IS_OPEN,
       isRemoved: false
     }
 
+    this.saveDoubleContract(contract);
+  }
+
+  private saveDoubleContract(contract: Contract) {
     this.contractProvider.createContract(contract)
       .then((res) => {
-        console.log(res)
-        this.contractConfirmed = true
+        console.log(res);
+        contract.uId = UUID.UUID();
+        contract.ownerUid = this.profileToContract.uid;
+        contract.status = Constants.CONTRACT_IS_OPEN;
+        return this.contractProvider.createContract(contract)
+          .then(() => {
+            this.contractConfirmed = true;
+          });
       })
       .catch((err) => {
-        console.log(err)
-        this.contractConfirmed = false
-      })
+        console.log(err);
+        this.contractConfirmed = false;
+      });
   }
 
   setContractDescription() {

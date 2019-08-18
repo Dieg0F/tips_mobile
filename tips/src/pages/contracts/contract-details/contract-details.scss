@@ -27,6 +27,7 @@ page-contract-details {
       img {
         width: 100px;
         height: 100px;
+        border-radius: 100% !important;
       }
     }
 
@@ -64,11 +65,28 @@ page-contract-details {
     .cardBody p {
       opacity: 0.5;
       text-align: center !important;
+      margin: $smallSpace $mediumSpace;
     }
 
     .cardBody {
-      margin-bottom: $largeSpace;      
-    }    
+      margin-bottom: $largeSpace;
+    }
+  }
+
+  .contract.newContract {
+    border-bottom: 10px solid #81C784;
+  }
+
+  .contract.runningContract {
+    border-bottom: 10px solid #64B5F6;
+  }
+
+  .contract.finishedContract {
+    border-bottom: 10px solid #FF8A65;
+  }
+
+  .contract.canceledContract {
+    border-bottom: 10px solid #e57373;
   }
 
   .contractMainText {
@@ -100,7 +118,15 @@ page-contract-details {
       opacity: 0.5;
       margin: $smallSpace 0;
     }
-
   }
 
+  .contractStatus {
+    margin: $largeSpace 0px;
+    text-align: center;
+
+    h3 {
+      margin: 0px !important;
+      color: $lightTextColor;
+    }
+  }
 }

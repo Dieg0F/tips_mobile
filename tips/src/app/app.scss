@@ -97,6 +97,10 @@ page-results {
   background-size: cover;
   background-image: url("../assets/imgs/149071.png");
   margin: $smallSpace auto;
+
+  img {
+    border-radius: 100% !important;
+  }
 }
 
 .profileAvaliations {
@@ -171,6 +175,10 @@ page-results {
     height: 50px !important;
     margin: 0px !important;
     float: left;
+
+    img {
+      border-radius: 100% !important;
+    }
   }
 
   .profileName {
@@ -480,6 +488,16 @@ page-results {
 
 .clearfix {
   clear: both;
+}
+
+.filterResultsNotFound {
+  p {
+    margin: $largeSpace 0;
+    text-align: center;
+    line-height: 25px;
+    font-size: 22px;
+    color: $lightTextColor;
+  }
 }
 
 .popover-ios .popover-content,
