@@ -17,9 +17,13 @@ import { Constants } from '../../../util/constants/constants';
 export class ContractDetailsPage {
 
   public contract: Contract;
-  public contractStatus: string = ""
-  public userProfile = { ...AppConfig.USER_PROFILE };
+  public contractStatus: string = "";
+  public contractorProfile: Profile;
   public hiredProfile: Profile;
+  public userUid = AppConfig.USER_PROFILE.uid;
+
+  public btnActionText = "";
+  public btnActionFunction: any;
 
   constructor(
     public navCtrl: NavController,
@@ -27,9 +31,7 @@ export class ContractDetailsPage {
     public loading: Loading,
     public popover: Popover,
     public alert: Alert,
-    public profileProvider: ProfileProvider) {
-    this.getContract();
-  }
+    public profileProvider: ProfileProvider) { }
 
   ionViewWillEnter() {
     this.getContract();
@@ -37,31 +39,63 @@ export class ContractDetailsPage {
 
   async getContract() {
     this.contract = this.navParams.get(Constants.CONTRACT_DETAILS);
-    this.hiredProfile = this.navParams.get(Constants.CONTRACT_DETAILS_HIRED);
 
+    var profileUidToRequest = "";
+
+    if (this.contract.contractorUid == this.userUid) {
+      this.contractorProfile = { ...AppConfig.USER_PROFILE }
+      profileUidToRequest = this.contract.hiredUid
+    } else {
+      this.hiredProfile = { ...AppConfig.USER_PROFILE }
+      profileUidToRequest = this.contract.contractorUid
+    }
+
+    this.profileProvider.getProfile(profileUidToRequest)
+      .then((res) => {
+        if (this.contractorProfile == undefined || this.contractorProfile == null) {
+          this.contractorProfile = res.data();
+        } else {
+          this.hiredProfile = res.data();
+        }
+        this.buildContractStatusMessage();
+      })
+  }
+
+  buildContractStatusMessage() {
     switch (this.contract.status) {
       case Constants.CONTRACT_IS_OPEN:
-        if (this.contract.hiredUid = this.userProfile.uid) {
+        if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "Você ainda não aprovou este contrato!";
+          this.btnActionText = "Aprovar";
+          this.btnActionFunction = this.acceptCointractAction;
         } else {
           this.contractStatus = "Aguardando aprovação do contratado!";
         }
         break;
       case Constants.CONTRACT_IS_AWAIT_TO_CANCEL:
-        if (this.contract.hiredUid = this.userProfile.uid) {
+        if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "O contratado cancelou este contrato!";
+          this.btnActionText = "Cancelar";
+          this.btnActionFunction = this.cancelContractAction;
         } else {
           this.contractStatus = "Você cancelou este contrato!";
         }
         break;
       case Constants.CONTRACT_IS_AWAIT_TO_FINISH:
-        if (this.contract.hiredUid = this.userProfile.uid) {
+        if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "O contratado finalizou este contrato!";
+          this.btnActionText = "Finalizar";
+          this.btnActionFunction = this.finishContratcAction;
         } else {
           this.contractStatus = "Você finalizou este contrato!";
         }
         break;
     }
+
+    console.log("Contractor: " + this.contractorProfile.uid);
+    console.log("Hired: " + this.hiredProfile.uid);
+    console.log("Last Action By: " + this.contract.lastActionByUserUid);
+    console.log("User: " + this.userUid);
   }
 
   openOptions(event) {
@@ -127,4 +161,38 @@ export class ContractDetailsPage {
 
     return statusValue;
   }
+
+  cancelContractAction() {
+    this.alert.confirmAlert(
+      "Cancelamento de contrato!",
+      "O Contratante cancelou este contrato! Você confirma o cancelamento?",
+      () => { },
+      () => { },
+      "Não",
+      "Sim"
+    )
+  }
+
+  finishContratcAction() {
+    this.alert.confirmAlert(
+      "Finalizar contrato!",
+      "O Contratante finalizou este contrato! Você confirma o termino do contrato?",
+      () => { },
+      () => { },
+      "Não",
+      "Sim"
+    )
+  }
+
+  acceptCointractAction() {
+    this.alert.confirmAlert(
+      "Aceitar contrato!",
+      "Deseja aceitar este contrato?",
+      () => { },
+      () => { },
+      "Não",
+      "Sim"
+    )
+  }
+
 }

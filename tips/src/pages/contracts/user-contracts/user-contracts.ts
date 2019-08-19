@@ -70,13 +70,7 @@ export class UserContractsPage {
   }
 
   goToDetails(contract: any) {
-    this.profileProvider.getProfile(contract.hiredUid)
-      .then((res) => {
-        this.navCtrl.push('ContractDetailsPage', { 'contract': contract, 'hiredProfile': res.data() })
-      })
-      .catch(() => {
-        this.toast.showToast("Erro ao exibir detalhes do contrato!")
-      })
+    this.navCtrl.push('ContractDetailsPage', { 'contract': contract })
   }
 
   onFilterChange() {
@@ -102,6 +96,7 @@ export class UserContractsPage {
     this.allContracts.forEach(el => {
       if (el.hiredUid == this.userId) {
         this.contracts.push(el);
+        this.requestingContracts = false
       }
     })
   }
@@ -111,6 +106,7 @@ export class UserContractsPage {
       if (el.contractorUid == this.userId) {
         this.contracts.push(el);
       }
+      this.requestingContracts = false
     })
   }
 
@@ -123,6 +119,7 @@ export class UserContractsPage {
       if (el.status == status) {
         this.contracts.push(el);
       }
+      this.requestingContracts = false
     })
   }
 

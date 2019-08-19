@@ -14,8 +14,8 @@ import { Constants } from '../../../util/constants/constants';
 })
 export class NewContractPage {
 
-  public userProfile: Profile
-  public profileToContract: Profile
+  public contractorProfile: Profile
+  public hiredProfile: Profile
   public contractConfirmed: boolean = false
   public contract: Contract
 
@@ -27,17 +27,15 @@ export class NewContractPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public contractProvider: ContractProvider) {
-    this.getProfileToContract()
-  }
+    public contractProvider: ContractProvider) { }
 
   ionViewWillEnter() {
     this.getProfileToContract()
   }
 
   getProfileToContract() {
-    this.userProfile = { ...AppConfig.USER_PROFILE }
-    this.profileToContract = this.navParams.get(Constants.CONTRACT_PROFILE)
+    this.contractorProfile = { ...AppConfig.USER_PROFILE }
+    this.hiredProfile = this.navParams.get(Constants.CONTRACT_PROFILE)
   }
 
   makeContract() {
@@ -53,9 +51,10 @@ export class NewContractPage {
     let contract: Contract = {
       uId: UUID.UUID(),
       contractId: UUID.UUID(),
-      ownerUid: this.userProfile.uid,
-      contractorUid: this.userProfile.uid,
-      hiredUid: this.profileToContract.uid,
+      ownerUid: this.contractorProfile.uid,
+      contractorUid: this.contractorProfile.uid,
+      hiredUid: this.hiredProfile.uid,
+      lastActionByUserUid: this.contractorProfile.uid,
       name: this.contractName,
       description: this.contractDesctiption,
       date: date.toLocaleDateString(),
@@ -71,7 +70,7 @@ export class NewContractPage {
       .then((res) => {
         console.log(res);
         contract.uId = UUID.UUID();
-        contract.ownerUid = this.profileToContract.uid;
+        contract.ownerUid = this.hiredProfile.uid;
         contract.status = Constants.CONTRACT_IS_OPEN;
         return this.contractProvider.createContract(contract)
           .then(() => {

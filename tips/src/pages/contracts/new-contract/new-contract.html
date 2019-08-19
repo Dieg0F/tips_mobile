@@ -1,68 +1,65 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Novo Contrato</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Novo Contrato</ion-title>
+    </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-
-  <div>
-    <div class="usersPhotos">
-      <div class="userProfilePhoto">
-        <img src="{{userProfile.profilePhotoUrl}}" />
-      </div>
-      <div class="syncIcon">
-        <ion-icon name="sync"></ion-icon>
-      </div>
-      <div class="hiredProfilePhoto">
-        <img src="{{profileToContract.profilePhotoUrl}}" />
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div class="card contract" *ngIf="!contractConfirmed">
-      <div class="cardBody">
-        <p>Deseja Contratar os serviços de
-          <br />
-          <b>{{profileToContract.nome}}</b>?
-        </p>
-        <button ion-button (click)="setContractDescription()" *ngIf="!describeContract">Contratar</button>
-      </div>
-      <div class="contractDesciption" *ngIf="describeContract">
-        <div class="cardBody">
-          <p>
-            Informe o nome e uma breve descrição para este contrato:
-          </p>
-          <ion-item>
-            <ion-label floating>Nome</ion-label>
-            <ion-input [(ngModel)]="contractName" type="text" name="contractName" maxLength="30"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>Descrição</ion-label>
-            <ion-textarea [(ngModel)]="contractDesctiption" type="text" name="contractDesctiption" maxLength="300">
-            </ion-textarea>
-          </ion-item>
-          <button ion-button (click)="makeContract()">Confirmar</button>
+    <div *ngIf="contractorProfile != undefined && hiredProfile != undefined">
+        <div class="usersPhotos">
+            <div class="userProfilePhoto">
+                <img *ngIf="contractorProfile.profilePhotoUrl" src="{{contractorProfile.profilePhotoUrl}}" />
+            </div>
+            <div class="syncIcon">
+                <ion-icon name="sync"></ion-icon>
+            </div>
+            <div class="hiredProfilePhoto">
+                <img *ngIf="hiredProfile.profilePhotoUrl" src="{{hiredProfile.profilePhotoUrl}}" />
+            </div>
+            <div class="clearfix"></div>
         </div>
-      </div>
-    </div>
-    <div class="card contract" *ngIf="contractConfirmed">
-      <div class="profileContracted">
-        <div class="contractMainText">
-          <p>Você contratou os serviços de
-            <b>{{profileToContract.nome}}</b>
-            {{ profileToContract.email }}
-          </p>
+        <div class="card contract" *ngIf="!contractConfirmed">
+            <div class="cardBody">
+                <p>Deseja Contratar os serviços de
+                    <br />
+                    <b>{{ hiredProfile.nome}}</b>?
+                </p>
+                <button ion-button (click)="setContractDescription()" *ngIf="!describeContract">Contratar</button>
+            </div>
+            <div class="contractDesciption" *ngIf="describeContract">
+                <div class="cardBody">
+                    <p>
+                        Informe o nome e uma breve descrição para este contrato:
+                    </p>
+                    <ion-item>
+                        <ion-label floating>Nome</ion-label>
+                        <ion-input [(ngModel)]="contractName" type="text" name="contractName" maxLength="30"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Descrição</ion-label>
+                        <ion-textarea [(ngModel)]="contractDesctiption" type="text" name="contractDesctiption" maxLength="300">
+                        </ion-textarea>
+                    </ion-item>
+                    <button ion-button (click)="makeContract()">Confirmar</button>
+                </div>
+            </div>
         </div>
-        <div class="contactWithContract">
-          <p>{{profileToContract.telefone}}</p>
-          <p>{{profileToContract.rua}} - {{profileToContract.bairro}}
-            <br> {{profileToContract.cidade}} - {{profileToContract.estado}}</p>
+        <div class="card contract" *ngIf="contractConfirmed">
+            <div class="profileContracted">
+                <div class="contractMainText">
+                    <p>Você contratou os serviços de
+                        <b>{{hiredProfile.nome}}</b> {{ hiredProfile.email }}
+                    </p>
+                </div>
+                <div class="contactWithContract">
+                    <p>{{hiredProfile.telefone}}</p>
+                    <p>{{hiredProfile.rua}} - {{hiredProfile.bairro}}
+                        <br> {{hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="fullBackButton" *ngIf="contractConfirmed">
+            <button ion-button (click)="backToMyProfile()">Voltar ao meu perfil</button>
+        </div>
     </div>
-    <div class="fullBackButton" *ngIf="contractConfirmed">
-      <button ion-button (click)="backToMyProfile()">Voltar ao meu perfil</button>
-    </div>
-  </div>
 </ion-content>
