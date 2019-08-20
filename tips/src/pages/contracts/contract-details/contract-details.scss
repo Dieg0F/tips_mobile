@@ -110,7 +110,15 @@ page-contract-details {
             color: $lightTextColor;
         }
     }
+    .fixContentScroll {
+        .scroll-content {
+            margin-bottom: 56px !important;
+        }
+    }
     ion-footer {
+        ion-title {
+            margin-top: 0px !important;
+        }
         .toolbar-md,
         .toolbar-ios,
         .toolbar-title-md,

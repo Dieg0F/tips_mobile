@@ -8,6 +8,8 @@ import { Contract } from '../../../model/contract/contract';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { Constants } from '../../../util/constants/constants';
+import { ContractProvider } from '../../../providers/contract/contract';
+import { Toast } from '../../../util/toast/toast';
 
 @IonicPage()
 @Component({
@@ -23,7 +25,10 @@ export class ContractDetailsPage {
   public userUid = AppConfig.USER_PROFILE.uid;
 
   public btnActionText = "";
-  public btnActionFunction: any;
+  public btnActionFunction: Function;
+
+  public loadingMessage = "";
+  public toastMessage = "";
 
   constructor(
     public navCtrl: NavController,
@@ -31,6 +36,8 @@ export class ContractDetailsPage {
     public loading: Loading,
     public popover: Popover,
     public alert: Alert,
+    public toast: Toast,
+    public contractProvider: ContractProvider,
     public profileProvider: ProfileProvider) { }
 
   ionViewWillEnter() {
@@ -67,7 +74,7 @@ export class ContractDetailsPage {
         if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "Você ainda não aprovou este contrato!";
           this.btnActionText = "Aprovar";
-          this.btnActionFunction = this.acceptCointractAction;
+          this.btnActionFunction = this.acceptContractAction.bind(this);
         } else {
           this.contractStatus = "Aguardando aprovação do contratado!";
         }
@@ -76,7 +83,7 @@ export class ContractDetailsPage {
         if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "O contratado cancelou este contrato!";
           this.btnActionText = "Cancelar";
-          this.btnActionFunction = this.cancelContractAction;
+          this.btnActionFunction = this.cancelContractAction.bind(this);
         } else {
           this.contractStatus = "Você cancelou este contrato!";
         }
@@ -85,7 +92,7 @@ export class ContractDetailsPage {
         if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "O contratado finalizou este contrato!";
           this.btnActionText = "Finalizar";
-          this.btnActionFunction = this.finishContratcAction;
+          this.btnActionFunction = this.finishContratcAction.bind(this);
         } else {
           this.contractStatus = "Você finalizou este contrato!";
         }
@@ -166,7 +173,7 @@ export class ContractDetailsPage {
     this.alert.confirmAlert(
       "Cancelamento de contrato!",
       "O Contratante cancelou este contrato! Você confirma o cancelamento?",
-      () => { },
+      () => { this.cancelContract() },
       () => { },
       "Não",
       "Sim"
@@ -177,22 +184,54 @@ export class ContractDetailsPage {
     this.alert.confirmAlert(
       "Finalizar contrato!",
       "O Contratante finalizou este contrato! Você confirma o termino do contrato?",
-      () => { },
+      () => { this.finishContract() },
       () => { },
       "Não",
       "Sim"
     )
   }
 
-  acceptCointractAction() {
+  acceptContractAction() {
     this.alert.confirmAlert(
       "Aceitar contrato!",
       "Deseja aceitar este contrato?",
-      () => { },
+      () => { this.acceptContract() },
       () => { },
       "Não",
       "Sim"
     )
   }
 
+  finishContract() {
+    this.contract.status = Constants.CONTRACT_IS_FINISHED;
+    this.loadingMessage = "Finalizando contrato...";
+    this.toastMessage = "Contrato finalizado!";
+    this.updateContract();
+  }
+
+  cancelContract() {
+    this.contract.status = Constants.CONTRACT_IS_CANCELED;
+    this.loadingMessage = "Cancelando contrato...";
+    this.toastMessage = "";
+    this.updateContract();
+  }
+
+  acceptContract() {
+    this.contract.status = Constants.CONTRACT_IS_RUNNING
+    this.loadingMessage = "Aceitando contrato...";
+    this.toastMessage = "Contrato aceito!";
+    this.updateContract();
+  }
+
+  updateContract() {
+    this.contract.lastActionByUserUid = this.userUid;
+    this.loading.showLoading(this.loadingMessage)
+    this.contractProvider.updateContract(this.contract)
+      .then(() => {
+        this.toast.showToast(this.toastMessage);
+      })
+      .catch(() => {
+        this.toast.showToast("Erro ao atualizar o status do contrato.");
+      })
+  }
 }

@@ -8,7 +8,7 @@
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-<ion-content padding>
+<ion-content padding [ngClass]="btnActionText ? 'fixContentScroll' : '' ">
     <div class="contractDetail" *ngIf="contractorProfile != undefined && hiredProfile != undefined">
         <div class="usersPhotos">
             <div class="userProfilePhoto">
@@ -50,7 +50,7 @@
 <ion-footer *ngIf="contractorProfile != undefined && hiredProfile != undefined && contract.lastActionByUserUid != userUid">
     <ion-toolbar>
         <ion-title>
-            <button ion-button full (click)="btnActionFunction">{{btnActionText}}</button>
+            <button ion-button full (click)="btnActionFunction()">{{btnActionText}}</button>
         </ion-title>
     </ion-toolbar>
 </ion-footer>
