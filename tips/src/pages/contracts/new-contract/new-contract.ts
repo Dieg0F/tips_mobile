@@ -67,8 +67,7 @@ export class NewContractPage {
 
   private saveDoubleContract(contract: Contract) {
     this.contractProvider.createContract(contract)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         contract.uId = UUID.UUID();
         contract.ownerUid = this.hiredProfile.uid;
         contract.status = Constants.CONTRACT_IS_OPEN;

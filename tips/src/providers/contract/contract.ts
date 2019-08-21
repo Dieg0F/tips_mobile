@@ -30,6 +30,16 @@ export class ContractProvider {
             .toPromise()
     }
 
+    async getContractByContractId(contract: Contract): Promise<any> {
+        console.log('getContractByContractId >> Get Contract : ', contract.contractId)
+        return this.db.collection(Constants.CONTRACTS_COLLECTION,
+            ref => {
+                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+                if (contract.contractId) { query = query.where('contractId', '==', contract.contractId) };
+                return query;
+            }).valueChanges()
+    }
+
     async getContracts(userId: string): Promise<any> {
         return this.db.collection(Constants.CONTRACTS_COLLECTION,
             ref => {
