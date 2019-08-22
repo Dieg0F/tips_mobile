@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Constants } from '../../util/constants/constants';
 
+import firebase from 'firebase';
+
 @Injectable()
 export class ContractProvider {
 
@@ -20,6 +22,12 @@ export class ContractProvider {
         return this.db.collection(Constants.CONTRACTS_COLLECTION)
             .doc(contract.uId)
             .set(contract)
+    }
+
+    async updateMultipleContract(contract: Contract): Promise<void> {
+        console.log('createContract >> Updating Contract :: ', contract)
+        return firebase.firestore().collection(Constants.CONTRACTS_COLLECTION)
+            .doc(contract.uId).update(contract);
     }
 
     async getContract(contractUid: string): Promise<any> {
@@ -59,5 +67,24 @@ export class ContractProvider {
                 query = query.orderBy('date', 'desc')
                 return query;
             }).valueChanges()
+    }
+
+    async updateContractAction(contract: Contract, userId: string): Promise<any> {
+        contract.lastActionByUserUid = userId;
+        return this.getContractByContractId(contract)
+            .then(async (res) => {
+                var otherContract: Contract;
+                res.subscribe(async (value) => {
+                    value.forEach((element: Contract) => {
+                        if (element.ownerUid != userId && element.contractId == contract.contractId) {
+                            otherContract = element
+                            otherContract.lastActionByUserUid = userId;
+                            otherContract.status = contract.status;
+                            otherContract.isRemoved = contract.isRemoved;
+                        }
+                    });
+                });
+                this.updateMultipleContract(contract).then(async () => { return this.updateMultipleContract(otherContract) });
+            })
     }
 }

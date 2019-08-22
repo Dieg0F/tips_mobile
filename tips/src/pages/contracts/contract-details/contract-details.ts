@@ -224,33 +224,15 @@ export class ContractDetailsPage {
   }
 
   updateContract() {
-    this.contract.lastActionByUserUid = this.userUid;
-    this.loading.showLoading(this.loadingMessage)
-
-    this.contractProvider.getContractByContractId(this.contract)
-      .then((res) => {
-        res.subscribe((value) => {
-
-          var otherContract: Contract
-          value.forEach((element: Contract) => {
-            if (element.ownerUid != this.userUid) {
-              otherContract = element
-              otherContract.lastActionByUserUid = this.userUid;
-              otherContract.status = this.contract.status;
-              otherContract.isRemoved = this.contract.isRemoved;
-            }
-          });
-          return this.contractProvider.updateContract(this.contract)
-            .then(() => {
-              return this.contractProvider.updateContract(otherContract)
-                .then(() => {
-                  this.toast.showToast(this.toastMessage);
-                })
-            })
-        })
+    this.loading.showLoading(this.loadingMessage);
+    this.contractProvider.updateContractAction(this.contract, this.userUid)
+      .then(() => {
+        this.loading.hideLoading();
+        this.toast.showToast(this.toastMessage);
       })
       .catch(() => {
-        this.toast.showToast("Erro ao atualizar o status do contrato.");
+        this.loading.hideLoading();
+        this.toast.showToast("Erro ao alterar contrato!");
       })
   }
 }

@@ -27,7 +27,7 @@ export class ProfilePage {
   ionViewWillEnter() {
     var elm = document.getElementById('img_profile');
     elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
-    this.contractManager();
+    //this.contractManager();
   }
 
   starsRate(value: number): Array<String> {
