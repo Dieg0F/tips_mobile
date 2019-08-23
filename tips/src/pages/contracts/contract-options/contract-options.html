@@ -1,7 +1,5 @@
 <ion-content>
-    <button ion-item (click)="finishContractAlert()" *ngIf="this.contract.status == 'CONTRACT_IS_RUNNING' &&
-     this.contract.lastActionByUserUid != userUid">Finalizar</button>
-    <button ion-item (click)="cancelContractAlert()" *ngIf="(this.contract.status == 'CONTRACT_IS_RUNNING' || this.contract.status == 'CONTRACT_IS_OPEN') &&
-     this.contract.lastActionByUserUid != userUid">Cancelar</button>
-    <button ion-item (click)="removeContractAlert()" *ngIf="this.contract.status == 'CONTRACT_IS_FINISHED'">Remover</button>
+    <button ion-item (click)="finishContractAlert()" *ngIf="finishAction">Finalizar</button>
+    <button ion-item (click)="cancelContractAlert()" *ngIf="cancelAction">Cancelar</button>
+    <button ion-item (click)="removeContractAlert()" *ngIf="removeAction">Remover</button>
 </ion-content>

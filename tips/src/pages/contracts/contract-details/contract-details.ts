@@ -19,13 +19,17 @@ import { Toast } from '../../../util/toast/toast';
 export class ContractDetailsPage {
 
   public contract: Contract;
-  public contractStatus: string = "";
   public contractorProfile: Profile;
   public hiredProfile: Profile;
   public userUid = AppConfig.USER_PROFILE.uid;
 
   public btnActionText = "";
   public btnActionFunction: Function;
+
+  public contractStatusClass: string = "";
+  public contractStatus: string = "";
+
+  public showContractActions: boolean = false;
 
   public loadingMessage = "";
   public toastMessage = "";
@@ -64,19 +68,21 @@ export class ContractDetailsPage {
         } else {
           this.hiredProfile = res.data();
         }
-        this.buildContractStatusMessage();
+        this.buildContractStatusMessage(this.contract.status);
       })
   }
 
-  buildContractStatusMessage() {
-    switch (this.contract.status) {
+  buildContractStatusMessage(status: string) {
+    switch (status) {
       case Constants.CONTRACT_IS_OPEN:
         if (this.contract.lastActionByUserUid != this.userUid) {
           this.contractStatus = "Você ainda não aprovou este contrato!";
           this.btnActionText = "Aprovar";
           this.btnActionFunction = this.acceptContractAction.bind(this);
+          this.showContractActions = true;
         } else {
           this.contractStatus = "Aguardando aprovação do contratado!";
+          this.showContractActions = false;
         }
         break;
       case Constants.CONTRACT_IS_AWAIT_TO_CANCEL:
@@ -84,8 +90,10 @@ export class ContractDetailsPage {
           this.contractStatus = "O contratado cancelou este contrato!";
           this.btnActionText = "Cancelar";
           this.btnActionFunction = this.cancelContractAction.bind(this);
+          this.showContractActions = true;
         } else {
           this.contractStatus = "Você cancelou este contrato!";
+          this.showContractActions = false;
         }
         break;
       case Constants.CONTRACT_IS_AWAIT_TO_FINISH:
@@ -93,9 +101,29 @@ export class ContractDetailsPage {
           this.contractStatus = "O contratado finalizou este contrato!";
           this.btnActionText = "Finalizar";
           this.btnActionFunction = this.finishContratcAction.bind(this);
+          this.showContractActions = true;
         } else {
           this.contractStatus = "Você finalizou este contrato!";
+          this.showContractActions = false;
         }
+        break;
+      case Constants.CONTRACT_IS_RUNNING:
+        this.contractStatus = "Contrato em andamento!";
+        this.btnActionText = "";
+        this.btnActionFunction = null;
+        this.showContractActions = false;
+        break;
+      case Constants.CONTRACT_IS_FINISHED:
+        this.contractStatus = "Contrato finalizado!";
+        this.btnActionText = "";
+        this.btnActionFunction = null;
+        this.showContractActions = false;
+        break;
+      case Constants.CONTRACT_IS_CANCELED:
+        this.contractStatus = "Contrato cancelado!";
+        this.btnActionText = "";
+        this.btnActionFunction = null;
+        this.showContractActions = false;
         break;
     }
 
@@ -109,10 +137,10 @@ export class ContractDetailsPage {
     this.popover.showPopover("ContractOptionsPage", { 'contract': this.contract }, event)
   }
 
-  setContractStatusClass(status): String {
+  setContractStatusClass() {
     var statusClass = " "
 
-    switch (status) {
+    switch (this.contract.status) {
       case Constants.CONTRACT_IS_OPEN:
         statusClass += "newContract";
         break;
@@ -136,10 +164,10 @@ export class ContractDetailsPage {
         break;
     }
 
-    return statusClass;
+    this.contractStatusClass = statusClass;
   }
 
-  setStatusValueToShow(status): String {
+  setStatusValueToShow(status): string {
     var statusValue = ""
 
     switch (status) {
@@ -224,14 +252,13 @@ export class ContractDetailsPage {
   }
 
   updateContract() {
-    this.loading.showLoading(this.loadingMessage);
     this.contractProvider.updateContractAction(this.contract, this.userUid)
       .then(() => {
-        this.loading.hideLoading();
         this.toast.showToast(this.toastMessage);
+        this.setContractStatusClass();
+        this.buildContractStatusMessage(this.contract.status);
       })
       .catch(() => {
-        this.loading.hideLoading();
         this.toast.showToast("Erro ao alterar contrato!");
       })
   }
