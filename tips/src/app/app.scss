@@ -79,12 +79,13 @@ page-results {
 
 .profilePhoto {
     border-radius: 100%;
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     border: 2px solid #ffffff;
     background-size: cover;
     background-image: url("../assets/imgs/149071.png");
-    margin: $smallSpace auto;
+    float: left;
+    margin-left: $mediumSpace;
     img {
         border-radius: 100% !important;
     }
@@ -101,10 +102,18 @@ page-results {
 }
 
 .mainTitle {
-    padding: $smallSpace;
+    width: calc(100% - 100px);
+    padding: $smallSpace $largeSpace;
     margin-bottom: $highSpace;
+    float: left;
+    span {
+        margin-top: 5px;
+        font-size: 16px;
+        display: block;
+        font-weight: lighter !important;
+    }
     h1 {
-        text-align: center;
+        text-align: left;
         margin: 0px !important;
         color: $lightTextColor !important;
     }
@@ -464,7 +473,6 @@ page-contract-options {
     text-align: center;
     height: 380px;
     padding: $largeSpace 0px;
-    align-items: center;
     color: #ffffff;
     ion-icon {
         font-size: 50px;
