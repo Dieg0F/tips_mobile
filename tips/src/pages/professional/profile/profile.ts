@@ -16,6 +16,8 @@ export class ProfilePage {
 
   public profile = { ...AppConfig.USER_PROFILE }
 
+  public greetingMesage = "";
+
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
@@ -27,7 +29,7 @@ export class ProfilePage {
   ionViewWillEnter() {
     var elm = document.getElementById('img_profile');
     elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
-    //this.contractManager();
+    this.greetingMessageBuilder();
   }
 
   starsRate(value: number): Array<String> {
@@ -77,5 +79,20 @@ export class ProfilePage {
           }
         })
       })
+  }
+
+  greetingMessageBuilder() {
+    var date = new Date()
+    var hours = date.getHours();
+
+    if (hours >= 0 && hours < 5) {
+      this.greetingMesage = "Boa madrugada, ";
+    } else if (hours >= 5 && hours <= 12) {
+      this.greetingMesage = "Bom dia, ";
+    } else if (hours > 13 && hours <= 18) {
+      this.greetingMesage = "Boa tarde, ";
+    } else if (hours > 18 && hours < 24) {
+      this.greetingMesage = "Boa noite, ";
+    }
   }
 }

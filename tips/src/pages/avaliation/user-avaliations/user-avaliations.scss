@@ -1,41 +1,33 @@
 page-user-avaliations {
-  ion-title {
-    margin-left: 0px !important;
-    margin-top: 3px;
-  }
-
-  .filter {
-
-    margin-bottom: $mediumSpace;
-
-    .item-md,
-    .item-ios {
-      padding-left: 0px !important;
-      background-color: transparent;
-      border: none;
+    ion-title {
+        margin-left: 0px !important;
+        margin-top: 3px;
     }
-
-    ion-select {
-      width: 100% !important;
-      max-width: 100% !important;
-      // font-family: 'Open Sans', sans-serif;
+    .filter {
+        margin-bottom: $mediumSpace;
+        .item-md,
+        .item-ios {
+            padding-left: 0px !important;
+            background-color: transparent;
+            border: none;
+        }
+        ion-select {
+            width: 100% !important;
+            max-width: 100% !important;
+            // font-family: 'Open Sans', sans-serif;
+        }
+        .item-inner {
+            border: none !important;
+            color: $lightTextColor !important;
+        }
+        .select-icon-inner {
+            color: $lightTextColor !important;
+        }
     }
-
-    .item-inner {
-      border: none !important;
-      color: $lightTextColor !important;
+    .rate {
+        margin: $smallSpace 0;
+        ion-icon {
+            font-size: 18px !important;
+        }
     }
-
-    .select-icon-inner {
-      color: $lightTextColor !important;
-    }
-  }
-
-  .rate {
-    margin: $smallSpace 0;
-
-    ion-icon {
-      font-size: 18px !important;
-    }
-  }
 }

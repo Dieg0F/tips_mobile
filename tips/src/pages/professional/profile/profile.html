@@ -1,94 +1,96 @@
 <ion-menu [content]="mycontent" type="overlay">
-  <ion-content>
-    <profile-menu></profile-menu>
-  </ion-content>
+    <ion-content>
+        <profile-menu></profile-menu>
+    </ion-content>
 </ion-menu>
 <ion-nav #mycontent></ion-nav>
 
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons>
-      <button ion-button icon-only menuToggle>
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-    </ion-buttons>
-    <ion-buttons (click)="search()">
-      <button ion-button icon-only>
+        </ion-buttons>
+        <ion-buttons (click)="search()">
+            <button ion-button icon-only>
         <ion-icon name="search"></ion-icon>
       </button>
-    </ion-buttons>
-  </ion-toolbar>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <div class="profilePhoto" id="img_profile">
-    <img *ngIf="profile.profilePhotoUrl" src="{{profile.profilePhotoUrl}}" />
-  </div>
-  <div class="mainTitle">
-    <h1>Bem Vindo<br />{{profile.nome}}</h1>
-  </div>
-
-  <div class="card">
-    <div class="cardTitle">
-      <h2>Apresentação:</h2>
-    </div>
-    <div class="cardBody">
-      <p>
-        {{profile.aboutMe}}
-      </p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="cardTitle">
-      <h2>Serviços:</h2>
-    </div>
-    <div class="cardBody">
-      <p *ngIf="profile.areaAtuacao">Área de atuação: {{profile.areaAtuacao}}</p>
-      <p *ngIf="profile.setor">Setor: {{profile.setor}}</p>
-    </div>
-
-    <div class="cardFooter">
-      <h5>Mais Informações</h5>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="cardTitle">
-      <h2>Contatos:</h2>
-    </div>
-    <div class="cardBody">
-      <p>E-mail: {{profile.email}}</p>
-      <p>Telefone: {{profile.telefone}}</p>
-    </div>
-
-    <div class="cardFooter" (click)="contact()">
-      <h5>Mais Informações</h5>
-    </div>
-  </div>
-
-
-  <div class="card">
-    <div class="cardTitle">
-      <h2>Minhas Avaliação:</h2>
-    </div>
-    <div class="cardBody profileAvaliations">
-      <div>
-        <p>Menor nota:</p>
-        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMinRate); let i of index">
-          <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMinRate)" *ngIf="i != 5"></ion-icon>
+    <div>
+        <div class="profilePhoto" id="img_profile">
+            <img *ngIf="profile.profilePhotoUrl" src="{{profile.profilePhotoUrl}}" />
         </div>
-      </div>
-      <div>
-        <p>Maior nota:</p>
-        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMaxRate); let i of index">
-          <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMaxRate)" *ngIf="i != 5"></ion-icon>
+        <div class="mainTitle">
+            <h1><span>{{ greetingMesage }}</span>{{profile.nome}}</h1>
         </div>
-      </div>
-      <div class="clearfix"></div>
+        <div class="clearfix"></div>
     </div>
-    <div class="cardFooter" (click)="rating()">
-      <h5>Ver Avaliações</h5>
+
+    <div class="card">
+        <div class="cardTitle">
+            <h2>Apresentação:</h2>
+        </div>
+        <div class="cardBody">
+            <p>
+                {{profile.aboutMe}}
+            </p>
+        </div>
     </div>
-  </div>
+
+    <div class="card">
+        <div class="cardTitle">
+            <h2>Serviços:</h2>
+        </div>
+        <div class="cardBody">
+            <p *ngIf="profile.areaAtuacao">Área de atuação: {{profile.areaAtuacao}}</p>
+            <p *ngIf="profile.setor">Setor: {{profile.setor}}</p>
+        </div>
+
+        <div class="cardFooter">
+            <h5>Mais Informações</h5>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="cardTitle">
+            <h2>Contatos:</h2>
+        </div>
+        <div class="cardBody">
+            <p>E-mail: {{profile.email}}</p>
+            <p>Telefone: {{profile.telefone}}</p>
+        </div>
+
+        <div class="cardFooter" (click)="contact()">
+            <h5>Mais Informações</h5>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="cardTitle">
+            <h2>Minhas Avaliação:</h2>
+        </div>
+        <div class="cardBody profileAvaliations">
+            <div>
+                <p>Menor nota:</p>
+                <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMinRate); let i of index">
+                    <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMinRate)" *ngIf="i != 5"></ion-icon>
+                </div>
+            </div>
+            <div>
+                <p>Maior nota:</p>
+                <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMaxRate); let i of index">
+                    <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMaxRate)" *ngIf="i != 5"></ion-icon>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="cardFooter" (click)="rating()">
+            <h5>Ver Avaliações</h5>
+        </div>
+    </div>
 </ion-content>
