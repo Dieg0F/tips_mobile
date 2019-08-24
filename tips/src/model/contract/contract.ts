@@ -8,6 +8,7 @@ export interface Contract {
     ownerUid: string;
     contractorUid: string;
     hiredUid: string;
+    lastActionByUserUid: string;
     name: string;
     description: string;
     date: string;

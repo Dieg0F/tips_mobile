@@ -29,7 +29,6 @@ export class ProfilePage {
   ionViewWillEnter() {
     var elm = document.getElementById('img_profile');
     elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
-    this.contractManager();
     this.greetingMessageBuilder();
   }
 
@@ -65,7 +64,8 @@ export class ProfilePage {
             if ((element.status == Constants.CONTRACT_IS_OPEN ||
               element.status == Constants.CONTRACT_IS_AWAIT_TO_CANCEL ||
               element.status == Constants.CONTRACT_IS_AWAIT_TO_FINISH) &&
-              element.hiredUid == this.profile.uid) {
+              (element.lastActionByUserUid != this.profile.uid) &&
+              (element.ownerUid == this.profile.uid)) {
               hasContractPending = true
             }
           });
@@ -73,7 +73,7 @@ export class ProfilePage {
           if (hasContractPending) {
             this.alert.confirmAlert(
               "Contratos pendentes!",
-              "Você possui contratos aguardando sua aprovação!",
+              "Você possui contratos aguardando sua ação!",
               () => { this.navCtrl.push("UserContractsPage"); },
               () => { }, "Depois", "Ver Contratos")
           }

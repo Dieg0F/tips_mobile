@@ -7,7 +7,7 @@ export class Loading {
 
     private loader: any
 
-    constructor(public loadingCtrl: LoadingController) {}
+    constructor(public loadingCtrl: LoadingController) { }
 
     showLoading(loadingMessage: string) {
         this.loader = this.loadingCtrl.create({
@@ -17,7 +17,9 @@ export class Loading {
         this.loader.present();
     }
 
-    hideLoading(){
-        this.loader.dismiss();
+    hideLoading() {
+        if (this.loader != undefined) {
+            this.loader.dismiss();
+        }
     }
 }
