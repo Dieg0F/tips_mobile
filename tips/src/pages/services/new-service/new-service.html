@@ -5,16 +5,16 @@
 </ion-header>
 
 <ion-content padding>
-    <div *ngIf="serviceorProfile != undefined && hiredProfile != undefined">
+    <div *ngIf="contractorProfile != undefined && hiredProfile != undefined">
         <div class="usersPhotos">
-            <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
-                <img *ngIf="serviceorProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
+            <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + contractorProfile.profilePhotoUrl + ')'}">
+                <img *ngIf="!contractorProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="syncIcon">
                 <ion-icon name="sync"></ion-icon>
             </div>
-            <div class="hiredProfilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
-                <img *ngIf="hiredProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
+            <div class="hiredProfilePhoto" [ngStyle]="{ 'background-image': 'url(' + hiredProfile.profilePhotoUrl + ')'}">
+                <img *ngIf="!hiredProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="clearfix"></div>
         </div>
@@ -22,7 +22,7 @@
             <div class="cardBody">
                 <p>Deseja Contratar os serviços de
                     <br />
-                    <b>{{ hiredProfile.nome}}</b>?
+                    <b>{{ hiredProfile.nome }}</b>?
                 </p>
                 <button ion-button (click)="setServiceDescription()" *ngIf="!describeService">Contratar</button>
             </div>
@@ -33,7 +33,8 @@
                     </p>
                     <ion-item>
                         <ion-label floating>Nome</ion-label>
-                        <ion-input [(ngModel)]="serviceName" type="text" name="serviceName" maxLength="30"></ion-input>
+                        <ion-input [(ngModel)]="serviceName" type="text" name="serviceName" maxLength="30">
+                        </ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-label floating>Descrição</ion-label>
@@ -48,13 +49,13 @@
             <div class="profileServiceed">
                 <div class="serviceMainText">
                     <p>Você serviçou os serviços de
-                        <b>{{hiredProfile.nome}}</b> {{ hiredProfile.email }}
+                        <b>{{ hiredProfile.nome}}</b> {{ hiredProfile.email }}
                     </p>
                 </div>
                 <div class="contactWithService">
                     <p>{{hiredProfile.telefone}}</p>
                     <p>{{hiredProfile.rua}} - {{hiredProfile.bairro}}
-                        <br> {{hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
+                        <br> {{ hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
                 </div>
             </div>
         </div>

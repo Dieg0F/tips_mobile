@@ -14,7 +14,7 @@ import { Constants } from '../../../util/constants/constants';
 })
 export class NewServicePage {
 
-  public serviceorProfile: Profile
+  public contractorProfile: Profile
   public hiredProfile: Profile
   public serviceConfirmed: boolean = false
   public service: Service
@@ -34,7 +34,7 @@ export class NewServicePage {
   }
 
   getProfileToService() {
-    this.serviceorProfile = { ...AppConfig.USER_PROFILE }
+    this.contractorProfile = { ...AppConfig.USER_PROFILE }
     this.hiredProfile = this.navParams.get(Constants.SERVICE_PROFILE)
   }
 
@@ -51,10 +51,10 @@ export class NewServicePage {
     let service: Service = {
       uId: UUID.UUID(),
       serviceId: UUID.UUID(),
-      ownerUid: this.serviceorProfile.uid,
-      serviceorUid: this.serviceorProfile.uid,
+      ownerUid: this.contractorProfile.uid,
+      serviceorUid: this.contractorProfile.uid,
       hiredUid: this.hiredProfile.uid,
-      lastActionByUserUid: this.serviceorProfile.uid,
+      lastActionByUserUid: this.contractorProfile.uid,
       name: this.serviceName,
       description: this.serviceDesctiption,
       date: date.toLocaleDateString(),

@@ -49,7 +49,7 @@ page-service-details {
             }
         }
     }
-    .contract {
+    .service {
         padding: $largeSpace 0px;
         .cardTitle {
             font-size: 23px;
@@ -64,19 +64,19 @@ page-service-details {
             margin-bottom: $largeSpace;
         }
     }
-    .contract.newContract {
+    .service.newService {
         border-bottom: 10px solid #81C784;
     }
-    .contract.runningContract {
+    .service.runningService {
         border-bottom: 10px solid #64B5F6;
     }
-    .contract.finishedContract {
+    .service.finishedService {
         border-bottom: 10px solid #FF8A65;
     }
-    .contract.canceledContract {
+    .service.canceledService {
         border-bottom: 10px solid #e57373;
     }
-    .contractMainText {
+    .serviceMainText {
         text-align: center;
         p {
             color: $darkTextColor;
@@ -91,7 +91,7 @@ page-service-details {
             }
         }
     }
-    .contactWithContract {
+    .contactWithService {
         text-align: center;
         padding: 0px $mediumSpace;
         p {
@@ -102,7 +102,7 @@ page-service-details {
             margin: $smallSpace 0;
         }
     }
-    .contractStatus {
+    .serviceStatus {
         margin: $largeSpace 0px;
         text-align: center;
         h3 {

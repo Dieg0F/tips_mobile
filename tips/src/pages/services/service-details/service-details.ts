@@ -19,7 +19,7 @@ import { Toast } from '../../../util/toast/toast';
 export class ServiceDetailsPage {
 
   public service: Service;
-  public serviceorProfile: Profile;
+  public contractorProfile: Profile;
   public hiredProfile: Profile;
   public userUid = AppConfig.USER_PROFILE.uid;
 
@@ -54,7 +54,7 @@ export class ServiceDetailsPage {
     var profileUidToRequest = "";
 
     if (this.service.serviceorUid == this.userUid) {
-      this.serviceorProfile = { ...AppConfig.USER_PROFILE }
+      this.contractorProfile = { ...AppConfig.USER_PROFILE }
       profileUidToRequest = this.service.hiredUid
     } else {
       this.hiredProfile = { ...AppConfig.USER_PROFILE }
@@ -63,8 +63,8 @@ export class ServiceDetailsPage {
 
     this.profileProvider.getProfile(profileUidToRequest)
       .then((res) => {
-        if (this.serviceorProfile == undefined || this.serviceorProfile == null) {
-          this.serviceorProfile = res.data();
+        if (this.contractorProfile == undefined || this.contractorProfile == null) {
+          this.contractorProfile = res.data();
         } else {
           this.hiredProfile = res.data();
         }
@@ -127,7 +127,7 @@ export class ServiceDetailsPage {
         break;
     }
 
-    console.log("Serviceor: " + this.serviceorProfile.uid);
+    console.log("Serviceor: " + this.contractorProfile.uid);
     console.log("Hired: " + this.hiredProfile.uid);
     console.log("Last Action By: " + this.service.lastActionByUserUid);
     console.log("User: " + this.userUid);
