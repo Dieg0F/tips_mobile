@@ -2,12 +2,12 @@ import { AvaliationProvider } from './../../../providers/avaliation/avaliation';
 import { Alert } from './../../../util/alert/alert';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
-import { ContractProvider } from './../../../providers/contract/contract';
+import { ServiceProvider } from './../../../providers/service/service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Constants } from '../../../util/constants/constants';
 import { AppConfig } from '../../../model/static/static';
-import { Contract } from '../../../model/contract/contract';
+import { Service } from '../../../model/service/service';
 
 
 @IonicPage()
@@ -17,9 +17,9 @@ import { Contract } from '../../../model/contract/contract';
 })
 export class ServiceOptionsPage {
 
-  public contract: Contract;
+  public service: Service;
 
-  public contractFinishedStatus = Constants.CONTRACT_IS_FINISHED
+  public serviceFinishedStatus = Constants.SERVICE_IS_FINISHED
   public userUid = AppConfig.USER_PROFILE.uid
 
   public loadingMessage = ""
@@ -36,98 +36,98 @@ export class ServiceOptionsPage {
     public toast: Toast,
     public loading: Loading,
     public alert: Alert,
-    public contractProvider: ContractProvider,
+    public serviceProvider: ServiceProvider,
     public avaliationProvider: AvaliationProvider) {
-    this.contract = this.navParams.get(Constants.CONTRACT_DETAILS);
+    this.service = this.navParams.get(Constants.SERVICE_DETAILS);
   }
 
   ionViewWillEnter() {
-    this.contract = this.navParams.get(Constants.CONTRACT_DETAILS);
+    this.service = this.navParams.get(Constants.SERVICE_DETAILS);
     this.setButtons();
   }
 
   setButtons() {
-    if (this.contract.status == Constants.CONTRACT_IS_FINISHED ||
-      this.contract.status == Constants.CONTRACT_IS_CANCELED) {
+    if (this.service.status == Constants.SERVICE_IS_FINISHED ||
+      this.service.status == Constants.SERVICE_IS_CANCELED) {
       this.removeAction = true;
       this.cancelAction = false;
       this.finishAction = false;
     }
-    if (this.contract.status == Constants.CONTRACT_IS_RUNNING) {
+    if (this.service.status == Constants.SERVICE_IS_RUNNING) {
       this.cancelAction = true;
       this.finishAction = true;
       this.removeAction = false;
     }
   }
 
-  cancelContractAlert() {
+  cancelServiceAlert() {
     this.close();
     this.alert.confirmAlert(
-      "Cancelar Contrato",
-      "Deseja cancelar este contrato?",
-      this.cancelContract.bind(this),
+      "Cancelar Serviço",
+      "Deseja cancelar este serviço?",
+      this.cancelService.bind(this),
       () => { })
   }
 
-  removeContractAlert() {
+  removeServiceAlert() {
     this.close()
     this.alert.confirmAlert(
-      "Remover Contrato",
-      "Deseja remover este contrato?",
-      this.removeContract.bind(this),
+      "Remover Serviço",
+      "Deseja remover este serviço?",
+      this.removeService.bind(this),
       () => { })
   }
 
-  finishContractAlert() {
+  finishServiceAlert() {
     this.close()
     this.alert.confirmAlert(
-      "Finalizar Contrato",
-      "Deseja finalizar este contrato?",
-      this.finishContract.bind(this),
+      "Finalizar Serviço",
+      "Deseja finalizar este serviço?",
+      this.finishService.bind(this),
       () => { })
   }
 
 
-  finishContract() {
-    this.contract.status = Constants.CONTRACT_IS_AWAIT_TO_FINISH;
-    this.loadingMessage = "Finalizando contrato...";
-    this.toastMessage = "Contrato finalizado!";
-    this.updateContract();
+  finishService() {
+    this.service.status = Constants.SERVICE_IS_AWAIT_TO_FINISH;
+    this.loadingMessage = "Finalizando serviço...";
+    this.toastMessage = "Serviço finalizado!";
+    this.updateService();
   }
 
-  cancelContract() {
-    this.contract.status = Constants.CONTRACT_IS_AWAIT_TO_CANCEL;
-    this.loadingMessage = "Cancelando contrato...";
-    this.toastMessage = "Contrato cancelado!";
-    this.updateContract();
+  cancelService() {
+    this.service.status = Constants.SERVICE_IS_AWAIT_TO_CANCEL;
+    this.loadingMessage = "Cancelando serviço...";
+    this.toastMessage = "Serviço cancelado!";
+    this.updateService();
   }
 
-  removeContract() {
-    this.contract.status = Constants.CONTRACT_IS_REMOVED;
-    this.contract.isRemoved = true;
-    this.loadingMessage = "Removendo contrato...";
-    this.toastMessage = "Contrato removido!";
-    this.updateContract();
+  removeService() {
+    this.service.status = Constants.SERVICE_IS_REMOVED;
+    this.service.isRemoved = true;
+    this.loadingMessage = "Removendo serviço...";
+    this.toastMessage = "Serviço removido!";
+    this.updateService();
   }
 
-  updateContract() {
-    this.contract.lastActionByUserUid = this.userUid;
+  updateService() {
+    this.service.lastActionByUserUid = this.userUid;
     this.loading.showLoading(this.loadingMessage)
-    if (this.contract.status == Constants.CONTRACT_IS_REMOVED) {
-      this.contractProvider.updateContract(this.contract)
+    if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+      this.serviceProvider.updateService(this.service)
         .then(() => {
           this.toast.showToast(this.toastMessage);
         })
         .catch(() => {
-          this.toast.showToast("Erro ao atualizar o status do contrato.");
+          this.toast.showToast("Erro ao atualizar o status do serviço.");
         })
     } else {
-      this.contractProvider.updateContractAction(this.contract, this.userUid)
+      this.serviceProvider.updateServiceAction(this.service, this.userUid)
         .then(() => {
           this.toast.showToast(this.toastMessage);
         })
         .catch(() => {
-          this.toast.showToast("Erro ao atualizar o status do contrato.");
+          this.toast.showToast("Erro ao atualizar o status do serviço.");
         })
     }
   }

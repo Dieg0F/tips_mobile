@@ -1,9 +1,9 @@
-import { ContractProvider } from './../../../providers/contract/contract';
+import { ServiceProvider } from './../../../providers/service/service';
 import { Profile } from './../../../model/profile/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
-import { Contract } from '../../../model/contract/contract';
+import { Service } from '../../../model/service/service';
 import { UUID } from 'angular2-uuid';
 import { Constants } from '../../../util/constants/constants';
 
@@ -14,76 +14,76 @@ import { Constants } from '../../../util/constants/constants';
 })
 export class NewServicePage {
 
-  public contractorProfile: Profile
+  public serviceorProfile: Profile
   public hiredProfile: Profile
-  public contractConfirmed: boolean = false
-  public contract: Contract
+  public serviceConfirmed: boolean = false
+  public service: Service
 
-  public contractName = "";
-  public contractDesctiption = "";
+  public serviceName = "";
+  public serviceDesctiption = "";
 
-  public describeContract: boolean = false
+  public describeService: boolean = false
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public contractProvider: ContractProvider) { }
+    public serviceProvider: ServiceProvider) { }
 
   ionViewWillEnter() {
-    this.getProfileToContract()
+    this.getProfileToService()
   }
 
-  getProfileToContract() {
-    this.contractorProfile = { ...AppConfig.USER_PROFILE }
-    this.hiredProfile = this.navParams.get(Constants.CONTRACT_PROFILE)
+  getProfileToService() {
+    this.serviceorProfile = { ...AppConfig.USER_PROFILE }
+    this.hiredProfile = this.navParams.get(Constants.SERVICE_PROFILE)
   }
 
-  makeContract() {
+  makeService() {
     setTimeout(() => {
-      this.contractConfirmed = true;
-      this.describeContract = false;
-      this.contractUser()
+      this.serviceConfirmed = true;
+      this.describeService = false;
+      this.serviceUser()
     }, 2000)
   }
 
-  contractUser() {
+  serviceUser() {
     var date: Date = new Date()
-    let contract: Contract = {
+    let service: Service = {
       uId: UUID.UUID(),
-      contractId: UUID.UUID(),
-      ownerUid: this.contractorProfile.uid,
-      contractorUid: this.contractorProfile.uid,
+      serviceId: UUID.UUID(),
+      ownerUid: this.serviceorProfile.uid,
+      serviceorUid: this.serviceorProfile.uid,
       hiredUid: this.hiredProfile.uid,
-      lastActionByUserUid: this.contractorProfile.uid,
-      name: this.contractName,
-      description: this.contractDesctiption,
+      lastActionByUserUid: this.serviceorProfile.uid,
+      name: this.serviceName,
+      description: this.serviceDesctiption,
       date: date.toLocaleDateString(),
-      status: Constants.CONTRACT_IS_OPEN,
+      status: Constants.SERVICE_IS_OPEN,
       isRemoved: false
     }
 
-    this.saveDoubleContract(contract);
+    this.saveDoubleService(service);
   }
 
-  private saveDoubleContract(contract: Contract) {
-    this.contractProvider.createContract(contract)
+  private saveDoubleService(service: Service) {
+    this.serviceProvider.createService(service)
       .then(() => {
-        contract.uId = UUID.UUID();
-        contract.ownerUid = this.hiredProfile.uid;
-        contract.status = Constants.CONTRACT_IS_OPEN;
-        return this.contractProvider.createContract(contract)
+        service.uId = UUID.UUID();
+        service.ownerUid = this.hiredProfile.uid;
+        service.status = Constants.SERVICE_IS_OPEN;
+        return this.serviceProvider.createService(service)
           .then(() => {
-            this.contractConfirmed = true;
+            this.serviceConfirmed = true;
           });
       })
       .catch((err) => {
         console.log(err);
-        this.contractConfirmed = false;
+        this.serviceConfirmed = false;
       });
   }
 
-  setContractDescription() {
-    this.describeContract = true;
+  setServiceDescription() {
+    this.describeService = true;
   }
 
   backToMyProfile() {

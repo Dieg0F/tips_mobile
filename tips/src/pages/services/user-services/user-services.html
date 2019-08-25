@@ -1,48 +1,48 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Meus Contratos</ion-title>
+        <ion-title>Meus Serviços</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <div class="filter">
         <ion-item>
-            <ion-select [(ngModel)]="contractType" (ionChange)="onFilterChange()">
-                <ion-option value="ALL_CONTRACTS">Todos os contratos</ion-option>
-                <ion-option value="CONTRACTS_DONE">Contratos feitos</ion-option>
-                <ion-option value="CONTRACTS_RECEIVED">Contratos recebidos</ion-option>
-                <ion-option value="CONTRACT_IS_OPEN">Contratos abertos</ion-option>
-                <ion-option value="CONTRACT_IS_RUNNING">Contratos em andamento</ion-option>
-                <ion-option value="CONTRACT_IS_FINISHED">Contratos terminados</ion-option>
-                <ion-option value="CONTRACT_IS_CANCELED">Contratos cancelados</ion-option>
-                <ion-option value="CONTRACT_IS_REMOVED">Contratos removidos</ion-option>
-                <ion-option value="CONTRACT_IS_AWAIT_TO_FINISH">Contratos para terminar</ion-option>
-                <ion-option value="CONTRACT_IS_AWAIT_TO_CANCEL">Contratos para cancelar</ion-option>
+            <ion-select [(ngModel)]="serviceType" (ionChange)="onFilterChange()">
+                <ion-option value="ALL_SERVICES">Todos os serviços</ion-option>
+                <ion-option value="SERVICES_DONE">Serviços feitos</ion-option>
+                <ion-option value="SERVICES_RECEIVED">Serviços recebidos</ion-option>
+                <ion-option value="SERVICE_IS_OPEN">Serviços abertos</ion-option>
+                <ion-option value="SERVICE_IS_RUNNING">Serviços em andamento</ion-option>
+                <ion-option value="SERVICE_IS_FINISHED">Serviços terminados</ion-option>
+                <ion-option value="SERVICE_IS_CANCELED">Serviços cancelados</ion-option>
+                <ion-option value="SERVICE_IS_REMOVED">Serviços removidos</ion-option>
+                <ion-option value="SERVICE_IS_AWAIT_TO_FINISH">Serviços para terminar</ion-option>
+                <ion-option value="SERVICE_IS_AWAIT_TO_CANCEL">Serviços para cancelar</ion-option>
             </ion-select>
         </ion-item>
     </div>
     <div class="list">
-        <div *ngIf="contracts.length >= 1">
-            <div class="card contractItemList" [ngClass]="setContractStatusClass(contract.status)" *ngFor="let contract of contracts; let i of index;" (click)="goToDetails(contract)">
+        <div *ngIf="services.length >= 1">
+            <div class="card serviceItemList" [ngClass]="setServiceStatusClass(service.status)" *ngFor="let service of services; let i of index;" (click)="goToDetails(service)">
                 <div class="cardTitle">
-                    <h3>{{contract.name}}</h3>
+                    <h3>{{ service.name }}</h3>
                 </div>
                 <div class="cardBody">
-                    <p>{{contract.description}}</p>
+                    <p>{{ service.description }}</p>
                 </div>
                 <div class="cardFooter">
-                    <h3>{{ setStatusValueToShow(contract.status) }}</h3>
+                    <h3>{{ setStatusValueToShow(service.status) }}</h3>
                 </div>
             </div>
         </div>
-        <div class="notFound" class="filterResultsNotFound" *ngIf="!requestingContracts">
-            <div class="body" *ngIf="contracts.length == 0">
+        <div class="notFound" class="filterResultsNotFound" *ngIf="!requestingServices">
+            <div class="body" *ngIf="services.length == 0">
                 <ion-icon name="information-circle"></ion-icon>
-                <div *ngIf="contractType == 'ALL_CONTRACTS'">
-                    <p>Você não possui contratos!</p>
+                <div *ngIf="serviceType == 'ALL_SERVICES'">
+                    <p>Você não tem serviços!</p>
                 </div>
-                <div *ngIf="contractType != 'ALL_CONTRACTS'">
-                    <p>Não encontramos contratos para essa busca!</p>
+                <div *ngIf="serviceType != 'ALL_SERVICES'">
+                    <p>Não encontramos serviços para esse tipo de filtro!</p>
                 </div>
             </div>
         </div>

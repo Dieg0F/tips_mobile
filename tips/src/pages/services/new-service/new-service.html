@@ -1,64 +1,64 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Novo Contrato</ion-title>
+        <ion-title>Novo Serviço</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <div *ngIf="contractorProfile != undefined && hiredProfile != undefined">
+    <div *ngIf="serviceorProfile != undefined && hiredProfile != undefined">
         <div class="usersPhotos">
-            <div class="userProfilePhoto">
-                <img *ngIf="contractorProfile.profilePhotoUrl" src="{{contractorProfile.profilePhotoUrl}}" />
+            <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+                <img *ngIf="serviceorProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="syncIcon">
                 <ion-icon name="sync"></ion-icon>
             </div>
-            <div class="hiredProfilePhoto">
-                <img *ngIf="hiredProfile.profilePhotoUrl" src="{{hiredProfile.profilePhotoUrl}}" />
+            <div class="hiredProfilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+                <img *ngIf="hiredProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="card contract" *ngIf="!contractConfirmed">
+        <div class="card service" *ngIf="!serviceConfirmed">
             <div class="cardBody">
                 <p>Deseja Contratar os serviços de
                     <br />
                     <b>{{ hiredProfile.nome}}</b>?
                 </p>
-                <button ion-button (click)="setContractDescription()" *ngIf="!describeContract">Contratar</button>
+                <button ion-button (click)="setServiceDescription()" *ngIf="!describeService">Contratar</button>
             </div>
-            <div class="contractDesciption" *ngIf="describeContract">
+            <div class="serviceDesciption" *ngIf="describeService">
                 <div class="cardBody">
                     <p>
-                        Informe o nome e uma breve descrição para este contrato:
+                        Informe o nome e uma breve descrição para este serviço:
                     </p>
                     <ion-item>
                         <ion-label floating>Nome</ion-label>
-                        <ion-input [(ngModel)]="contractName" type="text" name="contractName" maxLength="30"></ion-input>
+                        <ion-input [(ngModel)]="serviceName" type="text" name="serviceName" maxLength="30"></ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-label floating>Descrição</ion-label>
-                        <ion-textarea [(ngModel)]="contractDesctiption" type="text" name="contractDesctiption" maxLength="300">
+                        <ion-textarea [(ngModel)]="serviceDesctiption" type="text" name="serviceDesctiption" maxLength="300">
                         </ion-textarea>
                     </ion-item>
-                    <button ion-button (click)="makeContract()">Confirmar</button>
+                    <button ion-button (click)="makeService()">Confirmar</button>
                 </div>
             </div>
         </div>
-        <div class="card contract" *ngIf="contractConfirmed">
-            <div class="profileContracted">
-                <div class="contractMainText">
-                    <p>Você contratou os serviços de
+        <div class="card service" *ngIf="serviceConfirmed">
+            <div class="profileServiceed">
+                <div class="serviceMainText">
+                    <p>Você serviçou os serviços de
                         <b>{{hiredProfile.nome}}</b> {{ hiredProfile.email }}
                     </p>
                 </div>
-                <div class="contactWithContract">
+                <div class="contactWithService">
                     <p>{{hiredProfile.telefone}}</p>
                     <p>{{hiredProfile.rua}} - {{hiredProfile.bairro}}
                         <br> {{hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
                 </div>
             </div>
         </div>
-        <div class="fullBackButton" *ngIf="contractConfirmed">
+        <div class="fullBackButton" *ngIf="serviceConfirmed">
             <button ion-button (click)="backToMyProfile()">Voltar ao meu perfil</button>
         </div>
     </div>

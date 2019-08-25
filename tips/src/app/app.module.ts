@@ -1,4 +1,4 @@
-import { ContractProvider } from './../providers/contract/contract';
+import { ServiceProvider } from './../providers/service/service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -77,7 +77,7 @@ const config = {
     ProfileProvider,
     StorageProvider,
     CameraProvider,
-    ContractProvider,
+    ServiceProvider,
     DataProvider,
     HttpService,
     FileChooser,

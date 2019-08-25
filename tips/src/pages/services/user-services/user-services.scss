@@ -23,12 +23,12 @@ page-user-services {
             color: $lightTextColor !important;
         }
     }
-    .contractStatus.open {
+    .serviceStatus.open {
         margin: 15px 0px 0px;
         text-align: right;
         font-size: 12px;
     }
-    .contractItemList {
+    .serviceItemList {
         .cardBody {
             max-height: 100px;
             overflow: hidden;
@@ -45,31 +45,31 @@ page-user-services {
             }
         }
     }
-    .contractItemList.newContract {
+    .serviceItemList.newService {
         border-right: 10px solid #81C784;
         .cardFooter>h3 {
             color: #81C784;
         }
     }
-    .contractItemList.runningContract {
+    .serviceItemList.runningService {
         border-right: 10px solid #64B5F6;
         .cardFooter>h3 {
             color: #64B5F6;
         }
     }
-    .contractItemList.finishedContract {
+    .serviceItemList.finishedService {
         border-right: 10px solid #FF8A65;
         .cardFooter>h3 {
             color: #FF8A65;
         }
     }
-    .contractItemList.canceledContract {
+    .serviceItemList.canceledService {
         border-right: 10px solid #e57373;
         .cardFooter>h3 {
             color: #e57373;
         }
     }
-    .contractItemList.removedContract {
+    .serviceItemList.removedService {
         border-right: 10px solid #444;
         opacity: 0.5;
         .cardFooter>h3 {

@@ -20,7 +20,7 @@ export class AppConfig {
         userRate: 0,
         userMaxRate: 0,
         userMinRate: 0,
-        contractsCount: 0,
+        servicesCount: 0,
         avaliationsCount: 0,
         geoLocation: undefined,
     }

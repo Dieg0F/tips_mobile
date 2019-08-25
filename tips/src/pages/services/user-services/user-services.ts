@@ -4,8 +4,8 @@ import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ContractProvider } from '../../../providers/contract/contract';
-import { Contract } from '../../../model/contract/contract';
+import { ServiceProvider } from '../../../providers/service/service';
+import { Service } from '../../../model/service/service';
 import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
@@ -15,14 +15,14 @@ import { AppConfig } from '../../../model/static/static';
 })
 export class UserServicesPage {
 
-  public contracts: Array<Contract> = new Array<Contract>();
-  public allContracts: Array<Contract> = new Array<Contract>();
+  public services: Array<Service> = new Array<Service>();
+  public allServices: Array<Service> = new Array<Service>();
 
   public userId = AppConfig.USER_PROFILE.uid;
 
-  public contractType = Constants.ALL_CONTRACTS;
+  public serviceType = Constants.ALL_SERVICES;
 
-  public requestingContracts = true;
+  public requestingServices = true;
 
   constructor(
     public navCtrl: NavController,
@@ -30,23 +30,23 @@ export class UserServicesPage {
     public toast: Toast,
     public loading: Loading,
     public profileProvider: ProfileProvider,
-    public contractProvider: ContractProvider) {
-    this.getContracts()
+    public serviceProvider: ServiceProvider) {
+    this.getServices()
   }
 
   ionViewWillEnter() {
     this.onFilterChange();
   }
 
-  getContracts() {
-    this.contracts = new Array<Contract>();
-    this.allContracts = new Array<Contract>();
-    this.loading.showLoading("Buscando contratos...");
-    this.contractProvider.getContracts(this.userId)
+  getServices() {
+    this.services = new Array<Service>();
+    this.allServices = new Array<Service>();
+    this.loading.showLoading("Buscando serviços...");
+    this.serviceProvider.getServices(this.userId)
       .then((res) => {
         res.subscribe((values) => {
-          this.allContracts = values;
-          this.contracts = values;
+          this.allServices = values;
+          this.services = values;
           this.onSuccess();
         })
       })
@@ -57,10 +57,10 @@ export class UserServicesPage {
   }
 
   private onSuccess() {
-    this.requestingContracts = false
+    this.requestingServices = false
     this.loading.hideLoading();
-    if (this.contracts.length > 1) {
-      this.toast.showToast("Exibindo " + this.contracts.length.toString() + " contratos!");
+    if (this.services.length > 1) {
+      this.toast.showToast("Exibindo " + this.services.length.toString() + " serviços!");
     }
   }
 
@@ -69,84 +69,84 @@ export class UserServicesPage {
     this.toast.showToast("Erro ao buscar avaliações!");
   }
 
-  goToDetails(contract: any) {
-    this.navCtrl.push('ServiceDetailsPage', { 'contract': contract })
+  goToDetails(service: any) {
+    this.navCtrl.push('ServiceDetailsPage', { 'service': service })
   }
 
   onFilterChange() {
-    this.requestingContracts = true
-    this.contracts = new Array<Contract>()
-    switch (this.contractType) {
-      case Constants.ALL_CONTRACTS:
-        this.getAllContracts();
+    this.requestingServices = true
+    this.services = new Array<Service>()
+    switch (this.serviceType) {
+      case Constants.ALL_SERVICES:
+        this.getAllServices();
         break;
-      case Constants.CONTRACTS_RECEIVED:
-        this.getReceivedContracts();
+      case Constants.SERVICES_RECEIVED:
+        this.getReceivedServices();
         break;
-      case Constants.CONTRACTS_DONE:
-        this.getDoneContracts();
+      case Constants.SERVICES_DONE:
+        this.getDoneServices();
         break;
       default:
-        this.getContractsByStatus(this.contractType);
+        this.getServicesByStatus(this.serviceType);
         break;
     }
   }
 
-  private getReceivedContracts() {
-    this.allContracts.forEach(el => {
+  private getReceivedServices() {
+    this.allServices.forEach(el => {
       if (el.hiredUid == this.userId) {
-        this.contracts.push(el);
-        this.requestingContracts = false
+        this.services.push(el);
+        this.requestingServices = false
       }
     })
   }
 
-  private getDoneContracts() {
-    this.allContracts.forEach(el => {
-      if (el.contractorUid == this.userId) {
-        this.contracts.push(el);
+  private getDoneServices() {
+    this.allServices.forEach(el => {
+      if (el.serviceorUid == this.userId) {
+        this.services.push(el);
       }
-      this.requestingContracts = false
+      this.requestingServices = false
     })
   }
 
-  private getAllContracts() {
-    this.contracts = this.allContracts;
+  private getAllServices() {
+    this.services = this.allServices;
   }
 
-  private getContractsByStatus(status: string) {
-    this.allContracts.forEach(el => {
+  private getServicesByStatus(status: string) {
+    this.allServices.forEach(el => {
       if (el.status == status) {
-        this.contracts.push(el);
+        this.services.push(el);
       }
-      this.requestingContracts = false
+      this.requestingServices = false
     })
   }
 
-  setContractStatusClass(status): String {
+  setServiceStatusClass(status): String {
     var statusClass = " "
 
     switch (status) {
-      case Constants.CONTRACT_IS_OPEN:
-        statusClass += "newContract";
+      case Constants.SERVICE_IS_OPEN:
+        statusClass += "newService";
         break;
-      case Constants.CONTRACT_IS_RUNNING:
-        statusClass += "runningContract";
+      case Constants.SERVICE_IS_RUNNING:
+        statusClass += "runningService";
         break;
-      case Constants.CONTRACT_IS_FINISHED:
-        statusClass += "finishedContract";
+      case Constants.SERVICE_IS_FINISHED:
+        statusClass += "finishedService";
         break;
-      case Constants.CONTRACT_IS_CANCELED:
-        statusClass += "canceledContract";
+      case Constants.SERVICE_IS_CANCELED:
+        statusClass += "canceledService";
         break;
-      case Constants.CONTRACT_IS_AWAIT_TO_FINISH:
-        statusClass += "finishedContract";
+      case Constants.SERVICE_IS_AWAIT_TO_FINISH:
+        statusClass += "finishedService";
         break;
-      case Constants.CONTRACT_IS_AWAIT_TO_CANCEL:
-        statusClass += "canceledContract";
+      case Constants.SERVICE_IS_AWAIT_TO_CANCEL:
+        statusClass += "canceledService";
         break;
-      case Constants.CONTRACT_IS_REMOVED:
-        statusClass += "removedContract";
+      case Constants.SERVICE_IS_REMOVED:
+        statusClass += "removedService";
         break;
     }
 
@@ -157,25 +157,25 @@ export class UserServicesPage {
     var statusValue = ""
 
     switch (status) {
-      case Constants.CONTRACT_IS_OPEN:
+      case Constants.SERVICE_IS_OPEN:
         statusValue += "Novo";
         break;
-      case Constants.CONTRACT_IS_RUNNING:
+      case Constants.SERVICE_IS_RUNNING:
         statusValue += "Em Andamento";
         break;
-      case Constants.CONTRACT_IS_FINISHED:
+      case Constants.SERVICE_IS_FINISHED:
         statusValue += "Finalizado";
         break;
-      case Constants.CONTRACT_IS_CANCELED:
+      case Constants.SERVICE_IS_CANCELED:
         statusValue += "Cancelado";
         break;
-      case Constants.CONTRACT_IS_AWAIT_TO_FINISH:
+      case Constants.SERVICE_IS_AWAIT_TO_FINISH:
         statusValue += "Finalizando";
         break;
-      case Constants.CONTRACT_IS_AWAIT_TO_CANCEL:
+      case Constants.SERVICE_IS_AWAIT_TO_CANCEL:
         statusValue += "Cancelando";
         break;
-      case Constants.CONTRACT_IS_REMOVED:
+      case Constants.SERVICE_IS_REMOVED:
         statusValue += "Removido";
         break;
     }

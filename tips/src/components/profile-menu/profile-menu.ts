@@ -60,7 +60,7 @@ export class ProfileMenuComponent implements OnInit {
     this.navCtrl.push("UserAvaliationsPage");
   }
 
-  contracts() {
+  services() {
     this.navCtrl.push("UserServicesPage");
   }
 

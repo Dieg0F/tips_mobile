@@ -1,6 +1,6 @@
 import { Alert } from './../../../util/alert/alert';
 import { Constants } from './../../../util/constants/constants';
-import { ContractProvider } from './../../../providers/contract/contract';
+import { ServiceProvider } from './../../../providers/service/service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
@@ -21,7 +21,7 @@ export class ProfilePage {
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
-    public contractProvider: ContractProvider,
+    public serviceProvider: ServiceProvider,
     public alert: Alert,
     public navParams: NavParams) { }
 
@@ -51,28 +51,28 @@ export class ProfilePage {
     this.navCtrl.push("UserAvaliationsPage");
   }
 
-  contractManager() {
-    this.contractProvider.getContracts(this.profile.uid)
+  serviceManager() {
+    this.serviceProvider.getServices(this.profile.uid)
       .then((res) => {
         res.subscribe((values) => {
-          var hasContractPending = false
+          var hasServicePending = false
 
           values.forEach(element => {
-            if ((element.status == Constants.CONTRACT_IS_OPEN ||
-              element.status == Constants.CONTRACT_IS_AWAIT_TO_CANCEL ||
-              element.status == Constants.CONTRACT_IS_AWAIT_TO_FINISH) &&
+            if ((element.status == Constants.SERVICE_IS_OPEN ||
+              element.status == Constants.SERVICE_IS_AWAIT_TO_CANCEL ||
+              element.status == Constants.SERVICE_IS_AWAIT_TO_FINISH) &&
               (element.lastActionByUserUid != this.profile.uid) &&
               (element.ownerUid == this.profile.uid)) {
-              hasContractPending = true
+              hasServicePending = true
             }
           });
 
-          if (hasContractPending) {
+          if (hasServicePending) {
             this.alert.confirmAlert(
-              "Contratos pendentes!",
-              "Você possui contratos aguardando sua ação!",
-              () => { this.navCtrl.push("UserContractsPage"); },
-              () => { }, "Depois", "Ver Contratos")
+              "Serviços pendentes!",
+              "Você possui serviços aguardando sua ação!",
+              () => { this.navCtrl.push("UserServicesPage"); },
+              () => { }, "Depois", "Ver Serviços")
           }
         })
       })
