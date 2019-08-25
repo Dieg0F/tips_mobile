@@ -6,6 +6,8 @@ import { Locations } from '../../../providers/locations/locations';
 import { Toast } from '../../../util/toast/toast';
 import { Loading } from '../../../util/loading/loading';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
+import { AppConfig } from '../../../model/static/static';
+import { Profile } from '../../../model/profile/profile';
 
 @IonicPage()
 @Component({
@@ -31,12 +33,12 @@ export class SearchPage {
   public stateSelected: any;
   public citySelected: any;
 
-  public filterOptions: FilterOptions
+  public filterOptions: FilterOptions;
 
   public searchIsOpen: boolean = true;
 
   public profiles = []
-  private starsRateHelper: StarRateHelper
+  private starsRateHelper: StarRateHelper;
 
   constructor(
     public navCtrl: NavController,
@@ -45,8 +47,8 @@ export class SearchPage {
     public toast: Toast,
     public loading: Loading,
     public profileProvider: ProfileProvider) {
-    this.starsRateHelper = new StarRateHelper
-    this.filterOptions = new FilterOptions
+    this.starsRateHelper = new StarRateHelper;
+    this.filterOptions = new FilterOptions;
   }
 
   ionViewWillEnter() {
@@ -59,7 +61,7 @@ export class SearchPage {
         this.states = res
       })
       .catch(() => {
-        this.toast.showToast("Stated not found! ")
+        this.toast.showToast("Estado não encontrado! ");
       })
   }
 
@@ -69,7 +71,7 @@ export class SearchPage {
   }
 
   getCites(stateId: number) {
-    this.loading.showLoading("Buscando cidades...")
+    this.loading.showLoading("Buscando cidades...");
     this.locations.getCityes(stateId)
       .then((res) => {
         this.cities = res
@@ -77,48 +79,65 @@ export class SearchPage {
       })
       .catch(() => {
         this.loading.hideLoading()
-        this.toast.showToast("Cities not found! ")
+        this.toast.showToast("Cidade não encontrada! ");
       })
   }
 
   onCitySelect() {
-    this.filterOptions.profileCity = this.citySelected.nome
+    this.filterOptions.profileCity = this.citySelected.nome;
   }
 
   createFilter() {
-    this.filterOptions.profileName = this.profileName
-    this.filterOptions.profileRate = parseInt(this.rating.toString())
-    this.filterOptions.profileSector = this.setor
-    this.filterOptions.profileArea = this.areaAtuacao
+    console.log("filter: ", this.filterOptions)
+    this.filterOptions.profileName = this.profileName;
+    this.filterOptions.profileRate = parseInt(this.rating.toString());
+    this.filterOptions.profileSector = this.setor;
+    this.filterOptions.profileArea = this.areaAtuacao;
 
-    this.requestProfiles()
+    if (this.filterOptions.profileCity == undefined || this.filterOptions.profileCity == "") {
+      this.filterOptions.profileCity == AppConfig.USER_PROFILE.cidade;
+    }
+
+    if (this.filterOptions.profileState == undefined || this.filterOptions.profileState == "") {
+      this.filterOptions.profileState == AppConfig.USER_PROFILE.estado;
+    }
+
+    this.requestProfiles();
   }
 
   requestProfiles() {
-    this.loading.showLoading("Buscando perfis...")
-    this.profileProvider.getProfiles(this.filterOptions, this.itemsForPage).then((res) => {
-      res.subscribe((values) => {
-        this.results(values)
+    this.profileProvider.getProfiles(this.filterOptions, this.itemsForPage)
+      .then((res) => {
+        res.subscribe((values) => {
+          this.results(values)
+        });
       })
-    })
+      .catch(() => {
+        this.searchIsOpen = true;
+        this.toast.showToast(`Ops, erro ao buscar profissionais!`);
+      });
   }
 
   results(values: any) {
+    this.buildList(values);
     if (values.length > 0) {
       this.pageTiitle = "Resultado da busca"
       this.searchIsOpen = false;
-      this.loading.hideLoading();
-      this.buildList(values)
     } else {
       this.searchIsOpen = true;
       this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`);
-      this.loading.hideLoading();
     }
   }
 
   buildList(values) {
-    this.profiles = values
-    this.itemsOnPage = this.profiles.length;
+    if (values.length > 0) {
+      values.forEach((element: Profile) => {
+        if (element.uid != AppConfig.USER_PROFILE.uid) {
+          this.profiles.push(element)
+        }
+      });
+      this.itemsOnPage = this.profiles.length;
+    }
   }
 
   doInfinite(infiniteScroll) {
