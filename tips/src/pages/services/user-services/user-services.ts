@@ -66,7 +66,7 @@ export class UserServicesPage {
 
   private onError() {
     this.loading.hideLoading();
-    this.toast.showToast("Erro ao buscar avaliações!");
+    this.toast.showToast("Erro ao buscar serviços!");
   }
 
   goToDetails(service: any) {
