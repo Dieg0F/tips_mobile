@@ -66,8 +66,10 @@ export class SearchPage {
   }
 
   onStateSelect() {
-    this.filterOptions.profileState = this.stateSelected.nome
-    this.getCites(this.stateSelected.id)
+    if (this.stateSelected.id != undefined) {
+      this.filterOptions.profileState = this.stateSelected.sigla;
+      this.getCites(this.stateSelected.id)
+    }
   }
 
   getCites(stateId: number) {
@@ -84,22 +86,28 @@ export class SearchPage {
   }
 
   onCitySelect() {
-    this.filterOptions.profileCity = this.citySelected.nome;
+    if (this.stateSelected.sigla != "Todas") {
+      this.filterOptions.profileCity = this.citySelected.nome;
+    }
   }
 
   createFilter() {
-    console.log("filter: ", this.filterOptions)
     this.filterOptions.profileName = this.profileName;
     this.filterOptions.profileRate = parseInt(this.rating.toString());
     this.filterOptions.profileSector = this.setor;
     this.filterOptions.profileArea = this.areaAtuacao;
 
-    if (this.filterOptions.profileCity == undefined || this.filterOptions.profileCity == "") {
-      this.filterOptions.profileCity == AppConfig.USER_PROFILE.cidade;
+    if (this.filterOptions.profileCity == undefined) {
+      this.filterOptions.profileCity = AppConfig.USER_PROFILE.cidade;
     }
 
-    if (this.filterOptions.profileState == undefined || this.filterOptions.profileState == "") {
-      this.filterOptions.profileState == AppConfig.USER_PROFILE.estado;
+    if (this.filterOptions.profileState == undefined) {
+      this.filterOptions.profileState = AppConfig.USER_PROFILE.estado;
+    }
+
+    if (this.filterOptions.profileName != "") {
+      this.filterOptions.profileCity = "";
+      this.filterOptions.profileState = "";
     }
 
     this.requestProfiles();
@@ -120,7 +128,7 @@ export class SearchPage {
 
   results(values: any) {
     this.buildList(values);
-    if (values.length > 0) {
+    if (this.profiles.length > 0) {
       this.pageTiitle = "Resultado da busca"
       this.searchIsOpen = false;
     } else {
