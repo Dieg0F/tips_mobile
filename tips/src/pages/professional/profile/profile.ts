@@ -26,19 +26,7 @@ export class ProfilePage {
     public navParams: NavParams) { }
 
   ionViewWillEnter() {
-    this.loadProfilePhoto();
     this.greetingMessageBuilder();
-  }
-
-  ionViewDidLoad() {
-    this.loadProfilePhoto();
-  }
-
-  loadProfilePhoto() {
-    if (this.profile.profilePhotoUrl != "") {
-      var elm = document.getElementById('img_profile');
-      elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
-    }
   }
 
   starsRate(value: number): Array<String> {

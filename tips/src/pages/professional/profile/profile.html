@@ -23,7 +23,7 @@
 <ion-content padding>
     <div *ngIf="this.profile != undefined || this.profile != null">
         <div>
-            <div class="profilePhoto" id="img_profile">
+            <div class="profilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
                 <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="mainTitle">
@@ -91,7 +91,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="this.profile != undefined || this.profile != null">
+    <div *ngIf="this.profile == undefined || this.profile == null">
         <div>
             Carregando...
         </div>
