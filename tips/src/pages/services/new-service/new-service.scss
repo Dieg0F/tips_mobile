@@ -1,4 +1,4 @@
-page-contract-details {
+page-new-service {
     ion-title {
         margin-left: 0px !important;
         margin-top: 3px;
@@ -50,7 +50,6 @@ page-contract-details {
         }
     }
     .contract {
-        padding: $largeSpace 0px;
         .cardTitle {
             font-size: 23px;
         }
@@ -58,23 +57,45 @@ page-contract-details {
         .cardBody p {
             opacity: 0.5;
             text-align: center !important;
-            margin: $smallSpace $mediumSpace;
         }
         .cardBody {
-            margin-bottom: $largeSpace;
+            padding: $mediumSpace;
+            .button-md,
+            .button-ios {
+                margin: 0 auto !important;
+                display: inline-block;
+                border-radius: $bigRadius;
+                margin-top: $largeSpace !important;
+                width: 100%;
+                background-color: $primaryColor !important;
+            }
+            .item-md.item-toggle {
+                margin: $mediumSpace 0 0 0 !important;
+                color: $greyTextColor !important;
+                .item-inner {
+                    border: none !important;
+                    .toggle-md.toggle-checked .toggle-icon {
+                        background-color: $lightPrimaryColor;
+                    }
+                    .toggle-md.toggle-checked .toggle-inner {
+                        background-color: $primaryColor;
+                    }
+                }
+            }
+            .item-md,
+            .item-ios {
+                padding-left: 0px !important;
+                margin: 5px 0 !important;
+            }
+            .label-md,
+            .label-ios {
+                margin: 0px !important;
+            }
+            ion-textarea {
+                height: 350px !important;
+                margin-bottom: $mediumSpace;
+            }
         }
-    }
-    .contract.newContract {
-        border-bottom: 10px solid #81C784;
-    }
-    .contract.runningContract {
-        border-bottom: 10px solid #64B5F6;
-    }
-    .contract.finishedContract {
-        border-bottom: 10px solid #FF8A65;
-    }
-    .contract.canceledContract {
-        border-bottom: 10px solid #e57373;
     }
     .contractMainText {
         text-align: center;
@@ -99,45 +120,20 @@ page-contract-details {
             font-size: 14px;
             line-height: cardBodyLineHeight;
             opacity: 0.5;
-            margin: $smallSpace 0;
+            margin: $smallSpace 0 $largeSpace;
         }
     }
-    .contractStatus {
-        margin: $largeSpace 0px;
-        text-align: center;
-        h3 {
-            margin: 0px !important;
-            color: $lightTextColor;
-        }
-    }
-    .fixContentScroll {
-        .scroll-content {
-            margin-bottom: 56px !important;
-        }
-    }
-    ion-footer {
-        ion-title {
-            margin-top: 0px !important;
-        }
-        .toolbar-md,
-        .toolbar-ios,
-        .toolbar-title-md,
-        .toolbar-title-ios {
-            margin: 0px !important;
-            padding: 0px !important;
-        }
-        .toolbar-content-md,
-        .toolbar-content-ios {
-            margin: 0px !important;
-        }
+    .fullBackButton {
         .button-md,
         .button-ios {
-            height: 56px;
-            margin: 0px !important;
             margin: 0 auto !important;
             display: inline-block;
-            background-color: $primaryColor !important;
-            font-size: 20px;
+            color: $lightTextColor;
+            margin-top: $largeSpace !important;
+            width: 100%;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
         }
     }
 }

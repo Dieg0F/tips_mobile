@@ -10,10 +10,10 @@ import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
-  selector: 'page-user-contracts',
-  templateUrl: 'user-contracts.html',
+  selector: 'page-user-services',
+  templateUrl: 'user-services.html',
 })
-export class UserContractsPage {
+export class UserServicesPage {
 
   public contracts: Array<Contract> = new Array<Contract>();
   public allContracts: Array<Contract> = new Array<Contract>();
@@ -70,7 +70,7 @@ export class UserContractsPage {
   }
 
   goToDetails(contract: any) {
-    this.navCtrl.push('ContractDetailsPage', { 'contract': contract })
+    this.navCtrl.push('ServiceDetailsPage', { 'contract': contract })
   }
 
   onFilterChange() {

@@ -13,10 +13,10 @@ import { Toast } from '../../../util/toast/toast';
 
 @IonicPage()
 @Component({
-  selector: 'page-contract-details',
-  templateUrl: 'contract-details.html',
+  selector: 'page-service-details',
+  templateUrl: 'service-details.html',
 })
-export class ContractDetailsPage {
+export class ServiceDetailsPage {
 
   public contract: Contract;
   public contractorProfile: Profile;
@@ -134,7 +134,7 @@ export class ContractDetailsPage {
   }
 
   openOptions(event) {
-    this.popover.showPopover("ContractOptionsPage", { 'contract': this.contract }, event)
+    this.popover.showPopover("ServiceOptionsPage", { 'contract': this.contract }, event)
   }
 
   setContractStatusClass() {

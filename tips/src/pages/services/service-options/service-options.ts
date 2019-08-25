@@ -9,12 +9,13 @@ import { Constants } from '../../../util/constants/constants';
 import { AppConfig } from '../../../model/static/static';
 import { Contract } from '../../../model/contract/contract';
 
+
 @IonicPage()
 @Component({
-  selector: 'page-contract-options',
-  templateUrl: 'contract-options.html',
+  selector: 'page-service-options',
+  templateUrl: 'service-options.html',
 })
-export class ContractOptionsPage {
+export class ServiceOptionsPage {
 
   public contract: Contract;
 

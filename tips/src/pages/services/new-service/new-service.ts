@@ -9,10 +9,10 @@ import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
-  selector: 'page-new-contract',
-  templateUrl: 'new-contract.html',
+  selector: 'page-new-service',
+  templateUrl: 'new-service.html',
 })
-export class NewContractPage {
+export class NewServicePage {
 
   public contractorProfile: Profile
   public hiredProfile: Profile

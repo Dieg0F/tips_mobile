@@ -1,37 +1,37 @@
 <div class="menu">
-  <div class="menuHeader">
-    <div class="profilePhoto" id="menu_img_profile"></div>
-    <div class="profileData">
-      <h4>{{profile.nome}}</h4>
-      <p>{{profile.email}}</p>
+    <div class="menuHeader">
+        <div class="profilePhoto" id="menu_img_profile"></div>
+        <div class="profileData">
+            <h4>{{profile.nome}}</h4>
+            <p>{{profile.email}}</p>
+        </div>
     </div>
-  </div>
-  <div class="menuProfileOptions">
-    <button icon-start (click)="editProfile()">
+    <div class="menuProfileOptions">
+        <button icon-start (click)="editProfile()">
       <ion-icon name="person"></ion-icon>
-      Minha Conta
+      Conta
     </button>
-    <button icon-start (click)="contracts()">
+        <button icon-start (click)="contracts()">
       <ion-icon name="briefcase"></ion-icon>
-      Meus Contratos
+      Serviços
     </button>
-    <button icon-start (click)="rating()">
+        <button icon-start (click)="rating()">
       <ion-icon name="star"></ion-icon>
-      Minhas Avaliações
+      Avaliações
     </button>
-  </div>
-  <div class="menuAppOptions">
-    <button icon-start (click)="configs()">
+    </div>
+    <div class="menuAppOptions">
+        <button icon-start (click)="configs()">
       <ion-icon name="settings"></ion-icon>
       Configurações
     </button>
-    <button icon-start>
+        <button icon-start>
       <ion-icon name="information-circle"></ion-icon>
       Sobre
     </button>
-    <button icon-start (click)="logout()">
+        <button icon-start (click)="logout()">
       <ion-icon name="exit"></ion-icon>
       Sair
     </button>
-  </div>
+    </div>
 </div>

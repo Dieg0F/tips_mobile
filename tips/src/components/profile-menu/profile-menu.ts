@@ -61,7 +61,7 @@ export class ProfileMenuComponent implements OnInit {
   }
 
   contracts() {
-    this.navCtrl.push("UserContractsPage");
+    this.navCtrl.push("UserServicesPage");
   }
 
   configs() {
