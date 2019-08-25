@@ -4,7 +4,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <div *ngIf="service != undefined">
+    <div *ngIf="contractorProfile != undefined && hiredProfile != undefined">
         <div class="card service" *ngIf="!serviceConfirmed">
             <div class="cardBody" *ngIf="asContractor">
                 <p>Avaliação dos serviços de
@@ -20,14 +20,18 @@
             </div>
             <div class="serviceDesciption">
                 <div class="cardBody">
-                    <p>
-                        Entre com um titulo para sua avaliação e descreva sobre ela:
-                    </p>
-                    <ion-item>
-                        <ion-label floating>Titulo</ion-label>
-                        <ion-input [(ngModel)]="avaliationTitle" type="text" name="avaliationTitle" maxLength="30">
-                        </ion-input>
-                    </ion-item>
+                    <div *ngIf="asContractor">
+                        <p>Dê sua opinião sobre os serviços de
+                            <br />
+                            <b>{{ hiredProfile.nome }}</b>?
+                        </p>
+                    </div>
+                    <div *ngIf="!asContractor">
+                        <p>Dê sua opinião sobre seu cliente
+                            <br />
+                            <b>{{ contractorProfile.nome }}</b>?
+                        </p>
+                    </div>
                     <ion-item>
                         <ion-label floating>Avaliação</ion-label>
                         <ion-textarea [(ngModel)]="avaliationDescription" type="text" name="serviceDesctiption" maxLength="300">

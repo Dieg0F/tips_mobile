@@ -86,7 +86,7 @@ export class ProfilePage {
       this.greetingMesage = "Boa madrugada, ";
     } else if (hours >= 5 && hours <= 12) {
       this.greetingMesage = "Bom dia, ";
-    } else if (hours > 13 && hours <= 18) {
+    } else if (hours >= 13 && hours <= 18) {
       this.greetingMesage = "Boa tarde, ";
     } else if (hours > 18 && hours < 24) {
       this.greetingMesage = "Boa noite, ";

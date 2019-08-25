@@ -41,7 +41,6 @@ export class NewAvaliationPage {
 
   ionViewWillEnter() {
     this.getServices();
-
   }
 
   getServices() {
@@ -74,7 +73,6 @@ export class NewAvaliationPage {
       contractorUid: this.contractorProfile.uid,
       hiredUid: this.hiredProfile.uid,
       serviceUid: this.service.serviceId,
-      title: this.avaliationTitle,
       body: this.avaliationDescription,
       rate: 0,
       date: Date.now().toLocaleString()

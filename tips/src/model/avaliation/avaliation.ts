@@ -3,7 +3,6 @@ export interface Avaliation {
     contractorUid: string;
     hiredUid: string;
     serviceUid: string;
-    title: string;
     body: string;
     rate: number;
     date: string;
