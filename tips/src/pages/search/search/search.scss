@@ -1,10 +1,22 @@
 page-search {
-  ion-title {
-    margin-left: 0px !important;
-    margin-top: 3px;
-  }
-
-  .select-text {
-    margin-right: 8px;
-  }
+    ion-title {
+        margin-left: 0px !important;
+        margin-top: 3px;
+    }
+    .select-text {
+        margin-right: 8px;
+    }
+    .profilePhotoResult {
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #ffffff;
+        background-size: cover;
+        float: left;
+        img {
+            border-radius: 100% !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
 }

@@ -23,13 +23,22 @@ export class ProfilePage {
     public profileProvider: ProfileProvider,
     public contractProvider: ContractProvider,
     public alert: Alert,
-    public navParams: NavParams) {
-  }
+    public navParams: NavParams) { }
 
   ionViewWillEnter() {
-    var elm = document.getElementById('img_profile');
-    elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
+    this.loadProfilePhoto();
     this.greetingMessageBuilder();
+  }
+
+  ionViewDidLoad() {
+    this.loadProfilePhoto();
+  }
+
+  loadProfilePhoto() {
+    if (this.profile.profilePhotoUrl != "") {
+      var elm = document.getElementById('img_profile');
+      elm.style.backgroundImage = "url('" + AppConfig.USER_PROFILE.profilePhotoUrl + "')";
+    }
   }
 
   starsRate(value: number): Array<String> {
