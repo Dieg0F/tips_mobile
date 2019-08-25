@@ -1,12 +1,16 @@
+import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the NewAvaliationPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Service } from '../../../model/service/service';
+import { Constants } from '../../../util/constants/constants';
+import { Profile } from '../../../model/profile/profile';
+import { AppConfig } from '../../../model/static/static';
+import { ProfileProvider } from '../../../providers/profile/profile';
+import { ServiceProvider } from '../../../providers/service/service';
+import { Avaliation } from '../../../model/avaliation/avaliation';
+import { UUID } from 'angular2-uuid';
+import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
+import { Loading } from '../../../util/loading/loading';
 
 @IonicPage()
 @Component({
@@ -15,11 +19,83 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NewAvaliationPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public service: Service;
+  public contractorProfile: Profile;
+  public hiredProfile: Profile;
+
+  public userUid = AppConfig.USER_PROFILE.uid;
+
+  public asContractor: boolean = true;
+
+  public avaliationTitle = "";
+  public avaliationDescription = "";
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public loading: Loading,
+    public toast: Toast,
+    public serviceProvider: ServiceProvider,
+    public avaliationProvider: AvaliationProvider,
+    public profileProvider: ProfileProvider) { }
+
+  ionViewWillEnter() {
+    this.getServices();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NewAvaliationPage');
+  getServices() {
+    this.service = this.navParams.get(Constants.SERVICE_DETAILS);
+
+    var profileUidToRequest = "";
+
+    if (this.service.contractorUid == this.userUid) {
+      this.contractorProfile = { ...AppConfig.USER_PROFILE }
+      profileUidToRequest = this.service.hiredUid;
+      this.asContractor = true;
+    } else {
+      this.hiredProfile = { ...AppConfig.USER_PROFILE }
+      profileUidToRequest = this.service.contractorUid;
+    }
+
+    this.profileProvider.getProfile(profileUidToRequest)
+      .then((res) => {
+        if (this.contractorProfile == undefined || this.contractorProfile == null) {
+          this.contractorProfile = res.data();
+        } else {
+          this.hiredProfile = res.data();
+        }
+      })
   }
 
+  buildAvaliation() {
+    let avaliation: Avaliation = {
+      uId: UUID.UUID(),
+      contractorUid: this.contractorProfile.uid,
+      hiredUid: this.hiredProfile.uid,
+      serviceUid: this.service.serviceId,
+      body: this.avaliationDescription,
+      rate: 0,
+      date: Date.now().toLocaleString()
+    }
+
+    return avaliation;
+  }
+
+  finish() {
+    this.loading.showLoading("Salvando avaliação...");
+    this.avaliationProvider.saveAvaliation(this.buildAvaliation())
+      .then(() => {
+        this.onSuccess();
+      })
+  }
+
+  onSuccess() {
+    this.loading.hideLoading();
+    this.toast.showToast("Avaliação concluída!");
+  }
+
+  onError() {
+    this.loading.hideLoading();
+    this.toast.showToast("Erro ao salvar avaliação!");
+  }
 }

@@ -96,22 +96,23 @@ export class UserServicesPage {
     this.allServices.forEach(el => {
       if (el.hiredUid == this.userId) {
         this.services.push(el);
-        this.requestingServices = false
       }
     })
+    this.requestingServices = false
   }
 
   private getDoneServices() {
     this.allServices.forEach(el => {
-      if (el.serviceorUid == this.userId) {
+      if (el.contractorUid == this.userId) {
         this.services.push(el);
       }
-      this.requestingServices = false
     })
+    this.requestingServices = false
   }
 
   private getAllServices() {
     this.services = this.allServices;
+    this.requestingServices = false
   }
 
   private getServicesByStatus(status: string) {
@@ -119,8 +120,8 @@ export class UserServicesPage {
       if (el.status == status) {
         this.services.push(el);
       }
-      this.requestingServices = false
     })
+    this.requestingServices = false
   }
 
   setServiceStatusClass(status): String {

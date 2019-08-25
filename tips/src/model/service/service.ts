@@ -6,9 +6,10 @@ export interface Service {
     uId: string;
     serviceId: string;
     ownerUid: string;
-    serviceorUid: string;
+    contractorUid: string;
     hiredUid: string;
     lastActionByUserUid: string;
+    avaliationUid: string;
     name: string;
     description: string;
     date: string;

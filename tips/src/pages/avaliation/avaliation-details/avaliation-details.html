@@ -1,30 +1,27 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Detalhes da Avaliação</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Detalhes da Avaliação</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <div class="card avaliation">
-    <div class="profileTitle">
-      <div class="profilePhoto">
-        <img src="{{avaliationOwner.profilePhotoUrl}}" />
-      </div>
-      <div class="profileName">
-        <h3>{{avaliationOwner.nome}}</h3>
-      </div>
-      <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
-        <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
-      </div>
+    <div class="card avaliation">
+        <div class="profileTitle">
+            <div class="profilePhoto">
+                <img src="{{avaliationOwner.profilePhotoUrl}}" />
+            </div>
+            <div class="profileName">
+                <h3>{{avaliationOwner.nome}}</h3>
+            </div>
+            <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
+                <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
+            </div>
+        </div>
+        <div class="cardBody">
+            <p>{{avaliation.body}}</p>
+        </div>
+        <div class="cardFooter avaliationDate">
+            <p>Avaliado em: {{avaliation.date}}</p>
+        </div>
     </div>
-    <div class="cardTitle">
-      <h3>{{avaliation.title}}</h3>
-    </div>
-    <div class="cardBody">
-      <p>{{avaliation.body}}</p>
-    </div>
-    <div class="cardFooter avaliationDate">
-      <p>Avaliado em: {{avaliation.date}}</p>
-    </div>
-  </div>
 </ion-content>

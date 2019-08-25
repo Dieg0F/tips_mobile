@@ -8,6 +8,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { Constants } from '../../../util/constants/constants';
 import { AppConfig } from '../../../model/static/static';
 import { Service } from '../../../model/service/service';
+import { Events } from 'ionic-angular';
 
 
 @IonicPage()
@@ -36,6 +37,7 @@ export class ServiceOptionsPage {
     public toast: Toast,
     public loading: Loading,
     public alert: Alert,
+    public events: Events,
     public serviceProvider: ServiceProvider,
     public avaliationProvider: AvaliationProvider) {
     this.service = this.navParams.get(Constants.SERVICE_DETAILS);
@@ -48,12 +50,21 @@ export class ServiceOptionsPage {
 
   setButtons() {
     if (this.service.status == Constants.SERVICE_IS_FINISHED ||
-      this.service.status == Constants.SERVICE_IS_CANCELED) {
+      this.service.status == Constants.SERVICE_IS_CANCELED ||
+      this.service.status == Constants.SERVICE_IS_AWAIT_TO_CANCEL ||
+      this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH) {
       this.removeAction = true;
       this.cancelAction = false;
       this.finishAction = false;
     }
+
     if (this.service.status == Constants.SERVICE_IS_RUNNING) {
+      this.cancelAction = true;
+      this.finishAction = true;
+      this.removeAction = false;
+    }
+
+    if (this.service.status == Constants.SERVICE_IS_OPEN) {
       this.cancelAction = true;
       this.finishAction = true;
       this.removeAction = false;
@@ -61,7 +72,6 @@ export class ServiceOptionsPage {
   }
 
   cancelServiceAlert() {
-    this.close();
     this.alert.confirmAlert(
       "Cancelar Serviço",
       "Deseja cancelar este serviço?",
@@ -70,7 +80,6 @@ export class ServiceOptionsPage {
   }
 
   removeServiceAlert() {
-    this.close()
     this.alert.confirmAlert(
       "Remover Serviço",
       "Deseja remover este serviço?",
@@ -79,7 +88,6 @@ export class ServiceOptionsPage {
   }
 
   finishServiceAlert() {
-    this.close()
     this.alert.confirmAlert(
       "Finalizar Serviço",
       "Deseja finalizar este serviço?",
@@ -111,25 +119,39 @@ export class ServiceOptionsPage {
   }
 
   updateService() {
+    this.close();
     this.service.lastActionByUserUid = this.userUid;
-    this.loading.showLoading(this.loadingMessage)
+    this.loading.showLoading(this.loadingMessage);
     if (this.service.status == Constants.SERVICE_IS_REMOVED) {
       this.serviceProvider.updateService(this.service)
         .then(() => {
-          this.toast.showToast(this.toastMessage);
+          setTimeout(() => {
+            this.success();
+          }, 2000);
         })
         .catch(() => {
-          this.toast.showToast("Erro ao atualizar o status do serviço.");
+          this.error();
         })
     } else {
       this.serviceProvider.updateServiceAction(this.service, this.userUid)
         .then(() => {
-          this.toast.showToast(this.toastMessage);
+          this.success();
         })
         .catch(() => {
-          this.toast.showToast("Erro ao atualizar o status do serviço.");
+          this.error();
         })
     }
+  }
+
+  success() {
+    this.toast.showToast(this.toastMessage);
+    this.loading.hideLoading();
+    this.events.publish('service:updated', this.service);
+  }
+
+  error() {
+    this.loading.hideLoading();
+    this.toast.showToast("Erro ao atualizar o status do serviço.");
   }
 
   close() {

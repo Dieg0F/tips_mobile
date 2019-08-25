@@ -28,8 +28,6 @@ export class UserAvaliationsPage {
 
   public hideOptions: boolean = false;
 
-  private subscription: any;
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,25 +35,27 @@ export class UserAvaliationsPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public avaliationsProvider: AvaliationProvider) {
+    this.getOwnerUid();
+    this.onFilterChange();
+  }
 
+  getOwnerUid() {
     if (!this.navParams.get(Constants.AVALIATION_HIDE_DETAILS)) {
-      this.hideOptions = false
+      this.hideOptions = false;
     } else {
-      this.hideOptions = true
+      this.hideOptions = true;
     }
 
     if (!this.navParams.get(Constants.AVALIATION_OWNER_ID)) {
-      this.ownerAvaliationsUid = AppConfig.USER_PROFILE.uid
+      this.ownerAvaliationsUid = AppConfig.USER_PROFILE.uid;
     } else {
-      this.ownerAvaliationsUid = this.navParams.get(Constants.AVALIATION_OWNER_ID)
+      this.ownerAvaliationsUid = this.navParams.get(Constants.AVALIATION_OWNER_ID);
     }
-
-    this.onFilterChange();
   }
 
   getReceivedAvaliations() {
     this.loading.showLoading("Buscando Avaliações...")
-    this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
+    this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
       .then((res) => {
         res.subscribe((values) => {
           this.avaliations = values;
@@ -70,7 +70,7 @@ export class UserAvaliationsPage {
 
   getDoneAvaliations() {
     this.loading.showLoading("Buscando Avaliações...")
-    this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
+    this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
       .then((res) => {
         res.subscribe((values) => {
           this.avaliations = values;
@@ -84,18 +84,18 @@ export class UserAvaliationsPage {
   }
 
   getAllAvaliations() {
-    this.loading.showLoading("Buscando Avaliações...")
-    this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
+    this.loading.showLoading("Buscando Avaliações...");
+    this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
       .then((received) => {
         received.subscribe((receivedAvaliations) => {
-          return this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
+          return this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
             .then((done) => {
               done.subscribe((doneAvaliations) => {
                 doneAvaliations.forEach(doneAvaliation => {
-                  this.avaliations.push(doneAvaliation)
+                  this.avaliations.push(doneAvaliation);
                 });
                 receivedAvaliations.forEach(receivedAvaliation => {
-                  this.avaliations.push(receivedAvaliation)
+                  this.avaliations.push(receivedAvaliation);
                 });
                 this.onSuccess();
               })
@@ -133,9 +133,16 @@ export class UserAvaliationsPage {
     return starsRateHelper.starsRateColor(value)
   }
 
-  goToDetails(avaliation: any) {
+  goToDetails(avaliation: Avaliation) {
+    var profileUidToRequest = "";
 
-    this.profileProvider.getProfile(avaliation.appraiserUid)
+    if (avaliation.contractorUid == this.ownerAvaliationsUid) {
+      profileUidToRequest = avaliation.hiredUid
+    } else {
+      profileUidToRequest = avaliation.contractorUid
+    }
+
+    this.profileProvider.getProfile(profileUidToRequest)
       .then((res) => {
         this.navCtrl.push('AvaliationDetailsPage', { 'avaliation': avaliation, 'avaliationOwner': res.data() })
       })

@@ -1,8 +1,8 @@
 export interface Avaliation {
     uId: string;
-    appraiserUid: string;
-    evaluatedUid: string;
-    title: string;
+    contractorUid: string;
+    hiredUid: string;
+    serviceUid: string;
     body: string;
     rate: number;
     date: string;
