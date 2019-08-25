@@ -72,27 +72,36 @@ export class ServiceOptionsPage {
   }
 
   cancelServiceAlert() {
-    this.alert.confirmAlert(
-      "Cancelar Serviço",
-      "Deseja cancelar este serviço?",
-      this.cancelService.bind(this),
-      () => { })
+    this.close().then(() => {
+      this.alert.confirmAlert(
+        "Cancelar Serviço",
+        "Deseja cancelar este serviço?",
+        this.cancelService.bind(this),
+        () => { })
+    })
+
   }
 
   removeServiceAlert() {
-    this.alert.confirmAlert(
-      "Remover Serviço",
-      "Deseja remover este serviço?",
-      this.removeService.bind(this),
-      () => { })
+    this.close().then(() => {
+      this.alert.confirmAlert(
+        "Remover Serviço",
+        "Deseja remover este serviço?",
+        this.removeService.bind(this),
+        () => { })
+    })
+
   }
 
   finishServiceAlert() {
-    this.alert.confirmAlert(
-      "Finalizar Serviço",
-      "Deseja finalizar este serviço?",
-      this.finishService.bind(this),
-      () => { })
+    this.close().then(() => {
+      this.alert.confirmAlert(
+        "Finalizar Serviço",
+        "Deseja finalizar este serviço?",
+        this.finishService.bind(this),
+        () => { })
+    })
+
   }
 
 
@@ -119,42 +128,53 @@ export class ServiceOptionsPage {
   }
 
   updateService() {
-    this.close();
     this.service.lastActionByUserUid = this.userUid;
-    this.loading.showLoading(this.loadingMessage);
-    if (this.service.status == Constants.SERVICE_IS_REMOVED) {
-      this.serviceProvider.updateService(this.service)
-        .then(() => {
-          setTimeout(() => {
-            this.success();
-          }, 2000);
-        })
-        .catch(() => {
-          this.error();
-        })
-    } else {
-      this.serviceProvider.updateServiceAction(this.service, this.userUid)
-        .then(() => {
-          this.success();
-        })
-        .catch(() => {
-          this.error();
-        })
-    }
+    this.loading.showLoading(this.loadingMessage)
+      .then(() => {
+        if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+          this.serviceProvider.updateService(this.service)
+            .then(() => {
+              this.success();
+            })
+            .catch(() => {
+              this.error();
+            })
+        } else {
+          this.serviceProvider.updateServiceAction(this.service, this.userUid)
+            .then(() => {
+              this.success();
+            })
+            .catch(() => {
+              this.error();
+            })
+        }
+      })
   }
 
   success() {
-    this.toast.showToast(this.toastMessage);
-    this.loading.hideLoading();
-    this.events.publish('service:updated', this.service);
+    this.loading.hideLoadingPromise()
+      .then(async () => {
+        return this.toast.showToast(this.toastMessage)
+          .then(async () => {
+            this.events.publish('service:updated', this.service);
+          })
+      })
+      .catch(() => {
+        console.log("Error: ServiceOptionsPage, Loading Hide")
+      })
   }
 
   error() {
-    this.loading.hideLoading();
-    this.toast.showToast("Erro ao atualizar o status do serviço.");
+    this.loading.hideLoadingPromise()
+      .then(() => {
+        this.toast.showToast("Erro ao atualizar o status do serviço.");
+      })
+      .catch(() => {
+        console.log("Error: ServiceOptionsPage, Loading Hide")
+      })
   }
 
-  close() {
-    this.viewCtrl.dismiss();
+  close(): Promise<any> {
+    return this.viewCtrl.dismiss();
   }
 }

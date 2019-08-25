@@ -6,6 +6,7 @@ import { AppConfig } from '../../../model/static/static';
 import { Service } from '../../../model/service/service';
 import { UUID } from 'angular2-uuid';
 import { Constants } from '../../../util/constants/constants';
+import { Loading } from '../../../util/loading/loading';
 
 @IonicPage()
 @Component({
@@ -27,6 +28,7 @@ export class NewServicePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public loading: Loading,
     public serviceProvider: ServiceProvider) { }
 
   ionViewWillEnter() {
@@ -39,11 +41,9 @@ export class NewServicePage {
   }
 
   makeService() {
-    setTimeout(() => {
-      this.serviceConfirmed = true;
-      this.describeService = false;
-      this.serviceUser()
-    }, 2000)
+    this.serviceConfirmed = true;
+    this.describeService = false;
+    this.serviceUser();
   }
 
   serviceUser() {
@@ -67,20 +67,28 @@ export class NewServicePage {
   }
 
   private saveDoubleService(service: Service) {
-    this.serviceProvider.createService(service)
+    this.loading.showLoading("Solicitando serviço...")
       .then(() => {
-        service.uId = UUID.UUID();
-        service.ownerUid = this.hiredProfile.uid;
-        service.status = Constants.SERVICE_IS_OPEN;
-        return this.serviceProvider.createService(service)
-          .then(() => {
-            this.serviceConfirmed = true;
+        this.serviceProvider.createService(service)
+          .then(async () => {
+            service.uId = UUID.UUID();
+            service.ownerUid = this.hiredProfile.uid;
+            service.status = Constants.SERVICE_IS_OPEN;
+            return this.serviceProvider.createService(service)
+              .then(() => {
+                this.serviceConfirmed = true;
+                this.loading.hideLoading();
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+            this.serviceConfirmed = false;
+            this.loading.hideLoading();
           });
       })
-      .catch((err) => {
-        console.log(err);
-        this.serviceConfirmed = false;
-      });
+      .catch(() => {
+        console.log("Error: NewServicePage, Loading")
+      })
   }
 
   setServiceDescription() {

@@ -76,6 +76,9 @@ page-service-details {
     .service.canceledService {
         border-bottom: 10px solid #e57373;
     }
+    .service.removedService {
+        border-bottom: 10px solid #444;
+    }
     .serviceMainText {
         text-align: center;
         p {

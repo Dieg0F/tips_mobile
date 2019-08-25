@@ -82,10 +82,15 @@ export class NewAvaliationPage {
   }
 
   finish() {
-    this.loading.showLoading("Salvando avaliação...");
-    this.avaliationProvider.saveAvaliation(this.buildAvaliation())
+    this.loading.showLoading("Salvando avaliação...")
       .then(() => {
-        this.onSuccess();
+        this.avaliationProvider.saveAvaliation(this.buildAvaliation())
+          .then(() => {
+            this.onSuccess();
+          })
+          .catch(() => {
+            this.onError();
+          })
       })
   }
 

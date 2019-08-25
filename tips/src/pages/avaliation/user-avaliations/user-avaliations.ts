@@ -55,57 +55,63 @@ export class UserAvaliationsPage {
 
   getReceivedAvaliations() {
     this.loading.showLoading("Buscando Avaliações...")
-    this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
-      .then((res) => {
-        res.subscribe((values) => {
-          this.avaliations = values;
-          this.onSuccess();
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.onError()
+      .then(() => {
+        this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
+          .then((res) => {
+            res.subscribe((values) => {
+              this.avaliations = values;
+              this.onSuccess();
+            })
+          })
+          .catch((err) => {
+            console.log(err);
+            this.onError()
+          })
       })
   }
 
   getDoneAvaliations() {
     this.loading.showLoading("Buscando Avaliações...")
-    this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
-      .then((res) => {
-        res.subscribe((values) => {
-          this.avaliations = values;
-          this.onSuccess();
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.onError();
+      .then(() => {
+        this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
+          .then((res) => {
+            res.subscribe((values) => {
+              this.avaliations = values;
+              this.onSuccess();
+            })
+          })
+          .catch((err) => {
+            console.log(err);
+            this.onError();
+          })
       })
   }
 
   getAllAvaliations() {
-    this.loading.showLoading("Buscando Avaliações...");
-    this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
-      .then((received) => {
-        received.subscribe((receivedAvaliations) => {
-          return this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
-            .then((done) => {
-              done.subscribe((doneAvaliations) => {
-                doneAvaliations.forEach(doneAvaliation => {
-                  this.avaliations.push(doneAvaliation);
-                });
-                receivedAvaliations.forEach(receivedAvaliation => {
-                  this.avaliations.push(receivedAvaliation);
-                });
-                this.onSuccess();
-              })
+    this.loading.showLoading("Buscando Avaliações...")
+      .then(() => {
+        this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
+          .then((received) => {
+            received.subscribe((receivedAvaliations) => {
+              return this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
+                .then((done) => {
+                  done.subscribe((doneAvaliations) => {
+                    doneAvaliations.forEach(doneAvaliation => {
+                      this.avaliations.push(doneAvaliation);
+                    });
+                    receivedAvaliations.forEach(receivedAvaliation => {
+                      this.avaliations.push(receivedAvaliation);
+                    });
+                    this.onSuccess();
+                  })
+                })
             })
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.loading.hideLoading();
-        this.toast.showToast("Erro ao buscar avaliações!")
+          })
+          .catch((err) => {
+            console.log(err);
+            this.loading.hideLoading();
+            this.toast.showToast("Erro ao buscar avaliações!")
+          })
       })
   }
 

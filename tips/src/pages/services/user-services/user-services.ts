@@ -41,18 +41,20 @@ export class UserServicesPage {
   getServices() {
     this.services = new Array<Service>();
     this.allServices = new Array<Service>();
-    this.loading.showLoading("Buscando serviços...");
-    this.serviceProvider.getServices(this.userId)
-      .then((res) => {
-        res.subscribe((values) => {
-          this.allServices = values;
-          this.services = values;
-          this.onSuccess();
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.onError();
+    this.loading.showLoading("Buscando serviços...")
+      .then(() => {
+        this.serviceProvider.getServices(this.userId)
+          .then((res) => {
+            res.subscribe((values) => {
+              this.allServices = values;
+              this.services = values;
+              this.onSuccess();
+            })
+          })
+          .catch((err) => {
+            console.log(err);
+            this.onError();
+          })
       })
   }
 

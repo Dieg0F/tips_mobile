@@ -29,21 +29,23 @@ export class NewAccountPage {
   newAccount(form: NgForm): void {
     if (this.validateAccount(form)) {
       this.loading.showLoading('Estamos criando a sua conta...')
-      this.authProvider.createNewAccount(form)
-        .then((result) => {
-          let newUser = {
-            uid: result.user.uid,
-            name: form.value.name,
-            email: form.value.email,
-            accountType: 'APPLICATION'
-          }
-          this.saveUser(newUser);
+        .then(() => {
+          this.authProvider.createNewAccount(form)
+            .then((result) => {
+              let newUser = {
+                uid: result.user.uid,
+                name: form.value.name,
+                email: form.value.email,
+                accountType: 'APPLICATION'
+              }
+              this.saveUser(newUser);
+            })
+            .catch((error) => {
+              this.loading.hideLoading();
+              this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
+              console.log('erro ao criar conta: ', error);
+            });
         })
-        .catch((error) => {
-          this.loading.hideLoading();
-          this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
-          console.log('erro ao criar conta: ', error);
-        });
     }
   }
 

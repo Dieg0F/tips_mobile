@@ -78,11 +78,8 @@ export class ServiceDetailsPage {
       this.buildServiceStatusMessage(this.service.status);
       this.setServiceStatusClass();
 
-      if (this.service.status == Constants.SERVICE_IS_REMOVED) {
-        this.navCtrl.pop();
-      }
-
-      if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH && this.service.lastActionByUserUid == this.userUid) {
+      if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
+        this.service.lastActionByUserUid == this.userUid) {
         this.alert.confirmAlert(
           "Avalier este serviço!",
           "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
@@ -275,14 +272,18 @@ export class ServiceDetailsPage {
   }
 
   updateService() {
-    this.serviceProvider.updateServiceAction(this.service, this.userUid)
+    this.loading.showLoading("Atualizando serviço...")
       .then(() => {
-        this.toast.showToast(this.toastMessage);
-        this.setServiceStatusClass();
-        this.buildServiceStatusMessage(this.service.status);
-      })
-      .catch(() => {
-        this.toast.showToast("Erro ao alterar serviço!");
+        this.serviceProvider.updateServiceAction(this.service, this.userUid)
+          .then(() => {
+            this.loading.hideLoading();
+            this.toast.showToast(this.toastMessage);
+            this.setServiceStatusClass();
+            this.buildServiceStatusMessage(this.service.status);
+          })
+          .catch(() => {
+            this.toast.showToast("Erro ao alterar serviço!");
+          })
       })
   }
 
