@@ -16,7 +16,7 @@ export class GoogleMaps {
 
     constructor(position: GeoLocation, map: any) {
         this.htmlMap = map;
-        this.localPosition = new google.maps.LatLng(position.lat, position.lon);
+        this.localPosition = new google.maps.LatLng(position.lat, position.lng);
         this.mapStyle()
     }
 

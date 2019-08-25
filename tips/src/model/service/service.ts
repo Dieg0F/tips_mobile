@@ -1,12 +1,12 @@
 /**
- * Interface para Contratos, com o Id do perfil contratado (hiredUid) e do contratante (hiresUid).
+ * Interface para Serviços, com o Id do perfil contratado (hiredUid) e do contratante (hiresUid).
  * Pode ocorrer mudanças.
  */
-export interface Contract {
+export interface Service {
     uId: string;
-    contractId: string;
+    serviceId: string;
     ownerUid: string;
-    contractorUid: string;
+    serviceorUid: string;
     hiredUid: string;
     lastActionByUserUid: string;
     name: string;

@@ -6,7 +6,7 @@ export class Constants {
     static PROFILES_COLLECTION = "profiles";
     static USERS_COLLECTION = "users";
     static AVALIATIONS_COLLECTION = "avaliations";
-    static CONTRACTS_COLLECTION = "contracts";
+    static SERVICES_COLLECTION = "services";
 
     /**
      * Local Storage Keys
@@ -23,23 +23,23 @@ export class Constants {
     static AVALIATION_OWNER_ID = "ownerAvaliationsUid";
     static AVALIATION_HIDE_DETAILS = "hideDetailsOptions";
 
-    static CONTRACT_DETAILS = "contract";
-    static CONTRACT_DETAILS_HIRED = "hiredProfile";
-    static CONTRACT_PROFILE = "profileToContract";
+    static SERVICE_DETAILS = "service";
+    static SERVICE_DETAILS_HIRED = "hiredProfile";
+    static SERVICE_PROFILE = "profileToService";
 
     static PROFILE_LIST = "profiles";
 
     static CONTACT_PROFILE = "userProfile";
 
-    static CONTRACT_IS_OPEN = "CONTRACT_IS_OPEN";
-    static CONTRACT_IS_RUNNING = "CONTRACT_IS_RUNNING";
-    static CONTRACT_IS_FINISHED = "CONTRACT_IS_FINISHED";
-    static CONTRACT_IS_CANCELED = "CONTRACT_IS_CANCELED";
-    static CONTRACT_IS_REMOVED = "CONTRACT_IS_REMOVED";
-    static CONTRACT_IS_AWAIT_TO_FINISH = "CONTRACT_IS_AWAIT_TO_FINISH";
-    static CONTRACT_IS_AWAIT_TO_CANCEL = "CONTRACT_IS_AWAIT_TO_CANCEL";
+    static SERVICE_IS_OPEN = "SERVICE_IS_OPEN";
+    static SERVICE_IS_RUNNING = "SERVICE_IS_RUNNING";
+    static SERVICE_IS_FINISHED = "SERVICE_IS_FINISHED";
+    static SERVICE_IS_CANCELED = "SERVICE_IS_CANCELED";
+    static SERVICE_IS_REMOVED = "SERVICE_IS_REMOVED";
+    static SERVICE_IS_AWAIT_TO_FINISH = "SERVICE_IS_AWAIT_TO_FINISH";
+    static SERVICE_IS_AWAIT_TO_CANCEL = "SERVICE_IS_AWAIT_TO_CANCEL";
 
-    static CONTRACTS_RECEIVED = "CONTRACTS_RECEIVED";
-    static CONTRACTS_DONE = "CONTRACTS_DONE";
-    static ALL_CONTRACTS = "ALL_CONTRACTS";
+    static SERVICES_RECEIVED = "SERVICES_RECEIVED";
+    static SERVICES_DONE = "SERVICES_DONE";
+    static ALL_SERVICES = "ALL_SERVICES";
 }

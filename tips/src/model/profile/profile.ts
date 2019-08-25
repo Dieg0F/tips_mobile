@@ -24,6 +24,6 @@ export interface Profile {
     userRate: number;
     userMinRate: number;
     userMaxRate: number;
-    contractsCount: number;
+    servicesCount: number;
     avaliationsCount: number;
 }

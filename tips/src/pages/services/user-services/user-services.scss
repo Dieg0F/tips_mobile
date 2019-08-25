@@ -1,0 +1,79 @@
+page-user-services {
+    ion-title {
+        margin-left: 0px !important;
+        margin-top: 3px;
+    }
+    .filter {
+        margin-bottom: $mediumSpace;
+        .item-md,
+        .item-ios {
+            padding-left: 0px !important;
+            background-color: transparent;
+            border: none;
+        }
+        ion-select {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        .item-inner {
+            border: none !important;
+            color: $lightTextColor !important;
+        }
+        .select-icon-inner {
+            color: $lightTextColor !important;
+        }
+    }
+    .serviceStatus.open {
+        margin: 15px 0px 0px;
+        text-align: right;
+        font-size: 12px;
+    }
+    .serviceItemList {
+        .cardBody {
+            max-height: 100px;
+            overflow: hidden;
+            position: relative;
+            display: block;
+        }
+        .cardFooter {
+            margin: $largeSpace 0px 0px 0px;
+            h3 {
+                font-size: 13px;
+                text-align: right;
+                font-weight: bold;
+                margin: 0px !important;
+            }
+        }
+    }
+    .serviceItemList.newService {
+        border-right: 10px solid #81C784;
+        .cardFooter>h3 {
+            color: #81C784;
+        }
+    }
+    .serviceItemList.runningService {
+        border-right: 10px solid #64B5F6;
+        .cardFooter>h3 {
+            color: #64B5F6;
+        }
+    }
+    .serviceItemList.finishedService {
+        border-right: 10px solid #FF8A65;
+        .cardFooter>h3 {
+            color: #FF8A65;
+        }
+    }
+    .serviceItemList.canceledService {
+        border-right: 10px solid #e57373;
+        .cardFooter>h3 {
+            color: #e57373;
+        }
+    }
+    .serviceItemList.removedService {
+        border-right: 10px solid #444;
+        opacity: 0.5;
+        .cardFooter>h3 {
+            color: #444;
+        }
+    }
+}

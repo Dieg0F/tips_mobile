@@ -40,8 +40,8 @@ export class ProfileDetailsPage {
     this.navCtrl.push("UserAvaliationsPage", { 'ownerAvaliationsUid': this.profile.uid, 'hideDetailsOptions': true });
   }
 
-  makeContract() {
-    this.navCtrl.push("NewContractPage", { 'profileToContract': this.profile });
+  makeService() {
+    this.navCtrl.push("NewServicePage", { 'profileToService': this.profile });
   }
 
   contact() {

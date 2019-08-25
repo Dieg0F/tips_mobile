@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Meus Serviços</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="filter">
+        <ion-item>
+            <ion-select [(ngModel)]="serviceType" (ionChange)="onFilterChange()">
+                <ion-option value="ALL_SERVICES">Todos os serviços</ion-option>
+                <ion-option value="SERVICES_DONE">Serviços feitos</ion-option>
+                <ion-option value="SERVICES_RECEIVED">Serviços recebidos</ion-option>
+                <ion-option value="SERVICE_IS_OPEN">Serviços abertos</ion-option>
+                <ion-option value="SERVICE_IS_RUNNING">Serviços em andamento</ion-option>
+                <ion-option value="SERVICE_IS_FINISHED">Serviços terminados</ion-option>
+                <ion-option value="SERVICE_IS_CANCELED">Serviços cancelados</ion-option>
+                <ion-option value="SERVICE_IS_REMOVED">Serviços removidos</ion-option>
+                <ion-option value="SERVICE_IS_AWAIT_TO_FINISH">Serviços para terminar</ion-option>
+                <ion-option value="SERVICE_IS_AWAIT_TO_CANCEL">Serviços para cancelar</ion-option>
+            </ion-select>
+        </ion-item>
+    </div>
+    <div class="list">
+        <div *ngIf="services.length >= 1">
+            <div class="card serviceItemList" [ngClass]="setServiceStatusClass(service.status)" *ngFor="let service of services; let i of index;" (click)="goToDetails(service)">
+                <div class="cardTitle">
+                    <h3>{{ service.name }}</h3>
+                </div>
+                <div class="cardBody">
+                    <p>{{ service.description }}</p>
+                </div>
+                <div class="cardFooter">
+                    <h3>{{ setStatusValueToShow(service.status) }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="notFound" class="filterResultsNotFound" *ngIf="!requestingServices">
+            <div class="body" *ngIf="services.length == 0">
+                <ion-icon name="information-circle"></ion-icon>
+                <div *ngIf="serviceType == 'ALL_SERVICES'">
+                    <p>Você não tem serviços!</p>
+                </div>
+                <div *ngIf="serviceType != 'ALL_SERVICES'">
+                    <p>Não encontramos serviços para esse tipo de filtro!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>
