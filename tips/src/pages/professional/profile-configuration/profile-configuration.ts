@@ -100,13 +100,6 @@ export class ProfileConfigurationPage {
   slideNext() {
     this.slides.lockSwipes(false);
     this.slides.slideNext()
-    // if (this.slides.getActiveIndex() != 0) {
-
-    // } else if (this.slides.getActiveIndex() == 0 && this.profile.isCompany) {
-    //   this.slides.slideNext()
-    // } else if (!this.profile.isCompany) {
-    //   this.slides.slideTo(2)
-    // }
     this.slides.lockSwipes(true);
     this.slideIndex = this.slides.getActiveIndex()
   }
@@ -114,13 +107,6 @@ export class ProfileConfigurationPage {
   slidePrev() {
     this.slides.lockSwipes(false);
     this.slides.slidePrev()
-    // if (this.slides.getActiveIndex() != 2) {
-    //   this.slides.slidePrev()
-    // } else if (this.slides.getActiveIndex() == 2 && this.profile.isCompany) {
-    //   this.slides.slidePrev()
-    // } else if (!this.profile.isCompany) {
-    //   this.slides.slideTo(0)
-    // }
     this.slides.lockSwipes(true);
     this.slideIndex = this.slides.getActiveIndex()
   }
