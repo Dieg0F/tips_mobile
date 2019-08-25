@@ -19,7 +19,7 @@ import { DataProvider } from '../../../providers/data/data';
 })
 export class ProfileConfigurationPage {
 
-  @ViewChild(Slides) slides: Slides;  
+  @ViewChild(Slides) slides: Slides;
 
   public profile = { ...AppConfig.USER_PROFILE }
   public slideIndex: number = 0
@@ -99,26 +99,14 @@ export class ProfileConfigurationPage {
 
   slideNext() {
     this.slides.lockSwipes(false);
-    if (this.slides.getActiveIndex() != 0) {
-      this.slides.slideNext()
-    } else if (this.slides.getActiveIndex() == 0 && this.profile.isCompany) {
-      this.slides.slideNext()
-    } else if (!this.profile.isCompany) {
-      this.slides.slideTo(2)
-    }
+    this.slides.slideNext()
     this.slides.lockSwipes(true);
-    this.slideIndex = this.slides.getActiveIndex()    
+    this.slideIndex = this.slides.getActiveIndex()
   }
 
   slidePrev() {
     this.slides.lockSwipes(false);
-    if (this.slides.getActiveIndex() != 2) {
-      this.slides.slidePrev()
-    } else if (this.slides.getActiveIndex() == 2 && this.profile.isCompany) {
-      this.slides.slidePrev()
-    } else if (!this.profile.isCompany) {
-      this.slides.slideTo(0)
-    }
+    this.slides.slidePrev()
     this.slides.lockSwipes(true);
     this.slideIndex = this.slides.getActiveIndex()
   }

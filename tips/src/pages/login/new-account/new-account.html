@@ -1,39 +1,35 @@
 <ion-header>
-  <ion-navbar>
-  </ion-navbar>
+    <ion-navbar>
+    </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <div class="card newAccount">
-    <div class="cardBody">
-      <p>
-        Para criar uma nova conta, digite seu Nome(Nome Fantasia), e-mail e escolha uma senha.
-      </p>
-      <form #form="ngForm" (submit)="newAccount(form)">
-        <ion-item>
-          <ion-label floating>Nome</ion-label>
-          <ion-input type="text" name="name" ngModel maxLength="30"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>E-mail</ion-label>
-          <ion-input type="email" name="email" ngModel maxLength="60"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Nova Senha</ion-label>
-          <ion-input type="password" name="password" ngModel maxLength="10"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Confirmar Senha</ion-label>
-          <ion-input type="password" name="confirmPass" ngModel maxLength="10"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Sou uma Empresa?</ion-label>
-          <ion-toggle name="isCompany" [(ngModel)]="profileIsACompany"></ion-toggle>
-        </ion-item>
-        <p class="hintText">
-          Você poderá alterar o seu nome e sua senha na tela de configurações de conta!
-        </p>
-        <button ion-button>Criar Conta</button>
-      </form>
+    <div class="card newAccount">
+        <div class="cardBody">
+            <p>
+                Para criar uma nova conta, digite seu Nome(Nome Fantasia), e-mail e escolha uma senha.
+            </p>
+            <form #form="ngForm" (submit)="newAccount(form)">
+                <ion-item>
+                    <ion-label floating>Nome</ion-label>
+                    <ion-input type="text" name="name" ngModel maxLength="30"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>E-mail</ion-label>
+                    <ion-input type="email" name="email" ngModel maxLength="60"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Nova Senha</ion-label>
+                    <ion-input type="password" name="password" ngModel maxLength="10"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Confirmar Senha</ion-label>
+                    <ion-input type="password" name="confirmPass" ngModel maxLength="10"></ion-input>
+                </ion-item>
+                <p class="hintText">
+                    Você poderá alterar o seu nome e sua senha na tela de configurações de conta!
+                </p>
+                <button ion-button>Criar Conta</button>
+            </form>
+        </div>
     </div>
-  </div>
 </ion-content>
