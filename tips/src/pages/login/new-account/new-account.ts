@@ -16,7 +16,6 @@ import { Regex } from '../../../util/regex/regex';
 export class NewAccountPage {
 
   private regex: Regex;
-  private profileIsACompany: Boolean = true;
 
   constructor(
     public navCtrl: NavController,
@@ -36,7 +35,6 @@ export class NewAccountPage {
             uid: result.user.uid,
             name: form.value.name,
             email: form.value.email,
-            isCompany: form.value.isCompany,
             accountType: 'APPLICATION'
           }
           this.saveUser(newUser);

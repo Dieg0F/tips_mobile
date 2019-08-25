@@ -33,7 +33,7 @@ export class ContactPage {
   buildMap() {
     var geo: GeoLocation = {
       lat: parseFloat(this.profile.geolocation.lat),
-      lon: parseFloat(this.profile.geolocation.lon)
+      lng: parseFloat(this.profile.geolocation.lng)
     }
 
     this.map = new GoogleMaps(geo, document.getElementById('map')).buildMap()
