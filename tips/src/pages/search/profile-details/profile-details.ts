@@ -21,11 +21,11 @@ export class ProfileDetailsPage {
   }
 
   ionViewWillEnter() {
-    this.getProfile()
+    this.getProfile();
   }
 
   getProfile() {
-    this.profile = this.navParams.get('profile')
+    this.profile = this.navParams.get('profile');
   }
 
   starsRate(value: number): Array<String> {

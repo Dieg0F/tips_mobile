@@ -8,8 +8,8 @@
     <div class="results scale-up-ver-top transition" *ngIf="!searchIsOpen">
         <div class="card profile" *ngFor="let profile of profiles">
             <div class="profileTitle">
-                <div class="profilePhoto">
-                    <img src="{{profile.profilePhotoUrl}}" />
+                <div class="profilePhotoResult" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+                    <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
                 </div>
                 <div class="profileName">
                     <h3>{{profile.nome}}</h3>

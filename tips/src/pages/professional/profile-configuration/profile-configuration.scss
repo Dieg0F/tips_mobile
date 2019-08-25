@@ -1,35 +1,27 @@
 page-profile-configuration {
-
     .bar-button-default-md,
     .bar-button-default-ios,
     .toolbar-title-md,
     .toolbar-title-ios {
         color: $lightTextColor !important;
     }
-
     .header-md::after {
         background: none !important;
     }
-
     .toolbar-background-md,
     .toolbar-background-ios {
         background-color: $coldBackground;
     }
-
     .content-md,
     .content-ios {
         background-color: $coldBackground;
     }
-
     .scroll-content {
         overflow: hidden;
     }
-
     .swiper-slide {
-        padding:  0 16px;
-        
+        padding: 0 16px;
     }
-    
     .slide_body {
         border-radius: $smallRadius;
         background-color: $lightBackground;
@@ -38,10 +30,8 @@ page-profile-configuration {
         padding: $mediumSpace 0;
         overflow: scroll;
     }
-
     .slideButtons {
         background-color: $coldBackground;
-
         button {
             border-radius: $smallRadius;
             background-color: transparent;
@@ -56,17 +46,14 @@ page-profile-configuration {
             cursor: pointer;
         }
     }
-
     .slideButtons.one {
         button {
             width: 100% !important;
         }
     }
-
     .slide_description {
         padding: $mediumSpace;
         font-family: "Open Sans", sans-serif;
-
         .description {
             h2 {
                 color: $greyTextColor;
@@ -74,7 +61,6 @@ page-profile-configuration {
                 margin: 0px;
                 text-align: center;
             }
-
             h5 {
                 color: $primaryColor;
                 font-size: 20px;
@@ -83,7 +69,6 @@ page-profile-configuration {
                 margin: 0px 0px;
                 text-align: center;
             }
-
             p {
                 color: $darkTextColor;
                 font-size: $cardBodySize;
@@ -93,37 +78,32 @@ page-profile-configuration {
                 text-align: center;
             }
         }
-
         .image img {
             width: 150px;
             height: 150px;
             display: block;
             margin: $largeSpace auto;
         }
-
         .image #set_profileImage {
             width: 232px;
             height: 232px;
             border-radius: 100%;
             background-image: url('../../../assets/imgs/photo-camera.png');
             background-position: center;
-            background-size: 70%;
+            background-size: 65%;
             background-repeat: no-repeat;
             border: 6px solid $coldBackground;
             display: block;
             margin: $largeSpace auto;
         }
     }
-
     .slide_form {
         padding: $mediumSpace;
         font-family: "Open Sans", sans-serif;
-
         .item-ios,
         .item-md {
             padding: 0 $mediumSpace !important;
         }
-
         textarea.text-input-ios,
         textarea.text-input-md {
             height: 137px;
