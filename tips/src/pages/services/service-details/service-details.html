@@ -11,14 +11,14 @@
 <ion-content padding [ngClass]="showServiceActions ? 'fixContentScroll' : 'normalContentScroll' ">
     <div class="serviceDetail" *ngIf="contractorProfile != undefined && hiredProfile != undefined">
         <div class="usersPhotos">
-            <div class="userProfilePhoto">
-                <img *ngIf="contractorProfile.profilePhotoUrl" src="{{contractorProfile.profilePhotoUrl}}" />
+            <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + contractorProfile.profilePhotoUrl + ')'}">
+                <img *ngIf="!contractorProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="syncIcon">
                 <ion-icon name="sync"></ion-icon>
             </div>
-            <div class="hiredProfilePhoto">
-                <img *ngIf="hiredProfile.profilePhotoUrl" src="{{hiredProfile.profilePhotoUrl}}" />
+            <div class="hiredProfilePhoto" [ngStyle]="{ 'background-image': 'url(' + hiredProfile.profilePhotoUrl + ')'}">
+                <img *ngIf="!hiredProfile.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="clearfix"></div>
         </div>

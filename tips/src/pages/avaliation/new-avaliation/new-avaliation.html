@@ -1,18 +1,41 @@
-<!--
-  Generated template for the NewAvaliationPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>new-avaliation</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-title>Avaliação</ion-title>
+    </ion-navbar>
 </ion-header>
-
-
 <ion-content padding>
-
+    <div *ngIf="service != undefined">
+        <div class="card service" *ngIf="!serviceConfirmed">
+            <div class="cardBody" *ngIf="asContractor">
+                <p>Avaliação dos serviços de
+                    <br />
+                    <b>{{ hiredProfile.nome }}</b>?
+                </p>
+            </div>
+            <div class="cardBody" *ngIf="!asContractor">
+                <p>Avaliação do cliente
+                    <br />
+                    <b>{{ contractorProfile.nome }}</b>?
+                </p>
+            </div>
+            <div class="serviceDesciption">
+                <div class="cardBody">
+                    <p>
+                        Entre com um titulo para sua avaliação e descreva sobre ela:
+                    </p>
+                    <ion-item>
+                        <ion-label floating>Titulo</ion-label>
+                        <ion-input [(ngModel)]="avaliationTitle" type="text" name="avaliationTitle" maxLength="30">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Avaliação</ion-label>
+                        <ion-textarea [(ngModel)]="avaliationDescription" type="text" name="serviceDesctiption" maxLength="300">
+                        </ion-textarea>
+                    </ion-item>
+                    <button ion-button (click)="finish()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </ion-content>

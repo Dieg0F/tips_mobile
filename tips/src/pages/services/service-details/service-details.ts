@@ -3,7 +3,7 @@ import { Popover } from './../../../util/popover/popover';
 import { ProfileProvider } from './../../../providers/profile/profile';
 import { Loading } from './../../../util/loading/loading';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Service } from '../../../model/service/service';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
@@ -41,6 +41,7 @@ export class ServiceDetailsPage {
     public popover: Popover,
     public alert: Alert,
     public toast: Toast,
+    public events: Events,
     public serviceProvider: ServiceProvider,
     public profileProvider: ProfileProvider) { }
 
@@ -53,12 +54,12 @@ export class ServiceDetailsPage {
 
     var profileUidToRequest = "";
 
-    if (this.service.serviceorUid == this.userUid) {
+    if (this.service.contractorUid == this.userUid) {
       this.contractorProfile = { ...AppConfig.USER_PROFILE }
       profileUidToRequest = this.service.hiredUid
     } else {
       this.hiredProfile = { ...AppConfig.USER_PROFILE }
-      profileUidToRequest = this.service.serviceorUid
+      profileUidToRequest = this.service.contractorUid
     }
 
     this.profileProvider.getProfile(profileUidToRequest)
@@ -69,7 +70,29 @@ export class ServiceDetailsPage {
           this.hiredProfile = res.data();
         }
         this.buildServiceStatusMessage(this.service.status);
+        this.setServiceStatusClass();
       })
+
+    this.events.subscribe('service:updated', (serv) => {
+      this.service = serv;
+      this.buildServiceStatusMessage(this.service.status);
+      this.setServiceStatusClass();
+
+      if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+        this.navCtrl.pop();
+      }
+
+      if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH && this.service.lastActionByUserUid == this.userUid) {
+        this.alert.confirmAlert(
+          "Avalier este serviço!",
+          "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
+          this.avaliation.bind(this),
+          () => { },
+          "Depois",
+          "AValiar"
+        )
+      }
+    });
   }
 
   buildServiceStatusMessage(status: string) {
@@ -261,5 +284,9 @@ export class ServiceDetailsPage {
       .catch(() => {
         this.toast.showToast("Erro ao alterar serviço!");
       })
+  }
+
+  avaliation() {
+    this.navCtrl.push("NewAvaliationPage", { 'service': this.service });
   }
 }
