@@ -84,7 +84,7 @@ export class ServiceProvider {
                         }
                     });
                 });
-                await this.updateMultipleService(service)
+                return await this.updateMultipleService(service)
                     .then(async () => {
                         return await this.updateMultipleService(otherService)
                     });

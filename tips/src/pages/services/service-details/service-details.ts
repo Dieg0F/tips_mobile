@@ -73,14 +73,14 @@ export class ServiceDetailsPage {
         this.setServiceStatusClass();
       })
 
-    this.events.subscribe('service:updated', (serv) => {
+    this.events.subscribe('service:updated', async (serv: Service) => {
       this.service = serv;
       this.buildServiceStatusMessage(this.service.status);
       this.setServiceStatusClass();
 
       if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
         this.service.lastActionByUserUid == this.userUid) {
-        this.alert.confirmAlert(
+        await this.alert.confirmAlert(
           "Avalier este serviço!",
           "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
           this.avaliation.bind(this),
