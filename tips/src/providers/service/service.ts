@@ -45,7 +45,16 @@ export class ServiceProvider {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (service.serviceId) { query = query.where('serviceId', '==', service.serviceId) };
                 return query;
-            }).valueChanges()
+            }).valueChanges();
+    }
+
+    async getServiceById(serviceUid: String): Promise<any> {
+        return await this.db.collection(Constants.SERVICES_COLLECTION,
+            ref => {
+                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+                if (serviceUid) { query = query.where('serviceId', '==', serviceUid) };
+                return query;
+            }).valueChanges();
     }
 
     async getServices(userId: string): Promise<any> {
@@ -74,8 +83,8 @@ export class ServiceProvider {
         return await this.getServiceByServiceId(service)
             .then(async (res) => {
                 var otherService: Service;
-                res.subscribe(async (value) => {
-                    value.forEach((element: Service) => {
+                await res.subscribe(async (value) => {
+                    await value.forEach(async (element: Service) => {
                         if (element.ownerUid != userId && element.serviceId == service.serviceId) {
                             otherService = element
                             otherService.lastActionByUserUid = userId;
@@ -84,10 +93,14 @@ export class ServiceProvider {
                         }
                     });
                 });
-                return await this.updateMultipleService(service)
-                    .then(async () => {
-                        return await this.updateMultipleService(otherService)
-                    });
+                if (otherService != null || otherService != undefined) {
+                    return await this.updateService(service)
+                        .then(async () => {
+                            return await this.updateService(otherService)
+                        });
+                } else {
+                    return null;
+                }
             })
     }
 }

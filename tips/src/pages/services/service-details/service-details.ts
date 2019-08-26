@@ -34,6 +34,8 @@ export class ServiceDetailsPage {
   public loadingMessage = "";
   public toastMessage = "";
 
+  public count = 0;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -73,21 +75,24 @@ export class ServiceDetailsPage {
         this.setServiceStatusClass();
       })
 
-    this.events.subscribe('service:updated', async (serv: Service) => {
-      this.service = serv;
-      this.buildServiceStatusMessage(this.service.status);
-      this.setServiceStatusClass();
+    await this.events.subscribe('service:updated', async (serv: Service) => {
+      if (this.count < 1) {
+        this.count++;
+        this.service = serv;
+        this.buildServiceStatusMessage(this.service.status);
+        this.setServiceStatusClass();
 
-      if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
-        this.service.lastActionByUserUid == this.userUid) {
-        await this.alert.confirmAlert(
-          "Avalier este serviço!",
-          "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
-          this.avaliation.bind(this),
-          () => { },
-          "Depois",
-          "AValiar"
-        )
+        if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
+          this.service.lastActionByUserUid == this.userUid) {
+          await this.alert.confirmAlert(
+            "Avalier este serviço!",
+            "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
+            this.avaliation.bind(this),
+            () => { },
+            "Depois",
+            "AValiar"
+          )
+        }
       }
     });
   }

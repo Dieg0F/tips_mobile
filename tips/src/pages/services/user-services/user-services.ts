@@ -31,7 +31,7 @@ export class UserServicesPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public serviceProvider: ServiceProvider) {
-    this.getServices()
+    this.getServices();
   }
 
   ionViewWillEnter() {
@@ -42,14 +42,15 @@ export class UserServicesPage {
     this.services = new Array<Service>();
     this.allServices = new Array<Service>();
     this.loading.showLoading("Buscando serviços...")
-      .then(() => {
-        this.serviceProvider.getServices(this.userId)
-          .then((res) => {
-            res.subscribe((values) => {
+      .then(async () => {
+        await this.serviceProvider.getServices(this.userId)
+          .then(async (res) => {
+            var subs = await res.subscribe(async (values) => {
               this.allServices = values;
               this.services = values;
-              this.onSuccess();
-            })
+              //this.onSuccess();
+              //subs.unsubscribe();
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -60,15 +61,25 @@ export class UserServicesPage {
 
   private onSuccess() {
     this.requestingServices = false
-    this.loading.hideLoading();
-    if (this.services.length > 1) {
-      this.toast.showToast("Exibindo " + this.services.length.toString() + " serviços!");
-    }
+    this.loading.hideLoadingPromise()
+      .then(async () => {
+        if (this.services.length > 1) {
+          await this.toast.showToast("Exibindo " + this.services.length.toString() + " serviços!");
+        }
+      })
+      .catch((err) => {
+        console.log("Error loading services, err: ", err);
+      })
   }
 
   private onError() {
-    this.loading.hideLoading();
-    this.toast.showToast("Erro ao buscar serviços!");
+    this.loading.hideLoadingPromise()
+      .then(() => {
+        this.toast.showToast("Erro ao buscar serviços!");
+      })
+      .catch(() => {
+        console.log("Error loading services");
+      })
   }
 
   goToDetails(service: any) {

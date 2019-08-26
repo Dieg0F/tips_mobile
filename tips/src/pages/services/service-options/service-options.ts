@@ -72,35 +72,38 @@ export class ServiceOptionsPage {
   }
 
   cancelServiceAlert() {
-    this.close().then(() => {
-      this.alert.confirmAlert(
-        "Cancelar Serviço",
-        "Deseja cancelar este serviço?",
-        this.cancelService.bind(this),
-        () => { })
-    })
+    this.close()
+      .then(() => {
+        this.alert.confirmAlert(
+          "Cancelar Serviço",
+          "Deseja cancelar este serviço?",
+          this.cancelService.bind(this),
+          () => { })
+      })
 
   }
 
   removeServiceAlert() {
-    this.close().then(() => {
-      this.alert.confirmAlert(
-        "Remover Serviço",
-        "Deseja remover este serviço?",
-        this.removeService.bind(this),
-        () => { })
-    })
+    this.close()
+      .then(() => {
+        this.alert.confirmAlert(
+          "Remover Serviço",
+          "Deseja remover este serviço?",
+          this.removeService.bind(this),
+          () => { })
+      })
 
   }
 
   finishServiceAlert() {
-    this.close().then(() => {
-      this.alert.confirmAlert(
-        "Finalizar Serviço",
-        "Deseja finalizar este serviço?",
-        this.finishService.bind(this),
-        () => { })
-    })
+    this.close()
+      .then(() => {
+        this.alert.confirmAlert(
+          "Finalizar Serviço",
+          "Deseja finalizar este serviço?",
+          this.finishService.bind(this),
+          () => { })
+      })
 
   }
 
@@ -127,47 +130,59 @@ export class ServiceOptionsPage {
     this.updateService();
   }
 
-  updateService() {
+  async updateService() {
     this.service.lastActionByUserUid = this.userUid;
-    this.loading.showLoading(this.loadingMessage)
-      .then(() => {
+    await this.loading.showLoading(this.loadingMessage)
+      .then(async () => {
         if (this.service.status == Constants.SERVICE_IS_REMOVED) {
-          this.serviceProvider.updateService(this.service)
-            .then(() => {
-              this.success();
+          await this.serviceProvider.updateService(this.service)
+            .then(async () => {
+              await this.success();
             })
             .catch(() => {
               this.error();
             })
         } else {
-          this.serviceProvider.updateServiceAction(this.service, this.userUid)
-            .then(() => {
-              this.success();
+          await this.serviceProvider.updateServiceAction(this.service, this.userUid)
+            .then(async () => {
+              await this.success();
             })
             .catch(() => {
               this.error();
             })
         }
       })
+      .catch((err) => {
+        console.log("Error: ServiceOptionsPage, Loading Hide");
+        console.log("Error: ", err);
+      })
   }
 
   success() {
-    this.loading.hideLoadingPromise()
-      .then(async () => {
-        return this.toast.showToast(this.toastMessage)
-          .then(async () => {
-            this.events.publish('service:updated', this.service);
-          })
-      })
-      .catch(() => {
-        console.log("Error: ServiceOptionsPage, Loading Hide")
-      })
+    // this.loading.hideLoadingPromise()
+    //   .then(async () => {
+    //     return this.toast.showToast(this.toastMessage)
+    //       .then(async () => {
+    //         this.events.publish('service:updated', this.service);
+    //       })
+    //   })
+    //   .catch(() => {
+    //     console.log("Error: ServiceOptionsPage, Loading Hide")
+    //   })
+    try {
+      this.loading.hideLoading();
+      this.toast.showToast(this.toastMessage);
+      this.events.publish('service:updated', this.service);
+    } catch (error) {
+      console.log("Error: ServiceOptionsPage, Loading Hide");
+      console.log("Error: ", error);
+    }
   }
 
   error() {
     this.loading.hideLoadingPromise()
       .then(() => {
-        this.toast.showToast("Erro ao atualizar o status do serviço.");
+        return this.toast.showToast("Erro ao atualizar o status do serviço.");
       })
       .catch(() => {
         console.log("Error: ServiceOptionsPage, Loading Hide")
