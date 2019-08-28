@@ -76,6 +76,10 @@ export class ServiceDetailsPage {
       })
 
     await this.events.subscribe('service:updated', async (serv: Service) => {
+      if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+        this.navCtrl.popTo("UserServicesPage");
+      }
+
       if (this.count < 1) {
         this.count++;
         this.service = serv;
@@ -85,7 +89,7 @@ export class ServiceDetailsPage {
         if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
           this.service.lastActionByUserUid == this.userUid) {
           await this.alert.confirmAlert(
-            "Avalier este serviço!",
+            "Avaliar este serviço!",
             "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
             this.avaliation.bind(this),
             () => { },
@@ -151,11 +155,6 @@ export class ServiceDetailsPage {
         this.showServiceActions = false;
         break;
     }
-
-    console.log("Serviceor: " + this.contractorProfile.uid);
-    console.log("Hired: " + this.hiredProfile.uid);
-    console.log("Last Action By: " + this.service.lastActionByUserUid);
-    console.log("User: " + this.userUid);
   }
 
   openOptions(event) {

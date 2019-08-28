@@ -18,14 +18,14 @@ export class ServiceProvider {
     }
 
     async updateService(service: any): Promise<void> {
-        console.log('createService >> CReating Service :: ', service.uId)
+        console.log('updateService >> Updating Service :: ', service.uId)
         return await this.db.collection(Constants.SERVICES_COLLECTION)
             .doc(service.uId)
             .set(service)
     }
 
     async updateMultipleService(service: Service): Promise<void> {
-        console.log('createService >> Updating Service :: ', service)
+        console.log('updateMultipleService >> Updating Service :: ', service.uId)
         return await firebase.firestore().collection(Constants.SERVICES_COLLECTION)
             .doc(service.uId).update(service);
     }
@@ -62,7 +62,8 @@ export class ServiceProvider {
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (userId) { query = query.where('ownerUid', '==', userId) };
-                query = query.orderBy('date', 'desc')
+                query = query.orderBy('date', 'desc');
+                query = query.where('isRemoved', '==', false)
                 return query;
             }).valueChanges()
     }
@@ -83,7 +84,7 @@ export class ServiceProvider {
         return await this.getServiceByServiceId(service)
             .then(async (res) => {
                 var otherService: Service;
-                await res.subscribe(async (value) => {
+                var subs = await res.subscribe(async (value) => {
                     await value.forEach(async (element: Service) => {
                         if (element.ownerUid != userId && element.serviceId == service.serviceId) {
                             otherService = element
@@ -92,15 +93,17 @@ export class ServiceProvider {
                             otherService.isRemoved = service.isRemoved;
                         }
                     });
+
+                    if (otherService != null || otherService != undefined) {
+                        return await this.updateMultipleService(service)
+                            .then(async () => {
+                                return await this.updateMultipleService(otherService).then(() => subs.unsubscribe());
+                            });
+                    } else {
+                        console.log("Erro, Service: ", otherService);
+                        return null;
+                    }
                 });
-                if (otherService != null || otherService != undefined) {
-                    return await this.updateService(service)
-                        .then(async () => {
-                            return await this.updateService(otherService)
-                        });
-                } else {
-                    return null;
-                }
             })
     }
 }

@@ -31,10 +31,10 @@ export class UserServicesPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public serviceProvider: ServiceProvider) {
-    this.getServices();
   }
 
   ionViewWillEnter() {
+    this.getServices();
     this.onFilterChange();
   }
 
@@ -48,8 +48,7 @@ export class UserServicesPage {
             var subs = await res.subscribe(async (values) => {
               this.allServices = values;
               this.services = values;
-              //this.onSuccess();
-              //subs.unsubscribe();
+              this.onSuccess(subs);
             });
           })
           .catch((err) => {
@@ -59,13 +58,11 @@ export class UserServicesPage {
       })
   }
 
-  private onSuccess() {
+  private async onSuccess(action) {
     this.requestingServices = false
-    this.loading.hideLoadingPromise()
+    await this.loading.hideLoadingPromise()
       .then(async () => {
-        if (this.services.length > 1) {
-          await this.toast.showToast("Exibindo " + this.services.length.toString() + " serviços!");
-        }
+        action.unsubscribe();
       })
       .catch((err) => {
         console.log("Error loading services, err: ", err);
@@ -73,6 +70,7 @@ export class UserServicesPage {
   }
 
   private onError() {
+    this.requestingServices = false
     this.loading.hideLoadingPromise()
       .then(() => {
         this.toast.showToast("Erro ao buscar serviços!");

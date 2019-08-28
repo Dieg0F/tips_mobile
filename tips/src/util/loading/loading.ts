@@ -22,6 +22,6 @@ export class Loading {
     }
 
     hideLoadingPromise(): Promise<any> {
-        return this.loader.dismiss();
+        if (this.loader) return this.loader.dismiss();
     }
 }
