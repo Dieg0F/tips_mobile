@@ -1,4 +1,4 @@
-<ion-menu [content]="mycontent" type="overlay">
+<ion-menu [content]="mycontent" type="overlay" persistent="true">
     <ion-content>
         <profile-menu></profile-menu>
     </ion-content>
@@ -9,13 +9,13 @@
     <ion-toolbar>
         <ion-buttons>
             <button ion-button icon-only menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+                <ion-icon name="menu"></ion-icon>
+            </button>
         </ion-buttons>
         <ion-buttons (click)="search()">
             <button ion-button icon-only>
-        <ion-icon name="search"></ion-icon>
-      </button>
+                <ion-icon name="search"></ion-icon>
+            </button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -75,13 +75,15 @@
                 <div>
                     <p>Menor nota:</p>
                     <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMinRate); let i of index">
-                        <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMinRate)" *ngIf="i != 5"></ion-icon>
+                        <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMinRate)" *ngIf="i != 5">
+                        </ion-icon>
                     </div>
                 </div>
                 <div>
                     <p>Maior nota:</p>
                     <div class="profileRating rating" *ngFor="let star of starsRate(profile.userMaxRate); let i of index">
-                        <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMaxRate)" *ngIf="i != 5"></ion-icon>
+                        <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userMaxRate)" *ngIf="i != 5">
+                        </ion-icon>
                     </div>
                 </div>
                 <div class="clearfix"></div>

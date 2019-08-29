@@ -31,42 +31,53 @@ export class UserServicesPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public serviceProvider: ServiceProvider) {
-    this.getServices()
   }
 
   ionViewWillEnter() {
+    this.getServices();
     this.onFilterChange();
   }
 
   getServices() {
     this.services = new Array<Service>();
     this.allServices = new Array<Service>();
-    this.loading.showLoading("Buscando serviços...");
-    this.serviceProvider.getServices(this.userId)
-      .then((res) => {
-        res.subscribe((values) => {
-          this.allServices = values;
-          this.services = values;
-          this.onSuccess();
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        this.onError();
+    this.loading.showLoading("Buscando serviços...")
+      .then(async () => {
+        await this.serviceProvider.getServices(this.userId)
+          .then(async (res) => {
+            var subs = await res.subscribe(async (values) => {
+              this.allServices = values;
+              this.services = values;
+              this.onSuccess(subs);
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            this.onError();
+          })
       })
   }
 
-  private onSuccess() {
+  private async onSuccess(action) {
     this.requestingServices = false
-    this.loading.hideLoading();
-    if (this.services.length > 1) {
-      this.toast.showToast("Exibindo " + this.services.length.toString() + " serviços!");
-    }
+    await this.loading.hideLoadingPromise()
+      .then(async () => {
+        action.unsubscribe();
+      })
+      .catch((err) => {
+        console.log("Error loading services, err: ", err);
+      })
   }
 
   private onError() {
-    this.loading.hideLoading();
-    this.toast.showToast("Erro ao buscar serviços!");
+    this.requestingServices = false
+    this.loading.hideLoadingPromise()
+      .then(() => {
+        this.toast.showToast("Erro ao buscar serviços!");
+      })
+      .catch(() => {
+        console.log("Error loading services");
+      })
   }
 
   goToDetails(service: any) {

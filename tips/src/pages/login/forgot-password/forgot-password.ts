@@ -26,15 +26,17 @@ export class ForgotPasswordPage {
 
   resetPassword(form: NgForm): void {
     if (this.validateAccount(form)) {
-      this.loading.showLoading('Resetando a sua senha...');
-      this.authProvider.resetPassword(form)
+      this.loading.showLoading('Resetando a sua senha...')
         .then(() => {
-          this.loading.hideLoading();
-          this.alert.simpleAlert('Senha resetada!', 'Em alguns instantes você receberá um e-mail com o link para alteração de sua senha.');
-        }).catch(() => {
-          this.loading.hideLoading();
-          this.alert.simpleAlert('Opps!', 'Houve um erro ao resetar a senha!');
-        });
+          this.authProvider.resetPassword(form)
+            .then(() => {
+              this.loading.hideLoading();
+              this.alert.simpleAlert('Senha resetada!', 'Em alguns instantes você receberá um e-mail com o link para alteração de sua senha.');
+            }).catch(() => {
+              this.loading.hideLoading();
+              this.alert.simpleAlert('Opps!', 'Houve um erro ao resetar a senha!');
+            });
+        })
     }
   }
 

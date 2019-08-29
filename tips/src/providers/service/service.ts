@@ -12,27 +12,27 @@ export class ServiceProvider {
 
     async createService(service: any): Promise<void> {
         console.log('createService >> CReating Service :: ', service.uId)
-        return this.db.collection(Constants.SERVICES_COLLECTION)
+        return await this.db.collection(Constants.SERVICES_COLLECTION)
             .doc(service.uId)
             .set(service)
     }
 
     async updateService(service: any): Promise<void> {
-        console.log('createService >> CReating Service :: ', service.uId)
-        return this.db.collection(Constants.SERVICES_COLLECTION)
+        console.log('updateService >> Updating Service :: ', service.uId)
+        return await this.db.collection(Constants.SERVICES_COLLECTION)
             .doc(service.uId)
             .set(service)
     }
 
     async updateMultipleService(service: Service): Promise<void> {
-        console.log('createService >> Updating Service :: ', service)
-        return firebase.firestore().collection(Constants.SERVICES_COLLECTION)
+        console.log('updateMultipleService >> Updating Service :: ', service.uId)
+        return await firebase.firestore().collection(Constants.SERVICES_COLLECTION)
             .doc(service.uId).update(service);
     }
 
     async getService(serviceUid: string): Promise<any> {
         console.log('getService >> Get Service')
-        return this.db.collection(Constants.SERVICES_COLLECTION)
+        return await this.db.collection(Constants.SERVICES_COLLECTION)
             .doc(serviceUid)
             .get()
             .toPromise()
@@ -40,26 +40,36 @@ export class ServiceProvider {
 
     async getServiceByServiceId(service: Service): Promise<any> {
         console.log('getServiceByServiceId >> Get Service : ', service.serviceId)
-        return this.db.collection(Constants.SERVICES_COLLECTION,
+        return await this.db.collection(Constants.SERVICES_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (service.serviceId) { query = query.where('serviceId', '==', service.serviceId) };
                 return query;
-            }).valueChanges()
+            }).valueChanges();
+    }
+
+    async getServiceById(serviceUid: String): Promise<any> {
+        return await this.db.collection(Constants.SERVICES_COLLECTION,
+            ref => {
+                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+                if (serviceUid) { query = query.where('serviceId', '==', serviceUid) };
+                return query;
+            }).valueChanges();
     }
 
     async getServices(userId: string): Promise<any> {
-        return this.db.collection(Constants.SERVICES_COLLECTION,
+        return await this.db.collection(Constants.SERVICES_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (userId) { query = query.where('ownerUid', '==', userId) };
-                query = query.orderBy('date', 'desc')
+                query = query.orderBy('date', 'desc');
+                query = query.where('isRemoved', '==', false)
                 return query;
             }).valueChanges()
     }
 
     async getServicesByUser(userId: string = null, hiredUid: string = null): Promise<any> {
-        return this.db.collection(Constants.SERVICES_COLLECTION,
+        return await this.db.collection(Constants.SERVICES_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
                 if (userId) { query = query.where('userUid', '==', userId) };
@@ -71,11 +81,11 @@ export class ServiceProvider {
 
     async updateServiceAction(service: Service, userId: string): Promise<any> {
         service.lastActionByUserUid = userId;
-        return this.getServiceByServiceId(service)
+        return await this.getServiceByServiceId(service)
             .then(async (res) => {
                 var otherService: Service;
-                res.subscribe(async (value) => {
-                    value.forEach((element: Service) => {
+                var subs = await res.subscribe(async (value) => {
+                    await value.forEach(async (element: Service) => {
                         if (element.ownerUid != userId && element.serviceId == service.serviceId) {
                             otherService = element
                             otherService.lastActionByUserUid = userId;
@@ -83,8 +93,17 @@ export class ServiceProvider {
                             otherService.isRemoved = service.isRemoved;
                         }
                     });
+
+                    if (otherService != null || otherService != undefined) {
+                        return await this.updateMultipleService(service)
+                            .then(async () => {
+                                return await this.updateMultipleService(otherService).then(() => subs.unsubscribe());
+                            });
+                    } else {
+                        console.log("Erro, Service: ", otherService);
+                        return null;
+                    }
                 });
-                this.updateMultipleService(service).then(async () => { return this.updateMultipleService(otherService) });
             })
     }
 }

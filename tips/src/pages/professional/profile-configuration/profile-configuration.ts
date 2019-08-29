@@ -53,23 +53,25 @@ export class ProfileConfigurationPage {
 
   setProfilePhoto() {
     this.loading.showLoading("Salvando imagem...")
-    console.log("setProfilePhoto >> Get Profile Photo and Save on Database");
-    this.camera.getPicture()
-      .then(async (img) => {
-        var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
-        let selectedPhoto: any = this.dataURItoBlob(fileUrl);
-        return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
-          .then((downloadURL) => {
-            this.profile.profilePhotoUrl = downloadURL
-            var elm = document.getElementById('set_profileImage');
-            elm.style.backgroundImage = "url('" + downloadURL + "')";
-            elm.style.backgroundSize = "cover";
+      .then(() => {
+        console.log("setProfilePhoto >> Get Profile Photo and Save on Database");
+        this.camera.getPicture()
+          .then(async (img) => {
+            var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
+            let selectedPhoto: any = this.dataURItoBlob(fileUrl);
+            return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
+              .then((downloadURL) => {
+                this.profile.profilePhotoUrl = downloadURL
+                var elm = document.getElementById('set_profileImage');
+                elm.style.backgroundImage = "url('" + downloadURL + "')";
+                elm.style.backgroundSize = "cover";
+                this.loading.hideLoading()
+              })
+          })
+          .catch((error) => {
+            console.log("setProfilePhoto >> Error: ", error)
             this.loading.hideLoading()
           })
-      })
-      .catch((error) => {
-        console.log("setProfilePhoto >> Error: ", error)
-        this.loading.hideLoading()
       })
   }
 
@@ -84,16 +86,18 @@ export class ProfileConfigurationPage {
 
   save() {
     this.loading.showLoading('Salvando perfil...')
-    console.log("Slide Finished");
-    this.profileProvider.saveProfile({ ...this.profile })
       .then(() => {
-        this.loading.hideLoading();
-        this.toast.showToast('Perfil salvo com sucesso!');
-        this.skipProfile();
-      })
-      .catch(() => {
-        this.loading.hideLoading();
-        this.toast.showToast('Erro ao salvar o perfil!');
+        console.log("Slide Finished");
+        this.profileProvider.saveProfile({ ...this.profile })
+          .then(() => {
+            this.loading.hideLoading();
+            this.toast.showToast('Perfil salvo com sucesso!');
+            this.skipProfile();
+          })
+          .catch(() => {
+            this.loading.hideLoading();
+            this.toast.showToast('Erro ao salvar o perfil!');
+          })
       })
   }
 

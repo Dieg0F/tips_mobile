@@ -31,35 +31,37 @@ export class LoginPage {
   login(form: NgForm): void {
     let awatiForLoginInterval: any
     if (this.validateAccount(form)) {
-      this.loading.showLoading('Entrando em sua conta...');
-      this.afAuth.login(form)
-        .then(async (result) => {
-          let userAuth = {
-            uid: result.user.uid
-          }
-          this.appConfigProvider.appLogin(userAuth)
-          let awaitForLogin = 0
-          awatiForLoginInterval = setInterval(() => {
-            if (AppConfig.HAS_USER) {
-              this.goToProfilePage();
+      this.loading.showLoading('Entrando em sua conta...')
+        .then(() => {
+          this.afAuth.login(form)
+            .then(async (result) => {
+              let userAuth = {
+                uid: result.user.uid
+              }
+              this.appConfigProvider.appLogin(userAuth)
+              let awaitForLogin = 0
+              awatiForLoginInterval = setInterval(() => {
+                if (AppConfig.HAS_USER) {
+                  this.goToProfilePage();
+                  clearInterval(awatiForLoginInterval)
+                  awatiForLoginInterval = undefined
+                } else {
+                  awaitForLogin++
+                  if (awaitForLogin >= 30) {
+                    this.errorLogin();
+                    clearInterval(awatiForLoginInterval)
+                    awatiForLoginInterval = undefined
+                  }
+                }
+              }, 1000)
+            })
+            .catch((error) => {
+              console.log('Erro ao fazer login: ', error);
               clearInterval(awatiForLoginInterval)
               awatiForLoginInterval = undefined
-            } else {
-              awaitForLogin++
-              if (awaitForLogin >= 30) {
-                this.errorLogin();
-                clearInterval(awatiForLoginInterval)
-                awatiForLoginInterval = undefined
-              }
-            }
-          }, 1000)
+              this.errorLogin();
+            });
         })
-        .catch((error) => {
-          console.log('Erro ao fazer login: ', error);
-          clearInterval(awatiForLoginInterval)
-          awatiForLoginInterval = undefined
-          this.errorLogin();
-        });
     }
   }
 

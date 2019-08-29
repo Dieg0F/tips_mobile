@@ -34,6 +34,8 @@ export class ServiceDetailsPage {
   public loadingMessage = "";
   public toastMessage = "";
 
+  public count = 0;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -94,7 +96,32 @@ export class ServiceDetailsPage {
         }
         this.buildServiceStatusMessage(this.service.status);
         this.setServiceStatusClass();
-      });
+      })
+
+    await this.events.subscribe('service:updated', async (serv: Service) => {
+      if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+        this.navCtrl.popTo("UserServicesPage");
+      }
+
+      if (this.count < 1) {
+        this.count++;
+        this.service = serv;
+        this.buildServiceStatusMessage(this.service.status);
+        this.setServiceStatusClass();
+
+        if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
+          this.service.lastActionByUserUid == this.userUid) {
+          await this.alert.confirmAlert(
+            "Avaliar este serviço!",
+            "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
+            this.avaliation.bind(this),
+            () => { },
+            "Depois",
+            "AValiar"
+          )
+        }
+      }
+    });
   }
 
   buildServiceStatusMessage(status: string) {
@@ -151,11 +178,6 @@ export class ServiceDetailsPage {
         this.showServiceActions = false;
         break;
     }
-
-    console.log("Serviceor: " + this.contractorProfile.uid);
-    console.log("Hired: " + this.hiredProfile.uid);
-    console.log("Last Action By: " + this.service.lastActionByUserUid);
-    console.log("User: " + this.userUid);
   }
 
   openOptions(event) {
@@ -277,13 +299,18 @@ export class ServiceDetailsPage {
   }
 
   updateService() {
-    this.serviceProvider.updateServiceAction(this.service, this.userUid)
+    this.loading.showLoading("Atualizando serviço...")
       .then(() => {
-        this.toast.showToast(this.toastMessage);
-        this.updateServiceOut(this.service);
-      })
-      .catch(() => {
-        this.toast.showToast("Erro ao alterar serviço!");
+        this.serviceProvider.updateServiceAction(this.service, this.userUid)
+          .then(() => {
+            this.loading.hideLoading();
+            this.toast.showToast(this.toastMessage);
+            this.setServiceStatusClass();
+            this.buildServiceStatusMessage(this.service.status);
+          })
+          .catch(() => {
+            this.toast.showToast("Erro ao alterar serviço!");
+          })
       })
   }
 

@@ -17,7 +17,12 @@ export class Alert {
     }
 
     //Alert para confirmações, com ações nos botões, os métodos são passados como parametros.
-    confirmAlert(title: string, subTitle: string, submitFunction: any, cancelFunction: any, cancelButtonText: string = 'Cancelar', acceptButtonText: string = 'Ok') {
+    confirmAlert(title: string,
+        subTitle: string,
+        submitFunction: any,
+        cancelFunction: any,
+        cancelButtonText: string = 'Cancelar',
+        acceptButtonText: string = 'Ok'): Promise<any> {
         let alert = this.alertCtrl.create({
             title: title,
             message: subTitle,
@@ -26,17 +31,25 @@ export class Alert {
                     text: cancelButtonText,
                     role: 'cancel',
                     handler: () => {
-                        cancelFunction()
+                        alert.dismiss()
+                            .then(() => {
+                                cancelFunction();
+                            })
+                        return false;
                     }
                 },
                 {
                     text: acceptButtonText,
                     handler: () => {
-                        submitFunction()
+                        alert.dismiss()
+                            .then(() => {
+                                submitFunction();
+                            })
+                        return false;
                     }
                 }
             ]
         });
-        alert.present();
+        return alert.present();
     }
 }

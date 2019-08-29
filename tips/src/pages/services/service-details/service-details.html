@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>Detalhes do contrato</ion-title>
-        <ion-buttons end>
+        <ion-buttons end *ngIf="(contractorProfile != undefined && hiredProfile != undefined) && (service.status != 'SERVICE_IS_REMOVED')">
             <button ion-button icon-only (click)="openOptions($event)">
                 <ion-icon name="more"></ion-icon>
             </button>

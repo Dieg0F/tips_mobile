@@ -9,17 +9,19 @@ export class Loading {
 
     constructor(public loadingCtrl: LoadingController) { }
 
-    showLoading(loadingMessage: string) {
+    showLoading(loadingMessage: string): Promise<any> {
         this.loader = this.loadingCtrl.create({
             content: loadingMessage
         });
 
-        this.loader.present();
+        return this.loader.present();
     }
 
     hideLoading() {
-        if (this.loader != undefined) {
-            this.loader.dismiss();
-        }
+        this.loader.dismiss();
+    }
+
+    hideLoadingPromise(): Promise<any> {
+        if (this.loader) return this.loader.dismiss();
     }
 }

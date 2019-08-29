@@ -102,12 +102,16 @@ export class NewAvaliationPage {
   }
 
   onSuccess() {
-    this.loading.hideLoading();
-    this.toast.showToast("Avaliação concluída!");
+    this.loading.hideLoadingPromise()
+      .then(async () => {
+        await this.toast.showToast("Avaliação concluída!");
+      })
   }
 
   onError() {
-    this.loading.hideLoading();
-    this.toast.showToast("Erro ao salvar avaliação!");
+    this.loading.hideLoadingPromise()
+      .then(async () => {
+        await this.toast.showToast("Erro ao salvar avaliação!");
+      })
   }
 }

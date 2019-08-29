@@ -72,27 +72,39 @@ export class ServiceOptionsPage {
   }
 
   cancelServiceAlert() {
-    this.alert.confirmAlert(
-      "Cancelar Serviço",
-      "Deseja cancelar este serviço?",
-      this.cancelService.bind(this),
-      () => { })
+    this.close()
+      .then(() => {
+        this.alert.confirmAlert(
+          "Cancelar Serviço",
+          "Deseja cancelar este serviço?",
+          this.cancelService.bind(this),
+          () => { })
+      })
+
   }
 
   removeServiceAlert() {
-    this.alert.confirmAlert(
-      "Remover Serviço",
-      "Deseja remover este serviço?",
-      this.removeService.bind(this),
-      () => { })
+    this.close()
+      .then(() => {
+        this.alert.confirmAlert(
+          "Remover Serviço",
+          "Deseja remover este serviço?",
+          this.removeService.bind(this),
+          () => { })
+      })
+
   }
 
   finishServiceAlert() {
-    this.alert.confirmAlert(
-      "Finalizar Serviço",
-      "Deseja finalizar este serviço?",
-      this.finishService.bind(this),
-      () => { })
+    this.close()
+      .then(() => {
+        this.alert.confirmAlert(
+          "Finalizar Serviço",
+          "Deseja finalizar este serviço?",
+          this.finishService.bind(this),
+          () => { })
+      })
+
   }
 
 
@@ -118,43 +130,66 @@ export class ServiceOptionsPage {
     this.updateService();
   }
 
-  updateService() {
-    this.close();
+  async updateService() {
     this.service.lastActionByUserUid = this.userUid;
-    this.loading.showLoading(this.loadingMessage);
-    if (this.service.status == Constants.SERVICE_IS_REMOVED) {
-      this.serviceProvider.updateService(this.service)
-        .then(() => {
-          setTimeout(() => {
-            this.success();
-          }, 2000);
-        })
-        .catch(() => {
-          this.error();
-        })
-    } else {
-      this.serviceProvider.updateServiceAction(this.service, this.userUid)
-        .then(() => {
-          this.success();
-        })
-        .catch(() => {
-          this.error();
-        })
-    }
+    await this.loading.showLoading(this.loadingMessage)
+      .then(async () => {
+        if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+          await this.serviceProvider.updateService(this.service)
+            .then(async () => {
+              await this.success();
+            })
+            .catch(() => {
+              this.error();
+            })
+        } else {
+          await this.serviceProvider.updateServiceAction(this.service, this.userUid)
+            .then(async () => {
+              await this.success();
+            })
+            .catch(() => {
+              this.error();
+            })
+        }
+      })
+      .catch((err) => {
+        console.log("Error: ServiceOptionsPage, Loading Hide");
+        console.log("Error: ", err);
+      })
   }
 
   success() {
-    this.toast.showToast(this.toastMessage);
-    this.loading.hideLoading();
-    this.events.publish('service:updated', this.service);
+    // this.loading.hideLoadingPromise()
+    //   .then(async () => {
+    //     return this.toast.showToast(this.toastMessage)
+    //       .then(async () => {
+    //         this.events.publish('service:updated', this.service);
+    //       })
+    //   })
+    //   .catch(() => {
+    //     console.log("Error: ServiceOptionsPage, Loading Hide")
+    //   })
+    try {
+      this.loading.hideLoading();
+      this.toast.showToast(this.toastMessage);
+      this.events.publish('service:updated', this.service);
+    } catch (error) {
+      console.log("Error: ServiceOptionsPage, Loading Hide");
+      console.log("Error: ", error);
+    }
   }
 
   error() {
-    this.loading.hideLoading();
-    this.toast.showToast("Erro ao atualizar o status do serviço.");
+    this.loading.hideLoadingPromise()
+      .then(() => {
+        return this.toast.showToast("Erro ao atualizar o status do serviço.");
+      })
+      .catch(() => {
+        console.log("Error: ServiceOptionsPage, Loading Hide")
+      })
   }
 
-  close() {
-    this.viewCtrl.dismiss();
+  close(): Promise<any> {
+    return this.viewCtrl.dismiss();
   }
 }
