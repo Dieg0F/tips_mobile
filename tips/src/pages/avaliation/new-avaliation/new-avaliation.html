@@ -1,45 +1,61 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Avaliação</ion-title>
+        <ion-title>Fazer Avaliação</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
     <div *ngIf="contractorProfile != undefined && hiredProfile != undefined">
-        <div class="card service" *ngIf="!serviceConfirmed">
-            <div class="cardBody" *ngIf="asContractor">
-                <p>Avaliação dos serviços de
-                    <br />
-                    <b>{{ hiredProfile.nome }}</b>?
-                </p>
+        <div class="card avaliation" *ngIf="!serviceConfirmed">
+            <div class="cardTitle" *ngIf="asContractor">
+                <h2>Avaliação de serviços!</h2>
             </div>
-            <div class="cardBody" *ngIf="!asContractor">
-                <p>Avaliação do cliente
-                    <br />
-                    <b>{{ contractorProfile.nome }}</b>?
-                </p>
+            <div class="cardTitle" *ngIf="!asContractor">
+                <h2>Avaliação de cliente!</h2>
             </div>
-            <div class="serviceDesciption">
-                <div class="cardBody">
-                    <div *ngIf="asContractor">
-                        <p>Dê sua opinião sobre os serviços de
-                            <br />
-                            <b>{{ hiredProfile.nome }}</b>?
-                        </p>
-                    </div>
-                    <div *ngIf="!asContractor">
-                        <p>Dê sua opinião sobre seu cliente
-                            <br />
-                            <b>{{ contractorProfile.nome }}</b>?
-                        </p>
-                    </div>
-                    <ion-item>
-                        <ion-label floating>Avaliação</ion-label>
-                        <ion-textarea [(ngModel)]="avaliationDescription" type="text" name="serviceDesctiption" maxLength="300">
-                        </ion-textarea>
-                    </ion-item>
-                    <button ion-button (click)="finish()">Confirmar</button>
+            <div class="cardBody">
+                <div *ngIf="asContractor">
+                    <p>Avalie o serviço em uma nota de 0 a 5!</p>
                 </div>
+                <div *ngIf="!asContractor">
+                    <p>Avalie o cliente em uma nota de 0 a 5!</p>
+                </div>
+                <div>
+                    <div class="rating">
+                        <ion-icon name="star" class="gold"></ion-icon>
+                        <ion-icon name="star" class="gold"></ion-icon>
+                        <ion-icon name="star" class="gold"></ion-icon>
+                        <ion-icon name="star" class="gold"></ion-icon>
+                        <ion-icon name="star" class="gold"></ion-icon>
+                    </div>
+                </div>
+            </div>
+            <div class="cardBody">
+                <div *ngIf="asContractor">
+                    <p>Dê sua opinião sobre os serviços de
+                        <br />
+                        <b>{{ hiredProfile.nome }}.</b>
+                    </p>
+                </div>
+                <div *ngIf="!asContractor">
+                    <p>Dê sua opinião sobre seu cliente,
+                        <br />
+                        <b>{{ contractorProfile.nome }}.</b>
+                    </p>
+                </div>
+            </div>
+            <div class="cardFooter">
+                <ion-item>
+                    <ion-textarea [(ngModel)]="avaliationDescription" type="text" name="serviceDesctiption" placeholder="Ex: Gostei muito do serviço prestado. Excelente profissional!" maxLength="350">
+                    </ion-textarea>
+                </ion-item>
             </div>
         </div>
     </div>
 </ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-title>
+            <button ion-button full (click)="finish()">Confirmar</button>
+        </ion-title>
+    </ion-toolbar>
+</ion-footer>
