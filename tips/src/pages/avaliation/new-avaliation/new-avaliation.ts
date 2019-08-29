@@ -81,11 +81,23 @@ export class NewAvaliationPage {
     return avaliation;
   }
 
-  finish() {
+  async finish() {
+    var avaliation = this.buildAvaliation();
     this.loading.showLoading("Salvando avaliação...");
-    this.avaliationProvider.saveAvaliation(this.buildAvaliation())
-      .then(() => {
-        this.onSuccess();
+    await this.avaliationProvider.saveAvaliation(avaliation)
+      .then(async () => {
+        this.updateService(avaliation.uId);
+      })
+      .catch(() => {
+        this.onError();
+      })
+  }
+
+  async updateService(avaliationUid: string): Promise<any> {
+    this.service.avaliationUid = avaliationUid;
+    return await this.serviceProvider.updateService(this.service)
+      .then(async () => {
+        this.onSuccess()
       })
   }
 
