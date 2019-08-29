@@ -159,16 +159,6 @@ export class ServiceOptionsPage {
   }
 
   success() {
-    // this.loading.hideLoadingPromise()
-    //   .then(async () => {
-    //     return this.toast.showToast(this.toastMessage)
-    //       .then(async () => {
-    //         this.events.publish('service:updated', this.service);
-    //       })
-    //   })
-    //   .catch(() => {
-    //     console.log("Error: ServiceOptionsPage, Loading Hide")
-    //   })
     try {
       this.loading.hideLoading();
       this.toast.showToast(this.toastMessage);
