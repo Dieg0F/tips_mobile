@@ -53,22 +53,45 @@ export class ServiceDetailsPage {
 
   async getService() {
     this.service = this.navParams.get(Constants.SERVICE_DETAILS);
+    this.getProfiles();
+    this.updateServiceEvent();
+  }
 
-    var profileUidToRequest = "";
+  private updateServiceEvent() {
+    this.events.subscribe('service:updated', (serv) => {
+      this.updateServiceOut(serv);
+      this.events.unsubscribe('service:updated');
+    });
+  }
 
-    if (this.service.contractorUid == this.userUid) {
-      this.contractorProfile = { ...AppConfig.USER_PROFILE }
-      profileUidToRequest = this.service.hiredUid
-    } else {
-      this.hiredProfile = { ...AppConfig.USER_PROFILE }
-      profileUidToRequest = this.service.contractorUid
+  private updateServiceOut(serv: any) {
+    this.service = serv;
+    this.buildServiceStatusMessage(this.service.status);
+    this.setServiceStatusClass();
+    if (this.service.status == Constants.SERVICE_IS_REMOVED) {
+      this.navCtrl.pop();
     }
+    if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH && this.service.lastActionByUserUid == this.userUid) {
+      this.alert.confirmAlert("Avalier este serviço!", "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!", this.avaliation.bind(this), () => { }, "Depois", "AValiar");
+    }
+  }
 
+  private getProfiles() {
+    var profileUidToRequest = "";
+    if (this.service.contractorUid == this.userUid) {
+      this.contractorProfile = { ...AppConfig.USER_PROFILE };
+      profileUidToRequest = this.service.hiredUid;
+    }
+    else {
+      this.hiredProfile = { ...AppConfig.USER_PROFILE };
+      profileUidToRequest = this.service.contractorUid;
+    }
     this.profileProvider.getProfile(profileUidToRequest)
       .then((res) => {
         if (this.contractorProfile == undefined || this.contractorProfile == null) {
           this.contractorProfile = res.data();
-        } else {
+        }
+        else {
           this.hiredProfile = res.data();
         }
         this.buildServiceStatusMessage(this.service.status);
