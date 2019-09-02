@@ -35,6 +35,8 @@ import { AvaliationProvider } from '../providers/avaliation/avaliation';
 import { Geolocation } from '@ionic-native/geolocation'
 import { Popover } from '../util/popover/popover';
 
+import { StarRatingModule } from 'ionic3-star-rating';
+
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
   authDomain: "tips-app-418.firebaseapp.com",
@@ -61,7 +63,8 @@ const config = {
     AngularFireAuthModule,
     HttpClientModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    StarRatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

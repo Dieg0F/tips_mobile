@@ -1,6 +1,6 @@
 import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Service } from '../../../model/service/service';
 import { Constants } from '../../../util/constants/constants';
 import { Profile } from '../../../model/profile/profile';
@@ -29,11 +29,13 @@ export class NewAvaliationPage {
 
   public avaliationTitle = "";
   public avaliationDescription = "";
+  public avaliationRate = 0;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
+    public events: Events,
     public toast: Toast,
     public serviceProvider: ServiceProvider,
     public avaliationProvider: AvaliationProvider,
@@ -41,6 +43,10 @@ export class NewAvaliationPage {
 
   ionViewWillEnter() {
     this.getServices();
+    this.events.subscribe('star-rating:changed', (starRating) => {
+      console.log(starRating);
+      this.avaliationRate = starRating;
+    });
   }
 
   getServices() {
@@ -91,6 +97,11 @@ export class NewAvaliationPage {
       .catch(() => {
         this.onError();
       })
+  }
+
+  logRatingChange(rating) {
+    console.log("changed rating: ", rating);
+    // do your stuff
   }
 
   async updateService(avaliationUid: string): Promise<any> {
