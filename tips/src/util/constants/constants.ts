@@ -7,6 +7,8 @@ export class Constants {
     static USERS_COLLECTION = "users";
     static AVALIATIONS_COLLECTION = "avaliations";
     static SERVICES_COLLECTION = "services";
+    static SECTORS_COLLECTION = "sectors";
+    static AREAS_COLLECTION = "areas";
 
     /**
      * Local Storage Keys
@@ -14,6 +16,7 @@ export class Constants {
     static USER_PROFILE_LOCAL_DB = "userProfile";
     static USER_LOCAL_DB = "user";
     static USER_AUTH_LOCAL_DB = "userAuth";
+    static SECTORS_LOCAL_DB = "sectors";
 
     /**
      * NavParams Keys
