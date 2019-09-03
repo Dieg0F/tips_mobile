@@ -23,10 +23,20 @@ page-app-config {
 
     margin-bottom: $largeSpace;
 
+
+    .item-md, .item-ios, .label-md, .label-ios {
+      padding: 0px !important;
+      margin: 0px !important;    
+      
+      .item-inner {
+        border: none !important;      
+      }
+    }
+
     h5 {
-      color: $darkTextColor;
+      color: $darkTextColor !important;
       font-size: 16px;
-      margin: 0px 0px $smallSpace;
+      margin: 0px 0px !important;
       opacity: 0.6;
       text-align: left;
       font-weight: bold !important;
@@ -40,5 +50,5 @@ page-app-config {
       margin: 0px;
       text-align: left;
     }
-  }
+  }  
 }

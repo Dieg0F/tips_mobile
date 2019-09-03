@@ -1,3 +1,4 @@
+import { Profile } from './../../../model/profile/profile';
 import { Constants } from './../../../util/constants/constants';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
@@ -5,6 +6,7 @@ import { Alert } from './../../../util/alert/alert';
 import { ProfileProvider } from './../../../providers/profile/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
@@ -13,7 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AppConfigPage {
 
-  private profile: any;
+  private profile: Profile = { ...AppConfig.USER_PROFILE };
   public hideMyContacts: boolean = false;
   public hideMyContactsOption = "";
 
@@ -29,9 +31,10 @@ export class AppConfigPage {
   }
 
   ionViewDidLoad() {
-    this.profile = this.navParams.get(Constants.CONTACT_PROFILE);
     //Update hideMyContacts value and hideMyContactsOption type!
     this.hideMyContactsOption = "Esconder meus contatos!"
+
+    this.profile.hideMyProfile = true;
   }
 
   updateProfileContactsStatus() {
@@ -42,8 +45,21 @@ export class AppConfigPage {
 
   updateProfileExbition() {
     //Contact Profile Status will be a new feature on app.
-    //UPDATE DATABASE, MODELS AND USERS FOR THIS
-    console.log(this.hideMyProfile)
+    //UPDATE DATABASE, MODELS AND USERS FOR THIS    
+    console.log(this.profile.hideMyProfile);
+    var oldOption = this.profile.hideMyProfile;
+    this.profile.hideMyProfile = !this.profile.hideMyProfile;
+
+    console.log(this.profile.hideMyProfile);
+
+    this.profileProvider.saveProfile(this.profile)
+      .then((res) => {
+        console.log(res.data());
+      })
+      .catch((err) => {
+        this.profile.hideMyProfile = oldOption;
+        console.log(err)
+      })
   }
 
   updateAccountType() {

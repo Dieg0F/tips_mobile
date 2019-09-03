@@ -11,14 +11,24 @@
         <h3>Meu Perfil</h3>
       </div>
       <div class="sessionOption">
-        <h5>Exibir o meu perfil</h5>
+        <ion-item (click)="updateProfileExbition()">
+          <ion-label>
+            <h5>Exibir o meu perfil</h5>
+          </ion-label>
+          <ion-toggle checked="{{profile.hideMyProfile}}" [(ngModel)]="profile.hideMyProfile"></ion-toggle>
+        </ion-item>
         <p>Toque para alterar a exibição do seu perfil. <br /><br />
           Esta opção deixará o seu perfil visivel nas buscas.
           Deixe desabilitado caso não queira exibir o seu serviço ou se você é um usuário comum.
         </p>
       </div>
       <div class="sessionOption">
-        <h5>Exibir o meu contato</h5>
+        <ion-item>
+          <ion-label>
+            <h5>Exibir o meu contato</h5>
+          </ion-label>
+          <ion-toggle checked="false"></ion-toggle>
+        </ion-item>
         <p>Toque para alterar a exibição do seu contato. <br /><br />
           Esta opção deixará visivel a opção de contatos detalhados do seu perfil, como o endereço e sua localização.
         </p>
