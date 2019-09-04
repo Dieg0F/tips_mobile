@@ -8,7 +8,8 @@
     <div class="results scale-up-ver-top transition" *ngIf="!searchIsOpen">
         <div class="card profile" *ngFor="let profile of profiles">
             <div class="profileTitle">
-                <div class="profilePhotoResult" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+                <div class="profilePhotoResult"
+                    [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
                     <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
                 </div>
                 <div class="profileName">
@@ -44,13 +45,15 @@
                 <ion-item>
                     <ion-label>Área</ion-label>
                     <ion-select [(ngModel)]="areaAtuacao">
-                        <ion-option value="nes">NES</ion-option>
+                        <ion-option *ngFor="let sector of sectors; let i of index" [value]="i">{{sector.area}}
+                        </ion-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
                     <ion-label>Setor</ion-label>
                     <ion-select [(ngModel)]="setor">
-                        <ion-option value="El Salvador">El Salvador</ion-option>
+                        <ion-option *ngFor="let sector of sectors; let i of index" [value]="i">{{sector.sectorName}}
+                        </ion-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
@@ -62,7 +65,8 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>Cidade</ion-label>
-                    <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect()" [disabled]="!stateSelected || stateSelected == ''">
+                    <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect()"
+                        [disabled]="!stateSelected || stateSelected == ''">
                         <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
                     </ion-select>
                 </ion-item>

@@ -1,3 +1,4 @@
+import { SectorsProvider } from './../../../providers/sectors/sectors';
 import { StarRateHelper } from './../../../util/stars-rate/stars-rate';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -40,25 +41,47 @@ export class SearchPage {
   public profiles = []
   private starsRateHelper: StarRateHelper;
 
+  public sectors = [];
+  public areas = [];
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public locations: Locations,
     public toast: Toast,
     public loading: Loading,
+    public sectorsProvider: SectorsProvider,
     public profileProvider: ProfileProvider) {
     this.starsRateHelper = new StarRateHelper;
     this.filterOptions = new FilterOptions;
   }
 
   ionViewWillEnter() {
-    this.getStates()
+    this.loading.showLoading("Preparando busca...")
+      .then(() => {
+        this.getStates();
+        this.getSectors();
+      })
+  }
+
+  getSectors() {
+    this.sectorsProvider.getSectors()
+      .then((res) => {
+        res
+          .subscribe(arg => {
+            this.sectors = arg;
+            // this.sectors.forEach(element => {
+            //   if ()
+            // });
+          });
+      })
   }
 
   getStates() {
     this.locations.getStates()
       .then((res) => {
         this.states = res
+        this.loading.hideLoading();
       })
       .catch(() => {
         this.toast.showToast("Estado não encontrado! ");
