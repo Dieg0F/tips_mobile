@@ -27,7 +27,7 @@ export class ContactPage {
   }
 
   ionViewDidLoad() {
-    this.buildMap()
+    this.buildMap();
   }
 
   buildMap() {
