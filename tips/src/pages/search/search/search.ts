@@ -1,3 +1,4 @@
+import { SectorProvider } from '../../../providers/sector/sector';
 import { StarRateHelper } from './../../../util/stars-rate/stars-rate';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -8,6 +9,10 @@ import { Loading } from '../../../util/loading/loading';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 import { AppConfig } from '../../../model/static/static';
 import { Profile } from '../../../model/profile/profile';
+import { AreaProvider } from '../../../providers/area/area';
+import { Sector } from '../../../model/sector/sector';
+import { Area } from '../../../model/area/area';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -32,13 +37,18 @@ export class SearchPage {
 
   public stateSelected: any;
   public citySelected: any;
+  public areaSelected: any;
+  public sectorSelected: any;
 
   public filterOptions: FilterOptions;
 
-  public searchIsOpen: boolean = true;
+  public searchMode: string = Constants.SEARCH_COMPLETE;
 
   public profiles = []
   private starsRateHelper: StarRateHelper;
+
+  public sectors: Array<Sector> = [];
+  public areas: Array<Area> = [];
 
   constructor(
     public navCtrl: NavController,
@@ -46,19 +56,70 @@ export class SearchPage {
     public locations: Locations,
     public toast: Toast,
     public loading: Loading,
+    public areaProvider: AreaProvider,
+    public sectorsProvider: SectorProvider,
     public profileProvider: ProfileProvider) {
     this.starsRateHelper = new StarRateHelper;
     this.filterOptions = new FilterOptions;
   }
 
   ionViewWillEnter() {
-    this.getStates()
+    this.loading.showLoading("Preparando busca...")
+      .then(() => {
+        this.getAreas();
+      })
+  }
+
+  onAreaSelect() {
+    if (this.areaSelected.uId != undefined) {
+      console.log(this.areaSelected);
+      this.filterOptions.profileArea = this.areaSelected.name;
+      this.getSectors(this.areaSelected.uId)
+    }
+  }
+
+  getAreas() {
+    this.areaProvider.getAreas()
+      .then((areas) => {
+        areas
+          .subscribe(values => {
+            this.areas = values;
+            this.getStates();
+          });
+      })
+      .catch((err) => {
+        console.log("Erro: ", err);
+        this.toast.showToast("Areas não encontradas! ");
+      });
+  }
+
+  onSectorSelect() {
+    if (this.sectorSelected.uId != undefined) {
+      this.filterOptions.profileSector = this.sectorSelected.name;
+    }
+  }
+
+  getSectors(areaUid: string) {
+    this.sectors = new Array<Sector>();
+    this.sectorsProvider.getSectorsByArea(areaUid)
+      .then((sectors) => {
+        sectors
+          .subscribe(values => {
+            console.log(values)
+            this.sectors = values;
+          });
+      })
+      .catch((err) => {
+        console.log("Erro: ", err);
+        this.toast.showToast("Setores não encontrados! ");
+      });
   }
 
   getStates() {
     this.locations.getStates()
       .then((res) => {
         this.states = res
+        this.loading.hideLoading();
       })
       .catch(() => {
         this.toast.showToast("Estado não encontrado! ");

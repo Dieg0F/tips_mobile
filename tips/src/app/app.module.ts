@@ -34,6 +34,8 @@ import { AvaliationProvider } from '../providers/avaliation/avaliation';
 
 import { Geolocation } from '@ionic-native/geolocation'
 import { Popover } from '../util/popover/popover';
+import { SectorProvider } from '../providers/sector/sector';
+import { AreaProvider } from '../providers/area/area';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -78,6 +80,8 @@ const config = {
     StorageProvider,
     CameraProvider,
     ServiceProvider,
+    SectorProvider,
+    AreaProvider,
     DataProvider,
     HttpService,
     FileChooser,
