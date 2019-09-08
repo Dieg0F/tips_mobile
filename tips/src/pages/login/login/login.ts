@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { AuthProvider } from '../../../providers/auth/auth';
@@ -9,6 +9,9 @@ import { Toast } from '../../../util/toast/toast';
 import { Regex } from '../../../util/regex/regex';
 import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { AppConfig } from '../../../model/static/static';
+import { ProfileProvider } from '../../../providers/profile/profile';
+
+const LOGIN_TIMEOUT = 1000;
 
 @IonicPage()
 @Component({
@@ -18,63 +21,77 @@ import { AppConfig } from '../../../model/static/static';
 export class LoginPage {
 
   private regex: Regex;
+  private loginSubscription: any;
+  private loginTimer: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public afAuth: AuthProvider,
     public loading: Loading,
+    public profileProvider: ProfileProvider,
     public appConfigProvider: AppConfigProvider,
     public alert: Alert,
     public toast: Toast) { }
 
   login(form: NgForm): void {
-    let awatiForLoginInterval: any
     if (this.validateAccount(form)) {
       this.loading.showLoading('Entrando em sua conta...')
-        .then(() => {
+        .then(async () => {
           this.afAuth.login(form)
             .then(async (result) => {
               let userAuth = {
                 uid: result.user.uid
               }
               this.appConfigProvider.appLogin(userAuth)
-              let awaitForLogin = 0
-              awatiForLoginInterval = setInterval(() => {
-                if (AppConfig.HAS_USER) {
-                  this.goToProfilePage();
-                  clearInterval(awatiForLoginInterval)
-                  awatiForLoginInterval = undefined
-                } else {
-                  awaitForLogin++
-                  if (awaitForLogin >= 30) {
-                    this.errorLogin();
-                    clearInterval(awatiForLoginInterval)
-                    awatiForLoginInterval = undefined
-                  }
-                }
-              }, 1000)
+              this.loginSubscription = setInterval(() => {
+                this.loginHasCompleted();
+              }, LOGIN_TIMEOUT)
             })
             .catch((error) => {
               console.log('Erro ao fazer login: ', error);
-              clearInterval(awatiForLoginInterval)
-              awatiForLoginInterval = undefined
               this.errorLogin();
             });
         })
     }
   }
 
-  private goToProfilePage() {
+  private loginHasCompleted() {
+    if (AppConfig.HAS_USER) {
+      this.finishSubscription();
+      if (AppConfig.USER_PROFILE.isActive == false) {
+        this.restartAccount();
+      } else {
+        this.goToProfilePage();
+      }
+    }
+    else {
+      this.loginTimer++;
+      if (this.loginTimer >= 30) {
+        this.errorLogin();
+        this.finishSubscription();
+      }
+    }
+  }
+
+  private goToProfilePage(showToast: boolean = true) {
     this.navCtrl.setRoot('ProfilePage');
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
-    this.toast.showToast('Bem vindo!');
+    if (showToast) {
+      this.toast.showToast('Bem vindo!')
+    }
   }
 
   private errorLogin() {
+    this.finishSubscription();
     this.loading.hideLoading();
     this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!')
+  }
+
+  finishSubscription() {
+    clearInterval(this.loginSubscription)
+    this.loginSubscription = undefined
   }
 
   validateAccount(form: NgForm): Boolean {
@@ -100,5 +117,18 @@ export class LoginPage {
 
   forgotPassword() {
     this.navCtrl.push("ForgotPasswordPage");
+  }
+
+  restartAccount() {
+    this.profileProvider.reactiveAccount(AppConfig.USER_PROFILE)
+      .then(() => {
+        this.toast.showToast("Sua conta foi ativada novamente!")
+          .then(() => {
+            this.goToProfilePage(false);
+          })
+      })
+      .catch(() => {
+        this.errorLogin();
+      })
   }
 }

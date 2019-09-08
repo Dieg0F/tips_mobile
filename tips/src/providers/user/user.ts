@@ -24,7 +24,7 @@ export class UserProvider {
     console.log('saveNewUser >> Criando um novo usuário')
     return this.db.collection(Constants.USERS_COLLECTION).doc(user.uid).set(user)
       .then(async () => {
-        let profile = this.setProfile(user)
+        let profile = this.profileProvider.setProfile(user)
         return this.profileProvider.saveProfile(profile)
           .then(async () => {
             AppConfig.USER_PROFILE = profile;
@@ -46,34 +46,6 @@ export class UserProvider {
   getLocalUser() {
     console.log('getLocalUser >> Get User')
     return this.storage.getItem(Constants.USER_LOCAL_DB)
-  }
-
-  setProfile(user: any) {
-    let profile: Profile = {
-      uid: user.uid,
-      nome: user.name,
-      email: user.email,
-      telefone: "",
-      rua: "",
-      bairro: "",
-      cidade: "",
-      estado: "",
-      cpf: "",
-      areaAtuacao: "",
-      setor: "",
-      aboutMe: "",
-      profilePhotoUrl: "",
-      userGalery: [],
-      geoLocation: null,
-      hideMyProfile: false,
-      userRate: 0,
-      userMaxRate: 0,
-      userMinRate: 0,
-      servicesCount: 0,
-      avaliationsCount: 0,
-    }
-
-    return profile;
   }
 }
 

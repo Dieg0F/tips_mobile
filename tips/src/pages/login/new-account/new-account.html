@@ -25,8 +25,13 @@
                     <ion-label floating>Confirmar Senha</ion-label>
                     <ion-input type="password" name="confirmPass" ngModel maxLength="10"></ion-input>
                 </ion-item>
+                <ion-item>
+                    <ion-label>Sou um profissional?</ion-label>
+                    <ion-toggle name="isAPro" [(ngModel)]="isAPro" (ionChange)="alertInformation()">
+                    </ion-toggle>
+                </ion-item>
                 <p class="hintText">
-                    Você poderá alterar o seu nome e sua senha na tela de configurações de conta!
+                    Você poderá alterar o seu nome nas confirgurações de perfil e sua senha nas configurações do aplicativo!
                 </p>
                 <button ion-button>Criar Conta</button>
             </form>

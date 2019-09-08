@@ -28,7 +28,7 @@ export class ForgotPasswordPage {
     if (this.validateAccount(form)) {
       this.loading.showLoading('Resetando a sua senha...')
         .then(() => {
-          this.authProvider.resetPassword(form)
+          this.authProvider.resetPassword(form.value.email)
             .then(() => {
               this.loading.hideLoading();
               this.alert.simpleAlert('Senha resetada!', 'Em alguns instantes você receberá um e-mail com o link para alteração de sua senha.');

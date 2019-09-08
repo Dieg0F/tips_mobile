@@ -5,6 +5,8 @@ export class AppConfig {
         uid: "",
         nome: "",
         email: "",
+        isAPro: false,
+        isActive: true,
         telefone: "",
         rua: "",
         bairro: "",
