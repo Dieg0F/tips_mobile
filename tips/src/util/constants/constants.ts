@@ -45,4 +45,8 @@ export class Constants {
     static SERVICES_RECEIVED = "SERVICES_RECEIVED";
     static SERVICES_DONE = "SERVICES_DONE";
     static ALL_SERVICES = "ALL_SERVICES";
+
+    static SEARCH_COMPLETE = "SEARCH_COMPLETE";
+    static SEARCH_BASIC = "SEARCH_BASIC";
+    static SEARCH_DISABLED = "SEARCH_DISABLED";
 }

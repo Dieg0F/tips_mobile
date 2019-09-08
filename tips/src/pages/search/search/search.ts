@@ -12,6 +12,7 @@ import { Profile } from '../../../model/profile/profile';
 import { AreaProvider } from '../../../providers/area/area';
 import { Sector } from '../../../model/sector/sector';
 import { Area } from '../../../model/area/area';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -41,7 +42,7 @@ export class SearchPage {
 
   public filterOptions: FilterOptions;
 
-  public searchIsOpen: boolean = true;
+  public searchMode: string = Constants.SEARCH_COMPLETE;
 
   public profiles = []
   private starsRateHelper: StarRateHelper;
@@ -100,7 +101,7 @@ export class SearchPage {
 
   getSectors(areaUid: string) {
     this.sectors = new Array<Sector>();
-    this.sectorsProvider.getSectors(areaUid)
+    this.sectorsProvider.getSectorsByArea(areaUid)
       .then((sectors) => {
         sectors
           .subscribe(values => {

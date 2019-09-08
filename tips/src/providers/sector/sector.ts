@@ -9,14 +9,19 @@ export class SectorProvider {
     constructor(
         private db: AngularFirestore) { }
 
-    async getSectors(areaUid: string): Promise<any> {
+    async getSectorsByArea(areaUid: string): Promise<any> {
         console.log('getSectors >> Get All Sectors', areaUid)
 
         return this.db.collection(Constants.SECTORS_COLLECTION, ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query.where('areaUid', '==', areaUid)
-            return query;
+            return query.where('areaUid', '==', areaUid);
         }).valueChanges()
+    }
+
+    async getSectors(areaUid: string): Promise<any> {
+        console.log('getSectors >> Get All Sectors', areaUid)
+
+        return this.db.collection(Constants.SECTORS_COLLECTION).valueChanges()
     }
 
     async insertSector(sector: any): Promise<void> {

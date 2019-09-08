@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-    <div class="results scale-up-ver-top transition" *ngIf="!searchIsOpen">
+    <div class="results scale-up-ver-top transition" *ngIf="searchMode == 'SEARCH_DISABLED'">
         <div class="card profile" *ngFor="let profile of profiles">
             <div class="profileTitle">
                 <div class="profilePhotoResult" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
@@ -34,7 +34,7 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     </div>
-    <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchIsOpen">
+    <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchMode == 'SEARCH_COMPLETE'">
         <div class="card search">
             <div class="cardBody">
                 <ion-item>
@@ -85,7 +85,23 @@
             </div>
         </div>
     </div>
-    <ion-fab center bottom *ngIf="!searchIsOpen">
+    <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchMode == 'SEARCH_BASIC'">
+        <div class="card search">
+            <div class="cardBody">
+                <ion-item>
+                    <ion-label>Setor</ion-label>
+                    <ion-select [(ngModel)]="sectorSelected" (ionChange)="onSectorSelect()" [disabled]="!areaSelected || areaSelected == ''">
+                        <ion-option *ngFor="let sector of sectors; let i of index" [value]="i">{{sector.sectorName}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+            </div>
+            <div class="cardFooter" (click)="createFilter()">
+                <h5>Buscar</h5>
+            </div>
+        </div>
+    </div>
+    <ion-fab center bottom *ngIf="searchMode == 'SEARCH_DISABLED'">
         <button ion-fab (click)="searchAgain()">
             <ion-icon name="search"></ion-icon>
         </button>
