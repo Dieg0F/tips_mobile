@@ -4,9 +4,10 @@ import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
 import { ProfileProvider } from './../../../providers/profile/profile';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
+import { AuthProvider } from '../../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -14,47 +15,33 @@ import { AppConfig } from '../../../model/static/static';
   templateUrl: 'app-config.html',
 })
 export class AppConfigPage {
+  @ViewChild('refresherRef') refresherRef;
 
   private profile: Profile = { ...AppConfig.USER_PROFILE };
-  public hideMyContacts: boolean = false;
-  public hideMyContactsOption = "";
-
-  public hideMyProfile: boolean = false;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public profileProvider: ProfileProvider,
+    public authProvider: AuthProvider,
     public alert: Alert,
     public toast: Toast,
     public loading: Loading) {
   }
 
-  ionViewDidLoad() {
-    //Update hideMyContacts value and hideMyContactsOption type!
-    this.hideMyContactsOption = "Esconder meus contatos!"
-
-    this.profile.hideMyProfile = true;
-  }
-
-  updateProfileContactsStatus() {
-    //Contact Profile Status will be a new feature on app.
-    //UPDATE DATABASE, MODELS AND USERS FOR THIS
-    console.log(this.hideMyContactsOption)
-  }
-
   updateProfileExbition() {
-    //Contact Profile Status will be a new feature on app.
-    //UPDATE DATABASE, MODELS AND USERS FOR THIS    
-    console.log(this.profile.hideMyProfile);
     var oldOption = this.profile.hideMyProfile;
     this.profile.hideMyProfile = !this.profile.hideMyProfile;
 
-    console.log(this.profile.hideMyProfile);
-
-    this.profileProvider.saveProfile(this.profile)
-      .then((res) => {
-        console.log(res.data());
+    this.loading.showLoading("Atualizando perfil...")
+      .then(async () => {
+        return this.profileProvider.saveProfile(this.profile)
+          .then(async () => {
+            return this.loading.hideLoadingPromise()
+              .then(() => {
+                this.toast.showToast("Perfil atualizado!");
+              })
+          })
       })
       .catch((err) => {
         this.profile.hideMyProfile = oldOption;
@@ -92,7 +79,16 @@ export class AppConfigPage {
   }
 
   confirmUpdatePassoword() {
-    console.log('Update Password!!')
+    this.authProvider.resetPassword(this.profile.email)
+      .then(() => {
+        this.alert.simpleAlert(
+          "Nova senha",
+          "Pedido de alteração de senha com sucesso! Verifique o seu e-mail."
+        )
+      })
+      .catch(() => {
+        this.toast.showToast("Erro ao pedir alteração de senha!");
+      })
   }
 
   disableAccount() {
@@ -104,6 +100,15 @@ export class AppConfigPage {
   }
 
   confirmDisableAccount() {
-    console.log('Disable Account!!')
+
+  }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.refresherRef.complete();
+    }, 2000);
   }
 }

@@ -30,7 +30,7 @@ export class NewAccountPage {
     if (this.validateAccount(form)) {
       this.loading.showLoading('Estamos criando a sua conta...')
         .then(() => {
-          this.authProvider.createNewAccount(form)
+          this.authProvider.createNewAccount(form.value.email, form.value.pass)
             .then((result) => {
               let newUser = {
                 uid: result.user.uid,

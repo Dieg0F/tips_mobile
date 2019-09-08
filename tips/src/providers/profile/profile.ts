@@ -7,6 +7,7 @@ import { AppConfig } from '../../model/static/static';
 
 import { FilterOptions } from '../../model/FilterOptions/FilterOptions';
 import { Constants } from '../../util/constants/constants';
+import { Profile } from '../../model/profile/profile';
 
 @Injectable()
 export class ProfileProvider {
@@ -25,8 +26,10 @@ export class ProfileProvider {
     }
 
     async saveProfileOnStorage(profile: any): Promise<void> {
+        console.log('saveProfile on storage >> Saving Profile')
         return this.storage.setItem(Constants.USER_PROFILE_LOCAL_DB, profile)
             .then(() => {
+                console.log('Saved: ', AppConfig.USER_PROFILE)
                 AppConfig.USER_PROFILE = profile;
             });
     }
@@ -55,5 +58,33 @@ export class ProfileProvider {
             query = query.limit(limit)
             return query;
         }).valueChanges()
+    }
+
+    setProfile(user: any) {
+        let profile: Profile = {
+            uid: user.uid,
+            nome: user.name,
+            email: user.email,
+            telefone: "",
+            rua: "",
+            bairro: "",
+            cidade: "",
+            estado: "",
+            cpf: "",
+            areaAtuacao: "",
+            setor: "",
+            aboutMe: "",
+            profilePhotoUrl: "",
+            userGalery: [],
+            geoLocation: null,
+            hideMyProfile: false,
+            userRate: 0,
+            userMaxRate: 0,
+            userMinRate: 0,
+            servicesCount: 0,
+            avaliationsCount: 0,
+        }
+
+        return profile;
     }
 }
