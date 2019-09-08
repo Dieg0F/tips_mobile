@@ -1,13 +1,13 @@
 import { Profile } from './../../../model/profile/profile';
-import { Constants } from './../../../util/constants/constants';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
 import { ProfileProvider } from './../../../providers/profile/profile';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { AuthProvider } from '../../../providers/auth/auth';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -15,38 +15,23 @@ import { AuthProvider } from '../../../providers/auth/auth';
   templateUrl: 'app-config.html',
 })
 export class AppConfigPage {
-  @ViewChild('refresherRef') refresherRef;
 
-  private profile: Profile = { ...AppConfig.USER_PROFILE };
+  public profile: Profile = { ...AppConfig.USER_PROFILE };
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public profileProvider: ProfileProvider,
     public authProvider: AuthProvider,
+    public storage: StorageProvider,
     public alert: Alert,
     public toast: Toast,
     public loading: Loading) {
   }
 
   updateProfileExbition() {
-    var oldOption = this.profile.hideMyProfile;
     this.profile.hideMyProfile = !this.profile.hideMyProfile;
-
-    this.loading.showLoading("Atualizando perfil...")
-      .then(async () => {
-        return this.profileProvider.saveProfile(this.profile)
-          .then(async () => {
-            return this.loading.hideLoadingPromise()
-              .then(() => {
-                this.toast.showToast("Perfil atualizado!");
-              })
-          })
-      })
-      .catch((err) => {
-        this.profile.hideMyProfile = oldOption;
-        console.log(err)
-      })
+    this.updateProfile()
   }
 
   updateAccountType() {
@@ -67,7 +52,8 @@ export class AppConfigPage {
   }
 
   confirmAccountType() {
-    console.log('Update Account Type!!')
+    this.profile.isAPro = !this.profile.isAPro;
+    this.updateProfile()
   }
 
   updatePassword() {
@@ -100,15 +86,51 @@ export class AppConfigPage {
   }
 
   confirmDisableAccount() {
-
+    this.profile.isActive = false;
+    this.updateProfile();
   }
 
-  doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
+  async updateProfile() {
+    this.loading.showLoading("Atualizando perfil...")
+      .then(async () => {
+        this.profileProvider.saveProfile(this.profile)
+          .then(async () => {
+            if (this.profile.isActive == false) {
+              this.logout();
+            } else {
+              return this.loading.hideLoadingPromise()
+                .then(() => {
+                  this.toast.showToast("Perfil atualizado!");
+                })
+            }
+          })
+          .catch((err) => {
+            this.loading.hideLoading();
+            this.toast.showToast("Erro ao atualizar perfil!");
+            console.log(err)
+          })
+      })
+  }
 
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      this.refresherRef.complete();
-    }, 2000);
+  logout() {
+    this.authProvider.logout()
+      .then(async () => {
+        return this.storage.clearAll()
+          .then(() => {
+            this.goToLoginPage()
+          })
+      })
+      .catch((error) => {
+        console.log('Error: ', error);
+        this.loading.hideLoading();
+        this.alert.simpleAlert('Opps!', 'Houve um erro ao remover a sua conta!')
+      })
+  }
+
+  private goToLoginPage() {
+    this.navCtrl.setRoot('LoginPage');
+    this.navCtrl.goToRoot;
+    this.loading.hideLoading();
+    this.toast.showToast('Conta removida com sucesso!');
   }
 }

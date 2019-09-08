@@ -16,6 +16,7 @@ import { Regex } from '../../../util/regex/regex';
 export class NewAccountPage {
 
   private regex: Regex;
+  public isAPro: boolean = true;
 
   constructor(
     public navCtrl: NavController,
@@ -30,12 +31,13 @@ export class NewAccountPage {
     if (this.validateAccount(form)) {
       this.loading.showLoading('Estamos criando a sua conta...')
         .then(() => {
-          this.authProvider.createNewAccount(form.value.email, form.value.pass)
+          this.authProvider.createNewAccount(form.value.email, form.value.password)
             .then((result) => {
               let newUser = {
                 uid: result.user.uid,
                 name: form.value.name,
                 email: form.value.email,
+                isAPro: form.value.isAPro,
                 accountType: 'APPLICATION'
               }
               this.saveUser(newUser);
@@ -69,6 +71,13 @@ export class NewAccountPage {
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
     this.toast.showToast('Conta foi criada com sucesso!');
+  }
+
+  alertInformation() {
+    this.alert.simpleAlert(
+      "Sou um profissional?",
+      "Se você é um profissional e quer divilgar seu serviços, deixe essa opção ativa!"
+    )
   }
 
   validateAccount(form: NgForm): Boolean {

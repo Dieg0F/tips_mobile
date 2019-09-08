@@ -51,33 +51,6 @@ export class ProfilePage {
     this.navCtrl.push("UserAvaliationsPage");
   }
 
-  serviceManager() {
-    this.serviceProvider.getServices(this.profile.uid)
-      .then((res) => {
-        res.subscribe((values) => {
-          var hasServicePending = false
-
-          values.forEach(element => {
-            if ((element.status == Constants.SERVICE_IS_OPEN ||
-              element.status == Constants.SERVICE_IS_AWAIT_TO_CANCEL ||
-              element.status == Constants.SERVICE_IS_AWAIT_TO_FINISH) &&
-              (element.lastActionByUserUid != this.profile.uid) &&
-              (element.ownerUid == this.profile.uid)) {
-              hasServicePending = true
-            }
-          });
-
-          if (hasServicePending) {
-            this.alert.confirmAlert(
-              "Serviços pendentes!",
-              "Você possui serviços aguardando sua ação!",
-              () => { this.navCtrl.push("UserServicesPage"); },
-              () => { }, "Depois", "Ver Serviços")
-          }
-        })
-      })
-  }
-
   greetingMessageBuilder() {
     var date = new Date()
     var hours = date.getHours();

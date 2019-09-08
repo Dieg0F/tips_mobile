@@ -8,6 +8,7 @@ import { AppConfig } from '../../model/static/static';
 import { FilterOptions } from '../../model/FilterOptions/FilterOptions';
 import { Constants } from '../../util/constants/constants';
 import { Profile } from '../../model/profile/profile';
+import { AuthProvider } from '../auth/auth';
 
 @Injectable()
 export class ProfileProvider {
@@ -15,6 +16,7 @@ export class ProfileProvider {
     constructor(
         public http: HttpClient,
         private db: AngularFirestore,
+        private authProvider: AuthProvider,
         private storage: StorageProvider) { }
 
     async saveProfile(profile: any): Promise<void> {
@@ -47,7 +49,6 @@ export class ProfileProvider {
 
         return this.db.collection(Constants.PROFILES_COLLECTION, ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.where('hideMyProfile', '==', false)
             if (filter.profileName != "") { query = query.where('nome', '==', filter.profileName) };
             if (filter.profileState != "") { query = query.where('estado', '==', filter.profileState) };
             if (filter.profileCity != "") { query = query.where('cidade', '==', filter.profileCity) };
@@ -55,9 +56,17 @@ export class ProfileProvider {
             if (filter.profileArea != "") { query = query.where('areaAtuacao', '==', filter.profileArea) };
             if (filter.profileRate != 0) { query = query.where('userRate', '==', filter.profileRate) }
             else { query = query.orderBy('userRate', 'desc') };
+            query = query.where('hideMyProfile', '==', false)
+            query = query.where('isActive', '==', true)
+            query = query.where('isAPro', '==', true)
             query = query.limit(limit)
             return query;
         }).valueChanges()
+    }
+
+    async reactiveAccount(profile: Profile) {
+        profile.isActive = true;
+        return this.saveProfile(profile);
     }
 
     setProfile(user: any) {
@@ -65,6 +74,8 @@ export class ProfileProvider {
             uid: user.uid,
             nome: user.name,
             email: user.email,
+            isAPro: user.isAPro,
+            isActive: true,
             telefone: "",
             rua: "",
             bairro: "",
