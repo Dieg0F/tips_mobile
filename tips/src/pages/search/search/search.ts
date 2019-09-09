@@ -1,7 +1,7 @@
 import { SectorProvider } from '../../../providers/sector/sector';
 import { StarRateHelper } from './../../../util/stars-rate/stars-rate';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { Locations } from '../../../providers/locations/locations';
 import { Toast } from '../../../util/toast/toast';
@@ -11,7 +11,6 @@ import { AppConfig } from '../../../model/static/static';
 import { Profile } from '../../../model/profile/profile';
 import { AreaProvider } from '../../../providers/area/area';
 import { Sector } from '../../../model/sector/sector';
-import { Area } from '../../../model/area/area';
 import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
@@ -25,30 +24,26 @@ export class SearchPage {
   public itemsForPage = 10;
   public itemsOnPage = 0;
 
-  public cidade = "";
-  public estado = "";
-  public areaAtuacao = "";
-  public setor = "";
-  public rating = 0;
   public profileName = "";
 
   public states = [];
-  public cities = [];
 
-  public stateSelected: any;
-  public citySelected: any;
-  public areaSelected: any;
-  public sectorSelected: any;
+  public stateSelected: string = Constants.DEFAULT_VALUE_FOR_STATE_SEARCH;
+  public citySelected: string = Constants.DEFAULT_VALUE_FOR_CITY_SEARCH;
+  public jobSelected: string = Constants.DEFAULT_VALUE_FOR_JOB_SEARCH;
+  public rateSelected: string = Constants.DEFAULT_VALUE_FOR_RATE_SEARCH;
+
+  public hasStateSelected: boolean = false;
+  public stateId: number = 0;
 
   public filterOptions: FilterOptions;
 
-  public searchMode: string = Constants.SEARCH_COMPLETE;
+  public searchMode: string = Constants.SEARCH_BASIC;
 
-  public profiles = []
-  private starsRateHelper: StarRateHelper;
+  public starsRateHelper: StarRateHelper;
 
   public sectors: Array<Sector> = [];
-  public areas: Array<Area> = [];
+  public profiles: Array<Profile> = [];
 
   constructor(
     public navCtrl: NavController,
@@ -58,6 +53,7 @@ export class SearchPage {
     public loading: Loading,
     public areaProvider: AreaProvider,
     public sectorsProvider: SectorProvider,
+    public events: Events,
     public profileProvider: ProfileProvider) {
     this.starsRateHelper = new StarRateHelper;
     this.filterOptions = new FilterOptions;
@@ -66,52 +62,86 @@ export class SearchPage {
   ionViewWillEnter() {
     this.loading.showLoading("Preparando busca...")
       .then(() => {
-        this.getAreas();
+        this.getSectors();
       })
   }
 
-  onAreaSelect() {
-    if (this.areaSelected.uId != undefined) {
-      console.log(this.areaSelected);
-      this.filterOptions.profileArea = this.areaSelected.name;
-      this.getSectors(this.areaSelected.uId)
-    }
+  private onRateSelected() {
+    this.events.subscribe('rateSelected', async (rate: number) => {
+      console.log(rate)
+      if (rate != undefined) {
+        this.filterOptions.profileRate = rate;
+        this.rateSelected = rate + " estrelas";
+      }
+      else {
+        this.filterOptions.profileRate = undefined;
+        this.rateSelected = Constants.DEFAULT_VALUE_FOR_RATE_SEARCH;
+      }
+      this.events.unsubscribe('rateSelected');
+    });
   }
 
-  getAreas() {
-    this.areaProvider.getAreas()
-      .then((areas) => {
-        areas
-          .subscribe(values => {
-            this.areas = values;
-            this.getStates();
-          });
-      })
-      .catch((err) => {
-        console.log("Erro: ", err);
-        this.toast.showToast("Areas não encontradas! ");
-      });
+  private onCitySelected() {
+    this.events.subscribe('citySelected', async (city: string) => {
+      console.log("City: ", city);
+      if (city != undefined) {
+        this.filterOptions.profileCity = city;
+        this.citySelected = city;
+      }
+      else {
+        this.filterOptions.profileCity = undefined;
+        this.citySelected = Constants.DEFAULT_VALUE_FOR_CITY_SEARCH;
+      }
+      this.events.unsubscribe('citySelected');
+    });
   }
 
-  onSectorSelect() {
-    if (this.sectorSelected.uId != undefined) {
-      this.filterOptions.profileSector = this.sectorSelected.name;
-    }
+  private onStateSelected() {
+    this.events.subscribe('stateSelected', async (state: any) => {
+      if (state != undefined) {
+        this.filterOptions.profileState = state.sigla;
+        this.stateSelected = state.sigla;
+        this.hasStateSelected = true;
+        this.stateId = state.id;
+      }
+      else {
+        this.hasStateSelected = false;
+        this.filterOptions.profileState = undefined;
+        this.filterOptions.profileCity = undefined;
+        this.stateSelected = Constants.DEFAULT_VALUE_FOR_STATE_SEARCH;
+        this.citySelected = Constants.DEFAULT_VALUE_FOR_CITY_SEARCH;
+      }
+      this.events.unsubscribe('stateSelected');
+    });
   }
 
-  getSectors(areaUid: string) {
+  private onJobSelected() {
+    this.events.subscribe('jobSelected', async (job: string) => {
+      if (job != undefined) {
+        this.filterOptions.profileSector = job;
+        this.jobSelected = job;
+      }
+      else {
+        this.filterOptions.profileSector = undefined;
+        this.jobSelected = Constants.DEFAULT_VALUE_FOR_JOB_SEARCH;
+      }
+      this.events.unsubscribe('jobSelected');
+    });
+  }
+
+  getSectors() {
     this.sectors = new Array<Sector>();
-    this.sectorsProvider.getSectorsByArea(areaUid)
-      .then((sectors) => {
-        sectors
-          .subscribe(values => {
-            console.log(values)
-            this.sectors = values;
-          });
+    this.sectorsProvider.getSectors()
+      .then((res) => {
+        res.subscribe(values => {
+          this.sectors = values;
+          this.loading.hideLoading();
+        });
+
       })
       .catch((err) => {
         console.log("Erro: ", err);
-        this.toast.showToast("Setores não encontrados! ");
+        this.toast.showToast("Erro ao preparar busca, Profissiões não encontradas! ");
       });
   }
 
@@ -119,58 +149,33 @@ export class SearchPage {
     this.locations.getStates()
       .then((res) => {
         this.states = res
-        this.loading.hideLoading();
       })
       .catch(() => {
         this.toast.showToast("Estado não encontrado! ");
       })
   }
 
-  onStateSelect() {
-    if (this.stateSelected.id != undefined) {
-      this.filterOptions.profileState = this.stateSelected.sigla;
-      this.getCites(this.stateSelected.id)
-    }
-  }
+  changeSearchMode() {
+    this.stateSelected = Constants.DEFAULT_VALUE_FOR_STATE_SEARCH;
+    this.citySelected = Constants.DEFAULT_VALUE_FOR_CITY_SEARCH;
+    this.jobSelected = Constants.DEFAULT_VALUE_FOR_JOB_SEARCH;
+    this.rateSelected = Constants.DEFAULT_VALUE_FOR_RATE_SEARCH;
 
-  getCites(stateId: number) {
-    this.loading.showLoading("Buscando cidades...");
-    this.locations.getCityes(stateId)
-      .then((res) => {
-        this.cities = res
-        this.loading.hideLoading()
-      })
-      .catch(() => {
-        this.loading.hideLoading()
-        this.toast.showToast("Cidade não encontrada! ");
-      })
-  }
+    this.hasStateSelected = false;
+    this.stateId = 0;
 
-  onCitySelect() {
-    if (this.stateSelected.sigla != "Todas") {
-      this.filterOptions.profileCity = this.citySelected.nome;
-    }
+    this.filterOptions = new FilterOptions;
+    this.searchMode == Constants.SEARCH_BASIC ? this.searchMode = Constants.SEARCH_COMPLETE : this.searchMode = Constants.SEARCH_BASIC;
   }
 
   createFilter() {
-    this.filterOptions.profileName = this.profileName;
-    this.filterOptions.profileRate = parseInt(this.rating.toString());
-    this.filterOptions.profileSector = this.setor;
-    this.filterOptions.profileArea = this.areaAtuacao;
-
     if (this.filterOptions.profileCity == undefined) {
-      this.filterOptions.profileCity = AppConfig.USER_PROFILE.cidade;
+      //this.filterOptions.profileCity = AppConfig.USER_PROFILE.cidade;
     }
 
     if (this.filterOptions.profileState == undefined) {
-      this.filterOptions.profileState = AppConfig.USER_PROFILE.estado;
+      //this.filterOptions.profileState = AppConfig.USER_PROFILE.estado;
     }
-
-    if (this.filterOptions.profileName != "") {
-      this.filterOptions.profileCity = "";
-      this.filterOptions.profileState = "";
-    }
-
     this.requestProfiles();
   }
 
@@ -182,18 +187,18 @@ export class SearchPage {
         });
       })
       .catch(() => {
-        this.searchIsOpen = true;
+        this.searchMode = Constants.SEARCH_BASIC;
         this.toast.showToast(`Ops, erro ao buscar profissionais!`);
       });
   }
 
   results(values: any) {
+    this.profiles = new Array<Profile>();
     this.buildList(values);
     if (this.profiles.length > 0) {
       this.pageTiitle = "Resultado da busca"
-      this.searchIsOpen = false;
+      this.searchMode = Constants.SEARCH_DISABLED;
     } else {
-      this.searchIsOpen = true;
       this.toast.showToast(`Ops, não encontramos profissionais para essa busca!`);
     }
   }
@@ -222,14 +227,34 @@ export class SearchPage {
     return this.starsRateHelper.starsRateColor(value)
   }
 
-  goToDetails(profile: any) {
-    this.navCtrl.push("ProfileDetailsPage", { 'profile': profile })
-  }
-
   searchAgain() {
     this.pageTiitle = "Busca por profissionais"
-    this.searchIsOpen = true;
+    this.searchMode = Constants.SEARCH_BASIC;
     this.itemsForPage = 10;
     this.itemsOnPage = 0;
+  }
+
+  selectJob() {
+    this.onJobSelected();
+    this.navCtrl.push("JobSearchPage", { 'jobList': this.sectors });
+  }
+
+  selectRate() {
+    this.onRateSelected();
+    this.navCtrl.push("RatingSearchPage");
+  }
+
+  selectState() {
+    this.onStateSelected();
+    this.navCtrl.push("StateSearchPage", { 'stateList': this.states });
+  }
+
+  selectCity() {
+    this.onCitySelected();
+    this.navCtrl.push("CitySearchPage", { 'stateId': this.stateId });
+  }
+
+  goToDetails(profile: any) {
+    this.navCtrl.push("ProfileDetailsPage", { 'profile': profile })
   }
 }

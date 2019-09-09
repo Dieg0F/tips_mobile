@@ -18,9 +18,8 @@ export class SectorProvider {
         }).valueChanges()
     }
 
-    async getSectors(areaUid: string): Promise<any> {
-        console.log('getSectors >> Get All Sectors', areaUid)
-
+    async getSectors(): Promise<any> {
+        console.log('getSectors >> Get All Sectors')
         return this.db.collection(Constants.SECTORS_COLLECTION).valueChanges()
     }
 

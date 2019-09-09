@@ -18,6 +18,11 @@ export class Constants {
     static USER_AUTH_LOCAL_DB = "userAuth";
     static SECTORS_LOCAL_DB = "sectors";
 
+    static DEFAULT_VALUE_FOR_JOB_SEARCH = "Selecione uma profissão."
+    static DEFAULT_VALUE_FOR_STATE_SEARCH = "Selecione um estado."
+    static DEFAULT_VALUE_FOR_CITY_SEARCH = "Escolha um estado primeiro."
+    static DEFAULT_VALUE_FOR_RATE_SEARCH = "Selecione uma nota de avaliação"
+
     /**
      * NavParams Keys
      */

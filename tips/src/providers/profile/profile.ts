@@ -53,7 +53,6 @@ export class ProfileProvider {
             if (filter.profileState != "") { query = query.where('estado', '==', filter.profileState) };
             if (filter.profileCity != "") { query = query.where('cidade', '==', filter.profileCity) };
             if (filter.profileSector != "") { query = query.where('setor', '==', filter.profileSector) };
-            if (filter.profileArea != "") { query = query.where('areaAtuacao', '==', filter.profileArea) };
             if (filter.profileRate != 0) { query = query.where('userRate', '==', filter.profileRate) }
             else { query = query.orderBy('userRate', 'desc') };
             query = query.where('hideMyProfile', '==', false)
