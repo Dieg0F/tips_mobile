@@ -31,6 +31,9 @@ export class NewAvaliationPage {
   public avaliationDescription = "";
   public avaliationRate = 0;
 
+  public starActiveColor = "#CD7F32"
+  public starOutlineColor = "#CD7F32"
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -80,7 +83,7 @@ export class NewAvaliationPage {
       hiredUid: this.hiredProfile.uid,
       serviceUid: this.service.serviceId,
       body: this.avaliationDescription,
-      rate: 0,
+      rate: this.avaliationRate,
       date: Date.now().toLocaleString()
     }
 
@@ -93,14 +96,25 @@ export class NewAvaliationPage {
     await this.avaliationProvider.saveAvaliation(avaliation)
       .then(async () => {
         this.updateService(avaliation.uId);
+        this.navCtrl.pop();
       })
       .catch(() => {
         this.onError();
       })
   }
 
-  logRatingChange(rating) {
+  ratingEvent(rating) {
     console.log("changed rating: ", rating);
+    if (rating < 2) {
+      this.starActiveColor = "#CD7F32";
+      this.starOutlineColor = "#CD7F32";
+    } else if (rating >= 2 && rating < 4) {
+      this.starActiveColor = "#C0C0C0";
+      this.starOutlineColor = "#C0C0C0";
+    } else if (rating >= 4) {
+      this.starActiveColor = "#DAA520";
+      this.starOutlineColor = "#DAA520";
+    }
     // do your stuff
   }
 

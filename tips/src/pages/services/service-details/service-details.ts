@@ -118,8 +118,6 @@ export class ServiceDetailsPage {
         )
       }
     });
-
-    this.avaliation()
   }
 
   buildServiceStatusMessage(status: string) {

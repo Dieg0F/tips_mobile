@@ -34,8 +34,8 @@ import { AvaliationProvider } from '../providers/avaliation/avaliation';
 
 import { Geolocation } from '@ionic-native/geolocation'
 import { Popover } from '../util/popover/popover';
-
 import { StarRatingModule } from 'ionic3-star-rating';
+
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",

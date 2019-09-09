@@ -9,8 +9,7 @@ import { StarRatingModule } from 'ionic3-star-rating';
   ],
   imports: [
     IonicPageModule.forChild(NewAvaliationPage),
-    StarRatingModule
-    //Ionic2RatingModule
+    StarRatingModule,
   ],
 })
 export class NewAvaliationPageModule { }

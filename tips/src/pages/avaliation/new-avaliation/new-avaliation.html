@@ -14,29 +14,30 @@
             </div>
             <div class="cardBody">
                 <div *ngIf="asContractor">
-                    <p>Avalie o serviço em uma nota de 0 a 5!</p>
+                    <p>Avalie o serviço em uma nota de 1 a 5!</p>
                 </div>
                 <div *ngIf="!asContractor">
-                    <p>Avalie o cliente em uma nota de 0 a 5!</p>
+                    <p>Avalie o cliente em uma nota de 1 a 5!</p>
                 </div>
                 <div>
                     <div class="rating">
-                        <ionic3-star-rating activeIcon="ios-star" defaultIcon="ios-star-outline" activeColor="#488aff" defaultColor="red" readonly="false" [rating]="avaliationRate">
+                        <ionic3-star-rating #rating activeIcon="ios-star" defaultIcon="ios-star-outline" activeColor="{{starActiveColor}}" defaultColor="{{starActiveColor}}" readonly="false" rating="1" (ratingChanged)="ratingEvent($event)">
                         </ionic3-star-rating>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
             <div class="cardBody">
                 <div *ngIf="asContractor">
                     <p>Dê sua opinião sobre os serviços de
                         <br />
-                        <b>{{ hiredProfile.nome }}.</b>
+                        <b>{{ hiredProfile.nome }} </b> abaixo.
                     </p>
                 </div>
                 <div *ngIf="!asContractor">
                     <p>Dê sua opinião sobre seu cliente,
                         <br />
-                        <b>{{ contractorProfile.nome }}.</b>
+                        <b>{{ contractorProfile.nome }}.</b> abaixo.
                     </p>
                 </div>
             </div>
