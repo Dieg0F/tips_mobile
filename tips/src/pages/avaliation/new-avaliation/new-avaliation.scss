@@ -40,13 +40,16 @@ page-new-avaliation {
         height: 180px;
     }
     .rating {
-        width: 100%;
-        display: block;
-        float: none;
-        text-align: center;
+        width: 100% !important;
+        display: block !important;
+        float: none !important;
+        text-align: center !important;
         margin: 24px 0 !important;
+        div {
+            width: 100% !important;
+        }
         ion-icon {
-            font-size: 40px !important;
+            font-size: 35px !important;
         }
     }
 }

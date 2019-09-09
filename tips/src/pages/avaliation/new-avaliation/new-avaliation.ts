@@ -1,6 +1,6 @@
 import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Service } from '../../../model/service/service';
 import { Constants } from '../../../util/constants/constants';
 import { Profile } from '../../../model/profile/profile';
@@ -29,11 +29,16 @@ export class NewAvaliationPage {
 
   public avaliationTitle = "";
   public avaliationDescription = "";
+  public avaliationRate = 0;
+
+  public starActiveColor = "#CD7F32"
+  public starOutlineColor = "#CD7F32"
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
+    public events: Events,
     public toast: Toast,
     public serviceProvider: ServiceProvider,
     public avaliationProvider: AvaliationProvider,
@@ -41,6 +46,10 @@ export class NewAvaliationPage {
 
   ionViewWillEnter() {
     this.getServices();
+    this.events.subscribe('star-rating:changed', (starRating) => {
+      console.log(starRating);
+      this.avaliationRate = starRating;
+    });
   }
 
   getServices() {
@@ -74,7 +83,7 @@ export class NewAvaliationPage {
       hiredUid: this.hiredProfile.uid,
       serviceUid: this.service.serviceId,
       body: this.avaliationDescription,
-      rate: 0,
+      rate: this.avaliationRate,
       date: Date.now().toLocaleString()
     }
 
@@ -87,10 +96,26 @@ export class NewAvaliationPage {
     await this.avaliationProvider.saveAvaliation(avaliation)
       .then(async () => {
         this.updateService(avaliation.uId);
+        this.navCtrl.pop();
       })
       .catch(() => {
         this.onError();
       })
+  }
+
+  ratingEvent(rating) {
+    console.log("changed rating: ", rating);
+    if (rating < 2) {
+      this.starActiveColor = "#CD7F32";
+      this.starOutlineColor = "#CD7F32";
+    } else if (rating >= 2 && rating < 4) {
+      this.starActiveColor = "#C0C0C0";
+      this.starOutlineColor = "#C0C0C0";
+    } else if (rating >= 4) {
+      this.starActiveColor = "#DAA520";
+      this.starOutlineColor = "#DAA520";
+    }
+    // do your stuff
   }
 
   async updateService(avaliationUid: string): Promise<any> {
