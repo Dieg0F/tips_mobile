@@ -23,7 +23,7 @@ export class AuthProvider {
   googleLogin(): Promise<any> {
     console.log("Google Login");
 
-    var provider = new firebase.auth.GoogleAuthProvider();    
+    var provider = new firebase.auth.GoogleAuthProvider();
     return firebase.auth().signInWithPopup(provider)
   }
 
@@ -34,17 +34,14 @@ export class AuthProvider {
     return firebase.auth().signInWithPopup(provider)
   }
 
-  createNewAccount(form: NgForm): Promise<any> {
+  createNewAccount(email: string, pass: string): Promise<any> {
     console.log("criar conta");
-    let email = form.value.email;
-    let pass = form.value.password;
-
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
   }
 
-  resetPassword(form: NgForm): Promise<void> {
+  resetPassword(email: string): Promise<void> {
     console.log("reset de senha");
-    return this.afAuth.auth.sendPasswordResetEmail(form.value.email)
+    return this.afAuth.auth.sendPasswordResetEmail(email)
   }
 
   logout(): Promise<void> { //Sai do sistema

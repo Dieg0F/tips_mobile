@@ -1,0 +1,32 @@
+<ion-content padding>
+    <div class="modalContent">
+        <div class="modalTitle">
+            <h3>Selecione uma nota:</h3>
+        </div>
+        <div class="modalBody">
+            <div class="searchResponse">
+                <ion-list radio-group [(ngModel)]="rateSelected">
+                    <ion-item *ngFor="let i of [0,1,2,3,4,5]">
+                        <ion-label>
+                            <div class="profileRating rating" *ngFor="let star of starsRate(i); let i of index">
+                                <ion-icon name="{{star}}" [ngClass]="starsRateColor(i)" *ngIf="i != 5"></ion-icon>
+                            </div>
+                        </ion-label>
+                        <ion-radio value="{{i}}"></ion-radio>
+                    </ion-item>
+                </ion-list>
+            </div>
+        </div>
+        <div class="modalFooter">
+            <div class="modalButtons">
+                <div (click)="cancel()">
+                    <h5>CANCELAR</h5>
+                </div>
+                <div (click)="finish()">
+                    <h5>OK</h5>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</ion-content>

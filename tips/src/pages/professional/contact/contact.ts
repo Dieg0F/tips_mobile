@@ -23,11 +23,11 @@ export class ContactPage {
 
   getProfile() {
     this.profile = this.navParams.get(Constants.CONTACT_PROFILE)
-    console.log(this.profile)
+    //console.log(this.profile)
   }
 
   ionViewDidLoad() {
-    this.buildMap()
+    this.buildMap();
   }
 
   buildMap() {

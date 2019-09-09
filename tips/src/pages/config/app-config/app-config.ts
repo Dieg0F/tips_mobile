@@ -1,10 +1,13 @@
-import { Constants } from './../../../util/constants/constants';
+import { Profile } from './../../../model/profile/profile';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
 import { ProfileProvider } from './../../../providers/profile/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AppConfig } from '../../../model/static/static';
+import { AuthProvider } from '../../../providers/auth/auth';
+import { StorageProvider } from '../../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -13,37 +16,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AppConfigPage {
 
-  private profile: any;
-  public hideMyContacts: boolean = false;
-  public hideMyContactsOption = "";
-
-  public hideMyProfile: boolean = false;
+  public profile: Profile = { ...AppConfig.USER_PROFILE };
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public profileProvider: ProfileProvider,
+    public authProvider: AuthProvider,
+    public storage: StorageProvider,
     public alert: Alert,
     public toast: Toast,
     public loading: Loading) {
   }
 
-  ionViewDidLoad() {
-    this.profile = this.navParams.get(Constants.CONTACT_PROFILE);
-    //Update hideMyContacts value and hideMyContactsOption type!
-    this.hideMyContactsOption = "Esconder meus contatos!"
-  }
-
-  updateProfileContactsStatus() {
-    //Contact Profile Status will be a new feature on app.
-    //UPDATE DATABASE, MODELS AND USERS FOR THIS
-    console.log(this.hideMyContactsOption)
-  }
-
   updateProfileExbition() {
-    //Contact Profile Status will be a new feature on app.
-    //UPDATE DATABASE, MODELS AND USERS FOR THIS
-    console.log(this.hideMyProfile)
+    this.profile.hideMyProfile = !this.profile.hideMyProfile;
+    this.updateProfile()
   }
 
   updateAccountType() {
@@ -64,7 +52,8 @@ export class AppConfigPage {
   }
 
   confirmAccountType() {
-    console.log('Update Account Type!!')
+    this.profile.isAPro = !this.profile.isAPro;
+    this.updateProfile()
   }
 
   updatePassword() {
@@ -76,7 +65,16 @@ export class AppConfigPage {
   }
 
   confirmUpdatePassoword() {
-    console.log('Update Password!!')
+    this.authProvider.resetPassword(this.profile.email)
+      .then(() => {
+        this.alert.simpleAlert(
+          "Nova senha",
+          "Pedido de alteração de senha com sucesso! Verifique o seu e-mail."
+        )
+      })
+      .catch(() => {
+        this.toast.showToast("Erro ao pedir alteração de senha!");
+      })
   }
 
   disableAccount() {
@@ -88,6 +86,51 @@ export class AppConfigPage {
   }
 
   confirmDisableAccount() {
-    console.log('Disable Account!!')
+    this.profile.isActive = false;
+    this.updateProfile();
+  }
+
+  async updateProfile() {
+    this.loading.showLoading("Atualizando perfil...")
+      .then(async () => {
+        this.profileProvider.saveProfile(this.profile)
+          .then(async () => {
+            if (this.profile.isActive == false) {
+              this.logout();
+            } else {
+              return this.loading.hideLoadingPromise()
+                .then(() => {
+                  this.toast.showToast("Perfil atualizado!");
+                })
+            }
+          })
+          .catch((err) => {
+            this.loading.hideLoading();
+            this.toast.showToast("Erro ao atualizar perfil!");
+            console.log(err)
+          })
+      })
+  }
+
+  logout() {
+    this.authProvider.logout()
+      .then(async () => {
+        return this.storage.clearAll()
+          .then(() => {
+            this.goToLoginPage()
+          })
+      })
+      .catch((error) => {
+        console.log('Error: ', error);
+        this.loading.hideLoading();
+        this.alert.simpleAlert('Opps!', 'Houve um erro ao remover a sua conta!')
+      })
+  }
+
+  private goToLoginPage() {
+    this.navCtrl.setRoot('LoginPage');
+    this.navCtrl.goToRoot;
+    this.loading.hideLoading();
+    this.toast.showToast('Conta removida com sucesso!');
   }
 }

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-    <div class="results scale-up-ver-top transition" *ngIf="!searchIsOpen">
+    <div class="results scale-up-ver-top transition" *ngIf="searchMode == 'SEARCH_DISABLED'">
         <div class="card profile" *ngFor="let profile of profiles">
             <div class="profileTitle">
                 <div class="profilePhotoResult" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
@@ -34,56 +34,48 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     </div>
-    <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchIsOpen">
+    <div class="searchFields scale-up-ver-bottom transition" *ngIf="searchMode != 'SEARCH_DISABLED'">
         <div class="card search">
+            <div class="cardBody" *ngIf="searchMode == 'SEARCH_COMPLETE'">
+                <h6>Nome: </h6>
+                <ion-input type="text" name="profileName" [(ngModel)]="profileName" maxLength="60" placeholder="Digite o nome do profissional"></ion-input>
+            </div>
             <div class="cardBody">
-                <ion-item>
-                    <ion-label floating>Nome</ion-label>
-                    <ion-input type="text" name="profileName" [(ngModel)]="profileName" maxLength="60"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Área</ion-label>
-                    <ion-select [(ngModel)]="areaAtuacao">
-                        <ion-option value="nes">NES</ion-option>
-                    </ion-select>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Setor</ion-label>
-                    <ion-select [(ngModel)]="setor">
-                        <ion-option value="El Salvador">El Salvador</ion-option>
-                    </ion-select>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Estado</ion-label>
-                    <ion-select [(ngModel)]="stateSelected" (ionChange)="onStateSelect()">
-                        <ion-option *ngFor="let state of states; let i of index" [value]="i">{{state.sigla}}
-                        </ion-option>
-                    </ion-select>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Cidade</ion-label>
-                    <ion-select [(ngModel)]="citySelected" (ionChange)="onCitySelect()" [disabled]="!stateSelected || stateSelected == ''">
-                        <ion-option *ngFor="let city of cities; let i of index" [value]="i">{{city.nome}}</ion-option>
-                    </ion-select>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Avaliação</ion-label>
-                    <ion-select [(ngModel)]="rating">
-                        <ion-option value="0">Todas</ion-option>
-                        <ion-option value="5">5 Estrelas</ion-option>
-                        <ion-option value="4">4 Estrelas</ion-option>
-                        <ion-option value="3">3 Estrelas</ion-option>
-                        <ion-option value="2">2 Estrelas</ion-option>
-                        <ion-option value="1">1 Estrelas</ion-option>
-                    </ion-select>
-                </ion-item>
+                <div (click)="selectJob()">
+                    <h6>Profissão: </h6>
+                    <p>{{ jobSelected }}</p>
+                </div>
+            </div>
+            <div class="cardBody" *ngIf="searchMode == 'SEARCH_COMPLETE'">
+                <div (click)="selectRate()">
+                    <h6>Nota de Avaliação: </h6>
+                    <p>{{ rateSelected }}</p>
+                </div>
+            </div>
+            <div class="cardBody" *ngIf="searchMode == 'SEARCH_COMPLETE'">
+                <div (click)="selectState()">
+                    <h6>Estado: </h6>
+                    <p>{{ stateSelected }}</p>
+                </div>
+            </div>
+            <div class="cardBody" *ngIf="searchMode == 'SEARCH_COMPLETE' && hasStateSelected">
+                <div (click)="selectCity()">
+                    <h6>Cidade: </h6>
+                    <p>{{ citySelected }}</p>
+                </div>
+            </div>
+            <div class="searchMode" (click)="changeSearchMode()" *ngIf="searchMode == 'SEARCH_BASIC'">
+                <h5>Mostrar opções avançadas</h5>
+            </div>
+            <div class="searchMode" (click)="changeSearchMode()" *ngIf="searchMode == 'SEARCH_COMPLETE'">
+                <h5>Ocultar opções avançadas</h5>
             </div>
             <div class="cardFooter" (click)="createFilter()">
                 <h5>Buscar</h5>
             </div>
         </div>
     </div>
-    <ion-fab center bottom *ngIf="!searchIsOpen">
+    <ion-fab center bottom *ngIf="searchMode == 'SEARCH_DISABLED'">
         <button ion-fab (click)="searchAgain()">
             <ion-icon name="search"></ion-icon>
         </button>

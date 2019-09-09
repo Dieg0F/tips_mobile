@@ -41,14 +41,14 @@ export class AppConfigProvider {
    * Caso contrario retorna um false informando que houve um erro no login
    * @param userAuthUid User Uid - Usado para requisitar ao database o perfil e usuário
    */
-  appLogin(userAuth: any) {
+  async appLogin(userAuth: any) {
     let userProfileResponse: any;
 
-    this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userAuth)
+    await this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userAuth)
       .then(async () => {
         return this.profileProvider.getProfile(userAuth.uid)
           .then(async (userProfile) => {
-            userProfileResponse = userProfile.data()
+            userProfileResponse = userProfile.data();
             if (userProfileResponse) {
               console.log("Requests: ")
               console.log("       userProfileResponse: ", userProfileResponse)
