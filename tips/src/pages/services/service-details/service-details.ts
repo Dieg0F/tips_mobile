@@ -49,10 +49,13 @@ export class ServiceDetailsPage {
     this.getService();
   }
 
+  ionViewWillLeave() {
+    this.events.unsubscribe('service:updated');
+  }
+
   async getService() {
     this.service = this.navParams.get(Constants.SERVICE_DETAILS);
     this.getProfiles();
-    this.updateServiceEvent();
   }
 
   private updateServiceEvent() {
@@ -95,29 +98,6 @@ export class ServiceDetailsPage {
         this.buildServiceStatusMessage(this.service.status);
         this.setServiceStatusClass();
       })
-
-    this.events.subscribe('service:updated', async (serv: Service) => {
-      this.service = serv;
-      this.buildServiceStatusMessage(this.service.status);
-      this.setServiceStatusClass();
-      this.events.unsubscribe('service:updated');
-
-      if (this.service.status == Constants.SERVICE_IS_REMOVED) {
-        this.navCtrl.popTo("UserServicesPage");
-      }
-
-      if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH &&
-        this.service.lastActionByUserUid == this.userUid) {
-        await this.alert.confirmAlert(
-          "Avaliar este serviço!",
-          "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
-          this.avaliation.bind(this),
-          () => { },
-          "Depois",
-          "AValiar"
-        )
-      }
-    });
   }
 
   buildServiceStatusMessage(status: string) {
@@ -177,6 +157,7 @@ export class ServiceDetailsPage {
   }
 
   openOptions(event) {
+    this.updateServiceEvent();
     this.popover.showPopover("ServiceOptionsPage", { 'service': this.service }, event)
   }
 
