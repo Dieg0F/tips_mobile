@@ -195,10 +195,12 @@ export class SearchPage {
   results(values: any) {
     this.profiles = new Array<Profile>();
     var profileFiltered = new Array<Profile>();
-    if (this.profileName != undefined || this.profileName != "") {
-      profileFiltered = values.filter((profile) => {
-        return (profile.name.toLowerCase().indexOf(this.profileName.toLowerCase()) > -1);
+    if (this.profileName != undefined && this.profileName != "" && this.profileName != null) {
+      profileFiltered = values.filter((profile: Profile) => {
+        return (profile.nome.toLowerCase().indexOf(this.profileName.toLowerCase()) > -1);
       })
+    } else {
+      profileFiltered = values
     }
     this.buildList(profileFiltered);
     if (this.profiles.length > 0) {
