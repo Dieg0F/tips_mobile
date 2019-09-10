@@ -1,5 +1,5 @@
 import { Constants } from './../../../util/constants/constants';
-import { Component } from '@angular/core';
+import { Component, ɵConsole } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
 import { AppConfig } from '../../../model/static/static';
@@ -23,8 +23,6 @@ export class UserAvaliationsPage {
   public avaliationType = "Todas as avaliações";
 
   public ownerAvaliationsUid = "";
-
-  public requestingAvaliations = true;
 
   public hideOptions: boolean = false;
 
@@ -58,15 +56,17 @@ export class UserAvaliationsPage {
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
           .then((res) => {
-            res.subscribe((values) => {
-              this.avaliations = values;
-              this.onSuccess();
+            res.subscribe((avaliations: Array<Avaliation>) => {
+              this.avaliations = avaliations;
             })
           })
           .catch((err) => {
             console.log(err);
             this.onError()
           })
+      })
+      .catch(() => {
+        console.log("Error on loading GetReceivedAvaliations");
       })
   }
 
@@ -75,8 +75,9 @@ export class UserAvaliationsPage {
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
           .then((res) => {
-            res.subscribe((values) => {
-              this.avaliations = values;
+            res.subscribe((avaliations: Array<Avaliation>) => {
+              console.log(avaliations)
+              this.avaliations = avaliations;
               this.onSuccess();
             })
           })
@@ -85,6 +86,9 @@ export class UserAvaliationsPage {
             this.onError();
           })
       })
+      .catch(() => {
+        console.log("Error on loading GetDoneAvaliations");
+      })
   }
 
   getAllAvaliations() {
@@ -92,10 +96,10 @@ export class UserAvaliationsPage {
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
           .then((received) => {
-            received.subscribe((receivedAvaliations) => {
+            received.subscribe((receivedAvaliations: Array<Avaliation>) => {
               return this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
                 .then((done) => {
-                  done.subscribe((doneAvaliations) => {
+                  done.subscribe((doneAvaliations: Array<Avaliation>) => {
                     doneAvaliations.forEach(doneAvaliation => {
                       this.avaliations.push(doneAvaliation);
                     });
@@ -113,20 +117,20 @@ export class UserAvaliationsPage {
             this.toast.showToast("Erro ao buscar avaliações!")
           })
       })
+      .catch(() => {
+        console.log("Error on loading GetAvaliations");
+      })
   }
 
   private onSuccess() {
-    this.requestingAvaliations = false
     this.loading.hideLoading();
-    if (this.avaliations.length > 1) {
-      this.toast.showToast("Exibindo " + this.avaliations.length.toString() + " avaliações!");
-    }
   }
 
   private onError() {
-    this.requestingAvaliations = false
-    this.loading.hideLoading();
-    this.toast.showToast("Erro ao buscar avaliações!");
+    this.loading.hideLoadingPromise()
+      .then(() => {
+        this.toast.showToast("Erro ao buscar avaliações!");
+      })
   }
 
   starsRate(value: number): Array<String> {
@@ -158,7 +162,6 @@ export class UserAvaliationsPage {
   }
 
   onFilterChange() {
-    this.requestingAvaliations = true
     this.avaliations = new Array<Avaliation>()
     switch (this.avaliationType) {
       case "Avaliações feitas":

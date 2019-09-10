@@ -7,8 +7,8 @@
 <ion-content padding>
     <div class="card avaliation">
         <div class="profileTitle">
-            <div class="profilePhoto">
-                <img src="{{avaliationOwner.profilePhotoUrl}}" />
+            <div class="profilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+                <img *ngIf="avaliationOwner.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="profileName">
                 <h3>{{avaliationOwner.nome}}</h3>

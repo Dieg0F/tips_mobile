@@ -73,7 +73,7 @@ export class ServiceDetailsPage {
       this.navCtrl.pop();
     }
     if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH && this.service.lastActionByUserUid == this.userUid) {
-      this.alert.confirmAlert("Avalier este serviço!", "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!", this.avaliation.bind(this), () => { }, "Depois", "AValiar");
+      this.alert.confirmAlert("Avalier este serviço!", "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!", this.avaliation.bind(this), () => { }, "Depois", "Avaliar");
     }
   }
 
