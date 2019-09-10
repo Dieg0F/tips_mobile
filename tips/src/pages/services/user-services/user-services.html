@@ -22,7 +22,7 @@
         </ion-item>
     </div>
     <div class="list">
-        <div *ngIf="services.length >= 1">
+        <div *ngIf="services.length > 0">
             <div class="card serviceItemList" [ngClass]="setServiceStatusClass(service.status)" *ngFor="let service of services; let i of index;" (click)="goToDetails(service)">
                 <div class="cardTitle">
                     <h3>{{ service.name }}</h3>
@@ -35,8 +35,8 @@
                 </div>
             </div>
         </div>
-        <div class="notFound" *ngIf="!requestingServices">
-            <div class="body" *ngIf="services.length == 0">
+        <div class="notFound" *ngIf="services.length == 0">
+            <div class="body">
                 <ion-icon name="information-circle"></ion-icon>
                 <div *ngIf="serviceType == 'ALL_SERVICES'">
                     <p>Você não tem serviços!</p>

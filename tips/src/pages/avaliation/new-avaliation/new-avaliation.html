@@ -21,7 +21,7 @@
                 </div>
                 <div>
                     <div class="rating">
-                        <ionic3-star-rating #rating activeIcon="ios-star" defaultIcon="ios-star-outline" activeColor="{{starActiveColor}}" defaultColor="{{starActiveColor}}" readonly="false" rating="1" (ratingChanged)="ratingEvent($event)">
+                        <ionic3-star-rating #rating activeIcon="ios-star" defaultIcon="ios-star-outline" activeColor="{{starActiveColor}}" defaultColor="{{starActiveColor}}" readonly="false" rating="{{avaliationRate}}" (ratingChanged)="ratingEvent($event)">
                         </ionic3-star-rating>
                     </div>
                     <div class="clearfix"></div>
@@ -43,7 +43,7 @@
             </div>
             <div class="cardFooter">
                 <ion-item>
-                    <ion-textarea [(ngModel)]="avaliationDescription" type="text" name="serviceDesctiption" placeholder="Ex: Gostei muito do serviço prestado. Excelente profissional!" maxLength="350">
+                    <ion-textarea [(ngModel)]="avaliationBody" type="text" name="avaliationDescription" placeholder="Ex: Gostei muito do serviço prestado. Excelente profissional!" maxLength="350">
                     </ion-textarea>
                 </ion-item>
             </div>

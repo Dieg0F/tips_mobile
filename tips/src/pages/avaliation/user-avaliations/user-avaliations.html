@@ -13,10 +13,9 @@
                 <ion-option value="Avaliações recebidas" *ngIf="!hideOptions">Avaliações recebidas</ion-option>
             </ion-select>
         </ion-item>
-
     </div>
     <div class="list">
-        <div *ngIf="avaliations.length > 1">
+        <div *ngIf="avaliations.length > 0">
             <div class="card" *ngFor="let avaliation of avaliations">
                 <div class="rate">
                     <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
@@ -31,8 +30,8 @@
                 </div>
             </div>
         </div>
-        <div class="notFound" *ngIf="!requestingAvaliations">
-            <div class="body" *ngIf="avaliations.length <= 1">
+        <div class="notFound" *ngIf="avaliations.length == 0">
+            <div class="body">
                 <ion-icon name="information-circle"></ion-icon>
                 <div *ngIf="avaliationType == 'Todas as avaliações'">
                     <p>Você não tem avaliações!</p>

@@ -22,8 +22,6 @@ export class UserServicesPage {
 
   public serviceType = Constants.ALL_SERVICES;
 
-  public requestingServices = true;
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -59,7 +57,6 @@ export class UserServicesPage {
   }
 
   private async onSuccess(action) {
-    this.requestingServices = false
     await this.loading.hideLoadingPromise()
       .then(async () => {
         action.unsubscribe();
@@ -70,7 +67,6 @@ export class UserServicesPage {
   }
 
   private onError() {
-    this.requestingServices = false
     this.loading.hideLoadingPromise()
       .then(() => {
         this.toast.showToast("Erro ao buscar serviços!");
@@ -85,7 +81,6 @@ export class UserServicesPage {
   }
 
   onFilterChange() {
-    this.requestingServices = true
     this.services = new Array<Service>()
     switch (this.serviceType) {
       case Constants.ALL_SERVICES:
@@ -109,7 +104,6 @@ export class UserServicesPage {
         this.services.push(el);
       }
     })
-    this.requestingServices = false
   }
 
   private getDoneServices() {
@@ -118,12 +112,10 @@ export class UserServicesPage {
         this.services.push(el);
       }
     })
-    this.requestingServices = false
   }
 
   private getAllServices() {
     this.services = this.allServices;
-    this.requestingServices = false
   }
 
   private getServicesByStatus(status: string) {
@@ -132,7 +124,6 @@ export class UserServicesPage {
         this.services.push(el);
       }
     })
-    this.requestingServices = false
   }
 
   setServiceStatusClass(status): String {
