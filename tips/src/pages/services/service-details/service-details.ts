@@ -73,7 +73,11 @@ export class ServiceDetailsPage {
       this.navCtrl.pop();
     }
     if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH && this.service.lastActionByUserUid == this.userUid) {
-      this.alert.confirmAlert("Avalier este serviço!", "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!", this.avaliation.bind(this), () => { }, "Depois", "Avaliar");
+      this.alert.confirmAlert("Avalier este serviço!",
+        "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
+        this.avaliation.bind(this),
+        () => { this.avaliationPending() },
+        "Depois", "Avaliar");
     }
   }
 
@@ -97,6 +101,7 @@ export class ServiceDetailsPage {
         }
         this.buildServiceStatusMessage(this.service.status);
         this.setServiceStatusClass();
+        this.avaliationPending();
       })
   }
 
@@ -289,6 +294,21 @@ export class ServiceDetailsPage {
             this.toast.showToast("Erro ao alterar serviço!");
           })
       })
+  }
+
+  avaliationPending() {
+    console.log(this.service);
+    if (this.service.avaliationUid == null &&
+      (this.service.status == Constants.SERVICE_IS_FINISHED ||
+        this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH)) {
+      this.btnActionText = "Avaliar";
+      this.btnActionFunction = this.avaliation;
+      this.showServiceActions = true;
+    } else {
+      this.btnActionText = "";
+      this.btnActionFunction = null;
+      this.showServiceActions = false;
+    }
   }
 
   avaliation() {
