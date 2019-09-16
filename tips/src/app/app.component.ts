@@ -25,7 +25,10 @@ export class MyApp {
         this.disabledTextZoom();
         this.statusBar.backgroundColorByHexString("#273A56");
         this.statusBar.styleLightContent();
+
+        /// Remove this row below to run applciaiton on web browser.                      
         this.notifications.initService();
+        /// Remove ^^^^^^^^^^^^^^^^^^^^
       });
   }
 
