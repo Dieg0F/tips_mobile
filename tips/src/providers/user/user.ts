@@ -7,6 +7,7 @@ import { AppConfig } from '../../model/static/static';
 
 import { Profile } from '../../model/profile/profile';
 import { Constants } from '../../util/constants/constants';
+import { Notifications } from '../../util/notifications/notifications';
 
 @Injectable()
 export class UserProvider {
@@ -14,6 +15,7 @@ export class UserProvider {
   constructor(
     private db: AngularFirestore,
     private storage: StorageProvider,
+    private notifications: Notifications,
     private profileProvider: ProfileProvider) { }
 
   /**
@@ -25,9 +27,13 @@ export class UserProvider {
     return this.db.collection(Constants.USERS_COLLECTION).doc(user.uid).set(user)
       .then(async () => {
         let profile = this.profileProvider.setProfile(user)
-        return this.profileProvider.saveProfile(profile)
-          .then(async () => {
-            AppConfig.USER_PROFILE = profile;
+        return this.notifications.getToken()
+          .then(async (token) => {
+            profile.deviceToken = token;
+            return this.profileProvider.saveProfile(profile)
+              .then(async () => {
+                AppConfig.USER_PROFILE = profile;
+              })
           })
       })
   }

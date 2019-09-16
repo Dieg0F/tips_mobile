@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Toast } from '../util/toast/toast';
 import { AppConfigProvider } from '../providers/app-config/app-config';
 import { AppConfig } from '../model/static/static';
+import { Notifications } from '../util/notifications/notifications';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,13 +17,16 @@ export class MyApp {
     private platform: Platform,
     private statusBar: StatusBar,
     private toast: Toast,
+    private notifications: Notifications,
     private appConfigProvider: AppConfigProvider) {
-    this.platform.ready().then(async () => {
-      this.verifyUser();
-      this.disabledTextZoom();
-      this.statusBar.backgroundColorByHexString("#273A56");
-      this.statusBar.styleLightContent();
-    });
+    this.platform.ready()
+      .then(async () => {
+        this.verifyUser();
+        this.disabledTextZoom();
+        this.statusBar.backgroundColorByHexString("#273A56");
+        this.statusBar.styleLightContent();
+        this.notifications.initService();
+      });
   }
 
   /**
