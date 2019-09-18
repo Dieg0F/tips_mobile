@@ -54,19 +54,19 @@ export class AppConfigProvider {
             userProfileResponse = userProfile.data();
             if (userProfileResponse) {
               console.log("AppConfigProvider | User profile: ", userProfileResponse);
-              return this.notifications.getToken()
-                .then(async (token) => {
-                  userProfileResponse.deviceToken = token;
-                  return this.profileProvider.saveProfile(userProfileResponse)
+              // return this.notifications.getToken()
+              //   .then(async (token) => {
+              //     userProfileResponse.deviceToken = token;
+              return this.profileProvider.saveProfile(userProfileResponse)
+                .then(async () => {
+                  return this.profileProvider.saveProfileOnStorage(userProfileResponse)
                     .then(async () => {
-                      return this.profileProvider.saveProfileOnStorage(userProfileResponse)
-                        .then(async () => {
-                          console.log("AppConfigProvider | User profile has been saved on storage!");
-                          AppConfig.USER_PROFILE = userProfileResponse
-                          AppConfig.HAS_USER = true;
-                        })
+                      console.log("AppConfigProvider | User profile has been saved on storage!");
+                      AppConfig.USER_PROFILE = userProfileResponse
+                      AppConfig.HAS_USER = true;
                     })
                 })
+              // })
             }
           })
       })
