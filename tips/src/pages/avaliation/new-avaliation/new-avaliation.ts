@@ -128,8 +128,8 @@ export class NewAvaliationPage {
   buildAvaliation() {
     let newAvaliation: Avaliation = {
       uId: UUID.UUID(),
-      contractorUid: this.contractorProfile.uid,
-      hiredUid: this.hiredProfile.uid,
+      evaluatorUid: this.userUid,
+      ratedUid: (this.asContractor) ? this.hiredProfile.uid : this.contractorProfile.uid,
       serviceUid: this.service.serviceId,
       body: "",
       rate: 1,

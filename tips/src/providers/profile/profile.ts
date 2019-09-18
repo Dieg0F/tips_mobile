@@ -31,7 +31,6 @@ export class ProfileProvider {
         console.log('saveProfile on storage >> Saving Profile')
         return this.storage.setItem(Constants.USER_PROFILE_LOCAL_DB, profile)
             .then(() => {
-                console.log('Saved: ', AppConfig.USER_PROFILE)
                 AppConfig.USER_PROFILE = profile;
             });
     }
@@ -93,6 +92,7 @@ export class ProfileProvider {
             userMinRate: 0,
             servicesCount: 0,
             avaliationsCount: 0,
+            deviceToken: ""
         }
 
         return profile;

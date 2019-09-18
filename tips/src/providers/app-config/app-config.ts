@@ -6,6 +6,8 @@ import { ProfileProvider } from '../profile/profile';
 import { Toast } from '../../util/toast/toast';
 import { DataProvider } from '../data/data';
 import { Constants } from '../../util/constants/constants';
+import { Profile } from '../../model/profile/profile';
+import { Notifications } from '../../util/notifications/notifications';
 
 @Injectable()
 export class AppConfigProvider {
@@ -15,6 +17,7 @@ export class AppConfigProvider {
     public userProvider: UserProvider,
     public dataProvider: DataProvider,
     public toast: Toast,
+    public notifications: Notifications,
     public profileProvider: ProfileProvider) { }
 
   /**
@@ -42,7 +45,7 @@ export class AppConfigProvider {
    * @param userAuthUid User Uid - Usado para requisitar ao database o perfil e usuário
    */
   async appLogin(userAuth: any) {
-    let userProfileResponse: any;
+    let userProfileResponse: Profile;
 
     await this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userAuth)
       .then(async () => {
@@ -50,13 +53,20 @@ export class AppConfigProvider {
           .then(async (userProfile) => {
             userProfileResponse = userProfile.data();
             if (userProfileResponse) {
-              console.log("Requests: ")
-              console.log("       userProfileResponse: ", userProfileResponse)
-              return this.profileProvider.saveProfileOnStorage(userProfileResponse)
+              console.log("AppConfigProvider | User profile: ", userProfileResponse);
+              // return this.notifications.getToken()
+              //   .then(async (token) => {
+              //     userProfileResponse.deviceToken = token;
+              return this.profileProvider.saveProfile(userProfileResponse)
                 .then(async () => {
-                  AppConfig.USER_PROFILE = userProfileResponse
-                  AppConfig.HAS_USER = true;
+                  return this.profileProvider.saveProfileOnStorage(userProfileResponse)
+                    .then(async () => {
+                      console.log("AppConfigProvider | User profile has been saved on storage!");
+                      AppConfig.USER_PROFILE = userProfileResponse
+                      AppConfig.HAS_USER = true;
+                    })
                 })
+              // })
             }
           })
       })

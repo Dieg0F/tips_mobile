@@ -25,6 +25,7 @@ export class AppConfig {
         servicesCount: 0,
         avaliationsCount: 0,
         geoLocation: undefined,
+        deviceToken: ""
     }
 
     public static HAS_USER: boolean = false

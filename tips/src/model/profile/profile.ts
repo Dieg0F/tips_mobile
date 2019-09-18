@@ -28,4 +28,5 @@ export interface Profile {
     userMaxRate: number;
     servicesCount: number;
     avaliationsCount: number;
+    deviceToken: string;
 }

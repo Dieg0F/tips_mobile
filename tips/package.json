@@ -23,10 +23,12 @@
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/camera": "^4.20.0",
     "@ionic-native/core": "~4.12.0",
+    "@ionic-native/fcm": "^4.20.0",
     "@ionic-native/file-chooser": "^4.20.0",
     "@ionic-native/geolocation": "^4.20.0",
     "@ionic-native/ionic-webview": "^5.0.0",
     "@ionic-native/mobile-accessibility": "^4.18.0",
+    "@ionic-native/push": "^4.20.0",
     "@ionic-native/splash-screen": "~4.12.0",
     "@ionic-native/status-bar": "~4.12.0",
     "@ionic/storage": "^2.2.0",
@@ -35,6 +37,7 @@
     "cordova-browser": "5.0.4",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-fcm-with-dependecy-updated": "^3.0.0",
     "cordova-plugin-filechooser": "^1.2.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
@@ -42,7 +45,6 @@
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
-    "cordova-sqlite-storage": "^2.6.0",
     "firebase": "^5.7.3",
     "ionic-angular": "3.9.2",
     "ionic-rating": "^2.0.0",
@@ -69,14 +71,16 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-sqlite-storage": {},
       "cordova-plugin-camera": {},
       "cordova-plugin-filechooser": {},
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
-      }
+      },
+      "cordova-plugin-fcm-with-dependecy-updated": {}
     },
     "platforms": [
       "android",

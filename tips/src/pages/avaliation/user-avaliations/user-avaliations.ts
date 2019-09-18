@@ -146,10 +146,10 @@ export class UserAvaliationsPage {
   goToDetails(avaliation: Avaliation) {
     var profileUidToRequest = "";
 
-    if (avaliation.contractorUid == this.ownerAvaliationsUid) {
-      profileUidToRequest = avaliation.hiredUid
+    if (avaliation.evaluatorUid == this.ownerAvaliationsUid) {
+      profileUidToRequest = avaliation.ratedUid
     } else {
-      profileUidToRequest = avaliation.contractorUid
+      profileUidToRequest = avaliation.evaluatorUid
     }
 
     this.profileProvider.getProfile(profileUidToRequest)

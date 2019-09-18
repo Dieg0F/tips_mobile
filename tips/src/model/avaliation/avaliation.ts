@@ -1,7 +1,7 @@
 export interface Avaliation {
     uId: string;
-    contractorUid: string;
-    hiredUid: string;
+    evaluatorUid: string;
+    ratedUid: string;
     serviceUid: string;
     body: string;
     rate: number;

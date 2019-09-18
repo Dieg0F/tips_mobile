@@ -23,12 +23,12 @@ export class AvaliationProvider {
             .toPromise()
     }
 
-    async getAvaliationByUser(contractorUid: string = null, hiredUid: string = null): Promise<any> {
+    async getAvaliationByUser(evaluatorUid: string = null, ratedUid: string = null): Promise<any> {
         return this.db.collection(Constants.AVALIATIONS_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (contractorUid) { query = query.where('contractorUid', '==', contractorUid) };
-                if (hiredUid) { query = query.where('hiredUid', '==', hiredUid) };
+                if (evaluatorUid) { query = query.where('evaluatorUid', '==', evaluatorUid) };
+                if (ratedUid) { query = query.where('ratedUid', '==', ratedUid) };
                 query = query.orderBy('rate', 'desc')
                 return query;
             }).valueChanges()

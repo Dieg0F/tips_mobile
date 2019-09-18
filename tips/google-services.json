@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "896288102091",
+    "firebase_url": "https://tips-app-418.firebaseio.com",
+    "project_id": "tips-app-418",
+    "storage_bucket": "tips-app-418.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896288102091:android:d6becdd0f49b55b6",
+        "android_client_info": {
+          "package_name": "com.br.tips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896288102091-auhb85hhghlm0nrlagghoada87psbu2f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnyJTHfq_CJsZj3e0FPbL3I874U4nfl1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896288102091-auhb85hhghlm0nrlagghoada87psbu2f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

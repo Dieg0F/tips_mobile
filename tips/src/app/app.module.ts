@@ -37,6 +37,9 @@ import { Popover } from '../util/popover/popover';
 import { StarRatingModule } from 'ionic3-star-rating';
 import { SectorProvider } from '../providers/sector/sector';
 import { AreaProvider } from '../providers/area/area';
+import { Notifications } from '../util/notifications/notifications';
+
+import { FCM } from '@ionic-native/fcm';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -65,7 +68,7 @@ const config = {
     HttpClientModule,
     HttpModule,
     FormsModule,
-    StarRatingModule
+    StarRatingModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -88,6 +91,7 @@ const config = {
     HttpService,
     FileChooser,
     Geolocation,
+    Notifications,
     Camera,
     Alert,
     Loading,
@@ -95,6 +99,7 @@ const config = {
     Locations,
     Popover,
     AppConfigProvider,
+    FCM,
   ]
 })
 export class AppModule { }
