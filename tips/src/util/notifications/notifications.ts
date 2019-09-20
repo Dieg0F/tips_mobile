@@ -37,6 +37,12 @@ export class Notifications {
 
     getToken(): Promise<string> {
         console.log("Notifications | Requesting device token!");
-        return this.fcm.getToken();
+        return this.fcm.getToken().then(() => {
+            return ""
+        }).catch(() => {
+            return ""
+        })
     }
+
+    //this.fcm.getToken()
 }
