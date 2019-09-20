@@ -56,7 +56,7 @@ export class NewServicePage {
       hiredUid: this.hiredProfile.uid,
       lastActionByUserUid: this.contractorProfile.uid,
       avaliationUid: null,
-      name: this.serviceName,
+      name: "Solicitação de " + this.contractorProfile.nome,
       description: this.serviceDesctiption,
       date: date.toLocaleDateString(),
       status: Constants.SERVICE_IS_OPEN,

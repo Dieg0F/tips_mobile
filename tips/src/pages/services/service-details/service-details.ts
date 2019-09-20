@@ -285,6 +285,7 @@ export class ServiceDetailsPage {
 
   acceptService() {
     this.service.status = Constants.SERVICE_IS_RUNNING
+    this.service.name = "Serviço com " + this.contractorProfile.nome;
     this.loadingMessage = "Aceitando serviço...";
     this.toastMessage = "Serviço aceito!";
     this.updateService();
