@@ -6,7 +6,7 @@ page-service-details {
     .usersPhotos {
         width: 264px;
         height: auto;
-        margin: $mediumSpace auto;
+        margin: $smallSpace auto;
         .userProfilePhoto {
             margin: $mediumSpace;
         }
@@ -32,7 +32,7 @@ page-service-details {
             width: 45px;
             height: 45px;
             position: absolute;
-            top: 74px;
+            top: 66px;
             right: 158px;
             background-color: $primaryColor;
             border-radius: 100%;
@@ -50,7 +50,7 @@ page-service-details {
         }
     }
     .service {
-        padding: $largeSpace 0px;
+        padding: $smallSpace 0px;
         .cardTitle {
             font-size: 23px;
         }
@@ -78,40 +78,6 @@ page-service-details {
     }
     .service.removedService {
         border-bottom: 10px solid #444;
-    }
-    .serviceMainText {
-        text-align: center;
-        p {
-            color: $darkTextColor;
-            font-size: $cardBodySize;
-            line-height: cardBodyLineHeight;
-            opacity: 0.5;
-            margin: $largeSpace 0;
-            b {
-                display: block;
-                line-height: 45px;
-                font-size: 22px;
-            }
-        }
-    }
-    .contactWithService {
-        text-align: center;
-        padding: 0px $mediumSpace;
-        p {
-            color: $darkTextColor;
-            font-size: 14px;
-            line-height: cardBodyLineHeight;
-            opacity: 0.5;
-            margin: $smallSpace 0;
-        }
-    }
-    .serviceStatus {
-        margin: $largeSpace 0px;
-        text-align: center;
-        h3 {
-            margin: 0px !important;
-            color: $lightTextColor;
-        }
     }
     .fixContentScroll {
         .scroll-content {
@@ -141,6 +107,63 @@ page-service-details {
             display: inline-block;
             background-color: $primaryColor !important;
             font-size: 20px;
+        }
+    }
+    .serviceDescription {
+        margin: $mediumSpace $mediumSpace $largeSpace;
+        .item-md,
+        .item-ios,
+        .label-md,
+        .label-ios {
+            padding: 0px !important;
+            margin: 0px !important;
+            .item-inner {
+                border: none !important;
+            }
+        }
+        .item-md .toggle-ios,
+        .item-md .toggle-md {
+            padding: 12px 0px !important;
+        }
+        h5 {
+            color: $darkTextColor !important;
+            font-size: 18px;
+            margin: 0px 0px !important;
+            opacity: 0.9;
+            text-align: left;
+            font-weight: 500 !important;
+        }
+        p {
+            color: $darkTextColor;
+            font-size: 17px;
+            line-height: cardBodyLineHeight;
+            opacity: 0.5;
+            margin: 0px;
+            text-align: left;
+            margin-top: $smallSpace;
+        }
+    }
+    .contact-field {
+        padding: $smallSpace 0px;
+        div {
+            width: 23px !important;
+            display: inline-block;
+        }
+        ion-icon {
+            font-size: 22px !important;
+            opacity: 0.6 !important;
+            padding-right: $smallSpace;
+            display: inline;
+            fill: $darkTextColor;
+            fill-opacity: 0.6;
+        }
+        span {
+            color: $darkTextColor;
+            font-size: 17px;
+            opacity: 0.5;
+            margin-top: -8px !important;
+            text-align: left;
+            line-height: 25px !important;
         }
     }
 }

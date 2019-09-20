@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Detalhes do contrato</ion-title>
+        <ion-title>Detalhes do serviço</ion-title>
         <ion-buttons end *ngIf="(contractorProfile != undefined && hiredProfile != undefined) && (service.status != 'SERVICE_IS_REMOVED')">
             <button ion-button icon-only (click)="openOptions($event)">
                 <ion-icon name="more"></ion-icon>
@@ -22,27 +22,68 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="serviceStatus">
-            <h3>{{ serviceStatus }}</h3>
-        </div>
-        <div class="card service" [ngClass]="serviceStatusClass">
-            <div class="cardTitle">
-                <h3>{{service.name}}</h3>
+        <div class="card service" [ngClass]="serviceStatusClass" *ngIf="service.contractorUid == userUid">
+            <div class="serviceDescription">
+                <h5>Solicitação de serviço para:</h5>
+                <p>{{hiredProfile.nome}}</p>
             </div>
-            <div class="cardBody">
+            <div class="serviceDescription">
+                <h5>Meios de contato:</h5>
+                <div class="contact-field">
+                    <div>
+                        <ion-icon name="call"></ion-icon>
+                    </div>
+                    <span>{{hiredProfile.telefone}}</span>
+                </div>
+                <div class="contact-field">
+                    <div>
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                    <span>{{hiredProfile.email}}</span>
+                </div>
+                <div class="contact-field">
+                    <div>
+                        <ion-icon name="pin"></ion-icon>
+                    </div>
+                    <span>{{hiredProfile.rua}}, {{hiredProfile.bairro}}, {{hiredProfile.cidade}} -
+                        {{hiredProfile.estado}}</span>
+                </div>
+            </div>
+            <div class="serviceDescription">
+                <h5>Descrição do serviço: </h5>
                 <p>{{service.description}}</p>
             </div>
-            <div class="profileServiceed">
-                <div class="serviceMainText">
-                    <p>Você contratou os serviços de
-                        <b>{{hiredProfile.nome}}</b> {{ hiredProfile.email }}
-                    </p>
+        </div>
+        <div class="card service" [ngClass]="serviceStatusClass" *ngIf="service.hiredUid == userUid">
+            <div class="serviceDescription">
+                <h5>Serviço solicitado por:</h5>
+                <p>{{contractorProfile.nome}}</p>
+            </div>
+            <div class="serviceDescription">
+                <h5>Formas de contato:</h5>
+                <div class="contact-field">
+                    <div>
+                        <ion-icon name="call"></ion-icon>
+                    </div>
+                    <span>{{contractorProfile.telefone}}</span>
                 </div>
-                <div class="contactWithService">
-                    <p>{{hiredProfile.telefone}}</p>
-                    <p>{{hiredProfile.rua}} - {{hiredProfile.bairro}}
-                        <br> {{hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
+                <div class="contact-field">
+                    <div>
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                    <span>{{contractorProfile.email}}</span>
                 </div>
+                <div class="contact-field">
+                    <div>
+                        <ion-icon name="pin"></ion-icon>
+                    </div>
+                    <span>{{contractorProfile.rua}}, {{contractorProfile.bairro}}, {{contractorProfile.cidade}} -
+                        {{contractorProfile.estado}}</span>
+                </div>
+            </div>
+            <div class="serviceDescription">
+                <h5>Descrição do serviço: </h5>
+                <p>{{service.description}}</p>
             </div>
         </div>
     </div>

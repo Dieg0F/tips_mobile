@@ -73,11 +73,21 @@ export class ServiceDetailsPage {
       this.navCtrl.pop();
     }
     if (this.service.status == Constants.SERVICE_IS_AWAIT_TO_FINISH && this.service.lastActionByUserUid == this.userUid) {
-      this.alert.confirmAlert("Avalier este serviço!",
-        "Dê a sua opnião sobre este serviço, ajudando outros usuários do Tips!",
+      var alertTitle = ""
+      var alertBody = ""
+      if (this.contractorProfile.uid == this.userUid) {
+        alertTitle = "Avaliar este profissional!"
+        alertBody = "Dê a sua opnião sobre " + this.hiredProfile.nome + " e seu serviço, ajudando outros usuários do Tips!"
+      } else {
+        alertTitle = "Avalie seu cliente!"
+        alertBody = "Dê a sua opnião sobre " + this.contractorProfile.nome + ", ajudando outros profissionais no Tips!"
+      }
+
+      this.alert.confirmAlert(alertTitle,
+        alertBody,
         this.avaliation.bind(this),
         () => { this.avaliationPending() },
-        "Depois", "Avaliar");
+        "Depois", "Agora");
     }
   }
 
