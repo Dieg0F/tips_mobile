@@ -6,7 +6,7 @@ page-new-service {
     .usersPhotos {
         width: 264px;
         height: auto;
-        margin: $mediumSpace auto;
+        margin: $smallSpace auto;
         .userProfilePhoto {
             margin: $mediumSpace;
         }
@@ -32,7 +32,7 @@ page-new-service {
             width: 45px;
             height: 45px;
             position: absolute;
-            top: 74px;
+            top: 66px;
             right: 158px;
             background-color: $primaryColor;
             border-radius: 100%;
@@ -57,9 +57,10 @@ page-new-service {
         .cardBody p {
             opacity: 0.5;
             text-align: center !important;
+            font-size: 18px;
         }
         .cardBody {
-            padding: $mediumSpace;
+            padding: $smallSpace $mediumSpace;
             .button-md,
             .button-ios {
                 margin: 0 auto !important;
@@ -92,8 +93,7 @@ page-new-service {
                 margin: 0px !important;
             }
             ion-textarea {
-                height: 350px !important;
-                margin-bottom: $mediumSpace;
+                height: 500px !important;
             }
         }
     }

@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Novo Serviço</ion-title>
+        <ion-title>Solicitação de serviço</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -19,29 +19,24 @@
             <div class="clearfix"></div>
         </div>
         <div class="card service" *ngIf="!serviceConfirmed">
-            <div class="cardBody">
-                <p>Deseja Contratar os serviços de
+            <div class="cardBody" *ngIf="!describeService">
+                <p>Deseja enviar uma solicitação de serviço para
                     <br />
                     <b>{{ hiredProfile.nome }}</b>?
                 </p>
-                <button ion-button (click)="setServiceDescription()" *ngIf="!describeService">Contratar</button>
+                <button ion-button (click)="setServiceDescription()" *ngIf="!describeService">Confirmar</button>
             </div>
             <div class="serviceDesciption" *ngIf="describeService">
                 <div class="cardBody">
                     <p>
-                        Informe o nome e uma breve descrição para este serviço:
+                        Descreva abaixo um pouco sobre o serviço você precisa:
                     </p>
                     <ion-item>
-                        <ion-label floating>Nome</ion-label>
-                        <ion-input [(ngModel)]="serviceName" type="text" name="serviceName" maxLength="30">
-                        </ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label floating>Descrição</ion-label>
-                        <ion-textarea [(ngModel)]="serviceDesctiption" type="text" name="serviceDesctiption" maxLength="300">
+                        <ion-label floating>Descrição do serviço:</ion-label>
+                        <ion-textarea [(ngModel)]="serviceDesctiption" type="text" name="serviceDesctiption" maxLength="600" rows="8">
                         </ion-textarea>
                     </ion-item>
-                    <button ion-button (click)="makeService()">Confirmar</button>
+                    <button ion-button (click)="makeService()">Enviar</button>
                 </div>
             </div>
         </div>
@@ -51,11 +46,6 @@
                     <p>Você serviçou os serviços de
                         <b>{{ hiredProfile.nome}}</b> {{ hiredProfile.email }}
                     </p>
-                </div>
-                <div class="contactWithService">
-                    <p>{{hiredProfile.telefone}}</p>
-                    <p>{{hiredProfile.rua}} - {{hiredProfile.bairro}}
-                        <br> {{ hiredProfile.cidade}} - {{hiredProfile.estado}}</p>
                 </div>
             </div>
         </div>
