@@ -2,9 +2,9 @@
  * Interface para Serviços, com o Id do perfil contratado (hiredUid) e do contratante (hiresUid).
  * Pode ocorrer mudanças.
  */
-export interface Service {
+export interface Solicitation {
     uId: string;
-    serviceId: string;
+    solicitationId: string;
     ownerUid: string;
     contractorUid: string;
     hiredUid: string;
@@ -16,6 +16,3 @@ export interface Service {
     status: string;
     isRemoved: boolean;
 }
-
-
-

@@ -11,6 +11,7 @@ import { Avaliation } from '../../../model/avaliation/avaliation';
 import { UUID } from 'angular2-uuid';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
 import { Loading } from '../../../util/loading/loading';
+import { Solicitation } from '../../../model/solicitation/solicitation';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,7 @@ export class NewAvaliationPage {
   public avaliationRate: number = 1;
   public avaliationBody: string = "";
 
-  public service: Service;
+  public service: Solicitation;
   public contractorProfile: Profile;
   public hiredProfile: Profile;
 
@@ -76,6 +77,7 @@ export class NewAvaliationPage {
         } else {
           this.hiredProfile = { ...AppConfig.USER_PROFILE }
           profileUidToRequest = this.service.contractorUid;
+          this.asContractor = false;
         }
 
         await this.requestingAllProfiles(profileUidToRequest);
@@ -130,7 +132,7 @@ export class NewAvaliationPage {
       uId: UUID.UUID(),
       evaluatorUid: this.userUid,
       ratedUid: (this.asContractor) ? this.hiredProfile.uid : this.contractorProfile.uid,
-      serviceUid: this.service.serviceId,
+      serviceUid: this.service.solicitationId,
       body: "",
       rate: 1,
       date: ""

@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Solicitação de serviço</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="contractorPf != undefined && hiredPf != undefined">
+        <div class="usersPhotos">
+            <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + contractorPf.profilePhotoUrl + ')'}">
+                <img *ngIf="!contractorPf.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
+            </div>
+            <div class="syncIcon">
+                <ion-icon name="sync"></ion-icon>
+            </div>
+            <div class="hiredProfilePhoto" [ngStyle]="{ 'background-image': 'url(' + hiredPf.profilePhotoUrl + ')'}">
+                <img *ngIf="!hiredPf.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="card service" *ngIf="!solicitationDone">
+            <div class="cardBody" *ngIf="!enableDescription">
+                <p>Deseja enviar uma solicitação de serviço para
+                    <br />
+                    <b>{{ hiredPf.nome }}</b>?
+                </p>
+                <button ion-button (click)="setServiceDescription()" *ngIf="!enableDescription">Confirmar</button>
+            </div>
+            <div class="serviceDesciption" *ngIf="enableDescription">
+                <div class="cardBody">
+                    <p>
+                        Descreva abaixo um pouco sobre o serviço você precisa:
+                    </p>
+                    <ion-item>
+                        <ion-label floating>Descrição do serviço:</ion-label>
+                        <ion-textarea [(ngModel)]="solicitationDescription" type="text" name="solicitationDescription" maxLength="600" rows="8">
+                        </ion-textarea>
+                    </ion-item>
+                    <button ion-button (click)="makeService()">Enviar</button>
+                </div>
+            </div>
+        </div>
+        <div class="card service" *ngIf="solicitationDone">
+            <div class="profileServiceed">
+                <div class="serviceMainText">
+                    <p>Você serviçou os serviços de
+                        <b>{{ hiredPf.nome}}</b> {{ hiredPf.email }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="fullBackButton" *ngIf="solicitationDone">
+            <button ion-button (click)="backToMyProfile()">Voltar ao meu perfil</button>
+        </div>
+    </div>
+</ion-content>

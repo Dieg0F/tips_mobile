@@ -50,6 +50,7 @@ const config = {
   messagingSenderId: "896288102091"
 };
 
+
 @NgModule({
   declarations: [
     MyApp

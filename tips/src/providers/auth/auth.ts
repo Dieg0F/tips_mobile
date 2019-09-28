@@ -11,13 +11,9 @@ export class AuthProvider {
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) { }
 
-  //Faz logon no sistema
   login(form: NgForm): Promise<any> {
-    console.log("login");
-    let email: string = form.value.email;
-    let pass: string = form.value.password;
-
-    return firebase.auth().signInWithEmailAndPassword(email, pass)
+    return firebase.auth()
+      .signInWithEmailAndPassword(form.value.email, form.value.password)
   }
 
   googleLogin(): Promise<any> {

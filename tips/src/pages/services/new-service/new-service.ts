@@ -56,7 +56,7 @@ export class NewServicePage {
       hiredUid: this.hiredProfile.uid,
       lastActionByUserUid: this.contractorProfile.uid,
       avaliationUid: null,
-      name: "Solicitação de " + this.contractorProfile.nome,
+      name: "Solicitação para " + this.hiredProfile.nome,
       description: this.serviceDesctiption,
       date: date.toLocaleDateString(),
       status: Constants.SERVICE_IS_OPEN,
@@ -74,6 +74,7 @@ export class NewServicePage {
             service.uId = UUID.UUID();
             service.ownerUid = this.hiredProfile.uid;
             service.status = Constants.SERVICE_IS_OPEN;
+            service.name = "Solicitação de " + this.contractorProfile.nome
             return this.serviceProvider.createService(service)
               .then(() => {
                 this.serviceConfirmed = true;

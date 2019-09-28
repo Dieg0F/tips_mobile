@@ -6,7 +6,7 @@ import { Constants } from '../../util/constants/constants';
 import firebase from 'firebase';
 
 @Injectable()
-export class ServiceProvider {
+export class SolicitationProvider {
 
     constructor(private db: AngularFirestore) { }
 
@@ -38,7 +38,7 @@ export class ServiceProvider {
             .toPromise()
     }
 
-    async getServiceByServiceId(service: any): Promise<any> {
+    async getServiceByServiceId(service: Service): Promise<any> {
         console.log('getServiceByServiceId >> Get Service : ', service.serviceId)
         return await this.db.collection(Constants.SERVICES_COLLECTION,
             ref => {
@@ -79,8 +79,31 @@ export class ServiceProvider {
             }).valueChanges()
     }
 
-    async updateServiceAction(service: any, userId: string): Promise<any> {
+    async updateServiceAction(service: Service, userId: string): Promise<any> {
         service.lastActionByUserUid = userId;
-        return await this.updateService(service);
+        return await this.getServiceByServiceId(service)
+            .then(async (res) => {
+                var otherService: Service;
+                var subs = await res.subscribe(async (value) => {
+                    await value.forEach(async (element: Service) => {
+                        if (element.ownerUid != userId && element.serviceId == service.serviceId) {
+                            otherService = element
+                            otherService.lastActionByUserUid = userId;
+                            otherService.status = service.status;
+                            otherService.isRemoved = service.isRemoved;
+                        }
+                    });
+
+                    if (otherService != null || otherService != undefined) {
+                        return await this.updateMultipleService(service)
+                            .then(async () => {
+                                return await this.updateMultipleService(otherService).then(() => subs.unsubscribe());
+                            });
+                    } else {
+                        console.log("Erro, Service: ", otherService);
+                        return null;
+                    }
+                });
+            })
     }
 }

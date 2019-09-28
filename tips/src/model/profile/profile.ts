@@ -5,9 +5,9 @@ import { GeoLocation } from "../geoLocation/geoLocation";
  * Podendo ocorrer alterações!!!!
  */
 export interface Profile {
-    uid: string; // Salva da conta de autenticação
-    nome: string; // Salva ao criar a conta
-    email: string; // salva ao criar a conta    
+    uid: string;
+    nome: string;
+    email: string;
     isAPro: boolean;
     isActive: boolean;
     telefone: string;
@@ -30,3 +30,5 @@ export interface Profile {
     avaliationsCount: number;
     deviceToken: string;
 }
+
+

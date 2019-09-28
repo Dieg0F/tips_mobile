@@ -1,0 +1,169 @@
+page-solicitation-manager {
+    ion-title {
+        margin-left: 0px !important;
+        margin-top: 3px;
+    }
+    .usersPhotos {
+        width: 264px;
+        height: auto;
+        margin: $smallSpace auto;
+        .userProfilePhoto {
+            margin: $mediumSpace;
+        }
+        .hiredProfilePhoto {
+            margin: $mediumSpace;
+        }
+        .userProfilePhoto,
+        .hiredProfilePhoto {
+            border-radius: 100% !important;
+            width: 100px;
+            height: 100px;
+            float: left;
+            z-index: 2 !important;
+            background-size: cover;
+            background-position: center;
+            img {
+                width: 100px;
+                height: 100px;
+                border-radius: 100% !important;
+            }
+        }
+        .syncIcon {
+            width: 45px;
+            height: 45px;
+            position: absolute;
+            top: 66px;
+            right: 158px;
+            background-color: $primaryColor;
+            border-radius: 100%;
+            text-align: center !important;
+            z-index: 3 !important;
+            -webkit-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+            -moz-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
+            ion-icon {
+                font-size: 18px !important;
+                color: $lightTextColor;
+                line-height: 45px !important;
+                display: block !important;
+            }
+        }
+    }
+    .service {
+        padding: $smallSpace 0px;
+        .cardTitle {
+            font-size: 23px;
+        }
+        .cardTitle,
+        .cardBody p {
+            opacity: 0.5;
+            text-align: center !important;
+            margin: $smallSpace $mediumSpace;
+        }
+        .cardBody {
+            margin-bottom: $largeSpace;
+        }
+    }
+    .service.newSolicitation {
+        border-bottom: 10px solid #81C784;
+    }
+    .service.runningSolicitation {
+        border-bottom: 10px solid #64B5F6;
+    }
+    .service.finishedSolicitation {
+        border-bottom: 10px solid #FF8A65;
+    }
+    .service.canceledSolicitation {
+        border-bottom: 10px solid #e57373;
+    }
+    .service.removedSolicitation {
+        border-bottom: 10px solid #444;
+    }
+    .fixContentScroll {
+        .scroll-content {
+            margin-bottom: 56px !important;
+        }
+    }
+    ion-footer {
+        ion-title {
+            margin-top: 0px !important;
+        }
+        .toolbar-md,
+        .toolbar-ios,
+        .toolbar-title-md,
+        .toolbar-title-ios {
+            margin: 0px !important;
+            padding: 0px !important;
+        }
+        .toolbar-content-md,
+        .toolbar-content-ios {
+            margin: 0px !important;
+        }
+        .button-md,
+        .button-ios {
+            height: 56px;
+            margin: 0px !important;
+            margin: 0 auto !important;
+            display: inline-block;
+            background-color: $primaryColor !important;
+            font-size: 20px;
+        }
+    }
+    .serviceDescription {
+        margin: $mediumSpace $mediumSpace $largeSpace;
+        .item-md,
+        .item-ios,
+        .label-md,
+        .label-ios {
+            padding: 0px !important;
+            margin: 0px !important;
+            .item-inner {
+                border: none !important;
+            }
+        }
+        .item-md .toggle-ios,
+        .item-md .toggle-md {
+            padding: 12px 0px !important;
+        }
+        h5 {
+            color: $darkTextColor !important;
+            font-size: 18px;
+            margin: 0px 0px !important;
+            opacity: 0.9;
+            text-align: left;
+            font-weight: 500 !important;
+        }
+        p {
+            color: $darkTextColor;
+            font-size: 17px;
+            line-height: cardBodyLineHeight;
+            opacity: 0.5;
+            margin: 0px;
+            text-align: left;
+            margin-top: $smallSpace;
+        }
+    }
+    .contact-field {
+        padding: $smallSpace 0px;
+        div {
+            width: 23px !important;
+            display: inline-block;
+        }
+        ion-icon {
+            font-size: 22px !important;
+            opacity: 0.6 !important;
+            padding-right: $smallSpace;
+            display: inline;
+            fill: $darkTextColor;
+            fill-opacity: 0.6;
+        }
+        span {
+            color: $darkTextColor;
+            font-size: 17px;
+            opacity: 0.5;
+            margin-top: -8px !important;
+            text-align: left;
+            line-height: 25px !important;
+        }
+    }
+}
