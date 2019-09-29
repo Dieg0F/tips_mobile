@@ -76,13 +76,8 @@ export class SolicitationDetailsPage {
     if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED) {
       var alertTitle = ""
       var alertBody = ""
-      if (this.contractorPf.uid == this.userUid) {
-        alertTitle = "Avaliar este profissional!"
-        alertBody = "Dê a sua opnião sobre " + this.hiredPf.nome + " e seu serviço, ajudando outros usuários do Tips!"
-      } else {
-        alertTitle = "Avalie seu cliente!"
-        alertBody = "Dê a sua opnião sobre " + this.contractorPf.nome + ", ajudando outros profissionais no Tips!"
-      }
+      alertTitle = "Avaliar este profissional!"
+      alertBody = "Dê a sua opnião sobre " + this.hiredPf.name.firstName + " e seu serviço, ajudando outros usuários do Tips!"
 
       this.alert.confirmAlert(alertTitle,
         alertBody,

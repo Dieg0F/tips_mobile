@@ -3,28 +3,33 @@ import { Profile } from "../profile/profile";
 export class AppConfig {
     public static USER_PROFILE: Profile = {
         uid: "",
-        nome: "",
+        name: {
+            firstName: "",
+            lastName: "",
+        },
         email: "",
-        isAPro: false,
+        isAPro: true,
         isActive: true,
-        telefone: "",
-        rua: "",
-        bairro: "",
-        cidade: "",
-        estado: "",
+        phone: "",
+        street: "",
+        houseNumber: "",
+        district: "",
+        city: "",
+        state: "",
         cpf: "",
-        areaAtuacao: "",
-        setor: "",
+        geoLocation: {
+            lat: 0,
+            lng: 0
+        },
+        job: "",
         aboutMe: "",
         profilePhotoUrl: "",
-        userGalery: [],
         hideMyProfile: false,
         userRate: 0,
         userMaxRate: 0,
         userMinRate: 0,
-        servicesCount: 0,
+        solicitationCount: 0,
         avaliationsCount: 0,
-        geoLocation: undefined,
         deviceToken: ""
     }
 

@@ -27,7 +27,7 @@
                 <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="mainTitle">
-                <h1><span>{{ greetingMesage }}</span>{{profile.nome}}</h1>
+                <h1><span>{{ greetingMesage }}</span>{{profile.name.firstName + ' ' + profile.name.lastName}}</h1>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -39,7 +39,7 @@
                 <p>
                     {{profile.aboutMe}}
                 </p>
-                <p *ngIf="profile.setor">{{profile.setor}}</p>
+                <p *ngIf="profile.job">{{profile.job}}</p>
             </div>
         </div>
         <div class="card">
@@ -48,7 +48,7 @@
             </div>
             <div class="cardBody">
                 <p>E-mail: {{profile.email}}</p>
-                <p>Telefone: {{profile.telefone}}</p>
+                <p>Telefone: {{profile.phone}}</p>
             </div>
             <div class="cardFooter" (click)="contact()">
                 <h5>Mais Informações</h5>

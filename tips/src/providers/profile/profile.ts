@@ -66,27 +66,32 @@ export class ProfileProvider {
     setProfile(user: any) {
         let profile: Profile = {
             uid: user.uid,
-            nome: user.name,
+            name: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+            },
             email: user.email,
             isAPro: user.isAPro,
             isActive: true,
-            telefone: "",
-            rua: "",
-            bairro: "",
-            cidade: "",
-            estado: "",
+            phone: "",
+            street: "",
+            houseNumber: "",
+            district: "",
+            city: "",
+            state: "",
             cpf: "",
-            areaAtuacao: "",
-            setor: "",
+            geoLocation: {
+                lat: 0,
+                lng: 0
+            },
+            job: "",
             aboutMe: "",
             profilePhotoUrl: "",
-            userGalery: [],
-            geoLocation: null,
             hideMyProfile: false,
             userRate: 0,
             userMaxRate: 0,
             userMinRate: 0,
-            servicesCount: 0,
+            solicitationCount: 0,
             avaliationsCount: 0,
             deviceToken: ""
         }

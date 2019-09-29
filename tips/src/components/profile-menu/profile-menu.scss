@@ -21,7 +21,7 @@ profile-menu {
         }
         .menuHeader {
             width: 100%;
-            height: 130px;
+            height: 110px;
             background-image: url('../../assets/imgs/menu_bg.png');
             background-size: cover;
             background-repeat: no-repeat;
@@ -31,12 +31,12 @@ profile-menu {
                 width: 75px;
                 height: 75px;
                 float: left;
-                margin: $smallSpace 0 $smallSpace $smallSpace;
+                margin: 0px 0 0px $smallSpace;
             }
             .profileData {
                 width: calc(100% - 85px);
                 height: 40px;
-                margin-top: $highSpace;
+                margin-top: $mediumSpace;
                 padding-left: $mediumSpace;
                 float: left;
                 overflow: hidden;

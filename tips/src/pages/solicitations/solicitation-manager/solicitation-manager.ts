@@ -76,7 +76,7 @@ export class SolicitationManagerPage {
       var alertTitle = ""
       var alertBody = ""
       alertTitle = "Avalie seu cliente!"
-      alertBody = "Dê a sua opnião sobre " + this.contractorPf.nome + ", ajudando outros profissionais no Tips!"
+      alertBody = "Dê a sua opnião sobre " + this.contractorPf.name.firstName + ", ajudando outros profissionais no Tips!"
 
       this.alert.confirmAlert(alertTitle,
         alertBody,

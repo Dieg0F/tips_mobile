@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Constants } from '../../../util/constants/constants';
 import { GoogleMaps } from '../../../util/google-map/google-map';
 import { GeoLocation } from '../../../model/geoLocation/geoLocation';
-
+import { Profile } from '../../../model/profile/profile';
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ import { GeoLocation } from '../../../model/geoLocation/geoLocation';
 })
 export class ContactPage {
 
-  public profile: any;
+  public profile: Profile;
   public map: any;
 
   constructor(
@@ -23,7 +23,6 @@ export class ContactPage {
 
   getProfile() {
     this.profile = this.navParams.get(Constants.CONTACT_PROFILE)
-    //console.log(this.profile)
   }
 
   ionViewDidLoad() {
@@ -32,8 +31,8 @@ export class ContactPage {
 
   buildMap() {
     var geo: GeoLocation = {
-      lat: parseFloat(this.profile.geolocation.lat),
-      lng: parseFloat(this.profile.geolocation.lng)
+      lat: this.profile.geoLocation.lat,
+      lng: this.profile.geoLocation.lng
     }
 
     this.map = new GoogleMaps(geo, document.getElementById('map')).buildMap()

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, normalizeURL, Events } from 'ionic-angular';
 import { UserProvider } from '../../../providers/user/user';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StorageProvider } from '../../../providers/storage/storage';
@@ -8,6 +8,8 @@ import { CameraProvider } from '../../../util/camera/camera';
 import { DataProvider } from '../../../providers/data/data';
 import { Loading } from '../../../util/loading/loading';
 import { AppConfig } from '../../../model/static/static';
+import { SectorProvider } from '../../../providers/sector/sector';
+import { Sector } from '../../../model/sector/sector';
 
 @IonicPage()
 @Component({
@@ -17,6 +19,8 @@ import { AppConfig } from '../../../model/static/static';
 export class MyAccountPage {
 
   public profile = { ...AppConfig.USER_PROFILE }
+  public sectors: Array<Sector> = [];
+  public stateId: number;
 
   constructor(
     public navCtrl: NavController,
@@ -26,13 +30,30 @@ export class MyAccountPage {
     public storageProvider: StorageProvider,
     public loading: Loading,
     public dataProvider: DataProvider,
+    public sectorsProvider: SectorProvider,
     public toast: Toast,
-    public camera: CameraProvider) { }
+    public events: Events,
+    public camera: CameraProvider) {
+  }
 
   ionViewWillEnter() {
-    var elm = document.getElementById('set_profileImage');
-    elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
-    elm.style.backgroundSize = "cover";
+    this.getSectors();
+  }
+
+  getSectors() {
+    this.loading.showLoading("Carregando...")
+    this.sectors = new Array<Sector>();
+    this.sectorsProvider.getSectors()
+      .then((res) => {
+        res.subscribe(values => {
+          this.sectors = values;
+          this.loading.hideLoading();
+        });
+      })
+      .catch((err) => {
+        console.log("Erro: ", err);
+        this.toast.showToast("Erro ao preparar busca, Profissiões não encontradas! ");
+      });
   }
 
   skipProfile() {
@@ -87,6 +108,58 @@ export class MyAccountPage {
             this.toast.showToast('Erro ao salvar o perfil!');
           })
       })
+  }
+
+  selectJob() {
+    this.onJobSelected();
+    this.navCtrl.push("JobSearchPage", { 'jobList': this.sectors });
+  }
+
+  selectState() {
+    this.onStateSelected();
+    this.navCtrl.push("StateSearchPage");
+  }
+
+  selectCity() {
+    this.onCitySelected();
+    this.navCtrl.push("CitySearchPage", { 'stateId': this.stateId });
+  }
+
+  private onCitySelected() {
+    this.events.subscribe('citySelected', async (city: string) => {
+      if (city != undefined) {
+        this.profile.city = city;
+      }
+      else {
+        this.profile.city = "";
+      }
+      this.events.unsubscribe('citySelected');
+    });
+  }
+
+  private onStateSelected() {
+    this.events.subscribe('stateSelected', async (state: any) => {
+      if (state != undefined) {
+        this.profile.state = state.sigla
+        this.stateId = state.id
+      }
+      else {
+        this.profile.state = "";
+      }
+      this.events.unsubscribe('stateSelected');
+    });
+  }
+
+  private onJobSelected() {
+    this.events.subscribe('jobSelected', async (job: string) => {
+      if (job != undefined) {
+        this.profile.job = job
+      }
+      else {
+        this.profile.job = "";
+      }
+      this.events.unsubscribe('jobSelected');
+    });
   }
 
 }

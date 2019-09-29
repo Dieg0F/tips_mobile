@@ -170,11 +170,11 @@ export class SearchPage {
 
   createFilter() {
     if (this.filterOptions.profileCity == undefined) {
-      this.filterOptions.profileCity = AppConfig.USER_PROFILE.cidade;
+      this.filterOptions.profileCity = AppConfig.USER_PROFILE.city;
     }
 
     if (this.filterOptions.profileState == undefined) {
-      this.filterOptions.profileState = AppConfig.USER_PROFILE.estado;
+      this.filterOptions.profileState = AppConfig.USER_PROFILE.state;
     }
     this.requestProfiles();
   }
@@ -197,7 +197,7 @@ export class SearchPage {
     var profileFiltered = new Array<Profile>();
     if (this.profileName != undefined && this.profileName != "" && this.profileName != null) {
       profileFiltered = values.filter((profile: Profile) => {
-        return (profile.nome.toLowerCase().indexOf(this.profileName.toLowerCase()) > -1);
+        return (profile.name.firstName.toLowerCase().indexOf(this.profileName.toLowerCase()) > -1);
       })
     } else {
       profileFiltered = values

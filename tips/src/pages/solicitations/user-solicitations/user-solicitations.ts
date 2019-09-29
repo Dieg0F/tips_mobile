@@ -59,15 +59,21 @@ export class UserSolicitationsPage {
       })
   }
 
-  private buildList(rSolicitations: Solicitation[], dsolicitations: Solicitation[], rSubs: any, dSubs: any) {
-    var allList = rSolicitations.concat(dsolicitations);
-    this.allSolicitations = allList.filter((a) => {
-      if ((a.removedTo.contractorUid != null && a.removedTo.contractorUid != this.userId) ||
-        a.removedTo.hiredUid != null && a.removedTo.hiredUid != this.userId) {
-        return a;
+  private buildList(rSolicitations: Solicitation[], dSolicitations: Solicitation[], rSubs: any, dSubs: any) {
+
+    var allDoneList = dSolicitations.filter((d) => {
+      if (d.removedTo.contractorUid !== this.userId) {
+        d.name = "Solicitação para " + d.name;
+        return d;
       }
-    });
-    this.solicitations = this.allSolicitations;
+    })
+    var allReceivedList = rSolicitations.filter((r) => {
+      if (r.removedTo.hiredUid !== this.userId) {
+        r.name = "Solicitação de " + r.name;
+        return r;
+      }
+    })
+    this.solicitations = this.allSolicitations = allDoneList.concat(allReceivedList);
     rSubs.unsubscribe();
     dSubs.unsubscribe();
     this.onSuccess();
