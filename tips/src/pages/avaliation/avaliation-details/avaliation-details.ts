@@ -17,6 +17,8 @@ export class AvaliationDetailsPage {
   public avaliation: Avaliation
   public avaliationOwner: Profile
 
+  public avaliationDate: string = "";
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -33,7 +35,7 @@ export class AvaliationDetailsPage {
     this.avaliation = this.navParams.get(Constants.AVALIATION_DETAILS);
     this.avaliationOwner = this.navParams.get(Constants.AVALIATION_DETAILS_OWNER);
 
-    this.avaliation.date = new Date(this.avaliation.date).toLocaleDateString()
+    this.avaliationDate = new Date(this.avaliation.date).toLocaleDateString();
   }
 
   starsRate(value: number): Array<String> {

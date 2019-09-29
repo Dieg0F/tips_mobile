@@ -18,7 +18,7 @@ export class UserSolicitationsPage {
   public solicitations: Array<Solicitation> = new Array<Solicitation>();
   public allSolicitations: Array<Solicitation> = new Array<Solicitation>();
 
-  public userId = AppConfig.USER_PROFILE.uid;
+  public profile = AppConfig.USER_PROFILE;
 
   public filterType = Constants.ALL_SOLICITATIONS;
 
@@ -41,10 +41,10 @@ export class UserSolicitationsPage {
     this.allSolicitations = new Array<Solicitation>();
     this.loading.showLoading("Buscando serviços...")
       .then(async () => {
-        await this.solicitationProvider.getDoneSolicitations(this.userId)
+        await this.solicitationProvider.getDoneSolicitations(this.profile.uid)
           .then(async (d) => {
             var dSubs = await d.subscribe(async (dsolicitations: Array<Solicitation>) => {
-              await this.solicitationProvider.getReceivedSolicitations(this.userId)
+              await this.solicitationProvider.getReceivedSolicitations(this.profile.uid)
                 .then(async (r) => {
                   var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
                     this.buildList(rSolicitations, dsolicitations, rSubs, dSubs);
@@ -62,14 +62,14 @@ export class UserSolicitationsPage {
   private buildList(rSolicitations: Solicitation[], dSolicitations: Solicitation[], rSubs: any, dSubs: any) {
 
     var allDoneList = dSolicitations.filter((d) => {
-      if (d.removedTo.contractorUid !== this.userId) {
-        d.name = "Solicitação para " + d.name;
+      if (d.removedTo.contractorUid !== this.profile.uid) {
+        d.name = "Solicitação para " + d.profileNames.hiredName;
         return d;
       }
     })
     var allReceivedList = rSolicitations.filter((r) => {
-      if (r.removedTo.hiredUid !== this.userId) {
-        r.name = "Solicitação de " + r.name;
+      if (r.removedTo.hiredUid !== this.profile.uid) {
+        r.name = "Solicitação de " + r.profileNames.contractorName;
         return r;
       }
     })
@@ -94,7 +94,7 @@ export class UserSolicitationsPage {
   }
 
   goToDetails(solicitation: any) {
-    if (solicitation.contractorUid == this.userId) {
+    if (solicitation.contractorUid == this.profile.uid) {
       this.navCtrl.push('SolicitationDetailsPage', { 'solicitation': solicitation })
     } else {
       this.navCtrl.push('SolicitationManagerPage', { 'solicitation': solicitation })
@@ -121,7 +121,7 @@ export class UserSolicitationsPage {
 
   private getReceivedSolicitations() {
     this.allSolicitations.forEach(el => {
-      if (el.hiredUid == this.userId) {
+      if (el.hiredUid == this.profile.uid) {
         this.solicitations.push(el);
       }
     })
@@ -129,7 +129,7 @@ export class UserSolicitationsPage {
 
   private getDoneSolicitations() {
     this.allSolicitations.forEach(el => {
-      if (el.contractorUid == this.userId) {
+      if (el.contractorUid == this.profile.uid) {
         this.solicitations.push(el);
       }
     })

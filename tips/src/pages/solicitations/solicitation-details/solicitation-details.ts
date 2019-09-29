@@ -35,6 +35,8 @@ export class SolicitationDetailsPage {
   public loadingMessage = "";
   public toastMessage = "";
 
+  public solicitationDate: string = "";
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -56,6 +58,7 @@ export class SolicitationDetailsPage {
 
   async getService() {
     this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
+    this.solicitationDate = new Date(this.solicitation.date).toLocaleDateString();
     this.getProfiles();
   }
 

@@ -5,18 +5,21 @@
 </ion-header>
 
 <ion-content padding>
-    <div class="filter">
+    <div class="filter" *ngIf="!hideOptions">
         <ion-item>
             <ion-select [(ngModel)]="avaliationType" (ionChange)="onFilterChange()">
                 <ion-option value="Todas as avaliações">Todas as avaliações</ion-option>
-                <ion-option value="Avaliações feitas" *ngIf="!hideOptions">Avaliações feitas</ion-option>
-                <ion-option value="Avaliações recebidas" *ngIf="!hideOptions">Avaliações recebidas</ion-option>
+                <ion-option value="Avaliações feitas">Avaliações feitas</ion-option>
+                <ion-option value="Avaliações recebidas">Avaliações recebidas</ion-option>
             </ion-select>
         </ion-item>
     </div>
     <div class="list">
         <div *ngIf="avaliations.length > 0">
-            <div class="card" *ngFor="let avaliation of avaliations">
+            <div class="card" *ngFor="let avaliation of avaliations" (click)="goToDetails(avaliation)">
+                <div class="cardTitle">
+                    <h3>{{ avaliation.name }}</h3>
+                </div>
                 <div class="rate">
                     <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
                         <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
@@ -24,9 +27,6 @@
                 </div>
                 <div class="cardBody">
                     <p>{{avaliation.body}}</p>
-                </div>
-                <div class="cardFooter" (click)="goToDetails(avaliation)" *ngIf="!hideOptions">
-                    <h5>Detalhes</h5>
                 </div>
             </div>
         </div>

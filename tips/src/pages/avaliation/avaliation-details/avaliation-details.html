@@ -11,7 +11,7 @@
                 <img *ngIf="avaliationOwner.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="profileName">
-                <h3>{{avaliationOwner.nome}}</h3>
+                <h3>{{avaliationOwner.name.firstName}} {{avaliationOwner.name.lastName}}</h3>
             </div>
             <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
                 <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
@@ -21,7 +21,7 @@
             <p>{{avaliation.body}}</p>
         </div>
         <div class="cardFooter avaliationDate">
-            <p>Avaliado em: {{avaliation.date}}</p>
+            <p>Avaliado em: {{avaliationDate}}</p>
         </div>
     </div>
 </ion-content>

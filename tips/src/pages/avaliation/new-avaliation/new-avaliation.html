@@ -31,13 +31,13 @@
                 <div *ngIf="asContractor">
                     <p>Dê sua opinião sobre os serviços de
                         <br />
-                        <b>{{ hiredProfile.nome }} </b> abaixo.
+                        <b>{{ hiredProfile.name.firstName }} {{ hiredProfile.name.lastName }}</b> abaixo.
                     </p>
                 </div>
                 <div *ngIf="!asContractor">
                     <p>Dê sua opinião sobre seu cliente,
                         <br />
-                        <b>{{ contractorProfile.nome }}.</b> abaixo.
+                        <b>{{ contractorProfile.name.firstName }} {{ contractorProfile.name.lastName }}.</b> abaixo.
                     </p>
                 </div>
             </div>

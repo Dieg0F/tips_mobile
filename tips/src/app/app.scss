@@ -112,15 +112,19 @@ page-results {
     margin-bottom: $highSpace;
     float: left;
     span {
-        margin-top: 5px;
-        font-size: 16px;
+        margin-top: 10px;
+        font-size: 13px;
         display: block;
         font-weight: lighter !important;
     }
     h1 {
+        font-size: 1.6em;
         text-align: left;
         margin: 0px !important;
         color: $lightTextColor !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 

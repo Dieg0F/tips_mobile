@@ -30,4 +30,24 @@ page-user-avaliations {
             font-size: 18px !important;
         }
     }
+    .card {
+        .cardTitle {
+            overflow: hidden;
+            h3 {
+                font-size: 18px !important;
+                opacity: 0.5 !important;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+        .cardBody {
+            overflow: hidden;
+            p {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+    }
 }

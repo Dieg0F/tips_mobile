@@ -8,6 +8,7 @@ import { Loading } from '../../../util/loading/loading';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 import { Avaliation } from '../../../model/avaliation/avaliation';
 import { ProfileProvider } from '../../../providers/profile/profile';
+import { Profile } from '../../../model/profile/profile';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,8 @@ export class UserAvaliationsPage {
   public ownerAvaliationsUid = "";
 
   public hideOptions: boolean = false;
+
+  public profile: Profile = AppConfig.USER_PROFILE;
 
   constructor(
     public navCtrl: NavController,
@@ -58,6 +61,8 @@ export class UserAvaliationsPage {
           .then((res) => {
             res.subscribe((avaliations: Array<Avaliation>) => {
               this.avaliations = avaliations;
+              this.setAvaliationName();
+              this.onSuccess();
             })
           })
           .catch((err) => {
@@ -78,6 +83,7 @@ export class UserAvaliationsPage {
             res.subscribe((avaliations: Array<Avaliation>) => {
               console.log(avaliations)
               this.avaliations = avaliations;
+              this.setAvaliationName();
               this.onSuccess();
             })
           })
@@ -106,6 +112,7 @@ export class UserAvaliationsPage {
                     receivedAvaliations.forEach(receivedAvaliation => {
                       this.avaliations.push(receivedAvaliation);
                     });
+                    this.setAvaliationName();
                     this.onSuccess();
                   })
                 })
@@ -174,5 +181,17 @@ export class UserAvaliationsPage {
         this.getAllAvaliations();
         break;
     }
+  }
+
+  private setAvaliationName() {
+    this.avaliations.forEach((a) => {
+      if (a.evaluatorUid == this.profile.uid) {
+        a.name = "Avaliação para " + a.profileNames.ratedName;
+      }
+      else {
+        a.name = "Avaliação de " + a.profileNames.evaluatorName;
+      }
+      console.log(a);
+    });
   }
 }

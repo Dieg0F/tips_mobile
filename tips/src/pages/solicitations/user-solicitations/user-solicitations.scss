@@ -30,10 +30,15 @@ page-user-solicitations {
     }
     .serviceItemList {
         padding: $mediumSpace !important;
+        overflow: hidden;
         .cardTitle {
+            overflow: hidden;
             h3 {
                 font-size: 16px !important;
                 margin-bottom: 4px !important;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
             }
         }
         .cardBody {
@@ -45,6 +50,7 @@ page-user-solicitations {
                 font-size: 16px !important;
                 text-overflow: ellipsis !important;
                 margin: 0px !important;
+                overflow: hidden;
             }
         }
         .cardFooter {

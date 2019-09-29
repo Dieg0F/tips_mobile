@@ -167,4 +167,12 @@ page-solicitation-details {
             line-height: 25px !important;
         }
     }
+    .solicitationDate {
+        text-align: right;
+        font-style: italic;
+        font-size: 12px;
+        opacity: 0.5;
+        padding-right: 16px;
+        margin-top: $largeSpace !important;
+    }
 }

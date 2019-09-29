@@ -47,18 +47,21 @@ export class SendSolicitationPage {
   }
 
   solicitationUser() {
-    var date: Date = new Date()
     let solicitation: Solicitation = {
       uId: UUID.UUID(),
       solicitationId: UUID.UUID(),
       contractorUid: this.contractorPf.uid,
       hiredUid: this.hiredPf.uid,
       lastActionByUserUid: this.contractorPf.uid,
-      name: this.hiredPf.name.firstName + " " + this.hiredPf.name.lastName,
       description: this.solicitationDescription,
       observations: null,
-      date: date.toLocaleDateString(),
+      date: parseInt(Date.now().toString()),
       status: Constants.SOLICITATION_IS_OPEN,
+      name: "",
+      profileNames: {
+        contractorName: this.contractorPf.name.firstName + " " + this.contractorPf.name.lastName,
+        hiredName: this.hiredPf.name.firstName + " " + this.hiredPf.name.lastName,
+      },
       removedTo: {
         contractorUid: null,
         hiredUid: null,
