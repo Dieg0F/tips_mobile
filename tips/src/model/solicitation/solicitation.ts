@@ -11,8 +11,12 @@ export interface Solicitation {
     name: string;
     description: string;
     observations: Array<string>;
-    date: string;
+    date: number;
     status: string;
+    profileNames: {
+        contractorName: string;
+        hiredName: string;
+    }
     removedTo: {
         contractorUid: string;
         hiredUid: string;

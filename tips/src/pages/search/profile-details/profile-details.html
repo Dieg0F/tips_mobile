@@ -10,7 +10,7 @@
                 <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
             </div>
             <div class="mainTitle">
-                <h1>{{profile.name.firstName + ' ' + profile.name.lastName}}</h1>
+                <h1>{{profile.name.firstName}}</h1>
                 <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRate); let i of index">
                     <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRate)" *ngIf="i != 5"></ion-icon>
                 </div>

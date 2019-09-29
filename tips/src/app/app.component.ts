@@ -19,6 +19,13 @@ export class MyApp {
     private toast: Toast,
     private notifications: Notifications,
     private appConfigProvider: AppConfigProvider) {
+    console.log(Date.now())
+    console.log(new Date(Date.now()).toTimeString())
+    console.log(new Date(Date.now()).toLocaleDateString())
+    console.log(new Date(Date.now()).getUTCDate())
+    console.log(new Date(Date.now()).getUTCDay())
+    console.log(new Date(Date.now()).getUTCMonth())
+    console.log(new Date(Date.now()).getUTCFullYear())
     this.platform.ready()
       .then(async () => {
         this.verifyUser();

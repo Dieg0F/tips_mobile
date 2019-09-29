@@ -110,10 +110,8 @@ export class NewAvaliationPage {
   async getOlderAvaliation() {
     return await this.avaliationProvider.getAvaliationById(this.createAvaliationUid())
       .then(async (res) => {
-        console.log("Agui");
         this.loading.hideLoadingPromise()
           .then(async () => {
-            console.log("Agui 2");
             if (res.data()) {
               this.avaliation = res.data();
               this.avaliationRate = this.avaliation.rate;
@@ -132,9 +130,14 @@ export class NewAvaliationPage {
       evaluatorUid: this.userUid,
       ratedUid: (this.asContractor) ? this.hiredProfile.uid : this.contractorProfile.uid,
       serviceUid: this.solicitation.solicitationId,
+      name: "",
+      profileNames: {
+        evaluatorName: this.contractorProfile.name.firstName + " " + this.contractorProfile.name.lastName,
+        ratedName: this.hiredProfile.name.firstName + " " + this.hiredProfile.name.lastName,
+      },
       body: "",
       rate: 1,
-      date: ""
+      date: 0
     }
 
     this.avaliation = newAvaliation;
@@ -152,7 +155,7 @@ export class NewAvaliationPage {
   }
 
   async finish() {
-    this.avaliation.date = Date.now().toLocaleString();
+    this.avaliation.date = parseInt(Date.now().toString());
     this.avaliation.rate = this.avaliationRate;
     this.avaliation.body = this.avaliationBody;
     await this.loading.showLoading("Salvando avaliação...")
