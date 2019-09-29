@@ -22,7 +22,7 @@
             <div class="cardBody" *ngIf="!enableDescription">
                 <p>Deseja enviar uma solicitação de serviço para
                     <br />
-                    <b>{{ hiredPf.nome }}</b>?
+                    <b>{{ hiredPf.name.firstName }}</b>?
                 </p>
                 <button ion-button (click)="setServiceDescription()" *ngIf="!enableDescription">Confirmar</button>
             </div>
@@ -44,7 +44,7 @@
             <div class="profileServiceed">
                 <div class="serviceMainText">
                     <p>Você serviçou os serviços de
-                        <b>{{ hiredPf.nome}}</b> {{ hiredPf.email }}
+                        <b>{{ hiredPf.name.firstName }}</b> {{ hiredPf.email }}
                     </p>
                 </div>
             </div>

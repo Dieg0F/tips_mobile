@@ -1,74 +1,90 @@
 <ion-header>
     <ion-navbar>
+        <ion-title>Minha Conta</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <div class="mainTitle">
-        <h1>Minha Conta</h1>
+    <div class="profilePic">
+        <div (click)="setProfilePhoto()" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+            <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
+        </div>
+        <h3>{{profile.profilePhotoUrl == '' ? 'Adicionar foto' : 'Alterar foto'}}</h3>
     </div>
     <div class="card my_account">
         <div class="cardBody">
             <div class="content_form">
-                <div class="image form_field">
-                    <div id="set_profileImage" (click)="setProfilePhoto()"></div>
-                    <h3>Foto de Perfil</h3>
+                <ion-item>
+                    <ion-label stacked>Nome:</ion-label>
+                    <ion-input [(ngModel)]="profile.name.firstName" next-input type="text" placeholder="Digite o nome" name="firstName">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Sobrenome: </ion-label>
+                    <ion-input [(ngModel)]="profile.name.lastName" next-input type="text" placeholder="Digite o sobrenome" name="firstName"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>CPF: </ion-label>
+                    <ion-input [(ngModel)]="profile.cpf" disabled next-input type="text" placeholder="Digite o seu CPF" name="cpf" [brmasker]="{mask:'000.000.000-00', len:14}"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Email: </ion-label>
+                    <ion-input [(ngModel)]="profile.email" disabled next-input type="email" placeholder="Digite o e-mail" name="email"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Celular: </ion-label>
+                    <ion-input [(ngModel)]="profile.phone" next-input type="text" placeholder="Digite o numero" name="phone" [brmasker]="{phone: true}">
+                    </ion-input>
+                </ion-item>
+                <ion-row>
+                    <ion-col col-8>
+                        <ion-item>
+                            <ion-label stacked>Logradouro: </ion-label>
+                            <ion-input [(ngModel)]="profile.street" next-input placeholder="Digite o endereço" name="street">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col class="position_bottom" col-4>
+                        <ion-item>
+                            <ion-label stacked>Número:</ion-label>
+                            <ion-input [(ngModel)]="profile.houseNumber" next-input type="number" placeholder="Número" name="houseNumber">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-item>
+                    <ion-label stacked>Bairro: </ion-label>
+                    <ion-input [(ngModel)]="profile.district" next-input type="text" placeholder="Digite o bairro" name="district"></ion-input>
+                </ion-item>
+                <ion-row>
+                    <ion-col class="position_bottom" col-4>
+                        <div class="inputFake">
+                            <span class="label">Estado:</span>
+                            <div class="input" [class.placeholder]="!profile.state" (click)="selectState()">
+                                <span>{{profile.state == '' ? 'UF' : profile.state}}</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col col-8>
+                        <div class="inputFake">
+                            <span class="label">Cidade:</span>
+                            <div class="input" [class.placeholder]="!profile.city" (click)="selectCity()">
+                                <span>{{profile.city == '' ? 'Selecione uma cidade' : profile.city}}</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <div class="inputFake" *ngIf="profile.isAPro">
+                    <span class="label">Trabalho:</span>
+                    <div class="input" [class.placeholder]="!profile.job" (click)="selectJob()">
+                        <span>{{profile.job == '' ? 'Selecione sua profissão' : profile.job}}</span>
+                    </div>
                 </div>
-                <div class="form_field">
-                    <h3>Nome: </h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.nome" type="text" name="nome" maxLength="50"></ion-input>
-                    </ion-item>
-                    <h3>E-mail: </h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.email" type="email" name="email" disabled></ion-input>
-                    </ion-item>
-                    <h3>CPF: </h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.cpf" type="tel" name="cpf" disabled></ion-input>
-                    </ion-item>
-                </div>
-                <div class="form_field">
-                    <h3>Telefone para contato:</h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.telefone" type="tel" name="telefone" maxLength="11">
-                        </ion-input>
-                    </ion-item>
-                </div>
-                <div class="form_field">
-                    <h3>Endereço: </h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.rua" type="text" name="rua" maxLength="40"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.bairro" type="text" name="bairro" maxLength="30">
-                        </ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.cidade" type="text" name="cidade" maxLength="30">
-                        </ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.estado" type="text" name="estado" maxLength="2">
-                        </ion-input>
-                    </ion-item>
-                </div>
-                <div class="form_field">
-                    <h3>Area de Atuação: </h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.areaAtuacao" type="text" name="areaAtuacao" maxLength="30"></ion-input>
-                    </ion-item>
-                    <h3>Setor: </h3>
-                    <ion-item>
-                        <ion-input [(ngModel)]="profile.setor" type="text" name="areaAtuacao" maxLength="30"></ion-input>
-                    </ion-item>
-                </div>
-                <div class="form_field">
-                    <h3>Sobre mim: </h3>
-                    <ion-item>
-                        <ion-textarea [(ngModel)]="profile.aboutMe" name="aboutMe" maxLength="300"></ion-textarea>
-                    </ion-item>
-                </div>
+                <ion-item *ngIf="profile.isAPro">
+                    <ion-label stacked>Sobre mim: </ion-label>
+                    <ion-textarea [(ngModel)]="profile.aboutMe" name="aboutMe" maxLength="300" placeholder="Descreva sobre você e seu serviço." name="firstName">
+                    </ion-textarea>
+                </ion-item>
             </div>
         </div>
         <div class="cardFooter" (click)="save()">

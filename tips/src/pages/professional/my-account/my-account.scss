@@ -3,57 +3,82 @@ page-my-account {
         margin-left: 0px !important;
         margin-top: 3px;
     }
+    .card {
+        padding: 0px 16px 16px !important;
+    }
     .content_form {
-        padding: $smallSpace $mediumSpace;
         font-family: "Open Sans", sans-serif;
+        .col:first-child {
+            padding: 0px 5px 0px 0px !important;
+        }
+        .col:last-child {
+            padding: 0px 0px 0px 5px !important;
+        }
         .form_field {
-            margin: 52px 0 $smallSpace 0;
             h3 {
                 color: $darkTextColor;
-                font-size: $cardBodySize;
-                line-height: cardBodyLineHeight;
+                font-size: 15px;
+                line-height: $cardBodyLineHeight;
                 opacity: 0.5;
-                margin: 0px;
+                margin: 0px !important;
                 text-align: left;
                 display: block;
             }
         }
-        .image img {
-            width: 100px;
-            height: 100px;
-            display: block;
-            margin: $largeSpace auto;
-        }
-        .image #set_profileImage {
-            width: 175px;
-            height: 175px;
-            border-radius: 100%;
-            background-image: url('../../../assets/imgs/photo-camera.png');
-            background-position: center;
-            background-size: 70%;
-            background-repeat: no-repeat;
-            border: 6px solid $coldBackground;
-            display: block;
-            margin: $largeSpace auto;
-        }
-        .image h3 {
-            text-align: center !important;
-            color: $darkTextColor;
-            font-size: 18px;
-            line-height: $cardBodyLineHeight;
-            opacity: 0.5;
-            margin: $smallSpace 0 $largeSpace 0;
-            text-align: left;
-        }
         .item-ios,
         .item-md {
             padding: 0 !important;
-            margin-bottom: $mediumSpace !important;
+            margin-bottom: 0px !important;
             border-bottom: 1px solid rgba(200, 200, 200, 0.3);
         }
         textarea.text-input-ios,
         textarea.text-input-md {
             height: 200px;
+            width: 100% !important;
+            margin: 0px !important;
+            padding: 5px 0px !important;
+        }
+        .inputFake {
+            margin: 8px 0 !important;
+            height: 50px;
+            width: 100%;
+            border-bottom: 1px solid rgba(200, 200, 200, 0.3) !important;
+            .label {
+                font-size: 1.2rem;
+                opacity: 0.5;
+                margin: 0px !important;
+            }
+            .input {
+                font-size: 1.6rem;
+                height: 50px;
+                line-height: 30px;
+                width: 100%;
+            }
+            .placeholder {
+                opacity: 0.5;
+            }
+        }
+    }
+    .profilePic {
+        text-align: center;
+        h3 {
+            color: $darkTextColor;
+            font-size: 15px !important;
+            line-height: $cardBodyLineHeight;
+            opacity: 0.8;
+            margin: 10px 0 16px !important;
+            display: block;
+            color: $lightTextColor;
+            font-weight: lighter;
+            text-transform: uppercase !important;
+        }
+        div {
+            text-align: center;
+            width: 75px;
+            height: 75px;
+            margin: 0px auto !important;
+            border: 2px solid #fff;
+            border-radius: 100%;
         }
     }
 }

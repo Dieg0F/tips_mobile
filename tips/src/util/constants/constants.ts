@@ -67,3 +67,4 @@ export class Constants {
     static SEARCH_BASIC = "SEARCH_BASIC";
     static SEARCH_DISABLED = "SEARCH_DISABLED";
 }
+

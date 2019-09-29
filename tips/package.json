@@ -33,6 +33,7 @@
     "@ionic-native/status-bar": "~4.12.0",
     "@ionic/storage": "^2.2.0",
     "angular2-uuid": "^1.1.1",
+    "brmasker-ionic-3": "^1.6.3",
     "cordova-android": "7.0.0",
     "cordova-browser": "5.0.4",
     "cordova-plugin-camera": "^4.0.3",

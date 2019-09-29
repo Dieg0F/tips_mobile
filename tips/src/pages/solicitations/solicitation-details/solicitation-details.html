@@ -25,7 +25,7 @@
         <div class="card service" [ngClass]="solicitationStatusClass">
             <div class="serviceDescription">
                 <h5>Solicitação de serviço para:</h5>
-                <p>{{hiredPf.nome}}</p>
+                <p>{{hiredPf.name.firstName}} {{hiredPf.name.lastName}}</p>
             </div>
             <div class="serviceDescription">
                 <h5>Meios de contato:</h5>
@@ -33,7 +33,7 @@
                     <div>
                         <ion-icon name="call"></ion-icon>
                     </div>
-                    <span>{{hiredPf.telefone}}</span>
+                    <span>{{hiredPf.phone}}</span>
                 </div>
                 <div class="contact-field">
                     <div>
@@ -45,8 +45,8 @@
                     <div>
                         <ion-icon name="pin"></ion-icon>
                     </div>
-                    <span>{{hiredPf.rua}}, {{hiredPf.bairro}}, {{hiredPf.cidade}} -
-                        {{hiredPf.estado}}</span>
+                    <span>{{hiredPf.street}}, {{hiredPf.houseNumber}} - {{hiredPf.district}},
+                        <br />{{hiredPf.city}} - {{hiredPf.state}}</span>
                 </div>
             </div>
             <div class="serviceDescription">

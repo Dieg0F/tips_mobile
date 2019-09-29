@@ -54,7 +54,7 @@ export class SendSolicitationPage {
       contractorUid: this.contractorPf.uid,
       hiredUid: this.hiredPf.uid,
       lastActionByUserUid: this.contractorPf.uid,
-      name: this.hiredPf.nome,
+      name: this.hiredPf.name.firstName + " " + this.hiredPf.name.lastName,
       description: this.solicitationDescription,
       observations: null,
       date: date.toLocaleDateString(),

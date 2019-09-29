@@ -12,7 +12,7 @@
                     <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
                 </div>
                 <div class="profileName">
-                    <h3>{{profile.nome}}</h3>
+                    <h3>{{profile.name.firstName + " " + profile.name.lastName}}</h3>
                 </div>
                 <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRate); let i of index">
                     <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRate)" *ngIf="i != 5"></ion-icon>
@@ -20,7 +20,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="cardBody">
-                <p *ngIf="profile.setor">{{profile.setor}}</p>
+                <p *ngIf="profile.job">{{profile.job}}</p>
             </div>
         </div>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="itemsOnPage >= itemsForPage">

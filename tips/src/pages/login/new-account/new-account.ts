@@ -35,15 +35,17 @@ export class NewAccountPage {
             .then((result) => {
               let newUser = {
                 uid: result.user.uid,
-                name: form.value.name,
+                firstName: form.value.firstName,
+                lastName: form.value.lastName,
                 email: form.value.email,
                 isAPro: form.value.isAPro,
                 accountType: 'APPLICATION'
               }
               return this.saveUser(newUser);
             })
-            .catch(() => {
+            .catch((e) => {
               this.loading.hideLoading();
+              console.log(e);
               this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
             });
         })
@@ -61,7 +63,7 @@ export class NewAccountPage {
   }
 
   private setProfileConfigurations() {
-    this.navCtrl.setRoot('ProfileConfigurationPage');
+    this.navCtrl.setRoot('MyAccountPage');
     this.navCtrl.goToRoot;
     this.loading.hideLoading();
     this.toast.showToast('Conta foi criada com sucesso!');
@@ -76,13 +78,17 @@ export class NewAccountPage {
 
   validateAccount(form: NgForm): Boolean {
     this.regex = new Regex
-    if (!form.value.name || !form.value.email ||
+    if (!form.value.firstName || !form.value.lastName || !form.value.email ||
       !form.value.password || !form.value.confirmPass) {
       this.toast.showToast('Preencha todos os campos!')
       return false
     }
-    if (!this.regex.verifyName(form.value.name)) {
+    if (!this.regex.verifyName(form.value.firstName)) {
       this.toast.showToast('Nome não é valido!')
+      return false
+    }
+    if (!this.regex.verifyName(form.value.lastName)) {
+      this.toast.showToast('Sobrenome não é valido!')
       return false
     }
     if (!this.regex.verifyEmail(form.value.email)) {

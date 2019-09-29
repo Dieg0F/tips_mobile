@@ -40,6 +40,7 @@ import { Notifications } from '../util/notifications/notifications';
 
 import { FCM } from '@ionic-native/fcm';
 import { SolicitationProvider } from '../providers/solicitations/solicitations';
+import { BrMaskerModule } from 'brmasker-ionic-3';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -70,6 +71,7 @@ const config = {
     HttpModule,
     FormsModule,
     StarRatingModule,
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
