@@ -1,6 +1,8 @@
 <div class="menu">
     <div class="menuHeader">
-        <div class="profilePhoto" id="menu_img_profile"></div>
+        <div class="profilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+            <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
+        </div>
         <div class="profileData">
             <h4>{{profile.nome}}</h4>
             <p>{{profile.email}}</p>
@@ -11,13 +13,13 @@
       <ion-icon name="person"></ion-icon>
       Conta
     </button>
-        <button icon-start (click)="services()">
-      <ion-icon name="briefcase"></ion-icon>
-      Serviços
-    </button>
         <button icon-start (click)="rating()">
       <ion-icon name="star"></ion-icon>
       Avaliações
+    </button>
+        <button icon-start (click)="services()">
+      <ion-icon name="briefcase"></ion-icon>
+      Solicitações de Serviços
     </button>
     </div>
     <div class="menuAppOptions">

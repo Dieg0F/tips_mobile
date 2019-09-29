@@ -21,9 +21,10 @@ page-my-account,
 page-profile-details,
 page-app-config,
 page-contact,
-page-user-services,
-page-service-details,
-page-new-service,
+page-user-solicitations,
+page-solicitation-details,
+page-solicitation-manager,
+page-send-solicitation,
 page-user-avaliations,
 page-avaliation-details,
 page-new-avaliation,
@@ -458,7 +459,7 @@ page-results {
     width: auto !important;
 }
 
-page-service-options {
+page-solicitation-options {
     .scroll-content {
         padding: 0px !important;
     }

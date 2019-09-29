@@ -40,30 +40,24 @@ export class NewAccountPage {
                 isAPro: form.value.isAPro,
                 accountType: 'APPLICATION'
               }
-              this.saveUser(newUser);
+              return this.saveUser(newUser);
             })
-            .catch((error) => {
+            .catch(() => {
               this.loading.hideLoading();
               this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
-              console.log('erro ao criar conta: ', error);
             });
         })
     }
   }
 
-  private saveUser(newUser: any) {
-    this.userProvider.saveNewUser(newUser)
+  private async saveUser(newUser: any) {
+    return this.userProvider.saveNewUser(newUser)
       .then(async () => {
         return this.userProvider.saveUserAuth(newUser.uid)
           .then(() => {
             this.setProfileConfigurations();
           })
       })
-      .catch((error) => {
-        this.loading.hideLoading();
-        this.alert.simpleAlert('Erro 555', 'Houve um erro ao criar conta!');
-        console.log('saveUser >> Error: ', error);
-      });
   }
 
   private setProfileConfigurations() {

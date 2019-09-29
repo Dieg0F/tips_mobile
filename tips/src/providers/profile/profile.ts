@@ -43,9 +43,6 @@ export class ProfileProvider {
     }
 
     async getProfiles(filter: FilterOptions, limit: number) {
-
-        console.log('getProfile >> Get All Profile :: Filter', filter)
-
         return this.db.collection(Constants.PROFILES_COLLECTION, ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
             if (filter.profileName != "") { query = query.where('nome', '==', filter.profileName) };
@@ -54,11 +51,10 @@ export class ProfileProvider {
             if (filter.profileSector != "") { query = query.where('setor', '==', filter.profileSector) };
             if (filter.profileRate != 0) { query = query.where('userRate', '==', filter.profileRate) }
             else { query = query.orderBy('userRate', 'desc') };
-            query = query.where('hideMyProfile', '==', false)
-            query = query.where('isActive', '==', true)
-            query = query.where('isAPro', '==', true)
-            query = query.limit(limit)
-            return query;
+            return query.where('hideMyProfile', '==', false)
+                .where('isActive', '==', true)
+                .where('isAPro', '==', true)
+                .limit(limit)
         }).valueChanges()
     }
 

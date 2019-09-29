@@ -1,16 +1,16 @@
 import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { Service } from '../../../model/service/service';
 import { Constants } from '../../../util/constants/constants';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
-import { ServiceProvider } from '../../../providers/service/service';
 import { Avaliation } from '../../../model/avaliation/avaliation';
 import { UUID } from 'angular2-uuid';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
 import { Loading } from '../../../util/loading/loading';
+import { Solicitation } from '../../../model/solicitation/solicitation';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -23,7 +23,7 @@ export class NewAvaliationPage {
   public avaliationRate: number = 1;
   public avaliationBody: string = "";
 
-  public service: Service;
+  public solicitation: Solicitation;
   public contractorProfile: Profile;
   public hiredProfile: Profile;
 
@@ -40,7 +40,7 @@ export class NewAvaliationPage {
     public loading: Loading,
     public events: Events,
     public toast: Toast,
-    public serviceProvider: ServiceProvider,
+    public serviceProvider: SolicitationProvider,
     public avaliationProvider: AvaliationProvider,
     public profileProvider: ProfileProvider) { }
 
@@ -48,7 +48,7 @@ export class NewAvaliationPage {
     this.getProfiles();
   }
 
-  ratingEvent(rating) {
+  ratingEvent(rating: number) {
     if (rating < 2) {
       this.starActiveColor = "#CD7F32";
       this.starOutlineColor = "#CD7F32";
@@ -65,17 +65,18 @@ export class NewAvaliationPage {
   async getProfiles() {
     this.loading.showLoading("Preparando avaliação...")
       .then(async () => {
-        this.service = this.navParams.get(Constants.SERVICE_DETAILS);
+        this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
 
         var profileUidToRequest = "";
 
-        if (this.service.contractorUid == this.userUid) {
+        if (this.solicitation.contractorUid == this.userUid) {
           this.contractorProfile = { ...AppConfig.USER_PROFILE }
-          profileUidToRequest = this.service.hiredUid;
+          profileUidToRequest = this.solicitation.hiredUid;
           this.asContractor = true;
         } else {
           this.hiredProfile = { ...AppConfig.USER_PROFILE }
-          profileUidToRequest = this.service.contractorUid;
+          profileUidToRequest = this.solicitation.contractorUid;
+          this.asContractor = false;
         }
 
         await this.requestingAllProfiles(profileUidToRequest);
@@ -100,43 +101,54 @@ export class NewAvaliationPage {
       .catch(() => {
         this.loading.hideLoadingPromise()
           .then(() => {
-            this.toast.showToast("Erro ao buscar perfil a avaliar!");
+            this.toast.showToast("Erro ao montar avaliação!");
             this.navCtrl.pop();
           })
       });
   }
 
   async getOlderAvaliation() {
-    return await this.avaliationProvider.getAvaliationByUser(this.contractorProfile.uid, this.hiredProfile.uid)
+    return await this.avaliationProvider.getAvaliationById(this.createAvaliationUid())
       .then(async (res) => {
-        return this.loading.hideLoadingPromise()
+        console.log("Agui");
+        this.loading.hideLoadingPromise()
           .then(async () => {
-            await res.subscribe(async (avaliation: Array<Avaliation>) => {
-              if (avaliation.length > 0) {
-                this.avaliation = avaliation[0];
-                this.avaliationRate = this.avaliation.rate;
-                this.avaliationBody = this.avaliation.body;
-                this.ratingEvent(this.avaliationRate);
-              } else {
-                this.buildAvaliation()
-              }
-            })
+            console.log("Agui 2");
+            if (res.data()) {
+              this.avaliation = res.data();
+              this.avaliationRate = this.avaliation.rate;
+              this.avaliationBody = this.avaliation.body;
+              this.ratingEvent(this.avaliationRate);
+            } else {
+              this.buildAvaliation();
+            }
           });
       });
   }
 
   buildAvaliation() {
     let newAvaliation: Avaliation = {
-      uId: UUID.UUID(),
+      uId: this.createAvaliationUid(),
       evaluatorUid: this.userUid,
       ratedUid: (this.asContractor) ? this.hiredProfile.uid : this.contractorProfile.uid,
-      serviceUid: this.service.serviceId,
+      serviceUid: this.solicitation.solicitationId,
       body: "",
       rate: 1,
       date: ""
     }
 
     this.avaliation = newAvaliation;
+  }
+
+  private createAvaliationUid() {
+    var avaliationUid: string;
+    if (this.asContractor) {
+      avaliationUid = this.solicitation.contractorUid + this.solicitation.hiredUid;
+    }
+    else {
+      avaliationUid = this.solicitation.hiredUid + this.solicitation.contractorUid;
+    }
+    return avaliationUid;
   }
 
   async finish() {
@@ -159,8 +171,12 @@ export class NewAvaliationPage {
   }
 
   async updateService(avaliationUid: string): Promise<any> {
-    this.service.avaliationUid = avaliationUid;
-    return await this.serviceProvider.updateService(this.service)
+    if (this.asContractor) {
+      this.solicitation.avaliatedTo.contractorAvaliation = avaliationUid;
+    } else {
+      this.solicitation.avaliatedTo.hiredAvaliation = avaliationUid;
+    }
+    return await this.serviceProvider.updateSolicitation(this.solicitation)
       .then(async () => {
         await this.onSuccess();
       })

@@ -7,3 +7,5 @@ export interface Avaliation {
     rate: number;
     date: string;
 }
+
+

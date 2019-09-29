@@ -12,7 +12,7 @@ import { AppConfig } from '../../model/static/static';
   selector: 'profile-menu',
   templateUrl: 'profile-menu.html'
 })
-export class ProfileMenuComponent implements OnInit {
+export class ProfileMenuComponent {
 
   public profile = { ...AppConfig.USER_PROFILE }
 
@@ -51,17 +51,12 @@ export class ProfileMenuComponent implements OnInit {
     this.toast.showToast('Desconectado com sucesso!');
   }
 
-  ngOnInit() {
-    var elm = document.getElementById('menu_img_profile');
-    elm.style.backgroundImage = "url('" + this.profile.profilePhotoUrl + "')";
-  }
-
   rating() {
     this.navCtrl.push("UserAvaliationsPage");
   }
 
   services() {
-    this.navCtrl.push("UserServicesPage");
+    this.navCtrl.push("UserSolicitationsPage");
   }
 
   configs() {

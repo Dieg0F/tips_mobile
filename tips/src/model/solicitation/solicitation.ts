@@ -2,20 +2,23 @@
  * Interface para Serviços, com o Id do perfil contratado (hiredUid) e do contratante (hiresUid).
  * Pode ocorrer mudanças.
  */
-export interface Service {
+export interface Solicitation {
     uId: string;
-    serviceId: string;
-    ownerUid: string;
+    solicitationId: string;
     contractorUid: string;
     hiredUid: string;
     lastActionByUserUid: string;
-    avaliationUid: string;
     name: string;
     description: string;
+    observations: Array<string>;
     date: string;
     status: string;
-    isRemoved: boolean;
+    removedTo: {
+        contractorUid: string;
+        hiredUid: string;
+    }
+    avaliatedTo: {
+        contractorAvaliation: string;
+        hiredAvaliation: string;
+    }
 }
-
-
-

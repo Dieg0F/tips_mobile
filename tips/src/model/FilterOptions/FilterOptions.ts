@@ -5,3 +5,4 @@ export class FilterOptions {
     profileCity: String = "";
     profileRate: number = 0;
 }
+

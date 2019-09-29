@@ -1,4 +1,4 @@
-page-user-services {
+page-user-solicitations {
     ion-title {
         margin-left: 0px !important;
         margin-top: 3px;
@@ -29,14 +29,26 @@ page-user-services {
         font-size: 12px;
     }
     .serviceItemList {
+        padding: $mediumSpace !important;
+        .cardTitle {
+            h3 {
+                font-size: 18px !important;
+                margin-bottom: 4px !important;
+            }
+        }
         .cardBody {
-            max-height: 100px;
-            overflow: hidden;
+            height: 45px;
             position: relative;
             display: block;
+            overflow: hidden !important;
+            p {
+                font-size: 16px !important;
+                text-overflow: ellipsis !important;
+                margin: 0px !important;
+            }
         }
         .cardFooter {
-            margin: $largeSpace 0px 0px 0px;
+            margin: $smallSpace 0px 0px 0px;
             h3 {
                 font-size: 13px;
                 text-align: right;
@@ -45,31 +57,31 @@ page-user-services {
             }
         }
     }
-    .serviceItemList.newService {
+    .serviceItemList.newSolicitation {
         border-right: 10px solid #81C784;
         .cardFooter>h3 {
             color: #81C784;
         }
     }
-    .serviceItemList.runningService {
+    .serviceItemList.runningSolicitation {
         border-right: 10px solid #64B5F6;
         .cardFooter>h3 {
             color: #64B5F6;
         }
     }
-    .serviceItemList.finishedService {
+    .serviceItemList.finishedSolicitation {
         border-right: 10px solid #FF8A65;
         .cardFooter>h3 {
             color: #FF8A65;
         }
     }
-    .serviceItemList.canceledService {
+    .serviceItemList.canceledSolicitation {
         border-right: 10px solid #e57373;
         .cardFooter>h3 {
             color: #e57373;
         }
     }
-    .serviceItemList.removedService {
+    .serviceItemList.removedSolicitation {
         border-right: 10px solid #444;
         opacity: 0.5;
         .cardFooter>h3 {
