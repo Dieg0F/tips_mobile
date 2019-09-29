@@ -1,30 +1,19 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
-
 // Font path is used to include ionicons,
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
-
-
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
 // http://ionicframework.com/docs/theming/rtl-support/
 $app-direction: ltr;
-
-
 @import "ionic.globals";
-
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
-
-
-
-
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
@@ -32,93 +21,60 @@ $app-direction: ltr;
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-
 $coldBackground: #273A56;
-
 $darkPrimaryColor: #3F51B5;
 $lightPrimaryColor: #B3E5FC;
 $lightBackground: #FFFFFF;
-
 $darkTextColor: #212121;
 $greyTextColor: #999999;
 $lightTextColor: #FFFFFF;
-
 $primaryColor: #29B6F6;
-
 // Colors for rating stars
 $goldStar: #DAA520;
 $silverStar: #C0C0C0;
 $bronzeStar: #CD7F32;
 $greyStar: #777777;
-
-
 // Default Spacings
 // -------------------------------------------------
-
 $smallSpace: 8px;
 $mediumSpace: 16px;
 $highSpace: 24px;
 $largeSpace: 32px;
-
 // Radius Sizes
 // -------------------------------------------------
-
 $tinyRadius: 2px;
 $smallRadius: 4px;
 $mediumRadius: 8px;
 $bigRadius: 16px;
-
 // Card Sizes
 // ------------------------------------------------
-
-$cardTitleSize: 22px;
-$cardBodySize: 16px;
-$cardBodyLineHeight: 16px;
+$cardTitleSize: 18px;
+$cardBodySize: 14px;
+$cardBodyLineHeight: 14px;
 $cardFooterTextSize: 14px;
-$cardFooterTextHeight: 22px;
-
-
+$cardFooterTextHeight: 18px;
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-
-
-
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
-
-
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
-
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can
 // then be future customized. This import comes last
 // so that the above variables are used and Ionic's
 // default are overridden.
-
 @import "ionic.theme.default";
-
-
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/ionicons/
-
 @import "ionic.ionicons";
-
-
 // Fonts
 // --------------------------------------------------
-
 @import "noto-sans";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');

@@ -6,7 +6,7 @@
 
 <ion-content padding>
     <div class="results scale-up-ver-top transition" *ngIf="searchMode == 'SEARCH_DISABLED'">
-        <div class="card profile" *ngFor="let profile of profiles">
+        <div class="card profile" *ngFor="let profile of profiles" (click)="goToDetails(profile)">
             <div class="profileTitle">
                 <div class="profilePhotoResult" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
                     <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
@@ -20,13 +20,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="cardBody">
-                <p *ngIf="profile.areaAtuacao">{{profile.areaAtuacao}}</p>
                 <p *ngIf="profile.setor">{{profile.setor}}</p>
-            </div>
-            <div class="cardFooter" (click)="goToDetails(profile)">
-                <div class="cardFooter">
-                    <h5>Ver Informações</h5>
-                </div>
             </div>
         </div>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="itemsOnPage >= itemsForPage">

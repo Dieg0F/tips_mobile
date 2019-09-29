@@ -1,16 +1,23 @@
 profile-menu {
+    .scroll-content {
+        overflow-y: hidden !important;
+    }
     .menu {
         background-color: #000;
         button {
-            height: 45px;
+            height: 40px;
+            line-height: 45px;
             width: 100%;
             text-align: left;
             text-transform: uppercase;
             font-size: 14px;
-            padding: $mediumSpace;
+            padding: 0px $mediumSpace;
             color: $darkTextColor;
             background-color: $lightBackground !important;
             font-family: "Roboto", sans-serif;
+            ion-icon {
+                color: $coldBackground;
+            }
         }
         .menuHeader {
             width: 100%;

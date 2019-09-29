@@ -20,7 +20,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding #pageContent>
     <div *ngIf="this.profile != undefined || this.profile != null">
         <div>
             <div class="profilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
@@ -31,27 +31,15 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="card">
+        <div class="card" *ngIf="profile.isAPro">
             <div class="cardTitle">
-                <h2>Apresentação:</h2>
+                <h2>Sobre:</h2>
             </div>
             <div class="cardBody">
                 <p>
                     {{profile.aboutMe}}
                 </p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="cardTitle">
-                <h2>Serviços:</h2>
-            </div>
-            <div class="cardBody">
-                <p *ngIf="profile.areaAtuacao">Área de atuação: {{profile.areaAtuacao}}</p>
-                <p *ngIf="profile.setor">Setor: {{profile.setor}}</p>
-            </div>
-
-            <div class="cardFooter">
-                <h5>Mais Informações</h5>
+                <p *ngIf="profile.setor">{{profile.setor}}</p>
             </div>
         </div>
         <div class="card">
@@ -62,7 +50,6 @@
                 <p>E-mail: {{profile.email}}</p>
                 <p>Telefone: {{profile.telefone}}</p>
             </div>
-
             <div class="cardFooter" (click)="contact()">
                 <h5>Mais Informações</h5>
             </div>

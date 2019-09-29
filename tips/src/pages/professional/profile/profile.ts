@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
+import { ScrollHideConfig } from '../../../util/scrollHeader/scroll-header';
 
 @IonicPage()
 @Component({

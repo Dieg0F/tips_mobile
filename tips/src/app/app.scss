@@ -108,7 +108,7 @@ page-results {
 
 .mainTitle {
     width: calc(100% - 100px);
-    padding: $smallSpace $largeSpace;
+    padding: $smallSpace $mediumSpace;
     margin-bottom: $highSpace;
     float: left;
     span {
@@ -152,7 +152,7 @@ page-results {
         color: $primaryColor;
         font-size: $cardFooterTextSize;
         line-height: $cardFooterTextHeight;
-        margin: $largeSpace 0px 0px;
+        margin: $mediumSpace 0px 0px;
         text-align: right;
         font-family: "Roboto", sans-serif;
         cursor: pointer;

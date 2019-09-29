@@ -29,6 +29,12 @@ page-profile-details {
     }
     .mainTitle {
         margin-bottom: 16px !important;
-        margin-top: 15px !important;
+        margin-top: 5px !important;
+        padding: 8px 16px !important;
+        .profileRating {
+            ion-icon {
+                font-size: 15px !important;
+            }
+        }
     }
 }
