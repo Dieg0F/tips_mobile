@@ -47,12 +47,7 @@ export class UserSolicitationsPage {
               await this.solicitationProvider.getReceivedSolicitations(this.userId)
                 .then(async (r) => {
                   var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
-                    var allList = rSolicitations.concat(dsolicitations);
-                    this.allSolicitations = allList;
-                    this.solicitations = allList;
-                    rSubs.unsubscribe();
-                    dSubs.unsubscribe();
-                    this.onSuccess();
+                    this.buildList(rSolicitations, dsolicitations, rSubs, dSubs);
                   })
                 })
             });
@@ -62,6 +57,20 @@ export class UserSolicitationsPage {
             this.onError();
           })
       })
+  }
+
+  private buildList(rSolicitations: Solicitation[], dsolicitations: Solicitation[], rSubs: any, dSubs: any) {
+    var allList = rSolicitations.concat(dsolicitations);
+    this.allSolicitations = allList.filter((a) => {
+      if ((a.removedTo.contractorUid != null && a.removedTo.contractorUid != this.userId) ||
+        a.removedTo.hiredUid != null && a.removedTo.hiredUid != this.userId) {
+        return a;
+      }
+    });
+    this.solicitations = this.allSolicitations;
+    rSubs.unsubscribe();
+    dSubs.unsubscribe();
+    this.onSuccess();
   }
 
   private async onSuccess() {
@@ -78,11 +87,11 @@ export class UserSolicitationsPage {
       })
   }
 
-  goToDetails(service: any) {
-    if (service.contractorUid == this.userId) {
-      this.navCtrl.push('SolicitationDetailsPage', { 'service': service })
+  goToDetails(solicitation: any) {
+    if (solicitation.contractorUid == this.userId) {
+      this.navCtrl.push('SolicitationDetailsPage', { 'solicitation': solicitation })
     } else {
-      this.navCtrl.push('SolicitationManagerPage', { 'service': service })
+      this.navCtrl.push('SolicitationManagerPage', { 'solicitation': solicitation })
     }
   }
 

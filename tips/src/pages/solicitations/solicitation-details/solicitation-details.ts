@@ -114,14 +114,14 @@ export class SolicitationDetailsPage {
       this.showSolicitationActions = true;
     } else if (status == Constants.SOLICITATION_IS_FINISHED || status == Constants.SOLICITATION_IS_CANCELED) {
       this.btnActionText = "Remover";
-      this.btnActionFunction = this.cancelServiceAction.bind(this);
+      this.btnActionFunction = this.removeServiceAction.bind(this);
       this.showSolicitationActions = true;
     }
   }
 
   openOptions(event) {
     this.updateServiceEvent();
-    this.popover.showPopover("SolicitationOptionsPage", { 'service': this.solicitation }, event)
+    this.popover.showPopover("SolicitationOptionsPage", { 'solicitation': this.solicitation }, event)
   }
 
   setSolicitationStatusClass() {
@@ -225,6 +225,6 @@ export class SolicitationDetailsPage {
   }
 
   avaliation() {
-    this.navCtrl.push("NewAvaliationPage", { 'service': this.solicitation });
+    this.navCtrl.push("NewAvaliationPage", { 'solicitation': this.solicitation });
   }
 }

@@ -115,7 +115,7 @@ export class SolicitationManagerPage {
 
   openOptions(event) {
     this.updateSolicitationEvent();
-    this.popover.showPopover("SolicitationOptionsPage", { 'service': this.solicitation }, event)
+    this.popover.showPopover("SolicitationOptionsPage", { 'solicitation': this.solicitation }, event)
   }
 
   setSolicitationStatusClass() {
@@ -235,7 +235,7 @@ export class SolicitationManagerPage {
   }
 
   avaliation() {
-    this.navCtrl.push("NewAvaliationPage", { 'service': this.solicitation });
+    this.navCtrl.push("NewAvaliationPage", { 'solicitation': this.solicitation });
   }
 
 }

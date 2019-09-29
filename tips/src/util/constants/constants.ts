@@ -6,7 +6,7 @@ export class Constants {
     static PROFILES_COLLECTION = "profiles";
     static USERS_COLLECTION = "users";
     static AVALIATIONS_COLLECTION = "avaliations";
-    static SOLICITATION_COLLECTION = "solicitation";
+    static SOLICITATION_COLLECTION = "solicitations";
     static SECTORS_COLLECTION = "sectors";
     static AREAS_COLLECTION = "areas";
 

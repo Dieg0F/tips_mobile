@@ -41,7 +41,7 @@ export class ProfileDetailsPage {
   }
 
   makeService() {
-    this.navCtrl.push("SendSolicitationPage", { 'profileToService': this.profile });
+    this.navCtrl.push("SendSolicitationPage", { 'profileToSolicitation': this.profile });
   }
 
   contact() {
