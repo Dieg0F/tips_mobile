@@ -1,4 +1,3 @@
-import { ServiceProvider } from './../../../providers/service/service';
 import { Profile } from './../../../model/profile/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -7,6 +6,7 @@ import { UUID } from 'angular2-uuid';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Solicitation } from '../../../model/solicitation/solicitation';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -29,7 +29,7 @@ export class SendSolicitationPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
-    public solicitationProvider: ServiceProvider) { }
+    public solicitationProvider: SolicitationProvider) { }
 
   ionViewWillEnter() {
     this.getProfileToService()
@@ -37,7 +37,7 @@ export class SendSolicitationPage {
 
   getProfileToService() {
     this.contractorPf = { ...AppConfig.USER_PROFILE }
-    this.hiredPf = this.navParams.get(Constants.SERVICE_PROFILE)
+    this.hiredPf = this.navParams.get(Constants.SOLICITATION_PROFILE)
   }
 
   makeService() {
@@ -51,16 +51,22 @@ export class SendSolicitationPage {
     let solicitation: Solicitation = {
       uId: UUID.UUID(),
       solicitationId: UUID.UUID(),
-      ownerUid: this.contractorPf.uid,
       contractorUid: this.contractorPf.uid,
       hiredUid: this.hiredPf.uid,
       lastActionByUserUid: this.contractorPf.uid,
-      avaliationUid: null,
-      name: "Solicitação para " + this.hiredPf.nome,
+      name: this.hiredPf.nome,
       description: this.solicitationDescription,
+      observations: null,
       date: date.toLocaleDateString(),
-      status: Constants.SERVICE_IS_OPEN,
-      isRemoved: false
+      status: Constants.SOLICITATION_IS_OPEN,
+      removedTo: {
+        contractorUid: null,
+        hiredUid: null,
+      },
+      avaliatedTo: {
+        contractorAvaliation: null,
+        hiredAvaliation: null,
+      }
     }
 
     this.saveDoubleService(solicitation);
@@ -69,17 +75,10 @@ export class SendSolicitationPage {
   private saveDoubleService(solicitation: Solicitation) {
     this.loading.showLoading("Solicitando serviço...")
       .then(() => {
-        this.solicitationProvider.createService(solicitation)
+        this.solicitationProvider.createSolicitation(solicitation)
           .then(async () => {
-            solicitation.uId = UUID.UUID();
-            solicitation.ownerUid = this.hiredPf.uid;
-            solicitation.status = Constants.SERVICE_IS_OPEN;
-            solicitation.name = "Solicitação de " + this.contractorPf.nome
-            return this.solicitationProvider.createService(solicitation)
-              .then(() => {
-                this.solicitationDone = true;
-                this.loading.hideLoading();
-              });
+            this.solicitationDone = true;
+            this.loading.hideLoading();
           })
           .catch((err) => {
             console.log(err);

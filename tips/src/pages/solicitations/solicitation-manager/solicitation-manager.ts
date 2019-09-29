@@ -8,8 +8,8 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { Constants } from '../../../util/constants/constants';
-import { ServiceProvider } from '../../../providers/service/service';
 import { Toast } from '../../../util/toast/toast';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -42,7 +42,7 @@ export class SolicitationManagerPage {
     public alert: Alert,
     public toast: Toast,
     public events: Events,
-    public serviceProvider: ServiceProvider,
+    public solicitationProvider: SolicitationProvider,
     public profileProvider: ProfileProvider) { }
 
   ionViewWillEnter() {
@@ -54,7 +54,7 @@ export class SolicitationManagerPage {
   }
 
   async getSolicitation() {
-    this.solicitation = this.navParams.get(Constants.SERVICE_DETAILS);
+    this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
     this.getProfiles();
   }
 
@@ -69,10 +69,10 @@ export class SolicitationManagerPage {
     this.solicitation = serv;
     this.buildSolicitationStatusMessage();
     this.setSolicitationStatusClass();
-    if (this.solicitation.status == Constants.SERVICE_IS_REMOVED) {
+    if (this.solicitation.removedTo.hiredUid == this.userUid) {
       this.navCtrl.pop();
     }
-    if (this.solicitation.status == Constants.SERVICE_IS_FINISHED) {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED) {
       var alertTitle = ""
       var alertBody = ""
       alertTitle = "Avalie seu cliente!"
@@ -95,14 +95,17 @@ export class SolicitationManagerPage {
         this.setSolicitationStatusClass();
         this.avaliationPending();
       })
+      .catch(() => {
+        this.navCtrl.pop();
+        this.toast.showToast("Erro ao carregar solicitação!");
+      })
   }
 
   buildSolicitationStatusMessage() {
-    if (this.solicitation.status == Constants.SERVICE_IS_OPEN) {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
       this.btnActionText = "Aprovar Solicitação";
       this.btnActionFunction = this.acceptSolicitationAction;
       this.showSolicitationActions = true;
-      console.log(status)
     } else {
       this.btnActionText = "";
       this.btnActionFunction = null;
@@ -119,16 +122,16 @@ export class SolicitationManagerPage {
     var statusClass = " "
 
     switch (this.solicitation.status) {
-      case Constants.SERVICE_IS_OPEN:
+      case Constants.SOLICITATION_IS_OPEN:
         statusClass += "newSolicitation";
         break;
-      case Constants.SERVICE_IS_RUNNING:
+      case Constants.SOLICITATION_IS_RUNNING:
         statusClass += "runningSolicitation";
         break;
-      case Constants.SERVICE_IS_FINISHED:
+      case Constants.SOLICITATION_IS_FINISHED:
         statusClass += "finishedSolicitation";
         break;
-      case Constants.SERVICE_IS_CANCELED:
+      case Constants.SOLICITATION_IS_CANCELED:
         statusClass += "canceledSolicitation";
         break;
     }
@@ -140,16 +143,16 @@ export class SolicitationManagerPage {
     var statusValue = ""
 
     switch (status) {
-      case Constants.SERVICE_IS_OPEN:
+      case Constants.SOLICITATION_IS_OPEN:
         statusValue += "Novo";
         break;
-      case Constants.SERVICE_IS_RUNNING:
+      case Constants.SOLICITATION_IS_RUNNING:
         statusValue += "Em Andamento";
         break;
-      case Constants.SERVICE_IS_FINISHED:
+      case Constants.SOLICITATION_IS_FINISHED:
         statusValue += "Finalizado";
         break;
-      case Constants.SERVICE_IS_CANCELED:
+      case Constants.SOLICITATION_IS_CANCELED:
         statusValue += "Cancelado";
         break;
     }
@@ -162,7 +165,7 @@ export class SolicitationManagerPage {
       "Cancelar solicitação!",
       "Deseja cancelar esta solicitação?",
       () => {
-        this.solicitation.status = Constants.SERVICE_IS_CANCELED;
+        this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
         this.loadingMessage = "Cancelando serviço...";
         this.toastMessage = "";
         this.updateSolicitation();
@@ -178,7 +181,7 @@ export class SolicitationManagerPage {
       "Finalizar solicitação!",
       "Deseja finalizar esta solicitação?",
       () => {
-        this.solicitation.status = Constants.SERVICE_IS_FINISHED;
+        this.solicitation.status = Constants.SOLICITATION_IS_FINISHED;
         this.loadingMessage = "Finalizando serviço...";
         this.toastMessage = "Serviço finalizado!";
         this.updateSolicitation();
@@ -194,7 +197,7 @@ export class SolicitationManagerPage {
       "Aceitar solicitação!",
       "Você aceita esta solicitação?",
       () => {
-        this.solicitation.status = Constants.SERVICE_IS_RUNNING
+        this.solicitation.status = Constants.SOLICITATION_IS_RUNNING
         this.loadingMessage = "Aceitando serviço...";
         this.toastMessage = "Serviço aceito!";
         this.updateSolicitation();
@@ -208,7 +211,8 @@ export class SolicitationManagerPage {
   updateSolicitation() {
     this.loading.showLoading("Atualizando serviço...")
       .then(() => {
-        this.serviceProvider.updateServiceAction(this.solicitation, this.userUid)
+        this.solicitation.lastActionByUserUid = this.userUid;
+        this.solicitationProvider.updateSolicitation(this.solicitation)
           .then(() => {
             this.loading.hideLoading();
             this.toast.showToast(this.toastMessage);
@@ -222,9 +226,9 @@ export class SolicitationManagerPage {
   }
 
   avaliationPending() {
-    if (this.solicitation.avaliationUid == null &&
-      (this.solicitation.status == Constants.SERVICE_IS_FINISHED)) {
-      this.btnActionText = "Avaliar Serviço";
+    if (this.solicitation.avaliatedTo.hiredAvaliation == null &&
+      (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED)) {
+      this.btnActionText = "Avaliar Cliente";
       this.btnActionFunction = this.avaliation;
       this.showSolicitationActions = true;
     }

@@ -23,6 +23,11 @@ export class AvaliationProvider {
             .toPromise()
     }
 
+    async getAvaliationById(avaliationUid: string = null): Promise<any> {
+        console.log('getAvaliationById >> Get Avaliation: ', avaliationUid)
+        return this.db.collection(Constants.AVALIATIONS_COLLECTION).doc(avaliationUid).get().toPromise();
+    }
+
     async getAvaliationByUser(evaluatorUid: string = null, ratedUid: string = null): Promise<any> {
         return this.db.collection(Constants.AVALIATIONS_COLLECTION,
             ref => {

@@ -8,8 +8,9 @@ import { Service } from '../../../model/service/service';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { Constants } from '../../../util/constants/constants';
-import { ServiceProvider } from '../../../providers/service/service';
 import { Toast } from '../../../util/toast/toast';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
+import { Solicitation } from '../../../model/solicitation/solicitation';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,7 @@ import { Toast } from '../../../util/toast/toast';
 })
 export class SolicitationDetailsPage {
 
-  public solicitation: Service;
+  public solicitation: Solicitation;
   public contractorPf: Profile;
   public hiredPf: Profile;
   public userUid = AppConfig.USER_PROFILE.uid;
@@ -42,7 +43,7 @@ export class SolicitationDetailsPage {
     public alert: Alert,
     public toast: Toast,
     public events: Events,
-    public serviceProvider: ServiceProvider,
+    public solicitationProvider: SolicitationProvider,
     public profileProvider: ProfileProvider) { }
 
   ionViewWillEnter() {
@@ -54,7 +55,7 @@ export class SolicitationDetailsPage {
   }
 
   async getService() {
-    this.solicitation = this.navParams.get(Constants.SERVICE_DETAILS);
+    this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
     this.getProfiles();
   }
 
@@ -69,10 +70,10 @@ export class SolicitationDetailsPage {
     this.solicitation = serv;
     this.buildServiceStatusMessage(this.solicitation.status);
     this.setSolicitationStatusClass();
-    if (this.solicitation.status == Constants.SERVICE_IS_REMOVED) {
+    if (this.solicitation.removedTo.contractorUid == this.userUid) {
       this.navCtrl.pop();
     }
-    if (this.solicitation.status == Constants.SERVICE_IS_FINISHED) {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED) {
       var alertTitle = ""
       var alertBody = ""
       if (this.contractorPf.uid == this.userUid) {
@@ -100,14 +101,18 @@ export class SolicitationDetailsPage {
         this.setSolicitationStatusClass();
         this.avaliationPending();
       })
+      .catch(() => {
+        this.navCtrl.pop();
+        this.toast.showToast("Erro ao carregar solicitação!");
+      })
   }
 
   buildServiceStatusMessage(status: string) {
-    if (status == Constants.SERVICE_IS_OPEN) {
+    if (status == Constants.SOLICITATION_IS_OPEN) {
       this.btnActionText = "Cancelar";
       this.btnActionFunction = this.cancelServiceAction.bind(this);
       this.showSolicitationActions = true;
-    } else if (status == Constants.SERVICE_IS_FINISHED || status == Constants.SERVICE_IS_CANCELED) {
+    } else if (status == Constants.SOLICITATION_IS_FINISHED || status == Constants.SOLICITATION_IS_CANCELED) {
       this.btnActionText = "Remover";
       this.btnActionFunction = this.cancelServiceAction.bind(this);
       this.showSolicitationActions = true;
@@ -123,16 +128,16 @@ export class SolicitationDetailsPage {
     var statusClass = " "
 
     switch (this.solicitation.status) {
-      case Constants.SERVICE_IS_OPEN:
+      case Constants.SOLICITATION_IS_OPEN:
         statusClass += "newSolicitation";
         break;
-      case Constants.SERVICE_IS_RUNNING:
+      case Constants.SOLICITATION_IS_RUNNING:
         statusClass += "runningSolicitation";
         break;
-      case Constants.SERVICE_IS_FINISHED:
+      case Constants.SOLICITATION_IS_FINISHED:
         statusClass += "finishedSolicitation";
         break;
-      case Constants.SERVICE_IS_CANCELED:
+      case Constants.SOLICITATION_IS_CANCELED:
         statusClass += "canceledSolicitation";
         break;
     }
@@ -144,16 +149,16 @@ export class SolicitationDetailsPage {
     var statusValue = ""
 
     switch (status) {
-      case Constants.SERVICE_IS_OPEN:
+      case Constants.SOLICITATION_IS_OPEN:
         statusValue += "Novo";
         break;
-      case Constants.SERVICE_IS_RUNNING:
+      case Constants.SOLICITATION_IS_RUNNING:
         statusValue += "Em Andamento";
         break;
-      case Constants.SERVICE_IS_FINISHED:
+      case Constants.SOLICITATION_IS_FINISHED:
         statusValue += "Finalizado";
         break;
-      case Constants.SERVICE_IS_CANCELED:
+      case Constants.SOLICITATION_IS_CANCELED:
         statusValue += "Cancelado";
         break;
     }
@@ -166,7 +171,7 @@ export class SolicitationDetailsPage {
       "Cancelar solicitação!",
       "Deseja cancelar esta solicitação? O Profissional solicitado não poderá ver essa solicitação!",
       () => {
-        this.solicitation.status = Constants.SERVICE_IS_CANCELED;
+        this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
         this.loadingMessage = "Cancelando solicitação...";
         this.toastMessage = "Solicitação cancelada!";
         this.updateService();
@@ -182,7 +187,7 @@ export class SolicitationDetailsPage {
       "Remover solicitação!",
       "Deseja aceitar esta solicitação?",
       () => {
-        this.solicitation.status = Constants.SERVICE_IS_REMOVED
+        this.solicitation.removedTo.contractorUid = this.userUid;
         this.loadingMessage = "Removendo solicitação...";
         this.toastMessage = "Solicitação removida!";
         this.updateService();
@@ -196,7 +201,8 @@ export class SolicitationDetailsPage {
   updateService() {
     this.loading.showLoading("Atualizando solicitação...")
       .then(() => {
-        this.serviceProvider.updateServiceAction(this.solicitation, this.userUid)
+        this.solicitation.lastActionByUserUid = this.userUid;
+        this.solicitationProvider.updateSolicitation(this.solicitation)
           .then(() => {
             this.loading.hideLoading();
             this.toast.showToast(this.toastMessage);
@@ -210,8 +216,8 @@ export class SolicitationDetailsPage {
   }
 
   avaliationPending() {
-    if (this.solicitation.avaliationUid == null &&
-      (this.solicitation.status == Constants.SERVICE_IS_FINISHED)) {
+    if (this.solicitation.avaliatedTo.contractorAvaliation == null &&
+      (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED)) {
       this.btnActionText = "Avaliar Serviço";
       this.btnActionFunction = this.avaliation;
       this.showSolicitationActions = true;

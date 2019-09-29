@@ -1,6 +1,4 @@
 import { Alert } from './../../../util/alert/alert';
-import { Constants } from './../../../util/constants/constants';
-import { ServiceProvider } from './../../../providers/service/service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
@@ -21,7 +19,6 @@ export class ProfilePage {
   constructor(
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
-    public serviceProvider: ServiceProvider,
     public alert: Alert,
     public navParams: NavParams) { }
 

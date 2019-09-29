@@ -5,14 +5,20 @@
 export interface Solicitation {
     uId: string;
     solicitationId: string;
-    ownerUid: string;
     contractorUid: string;
     hiredUid: string;
     lastActionByUserUid: string;
-    avaliationUid: string;
     name: string;
     description: string;
+    observations: Array<string>;
     date: string;
     status: string;
-    isRemoved: boolean;
+    removedTo: {
+        contractorUid: string;
+        hiredUid: string;
+    }
+    avaliatedTo: {
+        contractorAvaliation: string;
+        hiredAvaliation: string;
+    }
 }

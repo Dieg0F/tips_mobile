@@ -3,12 +3,12 @@ import { AvaliationProvider } from './../../../providers/avaliation/avaliation';
 import { Alert } from './../../../util/alert/alert';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
-import { ServiceProvider } from './../../../providers/service/service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Constants } from '../../../util/constants/constants';
 import { AppConfig } from '../../../model/static/static';
 import { Events } from 'ionic-angular';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -19,7 +19,7 @@ export class SolicitationOptionsPage {
 
   public solicitation: Solicitation;
 
-  public solicitationFinishedStatus = Constants.SERVICE_IS_FINISHED
+  public solicitationFinishedStatus = Constants.SOLICITATION_IS_FINISHED
   public userUid = AppConfig.USER_PROFILE.uid
 
   public loadingMessage = ""
@@ -29,6 +29,8 @@ export class SolicitationOptionsPage {
   public cancelAction: boolean = false;
   public finishAction: boolean = false;
 
+  public asContractor: boolean = true;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,31 +39,38 @@ export class SolicitationOptionsPage {
     public loading: Loading,
     public alert: Alert,
     public events: Events,
-    public serviceProvider: ServiceProvider,
+    public serviceProvider: SolicitationProvider,
     public avaliationProvider: AvaliationProvider) {
-    this.solicitation = this.navParams.get(Constants.SERVICE_DETAILS);
+    this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
   }
 
   ionViewWillEnter() {
-    this.solicitation = this.navParams.get(Constants.SERVICE_DETAILS);
+    this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
+
+    if (this.solicitation.contractorUid == this.userUid) {
+      this.asContractor = true;
+    } else {
+      this.asContractor = false;
+    }
+
     this.setButtons();
   }
 
   setButtons() {
-    if (this.solicitation.status == Constants.SERVICE_IS_FINISHED ||
-      this.solicitation.status == Constants.SERVICE_IS_CANCELED) {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED ||
+      this.solicitation.status == Constants.SOLICITATION_IS_CANCELED) {
       this.removeAction = true;
       this.cancelAction = false;
       this.finishAction = false;
     }
 
-    if (this.solicitation.status == Constants.SERVICE_IS_RUNNING) {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_RUNNING) {
       this.cancelAction = true;
       this.finishAction = true;
       this.removeAction = false;
     }
 
-    if (this.solicitation.status == Constants.SERVICE_IS_OPEN) {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
       this.cancelAction = true;
       this.finishAction = false;
       this.removeAction = false;
@@ -106,22 +115,25 @@ export class SolicitationOptionsPage {
 
 
   finishSolicitation() {
-    this.solicitation.status = Constants.SERVICE_IS_FINISHED;
+    this.solicitation.status = Constants.SOLICITATION_IS_FINISHED;
     this.loadingMessage = "Finalizando serviço...";
     this.toastMessage = "Serviço finalizado!";
     this.updateSolicitation();
   }
 
   cancelSolicitation() {
-    this.solicitation.status = Constants.SERVICE_IS_CANCELED;
+    this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
     this.loadingMessage = "Cancelando serviço...";
     this.toastMessage = "Serviço cancelado!";
     this.updateSolicitation();
   }
 
   removeSolicitation() {
-    this.solicitation.status = Constants.SERVICE_IS_REMOVED;
-    this.solicitation.isRemoved = true;
+    if (this.asContractor) {
+      this.solicitation.removedTo.contractorUid = this.userUid;
+    } else {
+      this.solicitation.removedTo.hiredUid = this.userUid;
+    }
     this.loadingMessage = "Removendo serviço...";
     this.toastMessage = "Serviço removido!";
     this.updateSolicitation();
@@ -131,7 +143,7 @@ export class SolicitationOptionsPage {
     this.solicitation.lastActionByUserUid = this.userUid;
     await this.loading.showLoading(this.loadingMessage)
       .then(async () => {
-        return await this.serviceProvider.updateService(this.solicitation)
+        return await this.serviceProvider.updateSolicitation(this.solicitation)
           .then(async () => {
             await this.success();
           })

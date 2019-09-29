@@ -4,10 +4,9 @@ import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ServiceProvider } from '../../../providers/service/service';
-import { Service } from '../../../model/service/service';
 import { AppConfig } from '../../../model/static/static';
 import { Solicitation } from '../../../model/solicitation/solicitation';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -21,7 +20,7 @@ export class UserSolicitationsPage {
 
   public userId = AppConfig.USER_PROFILE.uid;
 
-  public filterType = Constants.ALL_SERVICES;
+  public filterType = Constants.ALL_SOLICITATIONS;
 
   constructor(
     public navCtrl: NavController,
@@ -29,7 +28,7 @@ export class UserSolicitationsPage {
     public toast: Toast,
     public loading: Loading,
     public profileProvider: ProfileProvider,
-    public serviceProvider: ServiceProvider) {
+    public solicitationProvider: SolicitationProvider) {
   }
 
   ionViewWillEnter() {
@@ -42,12 +41,20 @@ export class UserSolicitationsPage {
     this.allSolicitations = new Array<Solicitation>();
     this.loading.showLoading("Buscando serviços...")
       .then(async () => {
-        await this.serviceProvider.getServices(this.userId)
-          .then(async (res) => {
-            var subs = await res.subscribe(async (values) => {
-              this.allSolicitations = values;
-              this.solicitations = values;
-              this.onSuccess(subs);
+        await this.solicitationProvider.getDoneSolicitations(this.userId)
+          .then(async (d) => {
+            var dSubs = await d.subscribe(async (dsolicitations: Array<Solicitation>) => {
+              await this.solicitationProvider.getReceivedSolicitations(this.userId)
+                .then(async (r) => {
+                  var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
+                    var allList = rSolicitations.concat(dsolicitations);
+                    this.allSolicitations = allList;
+                    this.solicitations = allList;
+                    rSubs.unsubscribe();
+                    dSubs.unsubscribe();
+                    this.onSuccess();
+                  })
+                })
             });
           })
           .catch((err) => {
@@ -57,14 +64,8 @@ export class UserSolicitationsPage {
       })
   }
 
-  private async onSuccess(action) {
-    await this.loading.hideLoadingPromise()
-      .then(async () => {
-        action.unsubscribe();
-      })
-      .catch((err) => {
-        console.log("Error loading solicitations, err: ", err);
-      })
+  private async onSuccess() {
+    await this.loading.hideLoadingPromise();
   }
 
   private onError() {
@@ -86,15 +87,15 @@ export class UserSolicitationsPage {
   }
 
   onFilterChange() {
-    this.solicitations = new Array<Solicitation>()
+    this.solicitations = new Array<Solicitation>();
     switch (this.filterType) {
-      case Constants.ALL_SERVICES:
+      case Constants.ALL_SOLICITATIONS:
         this.getAllSolicitations();
         break;
-      case Constants.SERVICES_RECEIVED:
+      case Constants.SOLICITATIONS_RECEIVED:
         this.getReceivedSolicitations();
         break;
-      case Constants.SERVICES_DONE:
+      case Constants.SOLICITATIONS_DONE:
         this.getDoneSolicitations();
         break;
       default:
@@ -135,16 +136,16 @@ export class UserSolicitationsPage {
     var statusClass = " "
 
     switch (status) {
-      case Constants.SERVICE_IS_OPEN:
+      case Constants.SOLICITATION_IS_OPEN:
         statusClass += "newSolicitation";
         break;
-      case Constants.SERVICE_IS_RUNNING:
+      case Constants.SOLICITATION_IS_RUNNING:
         statusClass += "runningSolicitation";
         break;
-      case Constants.SERVICE_IS_FINISHED:
+      case Constants.SOLICITATION_IS_FINISHED:
         statusClass += "finishedSolicitation";
         break;
-      case Constants.SERVICE_IS_CANCELED:
+      case Constants.SOLICITATION_IS_CANCELED:
         statusClass += "canceledSolicitation";
         break;
     }
@@ -156,16 +157,16 @@ export class UserSolicitationsPage {
     var statusValue = ""
 
     switch (status) {
-      case Constants.SERVICE_IS_OPEN:
+      case Constants.SOLICITATION_IS_OPEN:
         statusValue += "Novo";
         break;
-      case Constants.SERVICE_IS_RUNNING:
+      case Constants.SOLICITATION_IS_RUNNING:
         statusValue += "Em Andamento";
         break;
-      case Constants.SERVICE_IS_FINISHED:
+      case Constants.SOLICITATION_IS_FINISHED:
         statusValue += "Finalizado";
         break;
-      case Constants.SERVICE_IS_CANCELED:
+      case Constants.SOLICITATION_IS_CANCELED:
         statusValue += "Cancelado";
         break;
     }

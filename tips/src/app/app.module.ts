@@ -1,4 +1,3 @@
-import { ServiceProvider } from './../providers/service/service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -40,6 +39,7 @@ import { AreaProvider } from '../providers/area/area';
 import { Notifications } from '../util/notifications/notifications';
 
 import { FCM } from '@ionic-native/fcm';
+import { SolicitationProvider } from '../providers/solicitations/solicitations';
 
 const config = {
   apiKey: "AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc",
@@ -85,7 +85,7 @@ const config = {
     ProfileProvider,
     StorageProvider,
     CameraProvider,
-    ServiceProvider,
+    SolicitationProvider,
     SectorProvider,
     AreaProvider,
     DataProvider,

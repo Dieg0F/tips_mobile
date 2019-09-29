@@ -10,100 +10,82 @@ export class SolicitationProvider {
 
     constructor(private db: AngularFirestore) { }
 
-    async createService(service: any): Promise<void> {
+    async createSolicitation(service: any): Promise<void> {
         console.log('createService >> CReating Service :: ', service.uId)
-        return await this.db.collection(Constants.SERVICES_COLLECTION)
+        return await this.db.collection(Constants.SOLICITATION_COLLECTION)
             .doc(service.uId)
             .set(service)
     }
 
-    async updateService(service: any): Promise<void> {
+    async updateSolicitation(service: any): Promise<void> {
         console.log('updateService >> Updating Service :: ', service.uId)
-        return await this.db.collection(Constants.SERVICES_COLLECTION)
+        return await this.db.collection(Constants.SOLICITATION_COLLECTION)
             .doc(service.uId)
             .set(service)
     }
 
-    async updateMultipleService(service: Service): Promise<void> {
-        console.log('updateMultipleService >> Updating Service :: ', service.uId)
-        return await firebase.firestore().collection(Constants.SERVICES_COLLECTION)
-            .doc(service.uId).update(service);
-    }
+    // async updateMultipleService(service: Service): Promise<void> {
+    //     console.log('updateMultipleService >> Updating Service :: ', service.uId)
+    //     return await firebase.firestore().collection(Constants.SOLICITATION_COLLECTION)
+    //         .doc(service.uId).update(service);
+    // }
 
-    async getService(serviceUid: string): Promise<any> {
+    async getSolicitaiton(serviceUid: string): Promise<any> {
         console.log('getService >> Get Service')
-        return await this.db.collection(Constants.SERVICES_COLLECTION)
+        return await this.db.collection(Constants.SOLICITATION_COLLECTION)
             .doc(serviceUid)
             .get()
             .toPromise()
     }
 
-    async getServiceByServiceId(service: Service): Promise<any> {
-        console.log('getServiceByServiceId >> Get Service : ', service.serviceId)
-        return await this.db.collection(Constants.SERVICES_COLLECTION,
-            ref => {
-                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (service.serviceId) { query = query.where('serviceId', '==', service.serviceId) };
-                return query;
-            }).valueChanges();
-    }
+    // async getServiceByServiceId(service: Service): Promise<any> {
+    //     console.log('getServiceByServiceId >> Get Service : ', service.serviceId)
+    //     return await this.db.collection(Constants.SOLICITATION_COLLECTION,
+    //         ref => {
+    //             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+    //             if (service.serviceId) { query = query.where('serviceId', '==', service.serviceId) };
+    //             return query;
+    //         }).valueChanges();
+    // }
 
-    async getServiceById(serviceUid: String): Promise<any> {
-        return await this.db.collection(Constants.SERVICES_COLLECTION,
-            ref => {
-                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (serviceUid) { query = query.where('serviceId', '==', serviceUid) };
-                return query;
-            }).valueChanges();
-    }
+    // async getServiceById(serviceUid: String): Promise<any> {
+    //     return await this.db.collection(Constants.SOLICITATION_COLLECTION,
+    //         ref => {
+    //             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+    //             if (serviceUid) { query = query.where('serviceId', '==', serviceUid) };
+    //             return query;
+    //         }).valueChanges();
+    // }
 
-    async getServices(userId: string): Promise<any> {
-        return await this.db.collection(Constants.SERVICES_COLLECTION,
+    async getReceivedSolicitations(userId: string): Promise<any> {
+        return this.db.collection(Constants.SOLICITATION_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (userId) { query = query.where('ownerUid', '==', userId) };
+                if (userId) { query = query.where('hiredUid', '==', userId) };
                 query = query.orderBy('date', 'desc');
-                query = query.where('isRemoved', '==', false)
                 return query;
             }).valueChanges()
     }
 
-    async getServicesByUser(userId: string = null, hiredUid: string = null): Promise<any> {
-        return await this.db.collection(Constants.SERVICES_COLLECTION,
+    async getDoneSolicitations(userId: string): Promise<any> {
+        return this.db.collection(Constants.SOLICITATION_COLLECTION,
             ref => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (userId) { query = query.where('userUid', '==', userId) };
-                if (hiredUid) { query = query.where('hiredUid', '==', hiredUid) };
-                query = query.orderBy('date', 'desc')
+                if (userId) { query = query.where('contractorUid', '==', userId) };
+                query = query.orderBy('date', 'desc');
                 return query;
             }).valueChanges()
     }
 
-    async updateServiceAction(service: Service, userId: string): Promise<any> {
-        service.lastActionByUserUid = userId;
-        return await this.getServiceByServiceId(service)
-            .then(async (res) => {
-                var otherService: Service;
-                var subs = await res.subscribe(async (value) => {
-                    await value.forEach(async (element: Service) => {
-                        if (element.ownerUid != userId && element.serviceId == service.serviceId) {
-                            otherService = element
-                            otherService.lastActionByUserUid = userId;
-                            otherService.status = service.status;
-                            otherService.isRemoved = service.isRemoved;
-                        }
-                    });
-
-                    if (otherService != null || otherService != undefined) {
-                        return await this.updateMultipleService(service)
-                            .then(async () => {
-                                return await this.updateMultipleService(otherService).then(() => subs.unsubscribe());
-                            });
-                    } else {
-                        console.log("Erro, Service: ", otherService);
-                        return null;
-                    }
-                });
-            })
-    }
+    // async getServicesByUser(userId: string = null, hiredUid: string = null): Promise<any> {
+    //     return this.db.collection(Constants.SOLICITATION_COLLECTION,
+    //         ref => {
+    //             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+    //             if (userId) { query = query.where('userUid', '==', userId) };
+    //             if (hiredUid) { query = query.where('hiredUid', '==', hiredUid) };
+    //             query = query.orderBy('date', 'desc')
+    //             return query;
+    //         }).valueChanges()
+    // }
 }
+
