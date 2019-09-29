@@ -1,32 +1,57 @@
 page-contact {
-
-  .card {
-    margin-bottom: $mediumSpace;
-
-    .cardTitle {
-      margin: $mediumSpace 0px;
+    .card {
+        margin-bottom: $mediumSpace;
+        .cardTitle {
+            margin: $mediumSpace 0px;
+        }
+        .cardBody {
+            padding: 0px !important;
+            h3 {
+                font-size: 20px !important;
+            }
+        }
     }
-  }
-
-  ion-title {
-    margin-left: 0px !important;
-    margin-top: 3px;
-  }
-
-  .mapLocation {
-
-    .title {
-      color: $lightTextColor;
-      font-size: $cardTitleSize;
-      margin: $mediumSpace 0px $largeSpace;
-      text-align: left;
+    ion-title {
+        margin-left: 0px !important;
+        margin-top: 3px;
     }
-
-    #map {
-      margin-left: -16px;
-      margin-right: -16px;
-      margin-bottom: -16px;
-      height: 400px !important;
+    .contact-field {
+        padding: $smallSpace 0px;
+        div {
+            width: 23px !important;
+            display: inline-block;
+        }
+        ion-icon {
+            font-size: 22px !important;
+            opacity: 0.6 !important;
+            padding-right: $smallSpace;
+            display: inline;
+            fill: $darkTextColor;
+            fill-opacity: 0.6;
+        }
+        span {
+            color: $darkTextColor;
+            font-size: 17px;
+            opacity: 0.5;
+            margin-top: -8px !important;
+            text-align: left;
+            line-height: 25px !important;
+        }
     }
-  }
+    .mapLocation {
+        .title {
+            color: $lightTextColor;
+            font-size: $cardTitleSize;
+            margin: $mediumSpace 0px $largeSpace;
+            text-align: left;
+        }
+        #map {
+            margin-left: -16px;
+            margin-right: -16px;
+            margin-bottom: -16px;
+            height: 320px !important;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+    }
 }

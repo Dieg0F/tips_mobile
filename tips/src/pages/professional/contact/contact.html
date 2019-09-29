@@ -5,22 +5,29 @@
 </ion-header>
 <ion-content padding>
     <div class="card contact">
-        <div class="cardTitle">
-            <h3>Meus dados de contato: </h3>
-        </div>
         <div class="cardBody">
-            <p>Email: {{profile.email}}</p>
-            <br />
-            <p>Telefone: {{profile.phone}}</p>
-            <br />
-            <p>Endereço: {{profile.street}}, {{profile.houseNumber}} - {{profile.district}}<br />{{profile.city}} - {{profile.state}}
-            </p>
+            <h3>Meios de contato:</h3>
+            <div class="contact-field">
+                <div>
+                    <ion-icon name="call"></ion-icon>
+                </div>
+                <span>{{profile.phone}}</span>
+            </div>
+            <div class="contact-field">
+                <div>
+                    <ion-icon name="mail"></ion-icon>
+                </div>
+                <span>{{profile.email}}</span>
+            </div>
+            <div class="contact-field">
+                <div>
+                    <ion-icon name="pin"></ion-icon>
+                </div>
+                <span>{{profile.street}}, {{profile.houseNumber}} - {{profile.district}},
+                    <br />{{profile.city}} - {{profile.state}}</span>
+            </div>
+            <div class="mapLocation">
+                <div #map id="map"></div>
+            </div>
         </div>
     </div>
-    <div class="mapLocation">
-        <div class="title">
-            Minha localização:
-        </div>
-        <div #map id="map" style="height: 250px; "></div>
-    </div>
-</ion-content>
