@@ -7,16 +7,22 @@
         <div class="cardBody">
             <p>Para criar sua conta, digite seu Nome, e-mail e defina uma senha.</p>
             <form #form="ngForm" (submit)="newAccount(form)">
-                <ion-item>
-                    <ion-label stacked>Nome:</ion-label>
-                    <ion-input type="text" name="firstName" ngModel maxLength="30">
-                    </ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label stacked>Sobrenome:</ion-label>
-                    <ion-input type="text" name="lastName" ngModel maxLength="30">
-                    </ion-input>
-                </ion-item>
+                <ion-row>
+                    <ion-col col-6>
+                        <ion-item>
+                            <ion-label stacked>Nome:</ion-label>
+                            <ion-input type="text" name="firstName" ngModel maxLength="30">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col col-6>
+                        <ion-item>
+                            <ion-label stacked>Sobrenome:</ion-label>
+                            <ion-input type="text" name="lastName" ngModel maxLength="30">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
                 <ion-item>
                     <ion-label stacked>E-mail</ion-label>
                     <ion-input type="email" name="email" ngModel maxLength="60">
