@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, Events } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { AuthProvider } from '../../../providers/auth/auth';
@@ -10,8 +10,7 @@ import { Regex } from '../../../util/regex/regex';
 import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
-
-const LOGIN_TIMEOUT = 1000;
+import { Profile } from '../../../model/profile/profile';
 
 @IonicPage()
 @Component({
@@ -21,8 +20,6 @@ const LOGIN_TIMEOUT = 1000;
 export class LoginPage {
 
   private regex: Regex;
-  private loginSubscription: any;
-  private loginTimer: any;
 
   constructor(
     public navCtrl: NavController,
@@ -31,8 +28,13 @@ export class LoginPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public appConfigProvider: AppConfigProvider,
+    public events: Events,
     public alert: Alert,
     public toast: Toast) { }
+
+  ionViewWillLeave() {
+    this.events.unsubscribe('login');
+  }
 
   login(form: NgForm): void {
     if (this.validateAccount(form)) {
@@ -40,13 +42,7 @@ export class LoginPage {
         .then(async () => {
           this.afAuth.login(form)
             .then(async (result) => {
-              let userAuth = {
-                uid: result.user.uid
-              }
-              this.appConfigProvider.appLogin(userAuth)
-              this.loginSubscription = setInterval(() => {
-                this.loginHasCompleted();
-              }, LOGIN_TIMEOUT)
+              this.successLogin(result);
             })
             .catch((error) => {
               console.log('Erro ao fazer login: ', error);
@@ -56,22 +52,17 @@ export class LoginPage {
     }
   }
 
-  private loginHasCompleted() {
-    if (AppConfig.HAS_USER) {
-      this.finishSubscription();
-      if (AppConfig.USER_PROFILE.isActive == false) {
-        this.restartAccount();
-      } else {
+  private successLogin(result: any) {
+    this.events.subscribe('login', (profile: Profile) => {
+      if (profile == undefined) {
+        this.errorLogin();
+      }
+      else {
         this.goToProfilePage();
       }
-    }
-    else {
-      this.loginTimer++;
-      if (this.loginTimer >= 30) {
-        this.errorLogin();
-        this.finishSubscription();
-      }
-    }
+      this.events.unsubscribe('login');
+    });
+    this.appConfigProvider.appLogin(result.user.uid);
   }
 
   private goToProfilePage(showToast: boolean = true) {
@@ -84,14 +75,8 @@ export class LoginPage {
   }
 
   private errorLogin() {
-    this.finishSubscription();
     this.loading.hideLoading();
     this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!')
-  }
-
-  finishSubscription() {
-    clearInterval(this.loginSubscription)
-    this.loginSubscription = undefined
   }
 
   validateAccount(form: NgForm): Boolean {

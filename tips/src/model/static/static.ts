@@ -33,7 +33,5 @@ export class AppConfig {
         deviceToken: ""
     }
 
-    public static HAS_USER: boolean = false
-
     public static PROFILE_PHOTO_PATH = 'profilePhoto/'
 }
