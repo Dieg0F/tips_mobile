@@ -10,11 +10,11 @@
             <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + contractorPf.profilePhotoUrl + ')'}">
                 <img *ngIf="!contractorPf.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
             </div>
-            <div class="syncIcon">
-                <ion-icon name="sync"></ion-icon>
-            </div>
             <div class="hiredProfilePhoto" [ngStyle]="{ 'background-image': 'url(' + hiredPf.profilePhotoUrl + ')'}">
                 <img *ngIf="!hiredPf.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
+            </div>
+            <div class="syncIcon">
+                <ion-icon name="sync"></ion-icon>
             </div>
             <div class="clearfix"></div>
         </div>

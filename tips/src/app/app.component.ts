@@ -6,6 +6,7 @@ import { Toast } from '../util/toast/toast';
 import { AppConfigProvider } from '../providers/app-config/app-config';
 import { AppConfig } from '../model/static/static';
 import { Notifications } from '../util/notifications/notifications';
+import { ProfileProvider } from '../providers/profile/profile';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,14 +19,8 @@ export class MyApp {
     private statusBar: StatusBar,
     private toast: Toast,
     private notifications: Notifications,
+    private profileProvider: ProfileProvider,
     private appConfigProvider: AppConfigProvider) {
-    console.log(Date.now())
-    console.log(new Date(Date.now()).toTimeString())
-    console.log(new Date(Date.now()).toLocaleDateString())
-    console.log(new Date(Date.now()).getUTCDate())
-    console.log(new Date(Date.now()).getUTCDay())
-    console.log(new Date(Date.now()).getUTCMonth())
-    console.log(new Date(Date.now()).getUTCFullYear())
     this.platform.ready()
       .then(async () => {
         this.verifyUser();
@@ -53,14 +48,22 @@ export class MyApp {
     this.appConfigProvider.verifyAuth()
       .then(() => {
         if (AppConfig.USER_PROFILE != undefined) {
-          this.rootPage = "ProfilePage"
-          this.toast.showToast('Bem vindo novamente!');
+          this.profileProvider.getProfile(AppConfig.USER_PROFILE.uid)
+            .then(async (res: any) => {
+              return this.profileProvider.saveProfileOnStorage(res.data())
+                .then(() => {
+                  this.rootPage = "ProfilePage";
+                  this.toast.showToast('Bem vindo novamente!');
+                  this.profileProvider.updateProfile();
+                })
+            })
         } else {
-          this.rootPage = "LoginPage"
+          this.rootPage = "LoginPage";
         }
       })
       .catch(() => {
-        this.rootPage = "LoginPage"
+        this.toast.showToast('Sessão expirada, entre novamente!');
+        this.rootPage = "LoginPage";
       })
   }
 }

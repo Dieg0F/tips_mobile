@@ -8,6 +8,9 @@ import { DataProvider } from '../data/data';
 import { Constants } from '../../util/constants/constants';
 import { Profile } from '../../model/profile/profile';
 import { Notifications } from '../../util/notifications/notifications';
+import { Events } from 'ionic-angular';
+
+const LOGIN_TIMEOUT = 35000;
 
 @Injectable()
 export class AppConfigProvider {
@@ -17,6 +20,7 @@ export class AppConfigProvider {
     public userProvider: UserProvider,
     public dataProvider: DataProvider,
     public toast: Toast,
+    public events: Events,
     public notifications: Notifications,
     public profileProvider: ProfileProvider) { }
 
@@ -44,34 +48,45 @@ export class AppConfigProvider {
    * Caso contrario retorna um false informando que houve um erro no login
    * @param userAuthUid User Uid - Usado para requisitar ao database o perfil e usuário
    */
-  async appLogin(userAuth: any) {
-    let userProfileResponse: Profile;
+  async appLogin(userId: string) {
+    let userProfile: Profile;
+    var completed = false;
+    setTimeout(() => {
+      console.log("AppConfigProvider | AppLogin timeout complete!");
+      console.log("AppConfigProvider | Event has been called? ", completed);
+      if (!completed) {
+        console.log("AppConfigProvider | Calling Event... ");
+        this.events.publish('login', undefined);
+      }
+    }, LOGIN_TIMEOUT)
 
-    await this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userAuth)
+    await this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userId)
       .then(async () => {
-        return this.profileProvider.getProfile(userAuth.uid)
-          .then(async (userProfile) => {
-            userProfileResponse = userProfile.data();
-            if (userProfileResponse) {
-              console.log("AppConfigProvider | User profile: ", userProfileResponse);
-              // return this.notifications.getToken()
-              //   .then(async (token) => {
-              //     userProfileResponse.deviceToken = token;
-              return this.profileProvider.saveProfile(userProfileResponse)
-                .then(async () => {
-                  return this.profileProvider.saveProfileOnStorage(userProfileResponse)
+        return this.profileProvider.getProfile(userId)
+          .then(async (userProfileSnap) => {
+            userProfile = userProfileSnap.data();
+            if (userProfile) {
+              return this.notifications.getToken()
+                .then(async (token) => {
+                  userProfile.deviceToken = token;
+                  return this.profileProvider.saveProfile(userProfile)
                     .then(async () => {
-                      console.log("AppConfigProvider | User profile has been saved on storage!");
-                      AppConfig.USER_PROFILE = userProfileResponse
-                      AppConfig.HAS_USER = true;
+                      return this.profileProvider.saveProfileOnStorage(userProfile)
+                        .then(async () => {
+                          this.events.publish('login', userProfile);
+                          completed = true;
+                        })
                     })
                 })
-              // })
+            } else {
+              completed = true;
+              this.events.publish('login', undefined);
             }
           })
       })
-      .catch((error) => {
-        console.log("Error: ", error)
+      .catch(() => {
+        completed = true;
+        this.events.publish('login', undefined);
       })
   }
 }
