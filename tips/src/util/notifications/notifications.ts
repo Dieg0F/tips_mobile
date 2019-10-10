@@ -41,8 +41,8 @@ export class Notifications {
 
     getToken(): Promise<string> {
         console.log("Notifications | Requesting device token!");
-        //return this.fcm.getToken();
-        return new Promise((res, err) => { });
+        return this.fcm.getToken();
+        //return new Promise((res, err) => { });
     }
 
     parseNotification(data: any) {
@@ -65,12 +65,3 @@ export class Notifications {
         console.log("Events: ", this.events);
     }
 }
-
-// data: {
-//     title: "service_update",
-//     body: solicitation.uId,
-// },
-// notification: {
-//     title: notificationTitle,
-//     body: notificationBody
-// }
