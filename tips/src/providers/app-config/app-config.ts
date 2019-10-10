@@ -69,6 +69,7 @@ export class AppConfigProvider {
               return this.notifications.getToken()
                 .then(async (token) => {
                   userProfile.deviceToken = token;
+                  console.log("Token: ", token)
                   return this.profileProvider.saveProfile(userProfile)
                     .then(async () => {
                       return this.profileProvider.saveProfileOnStorage(userProfile)

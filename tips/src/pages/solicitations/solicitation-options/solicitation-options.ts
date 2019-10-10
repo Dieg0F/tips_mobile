@@ -159,7 +159,7 @@ export class SolicitationOptionsPage {
     try {
       this.loading.hideLoading();
       this.toast.showToast(this.toastMessage);
-      this.events.publish('solicitation:updated', this.solicitation);
+      this.events.publish('USER_CHANGE_SOLICITATION', this.solicitation);
     } catch (error) {
       console.log("Error: SolicitationOptionsPage, Loading Hide");
       console.log("Error: ", error);

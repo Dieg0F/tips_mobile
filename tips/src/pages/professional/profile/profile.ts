@@ -1,6 +1,7 @@
+import { Toast } from './../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
@@ -20,10 +21,19 @@ export class ProfilePage {
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
     public alert: Alert,
+    public toast: Toast,
+    public events: Events,
     public navParams: NavParams) { }
 
   ionViewWillEnter() {
     this.greetingMessageBuilder();
+    this.events.unsubscribe("CHANGE_PROFILE_RATING");
+    this.events.subscribe("CHANGE_PROFILE_RATING", () => {
+      this.profileProvider.getProfile(this.profile.uid)
+        .then((res) => {
+          AppConfig.USER_PROFILE = res.data();
+        })
+    })
   }
 
   starsRate(value: number): Array<String> {

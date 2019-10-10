@@ -3,7 +3,7 @@ import { ProfileProvider } from './../../../providers/profile/profile';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { Solicitation } from '../../../model/solicitation/solicitation';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
@@ -26,6 +26,7 @@ export class UserSolicitationsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public toast: Toast,
+    public events: Events,
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public solicitationProvider: SolicitationProvider) {
@@ -34,6 +35,36 @@ export class UserSolicitationsPage {
   ionViewWillEnter() {
     this.getSolicitations();
     this.onFilterChange();
+    this.events.subscribe("NEW_SOLICITATION", () => {
+      this.updateListOnEvent();
+    })
+    this.events.subscribe("CHANGE_SOLICITATION", () => {
+      this.updateListOnEvent();
+    })
+  }
+
+  ionViewWillLeave() {
+    this.events.unsubscribe("NEW_SOLICITATION");
+    this.events.unsubscribe("CHANGE_SOLICITATION");
+  }
+
+  updateListOnEvent() {
+    console.log("On Event!");
+    this.solicitationProvider.getDoneSolicitations(this.profile.uid)
+      .then(async (d) => {
+        var dSubs = await d.subscribe(async (dSolicitations: Array<Solicitation>) => {
+          await this.solicitationProvider.getReceivedSolicitations(this.profile.uid)
+            .then(async (r) => {
+              var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
+                this.filterRemovedSolicitations(dSolicitations, rSolicitations);
+                rSubs.unsubscribe();
+                dSubs.unsubscribe();
+                this.onFilterChange();
+                this.toast.showToast("Você recebeu novas solicitações!");
+              })
+            })
+        });
+      })
   }
 
   getSolicitations() {
@@ -43,11 +74,11 @@ export class UserSolicitationsPage {
       .then(async () => {
         await this.solicitationProvider.getDoneSolicitations(this.profile.uid)
           .then(async (d) => {
-            var dSubs = await d.subscribe(async (dsolicitations: Array<Solicitation>) => {
+            var dSubs = await d.subscribe(async (dSolicitations: Array<Solicitation>) => {
               await this.solicitationProvider.getReceivedSolicitations(this.profile.uid)
                 .then(async (r) => {
                   var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
-                    this.buildList(rSolicitations, dsolicitations, rSubs, dSubs);
+                    this.buildList(rSolicitations, dSolicitations, rSubs, dSubs);
                   })
                 })
             });
@@ -60,23 +91,26 @@ export class UserSolicitationsPage {
   }
 
   private buildList(rSolicitations: Solicitation[], dSolicitations: Solicitation[], rSubs: any, dSubs: any) {
+    this.filterRemovedSolicitations(dSolicitations, rSolicitations);
+    rSubs.unsubscribe();
+    dSubs.unsubscribe();
+    this.onSuccess();
+  }
 
+  private filterRemovedSolicitations(dSolicitations: Solicitation[], rSolicitations: Solicitation[]) {
     var allDoneList = dSolicitations.filter((d) => {
       if (d.removedTo.contractorUid !== this.profile.uid) {
         d.name = "Solicitação para " + d.profileNames.hiredName;
         return d;
       }
-    })
+    });
     var allReceivedList = rSolicitations.filter((r) => {
       if (r.removedTo.hiredUid !== this.profile.uid) {
         r.name = "Solicitação de " + r.profileNames.contractorName;
         return r;
       }
-    })
+    });
     this.solicitations = this.allSolicitations = allDoneList.concat(allReceivedList);
-    rSubs.unsubscribe();
-    dSubs.unsubscribe();
-    this.onSuccess();
   }
 
   private async onSuccess() {
@@ -102,6 +136,7 @@ export class UserSolicitationsPage {
   }
 
   onFilterChange() {
+    console.log("On Filter Change: ", this.filterType);
     this.solicitations = new Array<Solicitation>();
     switch (this.filterType) {
       case Constants.ALL_SOLICITATIONS:

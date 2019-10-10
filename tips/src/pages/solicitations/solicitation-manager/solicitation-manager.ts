@@ -49,10 +49,38 @@ export class SolicitationManagerPage {
 
   ionViewWillEnter() {
     this.getSolicitation();
+    this.updateSolicitationEvent();
+    this.events.subscribe("CHANGE_SOLICITATION", (data: any) => {
+      this.solicitationProvider.getSolicitaiton(data)
+        .then((res) => {
+          this.updateSolicitationByEvent(res);
+        })
+    })
+  }
+
+  private updateSolicitationByEvent(res: any) {
+    this.solicitation = res.data();
+    this.buildSolicitationStatusMessage();
+    this.setSolicitationStatusClass();
+    this.avaliationPending();
+    var toastMessage = "";
+    switch (this.solicitation.status) {
+      case Constants.SOLICITATION_IS_RUNNING:
+        toastMessage = "Solicitação aprovada por" + this.contractorPf.name.firstName + "!";
+        break;
+      case Constants.SOLICITATION_IS_CANCELED:
+        toastMessage = "Solicitação cancelada por" + this.contractorPf.name.firstName + "!";
+        break;
+      case Constants.SOLICITATION_IS_FINISHED:
+        toastMessage = "Solicitação finalizada por" + this.contractorPf.name.firstName + "!";
+        break;
+    }
+    this.toast.showToast(toastMessage);
   }
 
   ionViewWillLeave() {
-    this.events.unsubscribe('solicitation:updated');
+    this.events.unsubscribe("CHANGE_SOLICITATION");
+    this.events.unsubscribe('USER_CHANGE_SOLICITATION');
   }
 
   async getSolicitation() {
@@ -62,9 +90,9 @@ export class SolicitationManagerPage {
   }
 
   private updateSolicitationEvent() {
-    this.events.subscribe('solicitation:updated', (serv) => {
+    this.events.subscribe('USER_CHANGE_SOLICITATION', (serv) => {
       this.updateSolicitationOut(serv);
-      this.events.unsubscribe('solicitation:updated');
+      this.events.unsubscribe('USER_CHANGE_SOLICITATION');
     });
   }
 

@@ -1,6 +1,6 @@
 import { Constants } from './../../../util/constants/constants';
 import { Component, ɵConsole } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
 import { AppConfig } from '../../../model/static/static';
 import { Toast } from '../../../util/toast/toast';
@@ -35,9 +35,21 @@ export class UserAvaliationsPage {
     public toast: Toast,
     public loading: Loading,
     public profileProvider: ProfileProvider,
-    public avaliationsProvider: AvaliationProvider) {
+    public avaliationsProvider: AvaliationProvider,
+    private events: Events) {
     this.getOwnerUid();
     this.onFilterChange();
+  }
+
+  ionViewWillEnter() {
+    this.events.subscribe("NEW_AVALIATION", () => {
+      this.onFilterChange();
+      this.toast.showToast("Você recebeu novas avaliações!");
+    })
+  }
+
+  ionViewWillLeave() {
+    this.events.unsubscribe("NEW_AVALIATION");
   }
 
   getOwnerUid() {
@@ -98,6 +110,7 @@ export class UserAvaliationsPage {
   }
 
   getAllAvaliations() {
+    this.avaliations = new Array<Avaliation>();
     this.loading.showLoading("Buscando Avaliações...")
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
