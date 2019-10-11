@@ -1,11 +1,13 @@
+import { Toast } from './../../../util/toast/toast';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 import { Loading } from '../../../util/loading/loading';
 import { Avaliation } from '../../../model/avaliation/avaliation';
 import { Profile } from '../../../model/profile/profile';
 import { Constants } from '../../../util/constants/constants';
+import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
 
 @IonicPage()
 @Component({
@@ -23,12 +25,26 @@ export class AvaliationDetailsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
+    public events: Events,
+    public toast: Toast,
+    public avaliationProvider: AvaliationProvider,
     public profileProvider: ProfileProvider) {
     this.getAvaliation();
   }
 
   ionViewWillEnter() {
     this.getAvaliation();
+    this.events.subscribe("CHANGE_AVALIATION", (data: any) => {
+      this.avaliationProvider.getAvaliationById(data)
+        .then((res) => {
+          this.avaliation = res.data();
+          this.toast.showToast("Avaliação atualizada por " + this.avaliationOwner.name.firstName + "!");
+        })
+    })
+  }
+
+  ionViewWillLeave() {
+    this.events.unsubscribe("CHANGE_AVALIATION");
   }
 
   async getAvaliation() {

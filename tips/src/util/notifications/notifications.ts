@@ -1,6 +1,7 @@
 
 import { Injectable } from "@angular/core";
 import { FCM } from '@ionic-native/fcm';
+import { Events } from "ionic-angular";
 
 @Injectable()
 export class Notifications {
@@ -8,7 +9,8 @@ export class Notifications {
     public deviceToken: string = "";
 
     constructor(
-        private fcm: FCM
+        private fcm: FCM,
+        private events: Events,
     ) { }
 
     initService() {
@@ -20,7 +22,8 @@ export class Notifications {
         console.log("Notifications | Starting notification observable!");
         this.fcm.onNotification()
             .subscribe(data => {
-                console.log("Data: ", data)
+                console.log("Data: ", data);
+                this.parseNotification(data);
                 if (data.wasTapped) {
                     console.log("Received in background");
                 } else {
@@ -37,12 +40,29 @@ export class Notifications {
 
     getToken(): Promise<string> {
         console.log("Notifications | Requesting device token!");
-        return this.fcm.getToken().then(() => {
-            return ""
-        }).catch(() => {
-            return ""
-        })
+        return this.fcm.getToken();
+        //return new Promise((res, err) => { });
     }
 
-    //this.fcm.getToken()
+    parseNotification(data: any) {
+        switch (data.title) {
+            case "new_solicitation":
+                this.events.publish('NEW_SOLICITATION', data.body);
+                break;
+            case "update_solicitation":
+                this.events.publish('CHANGE_SOLICITATION', data.body);
+                break;
+            case "new_avaliaiton":
+                this.events.publish('NEW_AVALIATION', data.body);
+                this.events.publish('CHANGE_AVALIATION', data.body);
+                break;
+            case "avaliation_update":
+                this.events.publish('CHANGE_AVALIATION', data.body);
+                break;
+            case "update_profile":
+                this.events.publish('CHANGE_PROFILE_RATING');
+                break;
+        }
+        console.log("Events: ", this.events);
+    }
 }

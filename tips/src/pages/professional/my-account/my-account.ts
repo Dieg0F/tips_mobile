@@ -71,7 +71,7 @@ export class MyAccountPage {
             let selectedPhoto: any = this.dataURItoBlob(fileUrl);
             return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
               .then((downloadURL) => {
-                this.profile.profilePhotoUrl = downloadURL
+                this.profile.profilePhotoUrl = downloadURL;
                 var elm = document.getElementById('set_profileImage');
                 elm.style.backgroundImage = "url('" + downloadURL + "')";
                 elm.style.backgroundSize = "cover";
@@ -102,6 +102,7 @@ export class MyAccountPage {
             this.loading.hideLoading();
             this.toast.showToast('Perfil salvo com sucesso!');
             this.skipProfile();
+            AppConfig.USER_PROFILE = this.profile;
           })
           .catch(() => {
             this.loading.hideLoading();
