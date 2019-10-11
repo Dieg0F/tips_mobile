@@ -28,7 +28,6 @@ export class Notifications {
                     console.log("Received in background");
                 } else {
                     console.log("Received in foreground");
-                    //this.parseNotification(data);
                 };
             });
 
@@ -55,11 +54,13 @@ export class Notifications {
                 break;
             case "new_avaliaiton":
                 this.events.publish('NEW_AVALIATION', data.body);
-                this.events.publish('CHANGE_PROFILE_RATING');
                 this.events.publish('CHANGE_AVALIATION', data.body);
                 break;
             case "avaliation_update":
                 this.events.publish('CHANGE_AVALIATION', data.body);
+                break;
+            case "update_profile":
+                this.events.publish('CHANGE_PROFILE_RATING');
                 break;
         }
         console.log("Events: ", this.events);

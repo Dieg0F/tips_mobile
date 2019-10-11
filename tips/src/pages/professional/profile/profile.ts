@@ -26,24 +26,36 @@ export class ProfilePage {
     public navParams: NavParams) { }
 
   ionViewWillEnter() {
+    console.log("ionViewWillEnter");
+    console.log("Profiles: ", this.profile, AppConfig.USER_PROFILE);
+    this.profile = { ...AppConfig.USER_PROFILE };
     this.greetingMessageBuilder();
     this.events.unsubscribe("CHANGE_PROFILE_RATING");
     this.events.subscribe("CHANGE_PROFILE_RATING", () => {
       this.profileProvider.getProfile(this.profile.uid)
         .then((res) => {
-          AppConfig.USER_PROFILE = res.data();
+          console.log("Profile: ", res.data());
+          return this.profileProvider.saveProfileOnStorage(res.data())
+            .then(() => {
+              this.profile = { ...AppConfig.USER_PROFILE }
+            });
         })
     })
   }
 
+  ionViewDidLoad() {
+    console.log("ionViewDidLoad");
+    console.log("Profiles: ", this.profile, AppConfig.USER_PROFILE);
+  }
+
   starsRate(value: number): Array<String> {
-    var starsRateHelper = new StarRateHelper
-    return starsRateHelper.starsRate(value)
+    var starsRateHelper = new StarRateHelper;
+    return starsRateHelper.starsRate(value);
   }
 
   starsRateColor(value: number): String {
-    var starsRateHelper = new StarRateHelper
-    return starsRateHelper.starsRateColor(value)
+    var starsRateHelper = new StarRateHelper;
+    return starsRateHelper.starsRateColor(value);
   }
 
   contact() {
@@ -59,7 +71,7 @@ export class ProfilePage {
   }
 
   greetingMessageBuilder() {
-    var date = new Date()
+    var date = new Date();
     var hours = date.getHours();
 
     if (hours >= 0 && hours < 5) {

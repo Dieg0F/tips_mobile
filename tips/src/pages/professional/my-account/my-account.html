@@ -6,7 +6,7 @@
 
 <ion-content padding>
     <div class="profilePic">
-        <div (click)="setProfilePhoto()" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
+        <div (click)="setProfilePhoto()" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')', 'background-size': 'cover'}">
             <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
         </div>
         <h3>{{profile.profilePhotoUrl == '' ? 'Adicionar foto' : 'Alterar foto'}}</h3>
