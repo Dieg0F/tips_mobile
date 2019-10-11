@@ -49,7 +49,6 @@ export class SolicitationDetailsPage {
 
   ionViewWillEnter() {
     this.getSolicitation();
-    this.updateSolicitationEvent();
     this.events.subscribe("CHANGE_SOLICITATION", (data: any) => {
       this.solicitationProvider.getSolicitaiton(data)
         .then((res) => {
@@ -145,7 +144,8 @@ export class SolicitationDetailsPage {
   }
 
   openOptions(event: any) {
-    this.popover.showPopover("SolicitationOptionsPage", { 'solicitation': this.solicitation }, event)
+    this.updateSolicitationEvent();
+    this.popover.showPopover("SolicitationOptionsPage", { 'solicitation': this.solicitation }, event);
   }
 
   setSolicitationStatusClass() {

@@ -32,7 +32,11 @@ export class Constants {
     static AVALIATION_DETAILS = "avaliation";
     static AVALIATION_DETAILS_OWNER = "avaliationOwner";
     static AVALIATION_OWNER_ID = "ownerAvaliationsUid";
-    static AVALIATION_HIDE_DETAILS = "hideDetailsOptions";
+    static AVALIATION_AS_VISITOR = "asVisitor";
+
+    static AVALIATION_RECEIVED = "Avaliações recebidas";
+    static AVALIATION_DONE = "Avaliações feitas";
+    static ALL_AVALIAITONS = "Todas as avaliações";
 
     static SOLICITATION_DETAILS = "solicitation";
     static SOLICITATION_DETAILS_HIRED = "hiredProfile";

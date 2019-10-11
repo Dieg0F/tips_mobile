@@ -13,11 +13,21 @@ export class GoogleMaps {
     public enableRotateControl = false;
     public htmlMap: any;
 
-
-    constructor(position: any, map: any) {
+    constructor(map: any) {
         this.htmlMap = map;
-        this.localPosition = new google.maps.LatLng(position.lat, position.lng);
         this.mapStyle()
+    }
+
+    getLocation(address: string) {
+        var geo = new google.maps.Geocoder();
+        geo.geocode({ 'address': address }, (results, status) => {
+            if (status === 'OK') {
+                this.localPosition = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+                this.buildMap();
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
     }
 
     buildMap() {

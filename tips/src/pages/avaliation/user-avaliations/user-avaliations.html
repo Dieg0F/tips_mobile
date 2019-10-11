@@ -40,7 +40,8 @@
                     <p>Você não avaliou profissionais ainda!</p>
                 </div>
                 <div *ngIf="avaliationType == 'Avaliações recebidas'">
-                    <p>Você não foi avaliado por outros usuários!</p>
+                    <p>{{hideOptions ? 'Profissional sem avaliações!' : 'Você não foi avaliado por outros usuários!'}}
+                    </p>
                 </div>
             </div>
         </div>

@@ -21,13 +21,15 @@ export class UserAvaliationsPage {
   public receivedAvaliations: Array<Avaliation> = new Array<Avaliation>();
   public doneAvaliations: Array<Avaliation> = new Array<Avaliation>();
 
-  public avaliationType = "Todas as avaliações";
+  public avaliationType = Constants.ALL_AVALIAITONS;
 
   public ownerAvaliationsUid = "";
 
   public hideOptions: boolean = false;
 
   public profile: Profile = AppConfig.USER_PROFILE;
+
+  public subs: any;
 
   constructor(
     public navCtrl: NavController,
@@ -53,10 +55,11 @@ export class UserAvaliationsPage {
   }
 
   getOwnerUid() {
-    if (!this.navParams.get(Constants.AVALIATION_HIDE_DETAILS)) {
+    if (!this.navParams.get(Constants.AVALIATION_AS_VISITOR)) {
       this.hideOptions = false;
     } else {
       this.hideOptions = true;
+      this.avaliationType = Constants.AVALIATION_RECEIVED;
     }
 
     if (!this.navParams.get(Constants.AVALIATION_OWNER_ID)) {
@@ -71,7 +74,7 @@ export class UserAvaliationsPage {
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
           .then((res) => {
-            res.subscribe((avaliations: Array<Avaliation>) => {
+            this.subs = res.subscribe((avaliations: Array<Avaliation>) => {
               this.avaliations = avaliations;
               this.setAvaliationName();
               this.onSuccess();
@@ -92,7 +95,7 @@ export class UserAvaliationsPage {
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
           .then((res) => {
-            res.subscribe((avaliations: Array<Avaliation>) => {
+            this.subs = res.subscribe((avaliations: Array<Avaliation>) => {
               console.log(avaliations)
               this.avaliations = avaliations;
               this.setAvaliationName();
@@ -115,10 +118,10 @@ export class UserAvaliationsPage {
       .then(() => {
         this.avaliationsProvider.getAvaliationByUser(null, this.ownerAvaliationsUid)
           .then((received) => {
-            received.subscribe((receivedAvaliations: Array<Avaliation>) => {
+            this.subs = received.subscribe((receivedAvaliations: Array<Avaliation>) => {
               return this.avaliationsProvider.getAvaliationByUser(this.ownerAvaliationsUid, null)
                 .then((done) => {
-                  done.subscribe((doneAvaliations: Array<Avaliation>) => {
+                  this.subs = done.subscribe((doneAvaliations: Array<Avaliation>) => {
                     doneAvaliations.forEach(doneAvaliation => {
                       this.avaliations.push(doneAvaliation);
                     });
@@ -143,6 +146,7 @@ export class UserAvaliationsPage {
   }
 
   private onSuccess() {
+    if (this.hideOptions) this.subs.unsubscribe();
     this.loading.hideLoading();
   }
 
@@ -184,10 +188,10 @@ export class UserAvaliationsPage {
   onFilterChange() {
     this.avaliations = new Array<Avaliation>()
     switch (this.avaliationType) {
-      case "Avaliações feitas":
+      case Constants.AVALIATION_DONE:
         this.getDoneAvaliations();
         break;
-      case "Avaliações recebidas":
+      case Constants.AVALIATION_RECEIVED:
         this.getReceivedAvaliations();
         break;
       default:
@@ -204,7 +208,6 @@ export class UserAvaliationsPage {
       else {
         a.name = "Avaliação de " + a.profileNames.evaluatorName;
       }
-      console.log(a);
     });
   }
 }

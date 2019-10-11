@@ -49,7 +49,6 @@ export class UserSolicitationsPage {
   }
 
   updateListOnEvent() {
-    console.log("On Event!");
     this.solicitationProvider.getDoneSolicitations(this.profile.uid)
       .then(async (d) => {
         var dSubs = await d.subscribe(async (dSolicitations: Array<Solicitation>) => {
@@ -84,7 +83,6 @@ export class UserSolicitationsPage {
             });
           })
           .catch((err) => {
-            console.log(err);
             this.onError();
           })
       })
@@ -136,7 +134,6 @@ export class UserSolicitationsPage {
   }
 
   onFilterChange() {
-    console.log("On Filter Change: ", this.filterType);
     this.solicitations = new Array<Solicitation>();
     switch (this.filterType) {
       case Constants.ALL_SOLICITATIONS:

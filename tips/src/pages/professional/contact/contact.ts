@@ -30,11 +30,10 @@ export class ContactPage {
   }
 
   buildMap() {
-    var geo: GeoLocation = {
-      lat: this.profile.geoLocation.lat,
-      lng: this.profile.geoLocation.lng
-    }
 
-    this.map = new GoogleMaps(geo, document.getElementById('map')).buildMap()
+    var fullAddress = this.profile.street + " " + this.profile.houseNumber + " " + this.profile.district +
+      " " + this.profile.city + " " + this.profile.state;
+
+    this.map = new GoogleMaps(document.getElementById('map')).getLocation(fullAddress);
   }
 }

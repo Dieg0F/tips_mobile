@@ -19,17 +19,19 @@ export class SolicitationOptionsPage {
 
   public solicitation: Solicitation;
 
-  public solicitationFinishedStatus = Constants.SOLICITATION_IS_FINISHED
-  public userUid = AppConfig.USER_PROFILE.uid
+  public solicitationFinishedStatus = Constants.SOLICITATION_IS_FINISHED;
+  public userUid = AppConfig.USER_PROFILE.uid;
 
-  public loadingMessage = ""
-  public toastMessage = ""
+  public loadingMessage = "";
+  public toastMessage = "";
 
   public removeAction: boolean = false;
   public cancelAction: boolean = false;
   public finishAction: boolean = false;
 
   public asContractor: boolean = true;
+
+  private userCloseThisModal: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -54,6 +56,10 @@ export class SolicitationOptionsPage {
     }
 
     this.setButtons();
+  }
+
+  ionViewWillLeave() {
+    if (this.userCloseThisModal) this.events.unsubscribe('USER_CHANGE_SOLICITATION');
   }
 
   setButtons() {
@@ -81,49 +87,46 @@ export class SolicitationOptionsPage {
     this.close()
       .then(() => {
         this.alert.confirmAlert(
-          "Cancelar Serviço",
-          "Deseja cancelar este serviço?",
+          "Cancelar solicitação",
+          "Tem certeza que deseja cancelar esta solicitação?",
           this.cancelSolicitation.bind(this),
           () => { })
       })
-
   }
 
   removeSolicitationAlert() {
     this.close()
       .then(() => {
         this.alert.confirmAlert(
-          "Remover Serviço",
-          "Deseja remover este serviço?",
+          "Remover solicitação",
+          "Tem certeza que deseja remover esta solicitação?",
           this.removeSolicitation.bind(this),
           () => { })
       })
-
   }
 
   finishSolicitationAlert() {
     this.close()
       .then(() => {
         this.alert.confirmAlert(
-          "Finalizar Serviço",
-          "Deseja finalizar este serviço?",
+          "Finalizar solicitação",
+          "Tem certeza que deseja finalizar esta solicitação?",
           this.finishSolicitation.bind(this),
           () => { })
       })
-
   }
 
 
   finishSolicitation() {
     this.solicitation.status = Constants.SOLICITATION_IS_FINISHED;
-    this.loadingMessage = "Finalizando serviço...";
+    this.loadingMessage = "Finalizando solicitação...";
     this.toastMessage = "Serviço finalizado!";
     this.updateSolicitation();
   }
 
   cancelSolicitation() {
     this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
-    this.loadingMessage = "Cancelando serviço...";
+    this.loadingMessage = "Cancelando solicitação...";
     this.toastMessage = "Serviço cancelado!";
     this.updateSolicitation();
   }
@@ -134,7 +137,7 @@ export class SolicitationOptionsPage {
     } else {
       this.solicitation.removedTo.hiredUid = this.userUid;
     }
-    this.loadingMessage = "Removendo serviço...";
+    this.loadingMessage = "Removendo solicitação...";
     this.toastMessage = "Serviço removido!";
     this.updateSolicitation();
   }
@@ -145,7 +148,7 @@ export class SolicitationOptionsPage {
       .then(async () => {
         return await this.serviceProvider.updateSolicitation(this.solicitation)
           .then(async () => {
-            await this.success();
+            this.success();
           })
       })
       .catch((err) => {
@@ -177,6 +180,7 @@ export class SolicitationOptionsPage {
   }
 
   close(): Promise<any> {
+    this.userCloseThisModal = false;
     return this.viewCtrl.dismiss();
   }
 }
