@@ -20,7 +20,7 @@ import { SolicitationProvider } from '../../../providers/solicitations/solicitat
 export class NewAvaliationPage {
 
   public avaliation: Avaliation;
-  public avaliationRate: number = 1;
+  public avaliationRate: number = 0;
   public avaliationBody: string = "";
 
   public solicitation: Solicitation;
@@ -31,8 +31,8 @@ export class NewAvaliationPage {
 
   public asContractor: boolean = true;
 
-  public starActiveColor = "#CD7F32";
-  public starOutlineColor = "#CD7F32";
+  public starActiveColor = "#777777";
+  public starOutlineColor = "#777777";
 
   constructor(
     public navCtrl: NavController,
@@ -49,15 +49,14 @@ export class NewAvaliationPage {
   }
 
   ratingEvent(rating: number) {
-    if (rating < 2) {
-      this.starActiveColor = "#CD7F32";
-      this.starOutlineColor = "#CD7F32";
+    if (rating == 0) {
+      this.starOutlineColor = this.starActiveColor = "#777777";
+    } else if (rating > 0 && rating < 2) {
+      this.starOutlineColor = this.starActiveColor = "#CD7F32";
     } else if (rating >= 2 && rating < 4) {
-      this.starActiveColor = "#C0C0C0";
-      this.starOutlineColor = "#C0C0C0";
+      this.starOutlineColor = this.starActiveColor = "#C0C0C0";
     } else if (rating >= 4) {
-      this.starActiveColor = "#DAA520";
-      this.starOutlineColor = "#DAA520";
+      this.starOutlineColor = this.starActiveColor = "#DAA520";
     }
     this.avaliationRate = rating;
   }
@@ -155,25 +154,27 @@ export class NewAvaliationPage {
   }
 
   async finish() {
-    this.avaliation.date = parseInt(Date.now().toString());
-    this.avaliation.rate = this.avaliationRate;
-    this.avaliation.body = this.avaliationBody;
-    await this.loading.showLoading("Salvando avaliação...")
-      .then(async () => {
-        return await this.avaliationProvider.saveAvaliation(this.avaliation)
-          .then(async () => {
-            await this.updateService(this.avaliation.uId);
-          })
-          .catch(() => {
-            this.onError();
-          })
-      })
-      .catch(() => {
-        console.log("Error on loading SavingAvaliation");
-      });
+    if (this.formValidation()) {
+      this.avaliation.date = parseInt(Date.now().toString());
+      this.avaliation.rate = this.avaliationRate;
+      this.avaliation.body = this.avaliationBody;
+      await this.loading.showLoading("Salvando avaliação...")
+        .then(async () => {
+          return await this.avaliationProvider.saveAvaliation(this.avaliation)
+            .then(async () => {
+              await this.updateSolicitation(this.avaliation.uId);
+            })
+            .catch(() => {
+              this.onError();
+            })
+        })
+        .catch(() => {
+          console.log("Error on loading SavingAvaliation");
+        });
+    }
   }
 
-  async updateService(avaliationUid: string): Promise<any> {
+  async updateSolicitation(avaliationUid: string): Promise<any> {
     if (this.asContractor) {
       this.solicitation.avaliatedTo.contractorAvaliation = avaliationUid;
     } else {
@@ -198,5 +199,21 @@ export class NewAvaliationPage {
       .then(async () => {
         this.toast.showToast("Erro ao salvar avaliação!");
       })
+  }
+
+  formValidation() {
+    if (this.avaliationRate == 0) {
+      this.toast.showToast("Escolha uma nota de 1 a 5 estrelas!");
+      return false;
+    }
+    if (!this.avaliationBody) {
+      if (this.asContractor) {
+        this.toast.showToast("Escreva uma avaliação sobre este profissional!");
+      } else {
+        this.toast.showToast("Escreva uma avaliação sobre este cliente!");
+      }
+      return false;
+    }
+    return true;
   }
 }

@@ -95,20 +95,22 @@ export class MyAccountPage {
   }
 
   save() {
-    this.loading.showLoading('Salvando perfil...')
-      .then(() => {
-        this.profileProvider.saveProfile({ ...this.profile })
-          .then(() => {
-            this.loading.hideLoading();
-            this.toast.showToast('Perfil salvo com sucesso!');
-            this.skipProfile();
-            AppConfig.USER_PROFILE = this.profile;
-          })
-          .catch(() => {
-            this.loading.hideLoading();
-            this.toast.showToast('Erro ao salvar o perfil!');
-          })
-      })
+    if (this.formValidation()) {
+      this.loading.showLoading('Salvando perfil...')
+        .then(() => {
+          this.profileProvider.saveProfile({ ...this.profile })
+            .then(() => {
+              this.loading.hideLoading();
+              this.toast.showToast('Perfil salvo com sucesso!');
+              this.skipProfile();
+              AppConfig.USER_PROFILE = this.profile;
+            })
+            .catch(() => {
+              this.loading.hideLoading();
+              this.toast.showToast('Erro ao salvar o perfil!');
+            })
+        })
+    }
   }
 
   selectJob() {
@@ -122,8 +124,12 @@ export class MyAccountPage {
   }
 
   selectCity() {
-    this.onCitySelected();
-    this.navCtrl.push("CitySearchPage", { 'stateId': this.stateId });
+    if (this.profile.state) {
+      this.onCitySelected();
+      this.navCtrl.push("CitySearchPage", { 'stateId': this.stateId });
+    } else {
+      this.toast.showToast("Selecione o estado primeiro!");
+    }
   }
 
   private onCitySelected() {
@@ -163,4 +169,54 @@ export class MyAccountPage {
     });
   }
 
+
+  formValidation(): boolean {
+    if (!this.profile.name.firstName) {
+      this.toast.showToast("Insira seu primeiro nome!");
+      return false;
+    }
+    if (!this.profile.name.lastName) {
+      this.toast.showToast("Insira seu ultimo nome!");
+      return false;
+    }
+    if (!this.profile.cpf) {
+      this.toast.showToast("Insira seu CPF!");
+      return false;
+    }
+    if (!this.profile.phone) {
+      this.toast.showToast("Insira seu número de telefone!");
+      return false;
+    }
+    if (!this.profile.street) {
+      this.toast.showToast("Insira o nome da rua em que mora!");
+      return false;
+    }
+    if (!this.profile.houseNumber) {
+      this.toast.showToast("Insira o numero da sua casa!");
+      return false;
+    }
+    if (!this.profile.district) {
+      this.toast.showToast("Insira o nome do seu bairro!");
+      return false;
+    }
+    if (!this.profile.state) {
+      this.toast.showToast("Selecione o estado de sua cidade!");
+      return false;
+    }
+    if (!this.profile.city) {
+      this.toast.showToast("Selecione a cidade onde mora!");
+      return false;
+    }
+    if (this.profile.isAPro) {
+      if (!this.profile.job) {
+        this.toast.showToast("Selecione a profissão em que trabalha!");
+        return false;
+      }
+      if (!this.profile.aboutMe) {
+        this.toast.showToast("Escreva um pouco sobre você!");
+        return false;
+      }
+    }
+    return true;
+  }
 }
