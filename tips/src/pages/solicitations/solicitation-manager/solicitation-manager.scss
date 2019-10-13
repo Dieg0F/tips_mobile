@@ -146,6 +146,36 @@ page-solicitation-manager {
             margin-top: $smallSpace;
         }
     }
+    .observations {
+        margin-bottom: 10px !important;
+        text-align: right;
+        h5 {
+            font-size: 15px !important;
+            text-align: left !important;
+            margin-bottom: 10px !important;
+        }
+        p {
+            font-size: 14px !important;
+            text-align: right !important;
+            margin: 5px 0 !important;
+            font-style: italic;
+        }
+        div {
+            font-style: italic;
+            .by,
+            .when {
+                color: $darkTextColor;
+                font-size: 14px;
+                line-height: $cardBodyLineHeight;
+                opacity: 0.5;
+                text-align: left;
+            }
+            .when {
+                font-size: 10px !important;
+                font-style: italic;
+            }
+        }
+    }
     .contact-field {
         padding: $smallSpace 0px;
         div {

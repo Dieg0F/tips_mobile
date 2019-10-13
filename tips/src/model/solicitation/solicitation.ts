@@ -10,7 +10,7 @@ export interface Solicitation {
     lastActionByUserUid: string;
     name: string;
     description: string;
-    observations: Array<string>;
+    observations: Array<SolicitationObservation>;
     date: number;
     status: string;
     profileNames: {
@@ -25,4 +25,12 @@ export interface Solicitation {
         contractorAvaliation: string;
         hiredAvaliation: string;
     }
+}
+
+export interface SolicitationObservation {
+    userUid: string,
+    userName: string,
+    body: string,
+    cause: string,
+    date: string
 }

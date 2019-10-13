@@ -170,7 +170,7 @@ export class SolicitationDetailsPage {
     this.solicitationStatusClass = statusClass;
   }
 
-  setStatusValueToShow(status): string {
+  setStatusValueToShow(status: string): string {
     var statusValue = ""
 
     switch (status) {
@@ -197,6 +197,7 @@ export class SolicitationDetailsPage {
       "Deseja cancelar esta solicitação? O Profissional solicitado não poderá ver essa solicitação!",
       () => {
         this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
+        this.solicitation.removedTo.hiredUid = this.solicitation.hiredUid;
         this.loadingMessage = "Cancelando solicitação...";
         this.toastMessage = "Solicitação cancelada!";
         this.updateSolicitation();
@@ -229,15 +230,22 @@ export class SolicitationDetailsPage {
         this.solicitation.lastActionByUserUid = this.userUid;
         this.solicitationProvider.updateSolicitation(this.solicitation)
           .then(() => {
-            this.loading.hideLoading();
-            this.toast.showToast(this.toastMessage);
-            this.setSolicitationStatusClass();
-            this.buildSolicitationStatusMessage();
+            this.onSuccess();
           })
           .catch(() => {
             this.toast.showToast("Erro ao alterar solicitação!");
           })
       })
+  }
+
+  private onSuccess() {
+    this.loading.hideLoading();
+    this.toast.showToast(this.toastMessage);
+    this.setSolicitationStatusClass();
+    this.buildSolicitationStatusMessage();
+    if (this.solicitation.removedTo.contractorUid == this.userUid) {
+      this.navCtrl.pop();
+    }
   }
 
   avaliationPending() {
