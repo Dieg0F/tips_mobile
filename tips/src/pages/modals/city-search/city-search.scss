@@ -4,8 +4,11 @@ page-city-search {
     }
     .scroll-content {
         background-color: rgba($color: #000000, $alpha: 0.5);
+        display: flex;
+        align-items: center;
     }
     .modalContent {
+        max-width: 100%;
         border-radius: $smallRadius;
         background-color: $lightBackground;
         padding: $mediumSpace $mediumSpace 0px;
@@ -14,6 +17,10 @@ page-city-search {
         -moz-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
         box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
         font-family: "Open Sans", sans-serif;
+        .item-md,
+        .item-ios {
+            padding: 0px 8px !important;
+        }
     }
     .searchResponse {
         margin-top: $mediumSpace;
