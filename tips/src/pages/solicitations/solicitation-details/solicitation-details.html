@@ -48,8 +48,16 @@
                 <h5>Descrição do serviço: </h5>
                 <p>{{solicitation.description}}</p>
             </div>
+            <div class="serviceDescription observations" *ngIf="solicitation.observations">
+                <h5>Observações: </h5>
+                <div *ngFor="let obs of solicitation.observations">
+                    <span class="by">Por {{ obs.userName }}</span>
+                    <p>{{obs.body}}</p>
+                    <span class="when">Feito em: {{obs.date}}</span>
+                </div>
+            </div>
             <div class="cardFooter solicitationDate">
-                <p>Criado em: {{solicitationDate}}</p>
+                <p>Solicitado em: {{solicitationDate}}</p>
             </div>
         </div>
     </div>

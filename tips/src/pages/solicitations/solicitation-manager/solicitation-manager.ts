@@ -30,6 +30,7 @@ export class SolicitationManagerPage {
   public solicitationStatus: string = "";
 
   public showSolicitationActions: boolean = false;
+  public showMenuActions: boolean = false;
 
   public loadingMessage = "";
   public toastMessage = "";
@@ -55,7 +56,20 @@ export class SolicitationManagerPage {
         .then((res) => {
           this.updateSolicitationByEvent(res);
         })
-    })
+    });
+    this.setMenuVisibility()
+  }
+
+  private setMenuVisibility() {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN ||
+      this.solicitation.status == Constants.SOLICITATION_IS_RUNNING) {
+      this.showMenuActions = true;
+    } else if (this.solicitation.status == Constants.SOLICITATION_IS_CANCELED) {
+      this.showMenuActions = false;
+    } else if (!this.solicitation.avaliatedTo.hiredAvaliation &&
+      this.solicitation.status === Constants.SOLICITATION_IS_FINISHED) {
+      this.showMenuActions = false;
+    }
   }
 
   private updateSolicitationByEvent(res: any) {
@@ -63,6 +77,7 @@ export class SolicitationManagerPage {
     this.buildSolicitationStatusMessage();
     this.setSolicitationStatusClass();
     this.avaliationPending();
+    this.setMenuVisibility();
     var toastMessage = "";
     switch (this.solicitation.status) {
       case Constants.SOLICITATION_IS_RUNNING:
@@ -100,20 +115,9 @@ export class SolicitationManagerPage {
     this.solicitation = serv;
     this.buildSolicitationStatusMessage();
     this.setSolicitationStatusClass();
+    this.setMenuVisibility();
     if (this.solicitation.removedTo.hiredUid == this.userUid) {
       this.navCtrl.pop();
-    }
-    if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED) {
-      var alertTitle = ""
-      var alertBody = ""
-      alertTitle = "Avalie seu cliente!"
-      alertBody = "Dê a sua opnião sobre " + this.contractorPf.name.firstName + ", ajudando outros profissionais no Tips!"
-
-      this.alert.confirmAlert(alertTitle,
-        alertBody,
-        this.avaliation.bind(this),
-        () => { this.avaliationPending() },
-        "Depois", "Agora");
     }
   }
 
@@ -125,6 +129,7 @@ export class SolicitationManagerPage {
         this.buildSolicitationStatusMessage();
         this.setSolicitationStatusClass();
         this.avaliationPending();
+        this.setMenuVisibility();
       })
       .catch(() => {
         this.navCtrl.pop();
@@ -149,7 +154,7 @@ export class SolicitationManagerPage {
     }
   }
 
-  openOptions(event) {
+  openOptions(event: any) {
     this.updateSolicitationEvent();
     this.popover.showPopover("SolicitationOptionsPage", { 'solicitation': this.solicitation }, event)
   }
@@ -175,7 +180,7 @@ export class SolicitationManagerPage {
     this.solicitationStatusClass = statusClass;
   }
 
-  setStatusValueToShow(status): string {
+  setStatusValueToShow(status: string): string {
     var statusValue = ""
 
     switch (status) {
@@ -194,22 +199,6 @@ export class SolicitationManagerPage {
     }
 
     return statusValue;
-  }
-
-  cancelSolicitationAction() {
-    this.alert.confirmAlert(
-      "Cancelar solicitação!",
-      "Deseja cancelar esta solicitação?",
-      () => {
-        this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
-        this.loadingMessage = "Cancelando serviço...";
-        this.toastMessage = "";
-        this.updateSolicitation();
-      },
-      () => { },
-      "Não",
-      "Sim"
-    )
   }
 
   finishSolicitationAction() {
@@ -267,15 +256,39 @@ export class SolicitationManagerPage {
         this.solicitation.lastActionByUserUid = this.userUid;
         this.solicitationProvider.updateSolicitation(this.solicitation)
           .then(() => {
-            this.loading.hideLoading();
-            this.toast.showToast(this.toastMessage);
-            this.setSolicitationStatusClass();
-            this.buildSolicitationStatusMessage();
+            this.onSuccess();
           })
           .catch(() => {
             this.toast.showToast("Erro ao alterar serviço!");
           })
       })
+  }
+
+  private onSuccess() {
+    this.loading.hideLoading();
+    this.toast.showToast(this.toastMessage);
+    this.setSolicitationStatusClass();
+    this.buildSolicitationStatusMessage();
+    this.verifyAvaliation();
+    this.setMenuVisibility();
+    if (this.solicitation.removedTo.hiredUid == this.userUid) {
+      this.navCtrl.pop();
+    }
+  }
+
+  verifyAvaliation() {
+    if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED) {
+      var alertTitle = ""
+      var alertBody = ""
+      alertTitle = "Avalie seu cliente!"
+      alertBody = "Dê a sua opnião sobre " + this.contractorPf.name.firstName + ", ajudando outros profissionais no Tips!"
+
+      this.alert.confirmAlert(alertTitle,
+        alertBody,
+        this.avaliation.bind(this),
+        () => { this.avaliationPending() },
+        "Depois", "Agora");
+    }
   }
 
   avaliationPending() {

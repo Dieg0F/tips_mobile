@@ -38,8 +38,8 @@ export class UserSolicitationsPage {
     this.events.subscribe("NEW_SOLICITATION", () => {
       this.updateListOnEvent();
     })
-    this.events.subscribe("CHANGE_SOLICITATION", () => {
-      this.updateListOnEvent();
+    this.events.subscribe("CHANGE_SOLICITATION", (data: string) => {
+      this.updateListOnEvent(data);
     })
   }
 
@@ -48,7 +48,7 @@ export class UserSolicitationsPage {
     this.events.unsubscribe("CHANGE_SOLICITATION");
   }
 
-  updateListOnEvent() {
+  updateListOnEvent(data?: string) {
     this.solicitationProvider.getDoneSolicitations(this.profile.uid)
       .then(async (d) => {
         var dSubs = await d.subscribe(async (dSolicitations: Array<Solicitation>) => {
@@ -59,7 +59,16 @@ export class UserSolicitationsPage {
                 rSubs.unsubscribe();
                 dSubs.unsubscribe();
                 this.onFilterChange();
-                this.toast.showToast("Você recebeu novas solicitações!");
+                if (data) {
+                  var sol = this.solicitations.filter((s) => {
+                    return s.uId == data ? s : null
+                  });
+                  if (sol && sol[0].removedTo.hiredUid !== AppConfig.USER_PROFILE.uid) {
+                    this.toast.showToast("Você recebeu novas solicitações!");
+                  }
+                } else {
+                  this.toast.showToast("Você recebeu novas solicitações!");
+                }
               })
             })
         });

@@ -27,11 +27,10 @@ export class SolicitationOptionsPage {
 
   public removeAction: boolean = false;
   public cancelAction: boolean = false;
-  public finishAction: boolean = false;
 
   public asContractor: boolean = true;
 
-  private userCloseThisModal: boolean = false;
+  private userCloseThisModal: boolean = true;
 
   constructor(
     public navCtrl: NavController,
@@ -67,18 +66,13 @@ export class SolicitationOptionsPage {
       this.solicitation.status == Constants.SOLICITATION_IS_CANCELED) {
       this.removeAction = true;
       this.cancelAction = false;
-      this.finishAction = false;
     }
-
     if (this.solicitation.status == Constants.SOLICITATION_IS_RUNNING) {
       this.cancelAction = true;
-      this.finishAction = true;
       this.removeAction = false;
     }
-
     if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
       this.cancelAction = true;
-      this.finishAction = false;
       this.removeAction = false;
     }
   }
@@ -120,15 +114,19 @@ export class SolicitationOptionsPage {
   finishSolicitation() {
     this.solicitation.status = Constants.SOLICITATION_IS_FINISHED;
     this.loadingMessage = "Finalizando solicitação...";
-    this.toastMessage = "Serviço finalizado!";
+    this.toastMessage = "Solicitação finalizado!";
     this.updateSolicitation();
   }
 
   cancelSolicitation() {
+    if (this.asContractor &&
+      this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
+      this.solicitation.removedTo.hiredUid = this.solicitation.hiredUid;
+    }
     this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
     this.loadingMessage = "Cancelando solicitação...";
-    this.toastMessage = "Serviço cancelado!";
-    this.updateSolicitation();
+    this.toastMessage = "Solicitação cancelado!";
+    this.navCtrl.push('SolicitationObservationPage', { 'solicitation': this.solicitation });
   }
 
   removeSolicitation() {
@@ -138,7 +136,7 @@ export class SolicitationOptionsPage {
       this.solicitation.removedTo.hiredUid = this.userUid;
     }
     this.loadingMessage = "Removendo solicitação...";
-    this.toastMessage = "Serviço removido!";
+    this.toastMessage = "Solicitação removido!";
     this.updateSolicitation();
   }
 

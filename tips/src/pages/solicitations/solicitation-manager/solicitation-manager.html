@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>Detalhes da solicitação</ion-title>
-        <ion-buttons end *ngIf="(contractorPf != undefined && hiredPf != undefined) && (solicitation.status != 'SOLICITATION_IS_REMOVED')">
+        <ion-buttons end *ngIf="(contractorPf != undefined && hiredPf != undefined) && showMenuActions">
             <button ion-button icon-only (click)="openOptions($event)">
                 <ion-icon name="more"></ion-icon>
             </button>
@@ -53,8 +53,16 @@
                 <h5>Descrição do serviço: </h5>
                 <p>{{solicitation.description}}</p>
             </div>
+            <div class="serviceDescription observations" *ngIf="solicitation.observations">
+                <h5>Observações: </h5>
+                <div *ngFor="let obs of solicitation.observations">
+                    <span class="by">Por {{ obs.userName }}</span>
+                    <p>{{obs.body}}</p>
+                    <span class="when">Feito em: {{obs.date}}</span>
+                </div>
+            </div>
             <div class="cardFooter solicitationDate">
-                <p>Criado em: {{solicitationDate}}</p>
+                <p>Solicitado em: {{solicitationDate}}</p>
             </div>
         </div>
     </div>
