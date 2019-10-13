@@ -1,7 +1,6 @@
 page-new-avaliation {
     ion-title {
         margin-left: 0px !important;
-        margin-top: 3px;
     }
     ion-footer {
         .toolbar-md,
@@ -25,6 +24,11 @@ page-new-avaliation {
             font-size: 20px;
         }
     }
+    .scroll-content,
+    .fixed-content {
+        margin-top: 56px !important;
+        margin-bottom: 56px !important;
+    }
     .cardTitle {
         margin-bottom: 8px !important;
     }
@@ -40,16 +44,35 @@ page-new-avaliation {
         height: 180px;
     }
     .rating {
-        width: 100% !important;
+        width: 220px !important;
         display: block !important;
         float: none !important;
         text-align: center !important;
-        margin: 24px 0 !important;
+        margin: 24px auto !important;
+        p {
+            font-size: 16px;
+            opacity: 0.8 !important;
+            margin-top: -5px !important;
+            font-weight: bold;
+        }
+        p.notLike {
+            float: left;
+            margin-left: -15px;
+        }
+        p.like {
+            float: right;
+        }
         div {
             width: 100% !important;
         }
+        .button-ios,
+        .button-md {
+            width: 40px !important;
+            height: 40px !important;
+            margin: 2px !important;
+        }
         ion-icon {
-            font-size: 35px !important;
+            font-size: 45px !important;
         }
     }
 }

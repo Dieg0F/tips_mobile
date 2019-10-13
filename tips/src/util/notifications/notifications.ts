@@ -40,8 +40,8 @@ export class Notifications {
 
     getToken(): Promise<string> {
         console.log("Notifications | Requesting device token!");
-        return this.fcm.getToken();
-        //return new Promise((res, err) => { });
+        //return this.fcm.getToken();
+        return new Promise((res, err) => { });
     }
 
     parseNotification(data: any) {

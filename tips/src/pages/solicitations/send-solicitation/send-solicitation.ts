@@ -7,6 +7,7 @@ import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Solicitation } from '../../../model/solicitation/solicitation';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
+import { Toast } from '../../../util/toast/toast';
 
 @IonicPage()
 @Component({
@@ -15,20 +16,22 @@ import { SolicitationProvider } from '../../../providers/solicitations/solicitat
 })
 export class SendSolicitationPage {
 
-  public contractorPf: Profile
-  public hiredPf: Profile
-  public solicitationDone: boolean = false
-  public solicitation: Solicitation
+  public contractorPf: Profile;
+  public hiredPf: Profile;
+  public solicitationDone: boolean = false;
+  public solicitation: Solicitation;
 
+  public solicitationDate = "";
   public solicitationName = "";
   public solicitationDescription = "";
 
-  public enableDescription: boolean = false
+  public enableDescription: boolean = false;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
+    public toast: Toast,
     public solicitationProvider: SolicitationProvider) { }
 
   ionViewWillEnter() {
@@ -41,9 +44,10 @@ export class SendSolicitationPage {
   }
 
   makeService() {
-    this.solicitationDone = true;
-    this.enableDescription = false;
-    this.solicitationUser();
+    if (this.formValidation()) {
+      this.enableDescription = false;
+      this.solicitationUser();
+    }
   }
 
   solicitationUser() {
@@ -72,21 +76,25 @@ export class SendSolicitationPage {
       }
     }
 
-    this.saveDoubleService(solicitation);
+    this.saveSolicitation(solicitation);
   }
 
-  private saveDoubleService(solicitation: Solicitation) {
+  private saveSolicitation(solicitation: Solicitation) {
     this.loading.showLoading("Solicitando serviço...")
       .then(() => {
         this.solicitationProvider.createSolicitation(solicitation)
           .then(async () => {
-            this.solicitationDone = true;
+            this.solicitation = solicitation;
+            this.solicitationDate = new Date(this.solicitation.date).toLocaleDateString();
             this.loading.hideLoading();
+            this.solicitationDone = true;
+            this.toast.showToast("Solicitação enviada com sucesso!");
           })
           .catch((err) => {
             console.log(err);
             this.solicitationDone = false;
             this.loading.hideLoading();
+            this.toast.showToast("Erro ao solicitar serviço!");
           });
       })
       .catch(() => {
@@ -100,5 +108,14 @@ export class SendSolicitationPage {
 
   backToMyProfile() {
     this.navCtrl.setRoot("ProfilePage");
+  }
+
+  formValidation() {
+    if (!this.solicitationDescription) {
+      this.toast.showToast("Preencha a descrição desta solicitação!");
+      return false;
+    }
+
+    return true;
   }
 }

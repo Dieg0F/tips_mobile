@@ -6,7 +6,7 @@ page-send-solicitation {
     .usersPhotos {
         width: 230px;
         height: auto;
-        margin: $smallSpace auto;
+        margin: $smallSpace auto $largeSpace;
         .userProfilePhoto {
             margin: $mediumSpace;
         }
@@ -56,14 +56,11 @@ page-send-solicitation {
         .cardTitle {
             font-size: 23px;
         }
-        .cardTitle,
         .cardBody p {
-            opacity: 0.5;
-            text-align: center !important;
-            font-size: 18px;
+            font-size: 16px;
         }
         .cardBody {
-            padding: $smallSpace $mediumSpace;
+            padding: $smallSpace 0;
             .button-md,
             .button-ios {
                 margin: 0 auto !important;
@@ -96,7 +93,7 @@ page-send-solicitation {
                 margin: 0px !important;
             }
             ion-textarea {
-                height: 500px !important;
+                height: 200px !important;
             }
         }
     }
@@ -129,14 +126,80 @@ page-send-solicitation {
     .fullBackButton {
         .button-md,
         .button-ios {
-            margin: 0 auto !important;
             display: inline-block;
             color: $lightTextColor;
-            margin-top: $largeSpace !important;
+            margin: $smallSpace 0 $mediumSpace !important;
             width: 100%;
             background-color: transparent !important;
             box-shadow: none !important;
             border: none !important;
         }
+    }
+    .serviceDescription {
+        margin: 0 0 $largeSpace;
+        .item-md,
+        .item-ios,
+        .label-md,
+        .label-ios {
+            padding: 0px !important;
+            margin: 0px !important;
+            .item-inner {
+                border: none !important;
+            }
+        }
+        .item-md .toggle-ios,
+        .item-md .toggle-md {
+            padding: 12px 0px !important;
+        }
+        h5 {
+            color: $darkTextColor !important;
+            font-size: 18px;
+            margin: 0px 0px !important;
+            opacity: 0.9;
+            text-align: left;
+            font-weight: 500 !important;
+        }
+        p {
+            color: $darkTextColor;
+            font-size: 17px;
+            line-height: cardBodyLineHeight;
+            opacity: 0.5;
+            margin: 0px;
+            text-align: left;
+            margin-top: $smallSpace;
+        }
+    }
+    .contact-field {
+        padding: $smallSpace 0px;
+        div {
+            width: 23px !important;
+            display: inline-block;
+        }
+        ion-icon {
+            font-size: 22px !important;
+            opacity: 0.6 !important;
+            padding-right: $smallSpace;
+            display: inline;
+            fill: $darkTextColor;
+            fill-opacity: 0.6;
+        }
+        span {
+            color: $darkTextColor;
+            font-size: 17px;
+            opacity: 0.5;
+            margin-top: -8px !important;
+            text-align: left;
+            line-height: 25px !important;
+        }
+    }
+    .solicitationDate {
+        text-align: right;
+        font-style: italic;
+        font-size: 12px;
+        opacity: 0.5;
+        margin-top: $largeSpace !important;
+    }
+    .service.newSolicitation {
+        border-bottom: 10px solid #81C784;
     }
 }

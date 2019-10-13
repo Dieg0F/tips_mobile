@@ -4,9 +4,9 @@ page-solicitation-manager {
         margin-top: 3px;
     }
     .usersPhotos {
-        width: 264px;
+        width: 230px;
         height: auto;
-        margin: $smallSpace auto;
+        margin: $smallSpace auto $largeSpace;
         .userProfilePhoto {
             margin: $mediumSpace;
         }
@@ -23,22 +23,24 @@ page-solicitation-manager {
             background-size: cover;
             background-position: center;
             border: 2px solid #fff;
+            margin: 0px !important;
             img {
                 width: 96px;
                 height: 96px;
                 border-radius: 100% !important;
             }
         }
+        .hiredProfilePhoto {
+            margin-left: 30px !important;
+        }
         .syncIcon {
             width: 45px;
             height: 45px;
-            position: absolute;
-            top: 66px;
-            right: 158px;
+            float: left;
+            margin: 30px 0 0 -138px;
             background-color: $primaryColor;
             border-radius: 100%;
             text-align: center !important;
-            z-index: 3 !important;
             -webkit-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
             -moz-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
             box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);

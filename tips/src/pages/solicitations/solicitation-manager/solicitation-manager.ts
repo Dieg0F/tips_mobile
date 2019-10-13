@@ -137,10 +137,15 @@ export class SolicitationManagerPage {
       this.btnActionText = "Aprovar Solicitação";
       this.btnActionFunction = this.acceptSolicitationAction;
       this.showSolicitationActions = true;
-    } else {
-      this.btnActionText = "";
-      this.btnActionFunction = null;
-      this.showSolicitationActions = false;
+    } else if (this.solicitation.status == Constants.SOLICITATION_IS_RUNNING) {
+      this.btnActionText = "Finalizar solicitação";
+      this.btnActionFunction = this.finishSolicitationAction;
+      this.showSolicitationActions = true;
+    } else if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED ||
+      this.solicitation.status == Constants.SOLICITATION_IS_CANCELED) {
+      this.btnActionText = "Remover Solicitação";
+      this.btnActionFunction = this.removeSolicitationAction.bind(this);
+      this.showSolicitationActions = true;
     }
   }
 
@@ -207,7 +212,7 @@ export class SolicitationManagerPage {
     )
   }
 
-  finishContratcAction() {
+  finishSolicitationAction() {
     this.alert.confirmAlert(
       "Finalizar solicitação!",
       "Deseja finalizar esta solicitação?",
@@ -222,6 +227,23 @@ export class SolicitationManagerPage {
       "Sim"
     )
   }
+
+  removeSolicitationAction() {
+    this.alert.confirmAlert(
+      "Remover solicitação!",
+      "Deseja aceitar esta solicitação?",
+      () => {
+        this.solicitation.removedTo.hiredUid = this.userUid;
+        this.loadingMessage = "Removendo solicitação...";
+        this.toastMessage = "Solicitação removida!";
+        this.updateSolicitation();
+      },
+      () => { },
+      "Não",
+      "Sim"
+    )
+  }
+
 
   acceptSolicitationAction() {
     this.alert.confirmAlert(

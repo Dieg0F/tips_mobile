@@ -133,11 +133,12 @@ export class SolicitationDetailsPage {
 
   buildSolicitationStatusMessage() {
     if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
-      this.btnActionText = "Cancelar";
+      this.btnActionText = "Cancelar Solicitação";
       this.btnActionFunction = this.cancelSolicitationAction.bind(this);
       this.showSolicitationActions = true;
-    } else if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED || status == Constants.SOLICITATION_IS_CANCELED) {
-      this.btnActionText = "Remover";
+    } else if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED ||
+      this.solicitation.status == Constants.SOLICITATION_IS_CANCELED) {
+      this.btnActionText = "Remover Solicitação";
       this.btnActionFunction = this.removeSolicitationAction.bind(this);
       this.showSolicitationActions = true;
     }
