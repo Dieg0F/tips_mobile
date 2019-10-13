@@ -28,6 +28,20 @@ export class ProfileDetailsPage {
     this.profile = this.navParams.get('profile');
   }
 
+  setAvatarImage() {
+    var profilePhoto = "";
+    if (this.profile.profilePhotoUrl) {
+      profilePhoto = this.profile.profilePhotoUrl;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   starsRate(value: number): Array<String> {
     return this.starsRateHelper.starsRate(value)
   }

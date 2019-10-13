@@ -40,6 +40,20 @@ export class MyAccountPage {
     this.getSectors();
   }
 
+  setAvatarImage() {
+    var profilePhoto = "";
+    if (this.profile.profilePhotoUrl) {
+      profilePhoto = this.profile.profilePhotoUrl;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   getSectors() {
     this.loading.showLoading("Carregando...")
     this.sectors = new Array<Sector>();

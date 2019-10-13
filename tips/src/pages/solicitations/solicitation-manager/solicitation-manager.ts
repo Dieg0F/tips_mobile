@@ -60,6 +60,20 @@ export class SolicitationManagerPage {
     this.setMenuVisibility()
   }
 
+  setAvatarImage(imagePath: string) {
+    var profilePhoto = "";
+    if (imagePath) {
+      profilePhoto = imagePath;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   private setMenuVisibility() {
     if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN ||
       this.solicitation.status == Constants.SOLICITATION_IS_RUNNING) {

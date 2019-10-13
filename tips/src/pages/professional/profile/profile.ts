@@ -48,6 +48,21 @@ export class ProfilePage {
     console.log("Profiles: ", this.profile, AppConfig.USER_PROFILE);
   }
 
+
+  setAvatarImage() {
+    var profilePhoto = "";
+    if (this.profile.profilePhotoUrl) {
+      profilePhoto = this.profile.profilePhotoUrl;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   starsRate(value: number): Array<String> {
     var starsRateHelper = new StarRateHelper;
     return starsRateHelper.starsRate(value);

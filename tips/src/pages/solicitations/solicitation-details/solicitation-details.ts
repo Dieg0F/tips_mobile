@@ -57,6 +57,20 @@ export class SolicitationDetailsPage {
     })
   }
 
+  setAvatarImage(imagePath: string) {
+    var profilePhoto = "";
+    if (imagePath) {
+      profilePhoto = imagePath;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   private updateSolicitationByEvent(res: any) {
     this.solicitation = res.data();
     this.buildSolicitationStatusMessage();

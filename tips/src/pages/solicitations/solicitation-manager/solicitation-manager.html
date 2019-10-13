@@ -11,12 +11,8 @@
 <ion-content padding [ngClass]="showSolicitationActions ? 'fixContentScroll' : 'normalContentScroll' ">
     <div class="serviceDetail" *ngIf="contractorPf != undefined && hiredPf != undefined">
         <div class="usersPhotos">
-            <div class="userProfilePhoto" [ngStyle]="{'background-image': 'url(' + contractorPf.profilePhotoUrl + ')'}">
-                <img *ngIf="!contractorPf.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
-            </div>
-            <div class="hiredProfilePhoto" [ngStyle]="{ 'background-image': 'url(' + hiredPf.profilePhotoUrl + ')'}">
-                <img *ngIf="!hiredPf.profilePhotoUrl" src="../../../assets/imgs/149071.png" />
-            </div>
+            <div class="userProfilePhoto" [ngStyle]="setAvatarImage(contractorPf.profilePhotoUrl)"></div>
+            <div class="hiredProfilePhoto" [ngStyle]="setAvatarImage(hiredPf.profilePhotoUrl)"></div>
             <div class="syncIcon">
                 <ion-icon name="sync"></ion-icon>
             </div>

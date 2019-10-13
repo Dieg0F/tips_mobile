@@ -47,6 +47,20 @@ export class AvaliationDetailsPage {
     this.events.unsubscribe("CHANGE_AVALIATION");
   }
 
+  setAvatarImage() {
+    var profilePhoto = "";
+    if (this.avaliationOwner.profilePhotoUrl) {
+      profilePhoto = this.avaliationOwner.profilePhotoUrl;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   async getAvaliation() {
     this.avaliation = this.navParams.get(Constants.AVALIATION_DETAILS);
     this.avaliationOwner = this.navParams.get(Constants.AVALIATION_DETAILS_OWNER);

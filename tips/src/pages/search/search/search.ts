@@ -227,6 +227,21 @@ export class SearchPage {
     this.requestProfiles()
   }
 
+
+  setAvatarImage(imagePath: string) {
+    var profilePhoto = "";
+    if (imagePath) {
+      profilePhoto = imagePath;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   starsRate(value: number): Array<String> {
     return this.starsRateHelper.starsRate(value)
   }

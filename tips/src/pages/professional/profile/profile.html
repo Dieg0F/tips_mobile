@@ -23,9 +23,7 @@
 <ion-content padding #pageContent>
     <div *ngIf="this.profile != undefined || this.profile != null">
         <div>
-            <div class="profilePhoto" [ngStyle]="{'background-image': 'url(' + profile.profilePhotoUrl + ')'}">
-                <img *ngIf="profile.profilePhotoUrl == ''" src="../../../assets/imgs/149071.png" />
-            </div>
+            <div class="profilePhoto" [ngStyle]="setAvatarImage()"></div>
             <div class="mainTitle">
                 <h1><span>{{ greetingMesage }}</span>{{profile.name.firstName}} {{profile.name.lastName}}</h1>
             </div>

@@ -43,6 +43,20 @@ export class SendSolicitationPage {
     this.hiredPf = this.navParams.get(Constants.SOLICITATION_PROFILE)
   }
 
+  setAvatarImage(imagePath: string) {
+    var profilePhoto = "";
+    if (imagePath) {
+      profilePhoto = imagePath;
+    } else {
+      profilePhoto = "../../../assets/imgs/149071.png";
+    }
+    return {
+      'background-image': 'url(' + profilePhoto + ')',
+      'background-size': 'cover',
+      'background-position': 'center'
+    };
+  }
+
   makeService() {
     if (this.formValidation()) {
       this.enableDescription = false;
