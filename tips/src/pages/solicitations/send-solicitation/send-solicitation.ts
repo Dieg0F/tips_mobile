@@ -98,22 +98,30 @@ export class SendSolicitationPage {
       .then(() => {
         this.solicitationProvider.createSolicitation(solicitation)
           .then(async () => {
-            this.solicitation = solicitation;
-            this.solicitationDate = new Date(this.solicitation.date).toLocaleDateString();
-            this.loading.hideLoading();
-            this.solicitationDone = true;
-            this.toast.showToast("Solicitação enviada com sucesso!");
+            this.onSuccess(solicitation);
           })
           .catch((err) => {
             console.log(err);
-            this.solicitationDone = false;
-            this.loading.hideLoading();
-            this.toast.showToast("Erro ao solicitar serviço!");
+            this.onError();
           });
       })
       .catch(() => {
         console.log("Error: NewServicePage, Loading")
       })
+  }
+
+  private onError() {
+    this.solicitationDone = false;
+    this.loading.hideLoading();
+    this.toast.showToast("Erro ao solicitar serviço!");
+  }
+
+  private onSuccess(solicitation: Solicitation) {
+    this.solicitation = solicitation;
+    this.solicitationDate = new Date(this.solicitation.date).toLocaleDateString();
+    this.loading.hideLoading();
+    this.solicitationDone = true;
+    this.toast.showToast("Solicitação enviada com sucesso!");
   }
 
   setServiceDescription() {
