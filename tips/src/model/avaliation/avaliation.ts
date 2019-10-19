@@ -3,7 +3,7 @@ export interface Avaliation {
     uId: string;
     evaluatorUid: string;
     ratedUid: string;
-    serviceUid: string;
+    solicitationId: string;
     name: string;
     profileNames: {
         evaluatorName: string;

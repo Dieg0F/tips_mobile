@@ -1,5 +1,5 @@
 // tslint:disable-next-line:interface-name
-export interface Sector {
+export interface Job {
     uId: string;
     sectorName: string;
     areaUid: string;

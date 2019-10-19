@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
-import { Sector } from '../../../model/sector/sector';
+import { Job } from '../../../model/job/job';
 import { AppConfig } from '../../../model/static/static';
 import { DataProvider } from '../../../providers/data/data';
 import { ProfileProvider } from '../../../providers/profile/profile';
-import { SectorProvider } from '../../../providers/sector/sector';
+import { JobProvider } from '../../../providers/job/job';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { CameraProvider } from '../../../util/camera/camera';
@@ -19,7 +19,7 @@ import { Toast } from '../../../util/toast/toast';
 export class MyAccountPage {
 
   public profile = { ...AppConfig.USER_PROFILE };
-  public sectors: Sector[] = [];
+  public jobs: Job[] = [];
   public stateId: number;
 
   constructor(
@@ -30,7 +30,7 @@ export class MyAccountPage {
     public storageProvider: StorageProvider,
     public loading: Loading,
     public dataProvider: DataProvider,
-    public sectorsProvider: SectorProvider,
+    public jobProvider: JobProvider,
     public toast: Toast,
     public events: Events,
     public camera: CameraProvider) {
@@ -64,11 +64,11 @@ export class MyAccountPage {
    */
   public getJobs() {
     this.loading.showLoading('Carregando...');
-    this.sectors = new Array<Sector>();
-    this.sectorsProvider.getSectors()
+    this.jobs = new Array<Job>();
+    this.jobProvider.getJobs()
       .then((res) => {
         res.subscribe((values) => {
-          this.sectors = values;
+          this.jobs = values;
           this.loading.hideLoading();
         });
       })
@@ -149,7 +149,7 @@ export class MyAccountPage {
    */
   public selectJob() {
     this.onJobSelected();
-    this.navCtrl.push('JobSearchPage', { jobList: this.sectors });
+    this.navCtrl.push('JobSearchPage', { jobList: this.jobs });
   }
 
   /**

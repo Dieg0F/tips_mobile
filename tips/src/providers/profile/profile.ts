@@ -60,7 +60,7 @@ export class ProfileProvider {
             if (filter.profileName !== '') { query = query.where('nome', '==', filter.profileName); }
             if (filter.profileState !== '') { query = query.where('estado', '==', filter.profileState); }
             if (filter.profileCity !== '') { query = query.where('cidade', '==', filter.profileCity); }
-            if (filter.profileSector !== '') { query = query.where('setor', '==', filter.profileSector); }
+            if (filter.profileJob !== '') { query = query.where('setor', '==', filter.profileJob); }
             if (filter.profileRate !== 0) {
                 query = query.where('userRate', '==', filter.profileRate);
             } else { query = query.orderBy('userRate', 'desc'); }

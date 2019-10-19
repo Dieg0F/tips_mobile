@@ -21,9 +21,9 @@ import { AppConfigProvider } from '../providers/app-config/app-config';
 import { AuthProvider } from '../providers/auth/auth';
 import { AvaliationProvider } from '../providers/avaliation/avaliation';
 import { DataProvider } from '../providers/data/data';
+import { JobProvider } from '../providers/job/job';
 import { Locations } from '../providers/locations/locations';
 import { ProfileProvider } from '../providers/profile/profile';
-import { SectorProvider } from '../providers/sector/sector';
 import { SolicitationProvider } from '../providers/solicitations/solicitations';
 import { StorageProvider } from '../providers/storage/storage';
 import { UserProvider } from '../providers/user/user';
@@ -81,7 +81,7 @@ const config = {
     StorageProvider,
     CameraProvider,
     SolicitationProvider,
-    SectorProvider,
+    JobProvider,
     DataProvider,
     HttpService,
     FileChooser,

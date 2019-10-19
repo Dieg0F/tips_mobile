@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { Sector } from '../../../model/sector/sector';
-import { SectorProvider } from '../../../providers/sector/sector';
+import { Job } from '../../../model/job/job';
+import { JobProvider } from '../../../providers/job/job';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
 
@@ -13,8 +13,8 @@ import { Toast } from '../../../util/toast/toast';
 export class JobSearchPage {
 
   public searchQuery: string = '';
-  public sectors: Sector[] = [];
-  public sectorsFiltered: Sector[] = [];
+  public sectors: Job[] = [];
+  public sectorsFiltered: Job[] = [];
   public sectorSelected: string;
 
   constructor(
@@ -22,7 +22,7 @@ export class JobSearchPage {
     public viewCtrl: ViewController,
     public toast: Toast,
     public loading: Loading,
-    public sectorsProvider: SectorProvider,
+    public jobProvider: JobProvider,
     public navParams: NavParams,
     public events: Events) {
     this.getJobs();

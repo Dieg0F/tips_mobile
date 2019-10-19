@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 import { Profile } from '../../../model/profile/profile';
-import { Sector } from '../../../model/sector/sector';
+import { Job } from '../../../model/job/job';
 import { AppConfig } from '../../../model/static/static';
 import { Locations } from '../../../providers/locations/locations';
 import { ProfileProvider } from '../../../providers/profile/profile';
-import { SectorProvider } from '../../../providers/sector/sector';
+import { JobProvider } from '../../../providers/job/job';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
@@ -33,7 +33,7 @@ export class SearchPage {
   public filterOptions: FilterOptions;
   public searchMode: string = Constants.SEARCH_BASIC;
   public starsRateHelper: StarRateHelper;
-  public sectors: Sector[] = [];
+  public sectors: Job[] = [];
   public profiles: Profile[] = [];
 
   constructor(
@@ -42,7 +42,7 @@ export class SearchPage {
     public locations: Locations,
     public toast: Toast,
     public loading: Loading,
-    public sectorsProvider: SectorProvider,
+    public jobProvider: JobProvider,
     public events: Events,
     public profileProvider: ProfileProvider) {
     this.starsRateHelper = new StarRateHelper();
@@ -63,8 +63,8 @@ export class SearchPage {
    * @description request all jobs from database.
    */
   public getJobs() {
-    this.sectors = new Array<Sector>();
-    this.sectorsProvider.getSectors()
+    this.sectors = new Array<Job>();
+    this.jobProvider.getJobs()
       .then((res) => {
         res.subscribe((values) => {
           this.sectors = values;
@@ -324,10 +324,10 @@ export class SearchPage {
   private onJobSelected() {
     this.events.subscribe('jobSelected', async (job: string) => {
       if (job !== undefined) {
-        this.filterOptions.profileSector = job;
+        this.filterOptions.profileJob = job;
         this.jobSelected = job;
       } else {
-        this.filterOptions.profileSector = undefined;
+        this.filterOptions.profileJob = undefined;
         this.jobSelected = Constants.DEFAULT_VALUE_FOR_JOB_SEARCH;
       }
       this.events.unsubscribe('jobSelected');

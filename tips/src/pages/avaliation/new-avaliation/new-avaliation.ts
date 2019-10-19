@@ -119,7 +119,7 @@ export class NewAvaliationPage {
       uId: this.createAvaliationUid(),
       evaluatorUid: this.userUid,
       ratedUid: (this.asContractor) ? this.hiredProfile.uid : this.contractorProfile.uid,
-      serviceUid: this.solicitation.solicitationId,
+      solicitationId: this.solicitation.solicitationId,
       name: '',
       profileNames: {
         evaluatorName: this.contractorProfile.name.firstName + ' ' + this.contractorProfile.name.lastName,

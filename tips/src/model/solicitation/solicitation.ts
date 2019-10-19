@@ -2,6 +2,7 @@
  * Interface para Serviços, com o Id do perfil contratado (hiredUid) e do contratante (hiresUid).
  * Pode ocorrer mudanças.
  */
+// tslint:disable-next-line:interface-name
 export interface Solicitation {
     uId: string;
     solicitationId: string;
@@ -27,6 +28,7 @@ export interface Solicitation {
     };
 }
 
+// tslint:disable-next-line:interface-name
 export interface SolicitationObservation {
     userUid: string;
     userName: string;
