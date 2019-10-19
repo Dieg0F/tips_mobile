@@ -23,6 +23,7 @@ export class SolicitationManagerPage {
   public hiredPf: Profile;
   public userUid = AppConfig.USER_PROFILE.uid;
   public btnActionText = '';
+  // tslint:disable-next-line:ban-types
   public btnActionFunction: Function;
   public solicitationStatusClass: string = '';
   public solicitationStatus: string = '';
@@ -184,6 +185,7 @@ export class SolicitationManagerPage {
         this.toastMessage = 'Serviço finalizado!';
         this.updateSolicitation();
       },
+      // tslint:disable-next-line:no-empty
       () => { },
       'Não',
       'Sim',
@@ -203,6 +205,7 @@ export class SolicitationManagerPage {
         this.toastMessage = 'Solicitação removida!';
         this.updateSolicitation();
       },
+      // tslint:disable-next-line:no-empty
       () => { },
       'Não',
       'Sim',
@@ -222,6 +225,7 @@ export class SolicitationManagerPage {
         this.toastMessage = 'Serviço aceito!';
         this.updateSolicitation();
       },
+      // tslint:disable-next-line:no-empty
       () => { },
       'Não',
       'Sim',

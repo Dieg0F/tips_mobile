@@ -91,6 +91,7 @@ export class SolicitationOptionsPage {
           'Cancelar solicitação',
           'Tem certeza que deseja cancelar esta solicitação?',
           this.cancelSolicitation.bind(this),
+          // tslint:disable-next-line:no-empty
           () => { });
       });
   }
@@ -105,6 +106,7 @@ export class SolicitationOptionsPage {
           'Remover solicitação',
           'Tem certeza que deseja remover esta solicitação?',
           this.removeSolicitation.bind(this),
+          // tslint:disable-next-line:no-empty
           () => { });
       });
   }
@@ -119,6 +121,7 @@ export class SolicitationOptionsPage {
           'Finalizar solicitação',
           'Tem certeza que deseja finalizar esta solicitação?',
           this.finishSolicitation.bind(this),
+          // tslint:disable-next-line:no-empty
           () => { });
       });
   }
@@ -187,7 +190,9 @@ export class SolicitationOptionsPage {
       this.toast.showToast(this.toastMessage);
       this.events.publish('USER_CHANGE_SOLICITATION', this.solicitation);
     } catch (error) {
+      // tslint:disable-next-line:no-console
       console.log('Error: SolicitationOptionsPage, Loading Hide');
+      // tslint:disable-next-line:no-console
       console.log('Error: ', error);
     }
   }

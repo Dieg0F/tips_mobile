@@ -4,7 +4,6 @@ import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
 import { Profile } from '../../../model/profile/profile';
 import { Sector } from '../../../model/sector/sector';
 import { AppConfig } from '../../../model/static/static';
-import { AreaProvider } from '../../../providers/area/area';
 import { Locations } from '../../../providers/locations/locations';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { SectorProvider } from '../../../providers/sector/sector';
@@ -43,7 +42,6 @@ export class SearchPage {
     public locations: Locations,
     public toast: Toast,
     public loading: Loading,
-    public areaProvider: AreaProvider,
     public sectorsProvider: SectorProvider,
     public events: Events,
     public profileProvider: ProfileProvider) {

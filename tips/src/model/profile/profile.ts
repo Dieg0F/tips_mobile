@@ -2,6 +2,7 @@
  * Classe para perfis, o memso obj será usado para empresas e autonomos, pois assim fica tudo em uma tabela só
  * Podendo ocorrer alterações!!!!
  */
+// tslint:disable-next-line:interface-name
 export interface Profile {
     uid: string;
     name: {

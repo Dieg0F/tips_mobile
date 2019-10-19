@@ -124,16 +124,21 @@ export class ProfileProvider {
      * @description update profile on memory and storage task.
      */
     public updateProfile() {
+        // tslint:disable-next-line:no-console
         console.log('ProfileProvider | Update Profile task created!');
         setInterval(() => {
+            // tslint:disable-next-line:no-console
             console.log('ProfileProvider | Update Profile task started!');
             this.getProfile(AppConfig.USER_PROFILE.uid)
                 .then((res: any) => {
                     return this.saveProfileOnStorage(res.data()).then(() => {
+                        // tslint:disable-next-line:no-console
                         console.log('ProfileProvider | Profile Updated!');
                     });
                 }).catch((error) => {
+                    // tslint:disable-next-line:no-console
                     console.log('ProfileProvider | Update Profile task error!');
+                    // tslint:disable-next-line:no-console
                     console.log('ProfileProvider | Error: ', error);
                 });
         }, 10000 * 30);

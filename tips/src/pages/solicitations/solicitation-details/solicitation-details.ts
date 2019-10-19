@@ -23,6 +23,7 @@ export class SolicitationDetailsPage {
   public hiredPf: Profile;
   public userUid = AppConfig.USER_PROFILE.uid;
   public btnActionText = '';
+  // tslint:disable-next-line:ban-types
   public btnActionFunction: Function;
   public solicitationStatusClass: string = '';
   public solicitationStatus: string = '';

@@ -1,3 +1,4 @@
+// tslint:disable-next-line:interface-name
 export interface Avaliation {
     uId: string;
     evaluatorUid: string;

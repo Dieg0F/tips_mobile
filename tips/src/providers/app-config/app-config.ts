@@ -36,6 +36,7 @@ export class AppConfigProvider {
         AppConfig.USER_PROFILE = JSON.parse(userProfile);
       })
       .catch((error) => {
+        // tslint:disable-next-line:no-console
         console.log('Error: ', error);
       });
   }

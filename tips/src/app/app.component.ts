@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { AppConfig } from '../model/static/static';

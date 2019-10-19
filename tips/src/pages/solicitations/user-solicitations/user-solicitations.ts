@@ -241,6 +241,7 @@ export class UserSolicitationsPage {
         this.toast.showToast('Erro ao buscar serviços!');
       })
       .catch(() => {
+        // tslint:disable-next-line:no-console
         console.log('Error loading solicitations');
       });
   }
