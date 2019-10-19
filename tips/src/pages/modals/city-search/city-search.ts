@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, Events } from 'ionic-angular';
+import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Locations } from '../../../providers/locations/locations';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
-import { Locations } from '../../../providers/locations/locations';
 
 @IonicPage()
 @Component({
@@ -12,8 +12,8 @@ import { Locations } from '../../../providers/locations/locations';
 export class CitySearchPage {
 
   public searchQuery: string = '';
-  public cities: Array<any> = [];
-  public citiesFiltered: Array<any> = [];
+  public cities: any[] = [];
+  public citiesFiltered: any[] = [];
   public citySelected: string;
 
   constructor(
@@ -27,41 +27,51 @@ export class CitySearchPage {
     this.getCities();
   }
 
-  getCities() {
-    var stateId = this.navParams.get("stateId");
-    this.loading.showLoading("Buscando cidades...");
+  /**
+   * @description request all cities based on user state selected.
+   */
+  public getCities() {
+    const stateId = this.navParams.get('stateId');
+    this.loading.showLoading('Buscando cidades...');
     this.locations.getCityes(stateId)
       .then((res) => {
-        this.cities = res
-        this.citiesFiltered = res
-        this.loading.hideLoading()
+        this.cities = res;
+        this.citiesFiltered = res;
+        this.loading.hideLoading();
       })
       .catch(() => {
-        this.loading.hideLoading()
-        this.toast.showToast("Cidade não encontrada! ");
-      })
+        this.loading.hideLoading();
+        this.toast.showToast('Cidade não encontrada! ');
+      });
   }
 
-  getItems(ev: any) {
-    // Reset items back to all of the items    
+  /**
+   * @description filter all cities by user typed on search field.
+   * @param ev event from select filter.
+   */
+  public getItems(ev: any) {
     this.citiesFiltered = this.cities;
-    // set val to the value of the searchbar
     const val = ev.target.value;
 
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
+    if (val && val.trim() !== '') {
       this.citiesFiltered = this.citiesFiltered.filter((city) => {
         return (city.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+      });
     }
   }
 
-  finish() {
+  /**
+   * @description close this modal and emit selected city event.
+   */
+  public finish() {
     this.events.publish('citySelected', this.citySelected);
     this.viewCtrl.dismiss();
   }
 
-  cancel() {
+  /**
+   * @description close this modal and emit empty city event.
+   */
+  public cancel() {
     this.events.publish('citySelected', undefined);
     this.viewCtrl.dismiss();
   }

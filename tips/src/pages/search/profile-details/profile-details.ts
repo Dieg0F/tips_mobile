@@ -10,55 +10,81 @@ import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 })
 export class ProfileDetailsPage {
 
-  public profile: Profile
-  private starsRateHelper: StarRateHelper
+  public profile: Profile;
+  private starsRateHelper: StarRateHelper;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams) {
-    this.starsRateHelper = new StarRateHelper
-    this.getProfile()
-  }
-
-  ionViewWillEnter() {
+    this.starsRateHelper = new StarRateHelper();
     this.getProfile();
   }
 
-  getProfile() {
+  /**
+   * @description on page will enter.
+   */
+  public ionViewWillEnter() {
+    this.getProfile();
+  }
+
+  /**
+   * @description recover profile received as params.
+   */
+  public getProfile() {
     this.profile = this.navParams.get('profile');
   }
 
-  setAvatarImage() {
-    var profilePhoto = "";
+  /**
+   * @description Build user avatar image.
+   */
+  public setAvatarImage() {
+    let profilePhoto = '';
     if (this.profile.profilePhotoUrl) {
       profilePhoto = this.profile.profilePhotoUrl;
     } else {
-      profilePhoto = "../../../assets/imgs/149071.png";
+      profilePhoto = '../../../assets/imgs/149071.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',
+      'background-position': 'center',
       'background-size': 'cover',
-      'background-position': 'center'
     };
   }
 
-  starsRate(value: number): Array<String> {
-    return this.starsRateHelper.starsRate(value)
+  /**
+   * @description Build a array of string with all stars rate icons.
+   * @param value User rate value.
+   */
+  public starsRate(value: number): string[] {
+    return this.starsRateHelper.starsRate(value);
   }
 
-  starsRateColor(value: number): String {
-    return this.starsRateHelper.starsRateColor(value)
+  /**
+   * @description Build a string with a specific color by user rate.
+   * @param value User rate value.
+   */
+  public starsRateColor(value: number): string {
+    return this.starsRateHelper.starsRateColor(value);
   }
 
-  rating() {
-    this.navCtrl.push("UserAvaliationsPage", { 'ownerAvaliationsUid': this.profile.uid, 'asVisitor': true });
+  /**
+   * @description redirect user to send a professional avaliations page.
+   */
+  public rating() {
+    this.navCtrl.push('UserAvaliationsPage', { ownerAvaliationsUid: this.profile.uid, asVisitor: true });
   }
 
-  makeService() {
-    this.navCtrl.push("SendSolicitationPage", { 'profileToSolicitation': this.profile });
+  /**
+   * @description redirect user to send a service solicitaion for this user.
+   */
+  public makeService() {
+    this.navCtrl.push('SendSolicitationPage', { profileToSolicitation: this.profile });
   }
 
-  contact() {
-    this.navCtrl.push("ContactPage", { 'userProfile': this.profile });
+  /**
+   * @description redirect user to profile contact page.
+   */
+  public contact() {
+    this.navCtrl.push('ContactPage', { userProfile: this.profile });
   }
 }

@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+import { AppConfig } from '../../model/static/static';
 import { AuthProvider } from '../../providers/auth/auth';
 import { StorageProvider } from '../../providers/storage/storage';
 import { Alert } from '../../util/alert/alert';
-import { Toast } from '../../util/toast/toast';
 import { Loading } from '../../util/loading/loading';
-import { AppConfig } from '../../model/static/static';
+import { Toast } from '../../util/toast/toast';
 
 @Component({
   selector: 'profile-menu',
-  templateUrl: 'profile-menu.html'
+  templateUrl: 'profile-menu.html',
 })
 export class ProfileMenuComponent {
 
-  public profile = { ...AppConfig.USER_PROFILE }
+  public profile = { ...AppConfig.USER_PROFILE };
 
   constructor(
     public afAuth: AuthProvider,
@@ -24,42 +24,40 @@ export class ProfileMenuComponent {
     public toast: Toast,
     public storage: StorageProvider) { }
 
-  editProfile(): void {
-    this.navCtrl.push("MyAccountPage")
+  public editProfile(): void {
+    this.navCtrl.push('MyAccountPage');
   }
 
-  logout(): void {
-    this.loading.showLoading('Desconectando sua conta...')
+  public logout(): void {
+    this.loading.showLoading('Desconectando sua conta...');
     this.afAuth.logout()
       .then(async (result) => {
         return this.storage.clearAll()
           .then(() => {
-            this.goToLoginPage()
-          })
+            this.goToLoginPage();
+          });
       })
       .catch((error) => {
-        console.log('Error: ', error);
         this.loading.hideLoading();
-        this.alert.simpleAlert('Opps!', 'Houve um erro ao desconectar a sua conta!')
-      })
+        this.alert.simpleAlert('Opps!', 'Houve um erro ao desconectar a sua conta!');
+      });
+  }
+
+  public rating() {
+    this.navCtrl.push('UserAvaliationsPage');
+  }
+
+  public services() {
+    this.navCtrl.push('UserSolicitationsPage');
+  }
+
+  public configs() {
+    this.navCtrl.push('AppConfigPage');
   }
 
   private goToLoginPage() {
     this.navCtrl.setRoot('LoginPage');
-    this.navCtrl.goToRoot;
     this.loading.hideLoading();
     this.toast.showToast('Desconectado com sucesso!');
-  }
-
-  rating() {
-    this.navCtrl.push("UserAvaliationsPage");
-  }
-
-  services() {
-    this.navCtrl.push("UserSolicitationsPage");
-  }
-
-  configs() {
-    this.navCtrl.push("AppConfigPage");
   }
 }

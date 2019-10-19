@@ -1,11 +1,26 @@
 {
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
   "rules": {
-    "no-duplicate-variable": true,
-    "no-unused-variable": [
-      true
+    "variable-name": [
+      true,
+      "allow-snake-case",
+      true,
+      "allow-pascal-case"
+    ],
+    "max-classes-per-file": 3,
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "max-line-length": [
+      true,
+      140
     ]
   },
-  "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules"
-  ]
+  "rulesDirectory": []
 }

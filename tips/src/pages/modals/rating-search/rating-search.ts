@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, Events, ViewController } from 'ionic-angular';
+import { Events, IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 
 @IonicPage()
@@ -16,27 +16,37 @@ export class RatingSearchPage {
     public viewCtrl: ViewController,
     public navParams: NavParams,
     public events: Events) {
-    this.starsRateHelper = new StarRateHelper;
+    this.starsRateHelper = new StarRateHelper();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RatingSearchPage');
+  /**
+   * @description Build a array of string with all stars rate icons.
+   * @param value User rate value.
+   */
+  public starsRate(value: number): string[] {
+    return this.starsRateHelper.starsRate(value);
   }
 
-  starsRate(value: number): Array<String> {
-    return this.starsRateHelper.starsRate(value)
+  /**
+   * @description Build a string with a specific color by user rate.
+   * @param value User rate value.
+   */
+  public starsRateColor(value: number): string {
+    return this.starsRateHelper.starsRateColor(value);
   }
 
-  starsRateColor(value: number): String {
-    return this.starsRateHelper.starsRateColor(value)
-  }
-
-  finish() {
+  /**
+   * @description close this modal and emit selected rated event.
+   */
+  public finish() {
     this.events.publish('rateSelected', this.rateSelected);
     this.viewCtrl.dismiss();
   }
 
-  cancel() {
+  /**
+   * @description close this modal and emit empty rated event.
+   */
+  public cancel() {
     this.events.publish('rateSelected', undefined);
     this.viewCtrl.dismiss();
   }

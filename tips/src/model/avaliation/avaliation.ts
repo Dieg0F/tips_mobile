@@ -7,10 +7,8 @@ export interface Avaliation {
     profileNames: {
         evaluatorName: string;
         ratedName: string;
-    }
+    };
     body: string;
     rate: number;
     date: number;
 }
-
-

@@ -22,7 +22,6 @@ export class Notifications {
         console.log("Notifications | Starting notification observable!");
         this.fcm.onNotification()
             .subscribe(data => {
-                console.log("Data: ", data);
                 this.parseNotification(data);
                 if (data.wasTapped) {
                     console.log("Received in background");

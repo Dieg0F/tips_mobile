@@ -7,7 +7,7 @@ export interface Profile {
     name: {
         firstName: string;
         lastName: string;
-    }
+    };
     email: string;
     isAPro: boolean;
     isActive: boolean;
@@ -21,7 +21,7 @@ export interface Profile {
     geoLocation: {
         lat: number;
         lng: number;
-    },
+    };
     job: string;
     aboutMe: string;
     profilePhotoUrl: string;
@@ -33,5 +33,3 @@ export interface Profile {
     avaliationsCount: number;
     deviceToken: string;
 }
-
-

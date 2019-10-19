@@ -10,27 +10,27 @@ export interface Solicitation {
     lastActionByUserUid: string;
     name: string;
     description: string;
-    observations: Array<SolicitationObservation>;
+    observations: SolicitationObservation[];
     date: number;
     status: string;
     profileNames: {
         contractorName: string;
         hiredName: string;
-    }
+    };
     removedTo: {
         contractorUid: string;
         hiredUid: string;
-    }
+    };
     avaliatedTo: {
         contractorAvaliation: string;
         hiredAvaliation: string;
-    }
+    };
 }
 
 export interface SolicitationObservation {
-    userUid: string,
-    userName: string,
-    body: string,
-    cause: string,
-    date: string
+    userUid: string;
+    userName: string;
+    body: string;
+    cause: string;
+    date: string;
 }

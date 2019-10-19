@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, Events } from 'ionic-angular';
+import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Locations } from '../../../providers/locations/locations';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
-import { Locations } from '../../../providers/locations/locations';
 
 @IonicPage()
 @Component({
@@ -12,8 +12,8 @@ import { Locations } from '../../../providers/locations/locations';
 export class StateSearchPage {
 
   public searchQuery: string = '';
-  public states: Array<any> = [];
-  public statesFiltered: Array<any> = [];
+  public states: any[] = [];
+  public statesFiltered: any[] = [];
   public stateSelected: string;
 
   constructor(
@@ -27,43 +27,54 @@ export class StateSearchPage {
     this.getStates();
   }
 
-  getStates() {
-    this.loading.showLoading("Buscando cidades...");
+  /**
+   * @description request all states.
+   */
+  public getStates() {
+    this.loading.showLoading('Buscando cidades...');
     this.locations.getStates()
       .then((res) => {
-        this.states = res
-        this.statesFiltered = res
-        this.loading.hideLoading()
+        this.states = res;
+        this.statesFiltered = res;
+        this.loading.hideLoading();
       })
       .catch(() => {
-        this.loading.hideLoading()
-        this.toast.showToast("Cidade não encontrada! ");
-      })
+        this.loading.hideLoading();
+        this.toast.showToast('Cidade não encontrada! ');
+      });
   }
 
-  getItems(ev: any) {
-    // Reset items back to all of the items    
+  /**
+   * @description filter all states by user typed on search field.
+   * @param ev event from select filter.
+   */
+  public getItems(ev: any) {
+
     this.statesFiltered = this.states;
-    // set val to the value of the searchbar
     const val = ev.target.value;
 
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
+    if (val && val.trim() !== '') {
       this.statesFiltered = this.statesFiltered.filter((state) => {
         return (state.sigla.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+      });
     }
   }
 
-  finish() {
-    var state = this.states.filter((state) => {
-      return state.id == this.stateSelected;
-    })
-    this.events.publish('stateSelected', state[0]);
+  /**
+   * @description close this modal and emit selected state event.
+   */
+  public finish() {
+    const filterState = this.states.filter((state: any) => {
+      return state.id === this.stateSelected;
+    });
+    this.events.publish('stateSelected', filterState[0]);
     this.viewCtrl.dismiss();
   }
 
-  cancel() {
+  /**
+   * @description close this modal and emit empty state event.
+   */
+  public cancel() {
     this.events.publish('stateSelected', undefined);
     this.viewCtrl.dismiss();
   }
