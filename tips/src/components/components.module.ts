@@ -4,7 +4,7 @@ import { ProfileMenuComponent } from './profile-menu/profile-menu';
 
 @NgModule({
 	declarations: [ProfileMenuComponent],
+	exports: [ProfileMenuComponent],
 	imports: [IonicPageModule],
-	exports: [ProfileMenuComponent]
 })
-export class ComponentsModule {}
+export class ComponentsModule { }

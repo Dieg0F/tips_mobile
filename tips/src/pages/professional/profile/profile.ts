@@ -41,7 +41,9 @@ export class ProfilePage {
         });
     });
   }
-
+  /**
+   * @description Build user avatar image.
+   */
   public setAvatarImage() {
     let profilePhoto = '';
     if (this.profile.profilePhotoUrl) {
@@ -56,28 +58,48 @@ export class ProfilePage {
     };
   }
 
+  /**
+   * @description Build a array of string with all stars rate icons.
+   * @param value User rate value.
+   */
   public starsRate(value: number): string[] {
     const starsRateHelper = new StarRateHelper();
     return starsRateHelper.starsRate(value);
   }
 
+  /**
+   * @description Build a string with a specific color by user rate.
+   * @param value User rate value.
+   */
   public starsRateColor(value: number): string {
     const starsRateHelper = new StarRateHelper();
     return starsRateHelper.starsRateColor(value);
   }
 
+  /**
+   * @description redirect user to profile contact page.
+   */
   public contact() {
     this.navCtrl.push('ContactPage', { userProfile: this.profile });
   }
 
+  /**
+   * @description redirect user to search professional page.
+   */
   public search() {
     this.navCtrl.push('SearchPage');
   }
 
+  /**
+   * @description redirect user to send a professional avaliations page.
+   */
   public rating() {
     this.navCtrl.push('UserAvaliationsPage');
   }
 
+  /**
+   * @description build user greeting message.
+   */
   public greetingMessageBuilder() {
     const date = new Date();
     const hours = date.getHours();

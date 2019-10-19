@@ -1,8 +1,8 @@
 
 import { Injectable } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NgForm } from '@angular/forms';
 
 import firebase from 'firebase';
 
@@ -11,37 +11,52 @@ export class AuthProvider {
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) { }
 
-  login(form: NgForm): Promise<any> {
+  /**
+   * @description make a authentication by e-mail and password.
+   * @param form all values from login form.
+   */
+  public login(form: NgForm): Promise<any> {
     return firebase.auth()
-      .signInWithEmailAndPassword(form.value.email, form.value.password)
+      .signInWithEmailAndPassword(form.value.email, form.value.password);
   }
 
-  googleLogin(): Promise<any> {
-    console.log("Google Login");
-
-    var provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider)
+  /**
+   * @description call firebase google authentication.
+   */
+  public googleLogin(): Promise<any> {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
   }
 
-  facebookLogin(): Promise<any> {
-    console.log("Facebook Login");
-
-    var provider = new firebase.auth.FacebookAuthProvider();
-    return firebase.auth().signInWithPopup(provider)
+  /**
+   * @description call firebase facebook authentication.
+   */
+  public facebookLogin(): Promise<any> {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
   }
 
-  createNewAccount(email: string, pass: string): Promise<any> {
-    console.log("criar conta");
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass)
+  /**
+   * @description create a new account for new user.
+   * @param email user e-mail.
+   * @param pass user pass.
+   */
+  public createNewAccount(email: string, pass: string): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
   }
 
-  resetPassword(email: string): Promise<void> {
-    console.log("reset de senha");
-    return this.afAuth.auth.sendPasswordResetEmail(email)
+  /**
+   * @description send a e-mail for user to reset his password.
+   * @param email e-mail that will receive password update e-mail.
+   */
+  public resetPassword(email: string): Promise<void> {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
-  logout(): Promise<void> { //Sai do sistema
-    console.log("sair");
+  /**
+   * @description logout user from firebase and application.
+   */
+  public logout(): Promise<void> {
     return this.afAuth.auth.signOut();
   }
 }

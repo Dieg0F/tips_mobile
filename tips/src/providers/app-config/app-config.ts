@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { StorageProvider } from '../storage/storage';
+import { Events } from 'ionic-angular';
+import { Profile } from '../../model/profile/profile';
 import { AppConfig } from '../../model/static/static';
-import { UserProvider } from '../user/user';
-import { ProfileProvider } from '../profile/profile';
+import { Constants } from '../../util/constants/constants';
+import { Notifications } from '../../util/notifications/notifications';
 import { Toast } from '../../util/toast/toast';
 import { DataProvider } from '../data/data';
-import { Constants } from '../../util/constants/constants';
-import { Profile } from '../../model/profile/profile';
-import { Notifications } from '../../util/notifications/notifications';
-import { Events } from 'ionic-angular';
+import { ProfileProvider } from '../profile/profile';
+import { StorageProvider } from '../storage/storage';
+import { UserProvider } from '../user/user';
 
 const LOGIN_TIMEOUT = 35000;
 
@@ -30,16 +30,14 @@ export class AppConfigProvider {
    * Então os salva nas classes estaticas e retorna true, como conta já logada.
    * Caso contrario, ele retorna false, pedindo o login do usuário
    */
-  async verifyAuth(): Promise<any> {
-    console.log("verifyAuth")
+  public async verifyAuth(): Promise<any> {
     return this.storage.getItem(Constants.USER_PROFILE_LOCAL_DB)
       .then(async (userProfile) => {
-        AppConfig.USER_PROFILE = JSON.parse(userProfile)
-        console.log("verifyAuth", AppConfig.USER_PROFILE)
+        AppConfig.USER_PROFILE = JSON.parse(userProfile);
       })
       .catch((error) => {
-        console.log('Error: ', error)
-      })
+        console.log('Error: ', error);
+      });
   }
 
   /**
@@ -48,17 +46,14 @@ export class AppConfigProvider {
    * Caso contrario retorna um false informando que houve um erro no login
    * @param userAuthUid User Uid - Usado para requisitar ao database o perfil e usuário
    */
-  async appLogin(userId: string) {
+  public async appLogin(userId: string) {
     let userProfile: Profile;
-    var completed = false;
+    let completed = false;
     setTimeout(() => {
-      console.log("AppConfigProvider | AppLogin timeout complete!");
-      console.log("AppConfigProvider | Event has been called? ", completed);
       if (!completed) {
-        console.log("AppConfigProvider | Calling Event... ");
         this.events.publish('login', undefined);
       }
-    }, LOGIN_TIMEOUT)
+    }, LOGIN_TIMEOUT);
 
     await this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userId)
       .then(async () => {
@@ -69,25 +64,24 @@ export class AppConfigProvider {
               return this.notifications.getToken()
                 .then(async (token) => {
                   userProfile.deviceToken = token;
-                  console.log("Token: ", token)
                   return this.profileProvider.saveProfile(userProfile)
                     .then(async () => {
                       return this.profileProvider.saveProfileOnStorage(userProfile)
                         .then(async () => {
                           this.events.publish('login', userProfile);
                           completed = true;
-                        })
-                    })
-                })
+                        });
+                    });
+                });
             } else {
               completed = true;
               this.events.publish('login', undefined);
             }
-          })
+          });
       })
       .catch(() => {
         completed = true;
         this.events.publish('login', undefined);
-      })
+      });
   }
 }

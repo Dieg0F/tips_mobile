@@ -24,10 +24,16 @@ export class ProfileMenuComponent {
     public toast: Toast,
     public storage: StorageProvider) { }
 
+  /**
+   * @description redirect user to profile configuration page.
+   */
   public editProfile(): void {
     this.navCtrl.push('MyAccountPage');
   }
 
+  /**
+   * @description logout user from application, clear all data and redirect to login page.
+   */
   public logout(): void {
     this.loading.showLoading('Desconectando sua conta...');
     this.afAuth.logout()
@@ -43,18 +49,30 @@ export class ProfileMenuComponent {
       });
   }
 
+  /**
+   * @description redirect user to avaliations page.
+   */
   public rating() {
     this.navCtrl.push('UserAvaliationsPage');
   }
 
+  /**
+   * @description redirect user to solicitation page.
+   */
   public services() {
     this.navCtrl.push('UserSolicitationsPage');
   }
 
+  /**
+   * @description redirect user to configurations page.
+   */
   public configs() {
     this.navCtrl.push('AppConfigPage');
   }
 
+  /**
+   * @description redirect user to login page.
+   */
   private goToLoginPage() {
     this.navCtrl.setRoot('LoginPage');
     this.loading.hideLoading();

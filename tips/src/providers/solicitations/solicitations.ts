@@ -1,4 +1,3 @@
-import { Service } from './../../model/service/service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Constants } from '../../util/constants/constants';
@@ -10,46 +9,62 @@ export class SolicitationProvider {
 
     constructor(private db: AngularFirestore) { }
 
-    async createSolicitation(service: any): Promise<void> {
-        console.log('createService >> CReating Service :: ', service.uId)
+    /**
+     * @description update solicitation on database.
+     * @param service solicitation to be saved on database.
+     */
+    public async createSolicitation(service: any): Promise<void> {
         return await this.db.collection(Constants.SOLICITATION_COLLECTION)
             .doc(service.uId)
-            .set(service)
+            .set(service);
     }
 
-    async updateSolicitation(service: any): Promise<void> {
-        console.log('updateService >> Updating Service :: ', service.uId)
+    /**
+     * @description update solicitation on database.
+     * @param service solicitation to be update on database.
+     */
+    public async updateSolicitation(service: any): Promise<void> {
         return await this.db.collection(Constants.SOLICITATION_COLLECTION)
             .doc(service.uId)
-            .set(service)
+            .set(service);
     }
 
-    async getSolicitaiton(serviceUid: string): Promise<any> {
-        console.log('getService >> Get Service')
+    /**
+     * @description request service by id.
+     * @param serviceUid service unique id.
+     */
+    public async getSolicitaiton(serviceUid: string): Promise<any> {
         return await this.db.collection(Constants.SOLICITATION_COLLECTION)
             .doc(serviceUid)
             .get()
-            .toPromise()
+            .toPromise();
     }
 
-    async getReceivedSolicitations(userId: string): Promise<any> {
+    /**
+     * @description request all received done solicitations.
+     * @param userId user unique uid.
+     */
+    public async getReceivedSolicitations(userId: string): Promise<any> {
         return this.db.collection(Constants.SOLICITATION_COLLECTION,
-            ref => {
+            (ref) => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (userId) { query = query.where('hiredUid', '==', userId) };
+                if (userId) { query = query.where('hiredUid', '==', userId); }
                 query = query.orderBy('date', 'desc');
                 return query;
-            }).valueChanges()
+            }).valueChanges();
     }
 
-    async getDoneSolicitations(userId: string): Promise<any> {
+    /**
+     * @description request all user done solicitations.
+     * @param userId user unique uid.
+     */
+    public async getDoneSolicitations(userId: string): Promise<any> {
         return this.db.collection(Constants.SOLICITATION_COLLECTION,
-            ref => {
+            (ref) => {
                 let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-                if (userId) { query = query.where('contractorUid', '==', userId) };
+                if (userId) { query = query.where('contractorUid', '==', userId); }
                 query = query.orderBy('date', 'desc');
                 return query;
-            }).valueChanges()
+            }).valueChanges();
     }
 }
-

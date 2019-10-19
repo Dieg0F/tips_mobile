@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFirestore } from '@angular/fire/firestore';
-import { StorageProvider } from '../storage/storage';
-import { ProfileProvider } from '../profile/profile';
 import { AppConfig } from '../../model/static/static';
-
-import { Profile } from '../../model/profile/profile';
 import { Constants } from '../../util/constants/constants';
 import { Notifications } from '../../util/notifications/notifications';
+import { ProfileProvider } from '../profile/profile';
+import { StorageProvider } from '../storage/storage';
 
 @Injectable()
 export class UserProvider {
@@ -22,36 +19,44 @@ export class UserProvider {
    * Salva o novo usuário e já cria o seu perfil com os dados basicos
    * @param user Usuário criado
    */
-  async saveNewUser(user: any): Promise<void> {
-    console.log('saveNewUser >> Criando um novo usuário')
+  public async saveNewUser(user: any): Promise<void> {
     return this.db.collection(Constants.USERS_COLLECTION).doc(user.uid).set(user)
       .then(async () => {
-        let profile = this.profileProvider.setProfile(user)
+        const profile = this.profileProvider.setProfile(user);
         return this.notifications.getToken()
           .then(async (token) => {
             profile.deviceToken = token;
             return this.profileProvider.saveProfile(profile)
               .then(async () => {
                 AppConfig.USER_PROFILE = profile;
-              })
-          })
-      })
+              });
+          });
+      });
   }
 
-  async getUser(userUid: string): Promise<any> {
+  /**
+   * @description request user form database.
+   * @param userUid user unique id.
+   */
+  public async getUser(userUid: string): Promise<any> {
     return this.db.collection(Constants.USERS_COLLECTION).doc(userUid)
       .get()
-      .toPromise()
+      .toPromise();
   }
 
-  saveUserAuth(userUid: any) {
-    console.log('saveUserAuth >> Saving UserAuth')
-    return this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userUid)
+  /**
+   * @description save user form storage.
+   * @param userUid user unique id.
+   */
+  public saveUserAuth(userUid: any) {
+    return this.storage.setItem(Constants.USER_AUTH_LOCAL_DB, userUid);
   }
 
-  getLocalUser() {
-    console.log('getLocalUser >> Get User')
-    return this.storage.getItem(Constants.USER_LOCAL_DB)
+  /**
+   * @description request user form storage.
+   * @param userUid user unique id.
+   */
+  public getLocalUser() {
+    return this.storage.getItem(Constants.USER_LOCAL_DB);
   }
 }
-

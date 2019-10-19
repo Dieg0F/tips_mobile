@@ -1,67 +1,69 @@
 
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { FCM } from '@ionic-native/fcm';
-import { Events } from "ionic-angular";
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class Notifications {
 
-    public deviceToken: string = "";
+    public deviceToken: string = '';
 
     constructor(
         private fcm: FCM,
         private events: Events,
     ) { }
 
-    initService() {
-        console.log("Notifications | Init notification service!");
+    /**
+     * @description init solicitation service.
+     */
+    public initService() {
         this.serviceObservable();
     }
 
-    serviceObservable() {
-        console.log("Notifications | Starting notification observable!");
+    /**
+     * @description start notification observable.
+     */
+    public serviceObservable() {
         this.fcm.onNotification()
-            .subscribe(data => {
+            .subscribe((data) => {
                 this.parseNotification(data);
-                if (data.wasTapped) {
-                    console.log("Received in background");
-                } else {
-                    console.log("Received in foreground");
-                };
             });
 
         this.fcm.onTokenRefresh()
-            .subscribe(token => {
-                console.log("Notifications | Device token has been changed!");
+            .subscribe((token) => {
                 this.deviceToken = token;
             });
     }
 
-    getToken(): Promise<string> {
-        console.log("Notifications | Requesting device token!");
-        //return this.fcm.getToken();
-        return new Promise((res, err) => { });
+    /**
+     * @description request device token.
+     */
+    public getToken(): Promise<string> {
+        return this.fcm.getToken();
     }
 
-    parseNotification(data: any) {
+    /**
+     * @description parse all notifications and emit specific event.
+     * @param data notification data.
+     */
+    public parseNotification(data: any) {
         switch (data.title) {
-            case "new_solicitation":
+            case 'new_solicitation':
                 this.events.publish('NEW_SOLICITATION', data.body);
                 break;
-            case "update_solicitation":
+            case 'update_solicitation':
                 this.events.publish('CHANGE_SOLICITATION', data.body);
                 break;
-            case "new_avaliaiton":
+            case 'new_avaliaiton':
                 this.events.publish('NEW_AVALIATION', data.body);
                 this.events.publish('CHANGE_AVALIATION', data.body);
                 break;
-            case "avaliation_update":
+            case 'avaliation_update':
                 this.events.publish('CHANGE_AVALIATION', data.body);
                 break;
-            case "update_profile":
+            case 'update_profile':
                 this.events.publish('CHANGE_PROFILE_RATING');
                 break;
         }
-        console.log("Events: ", this.events);
     }
 }

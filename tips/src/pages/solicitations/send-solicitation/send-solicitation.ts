@@ -1,13 +1,13 @@
-import { Profile } from './../../../model/profile/profile';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AppConfig } from '../../../model/static/static';
 import { UUID } from 'angular2-uuid';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Solicitation } from '../../../model/solicitation/solicitation';
+import { AppConfig } from '../../../model/static/static';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
-import { Solicitation } from '../../../model/solicitation/solicitation';
-import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Toast } from '../../../util/toast/toast';
+import { Profile } from './../../../model/profile/profile';
 
 @IonicPage()
 @Component({
@@ -20,11 +20,9 @@ export class SendSolicitationPage {
   public hiredPf: Profile;
   public solicitationDone: boolean = false;
   public solicitation: Solicitation;
-
-  public solicitationDate = "";
-  public solicitationName = "";
-  public solicitationDescription = "";
-
+  public solicitationDate = '';
+  public solicitationName = '';
+  public solicitationDescription = '';
   public enableDescription: boolean = false;
 
   constructor(
@@ -34,38 +32,54 @@ export class SendSolicitationPage {
     public toast: Toast,
     public solicitationProvider: SolicitationProvider) { }
 
-  ionViewWillEnter() {
-    this.getProfileToService()
+  /**
+   * @description on page will enter.
+   */
+  public ionViewWillEnter() {
+    this.getProfileToService();
   }
 
-  getProfileToService() {
-    this.contractorPf = { ...AppConfig.USER_PROFILE }
-    this.hiredPf = this.navParams.get(Constants.SOLICITATION_PROFILE)
+  /**
+   * @description recover profiles received as params.
+   */
+  public getProfileToService() {
+    this.contractorPf = { ...AppConfig.USER_PROFILE };
+    this.hiredPf = this.navParams.get(Constants.SOLICITATION_PROFILE);
   }
 
-  setAvatarImage(imagePath: string) {
-    var profilePhoto = "";
+  /**
+   * @description Build user avatar image.
+   * @param imagePath profile image path.
+   */
+  public setAvatarImage(imagePath: string) {
+    let profilePhoto = '';
     if (imagePath) {
       profilePhoto = imagePath;
     } else {
-      profilePhoto = "../../../assets/imgs/149071.png";
+      profilePhoto = '../../../assets/imgs/149071.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',
+      'background-position': 'center',
       'background-size': 'cover',
-      'background-position': 'center'
     };
   }
 
-  makeService() {
+  /**
+   * @description send solicitation for user and save it on database.
+   */
+  public makeService() {
     if (this.formValidation()) {
       this.enableDescription = false;
       this.solicitationUser();
     }
   }
 
-  solicitationUser() {
-    let solicitation: Solicitation = {
+  /**
+   * @description build solicitation object.
+   */
+  public solicitationUser() {
+    const solicitation: Solicitation = {
       uId: UUID.UUID(),
       solicitationId: UUID.UUID(),
       contractorUid: this.contractorPf.uid,
@@ -73,12 +87,12 @@ export class SendSolicitationPage {
       lastActionByUserUid: this.contractorPf.uid,
       description: this.solicitationDescription,
       observations: null,
-      date: parseInt(Date.now().toString()),
+      date: parseInt(Date.now().toString(), 0),
       status: Constants.SOLICITATION_IS_OPEN,
-      name: "",
+      name: '',
       profileNames: {
-        contractorName: this.contractorPf.name.firstName + " " + this.contractorPf.name.lastName,
-        hiredName: this.hiredPf.name.firstName + " " + this.hiredPf.name.lastName,
+        contractorName: this.contractorPf.name.firstName + ' ' + this.contractorPf.name.lastName,
+        hiredName: this.hiredPf.name.firstName + ' ' + this.hiredPf.name.lastName,
       },
       removedTo: {
         contractorUid: null,
@@ -87,57 +101,73 @@ export class SendSolicitationPage {
       avaliatedTo: {
         contractorAvaliation: null,
         hiredAvaliation: null,
-      }
-    }
+      },
+    };
 
     this.saveSolicitation(solicitation);
   }
 
+  /**
+   * @description enable solicitation description on view.
+   */
+  public setServiceDescription() {
+    this.enableDescription = true;
+  }
+
+  /**
+   * @description redirec user to his profile.
+   */
+  public backToMyProfile() {
+    this.navCtrl.setRoot('ProfilePage');
+  }
+
+  /**
+   * @description validade send solicitations form.
+   */
+  public formValidation() {
+    if (!this.solicitationDescription) {
+      this.toast.showToast('Preencha a descrição desta solicitação!');
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * @description save solicitation on database.
+   * @param solicitation solicitation to be saved on database.
+   */
   private saveSolicitation(solicitation: Solicitation) {
-    this.loading.showLoading("Solicitando serviço...")
+    this.loading.showLoading('Solicitando serviço...')
       .then(() => {
         this.solicitationProvider.createSolicitation(solicitation)
           .then(async () => {
             this.onSuccess(solicitation);
           })
           .catch((err) => {
-            console.log(err);
             this.onError();
           });
-      })
-      .catch(() => {
-        console.log("Error: NewServicePage, Loading")
-      })
+      });
   }
 
+  /**
+   * @description show error messages to user.
+   */
   private onError() {
     this.solicitationDone = false;
     this.loading.hideLoading();
-    this.toast.showToast("Erro ao solicitar serviço!");
+    this.toast.showToast('Erro ao solicitar serviço!');
   }
 
+  /**
+   * @description show a summary from a new solicitation successfull saved on database.
+   * @param solicitation solicitation saved on database.
+   */
   private onSuccess(solicitation: Solicitation) {
     this.solicitation = solicitation;
     this.solicitationDate = new Date(this.solicitation.date).toLocaleDateString();
     this.loading.hideLoading();
     this.solicitationDone = true;
-    this.toast.showToast("Solicitação enviada com sucesso!");
-  }
-
-  setServiceDescription() {
-    this.enableDescription = true;
-  }
-
-  backToMyProfile() {
-    this.navCtrl.setRoot("ProfilePage");
-  }
-
-  formValidation() {
-    if (!this.solicitationDescription) {
-      this.toast.showToast("Preencha a descrição desta solicitação!");
-      return false;
-    }
-
-    return true;
+    this.toast.showToast('Solicitação enviada com sucesso!');
   }
 }

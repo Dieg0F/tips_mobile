@@ -1,12 +1,12 @@
-import { Constants } from './../../../util/constants/constants';
+import { Component } from '@angular/core';
+import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Solicitation } from '../../../model/solicitation/solicitation';
+import { AppConfig } from '../../../model/static/static';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { ProfileProvider } from './../../../providers/profile/profile';
+import { Constants } from './../../../util/constants/constants';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { AppConfig } from '../../../model/static/static';
-import { Solicitation } from '../../../model/solicitation/solicitation';
-import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -15,11 +15,9 @@ import { SolicitationProvider } from '../../../providers/solicitations/solicitat
 })
 export class UserSolicitationsPage {
 
-  public solicitations: Array<Solicitation> = new Array<Solicitation>();
-  public allSolicitations: Array<Solicitation> = new Array<Solicitation>();
-
+  public solicitations: Solicitation[] = new Array<Solicitation>();
+  public allSolicitations: Solicitation[] = new Array<Solicitation>();
   public profile = AppConfig.USER_PROFILE;
-
   public filterType = Constants.ALL_SOLICITATIONS;
 
   constructor(
@@ -32,117 +30,100 @@ export class UserSolicitationsPage {
     public solicitationProvider: SolicitationProvider) {
   }
 
-  ionViewWillEnter() {
+  /**
+   * @description on page will enter.
+   */
+  public ionViewWillEnter() {
     this.getSolicitations();
     this.onFilterChange();
-    this.events.subscribe("NEW_SOLICITATION", () => {
+    this.events.subscribe('NEW_SOLICITATION', () => {
       this.updateListOnEvent();
-    })
-    this.events.subscribe("CHANGE_SOLICITATION", (data: string) => {
+    });
+    this.events.subscribe('CHANGE_SOLICITATION', (data: string) => {
       this.updateListOnEvent(data);
-    })
+    });
   }
 
-  ionViewWillLeave() {
-    this.events.unsubscribe("NEW_SOLICITATION");
-    this.events.unsubscribe("CHANGE_SOLICITATION");
+  /**
+   * @description on page will leave.
+   */
+  public ionViewWillLeave() {
+    this.events.unsubscribe('NEW_SOLICITATION');
+    this.events.unsubscribe('CHANGE_SOLICITATION');
   }
 
-  updateListOnEvent(data?: string) {
+  /**
+   * @description uodate solicitation list by event.
+   * @param data new solicitation id.
+   */
+  public updateListOnEvent(data?: string) {
     this.solicitationProvider.getDoneSolicitations(this.profile.uid)
       .then(async (d) => {
-        var dSubs = await d.subscribe(async (dSolicitations: Array<Solicitation>) => {
+        const dSubs = await d.subscribe(async (dSolicitations: Solicitation[]) => {
           await this.solicitationProvider.getReceivedSolicitations(this.profile.uid)
             .then(async (r) => {
-              var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
+              const rSubs = await r.subscribe(async (rSolicitations: Solicitation[]) => {
                 this.filterRemovedSolicitations(dSolicitations, rSolicitations);
                 rSubs.unsubscribe();
                 dSubs.unsubscribe();
                 this.onFilterChange();
                 if (data) {
-                  var sol = this.solicitations.filter((s) => {
-                    return s.uId == data ? s : null
+                  const sol = this.solicitations.filter((s) => {
+                    return s.uId === data ? s : null;
                   });
                   if (sol && sol[0].removedTo.hiredUid !== AppConfig.USER_PROFILE.uid) {
-                    this.toast.showToast("Você recebeu novas solicitações!");
+                    this.toast.showToast('Você recebeu novas solicitações!');
                   }
                 } else {
-                  this.toast.showToast("Você recebeu novas solicitações!");
+                  this.toast.showToast('Você recebeu novas solicitações!');
                 }
-              })
-            })
+              });
+            });
         });
-      })
+      });
   }
 
-  getSolicitations() {
+  /**
+   * @description request all user solicitations.
+   */
+  public getSolicitations() {
     this.solicitations = new Array<Solicitation>();
     this.allSolicitations = new Array<Solicitation>();
-    this.loading.showLoading("Buscando serviços...")
+    this.loading.showLoading('Buscando serviços...')
       .then(async () => {
         await this.solicitationProvider.getDoneSolicitations(this.profile.uid)
           .then(async (d) => {
-            var dSubs = await d.subscribe(async (dSolicitations: Array<Solicitation>) => {
+            const dSubs = await d.subscribe(async (dSolicitations: Solicitation[]) => {
               await this.solicitationProvider.getReceivedSolicitations(this.profile.uid)
                 .then(async (r) => {
-                  var rSubs = await r.subscribe(async (rSolicitations: Array<Solicitation>) => {
+                  const rSubs = await r.subscribe(async (rSolicitations: Solicitation[]) => {
                     this.buildList(rSolicitations, dSolicitations, rSubs, dSubs);
-                  })
-                })
+                  });
+                });
             });
           })
           .catch((err) => {
             this.onError();
-          })
-      })
+          });
+      });
   }
 
-  private buildList(rSolicitations: Solicitation[], dSolicitations: Solicitation[], rSubs: any, dSubs: any) {
-    this.filterRemovedSolicitations(dSolicitations, rSolicitations);
-    rSubs.unsubscribe();
-    dSubs.unsubscribe();
-    this.onSuccess();
-  }
-
-  private filterRemovedSolicitations(dSolicitations: Solicitation[], rSolicitations: Solicitation[]) {
-    var allDoneList = dSolicitations.filter((d) => {
-      if (d.removedTo.contractorUid !== this.profile.uid) {
-        d.name = "Solicitação para " + d.profileNames.hiredName;
-        return d;
-      }
-    });
-    var allReceivedList = rSolicitations.filter((r) => {
-      if (r.removedTo.hiredUid !== this.profile.uid) {
-        r.name = "Solicitação de " + r.profileNames.contractorName;
-        return r;
-      }
-    });
-    this.solicitations = this.allSolicitations = allDoneList.concat(allReceivedList);
-  }
-
-  private async onSuccess() {
-    await this.loading.hideLoadingPromise();
-  }
-
-  private onError() {
-    this.loading.hideLoadingPromise()
-      .then(() => {
-        this.toast.showToast("Erro ao buscar serviços!");
-      })
-      .catch(() => {
-        console.log("Error loading solicitations");
-      })
-  }
-
-  goToDetails(solicitation: any) {
-    if (solicitation.contractorUid == this.profile.uid) {
-      this.navCtrl.push('SolicitationDetailsPage', { 'solicitation': solicitation })
+  /**
+   * @description redirect user to solicitation details.
+   * @param solicitation solicitation to be showed on details.
+   */
+  public goToDetails(solicitation: any) {
+    if (solicitation.contractorUid === this.profile.uid) {
+      this.navCtrl.push('SolicitationDetailsPage', { solicitation });
     } else {
-      this.navCtrl.push('SolicitationManagerPage', { 'solicitation': solicitation })
+      this.navCtrl.push('SolicitationManagerPage', { solicitation });
     }
   }
 
-  onFilterChange() {
+  /**
+   * @description handle when user select some option on filter.
+   */
+  public onFilterChange() {
     this.solicitations = new Array<Solicitation>();
     switch (this.filterType) {
       case Constants.ALL_SOLICITATIONS:
@@ -160,73 +141,147 @@ export class UserSolicitationsPage {
     }
   }
 
-  private getReceivedSolicitations() {
-    this.allSolicitations.forEach(el => {
-      if (el.hiredUid == this.profile.uid) {
-        this.solicitations.push(el);
-      }
-    })
-  }
-
-  private getDoneSolicitations() {
-    this.allSolicitations.forEach(el => {
-      if (el.contractorUid == this.profile.uid) {
-        this.solicitations.push(el);
-      }
-    })
-  }
-
-  private getAllSolicitations() {
-    this.solicitations = this.allSolicitations;
-  }
-
-  private getSolicitationsByStatus(status: string) {
-    this.allSolicitations.forEach(el => {
-      if (el.status == status) {
-        this.solicitations.push(el);
-      }
-    })
-  }
-
-  setSolicitationStatusClass(status: string) {
-    var statusClass = " "
+  /**
+   * @description set solicitation view class by status.
+   * @param status solicitation status.
+   */
+  public setSolicitationStatusClass(status: string) {
+    let statusClass = ' ';
 
     switch (status) {
       case Constants.SOLICITATION_IS_OPEN:
-        statusClass += "newSolicitation";
+        statusClass += 'newSolicitation';
         break;
       case Constants.SOLICITATION_IS_RUNNING:
-        statusClass += "runningSolicitation";
+        statusClass += 'runningSolicitation';
         break;
       case Constants.SOLICITATION_IS_FINISHED:
-        statusClass += "finishedSolicitation";
+        statusClass += 'finishedSolicitation';
         break;
       case Constants.SOLICITATION_IS_CANCELED:
-        statusClass += "canceledSolicitation";
+        statusClass += 'canceledSolicitation';
         break;
     }
 
     return statusClass;
   }
-
-  setStatusValueToShow(status): string {
-    var statusValue = ""
+  /**
+   * @description build a string based on solicitation status.
+   * @param status solicitation status.
+   */
+  public setStatusValueToShow(status): string {
+    let statusValue = '';
 
     switch (status) {
       case Constants.SOLICITATION_IS_OPEN:
-        statusValue += "Novo";
+        statusValue += 'Novo';
         break;
       case Constants.SOLICITATION_IS_RUNNING:
-        statusValue += "Em Andamento";
+        statusValue += 'Em Andamento';
         break;
       case Constants.SOLICITATION_IS_FINISHED:
-        statusValue += "Finalizado";
+        statusValue += 'Finalizado';
         break;
       case Constants.SOLICITATION_IS_CANCELED:
-        statusValue += "Cancelado";
+        statusValue += 'Cancelado';
         break;
     }
 
     return statusValue;
+  }
+
+  /**
+   * @description build a full solicitation list.
+   * @param rSolicitations received solicitation list.
+   * @param dSolicitations done solicitation list.
+   * @param rSubs receive solicitation observable.
+   * @param dSubs done solicitation observable.
+   */
+  private buildList(rSolicitations: Solicitation[], dSolicitations: Solicitation[], rSubs: any, dSubs: any) {
+    this.filterRemovedSolicitations(dSolicitations, rSolicitations);
+    rSubs.unsubscribe();
+    dSubs.unsubscribe();
+    this.onSuccess();
+  }
+
+  /**
+   * @description filter all removed solicitation on list.
+   * @param rSolicitations received solicitation list.
+   * @param dSolicitations done solicitation list.
+   */
+  private filterRemovedSolicitations(dSolicitations: Solicitation[], rSolicitations: Solicitation[]) {
+    const allDoneList = dSolicitations.filter((d) => {
+      if (d.removedTo.contractorUid !== this.profile.uid) {
+        d.name = 'Solicitação para ' + d.profileNames.hiredName;
+        return d;
+      }
+    });
+    const allReceivedList = rSolicitations.filter((r) => {
+      if (r.removedTo.hiredUid !== this.profile.uid) {
+        r.name = 'Solicitação de ' + r.profileNames.contractorName;
+        return r;
+      }
+    });
+    this.solicitations = this.allSolicitations = allDoneList.concat(allReceivedList);
+  }
+
+  /**
+   * @description show success messages and flow.
+   */
+  private async onSuccess() {
+    await this.loading.hideLoadingPromise();
+  }
+
+  /**
+   * @description show error messages and flow.
+   */
+  private onError() {
+    this.loading.hideLoadingPromise()
+      .then(() => {
+        this.toast.showToast('Erro ao buscar serviços!');
+      })
+      .catch(() => {
+        console.log('Error loading solicitations');
+      });
+  }
+
+  /**
+   * @description filter all received solicitations.
+   */
+  private getReceivedSolicitations() {
+    this.allSolicitations.forEach((el) => {
+      if (el.hiredUid === this.profile.uid) {
+        this.solicitations.push(el);
+      }
+    });
+  }
+
+  /**
+   * @description filter all received solicitations.
+   */
+  private getDoneSolicitations() {
+    this.allSolicitations.forEach((el) => {
+      if (el.contractorUid === this.profile.uid) {
+        this.solicitations.push(el);
+      }
+    });
+  }
+
+  /**
+   * @description filter all solicitations.
+   */
+  private getAllSolicitations() {
+    this.solicitations = this.allSolicitations;
+  }
+
+  /**
+   * @description filter all solicitations by status.
+   */
+  private getSolicitationsByStatus(status: string) {
+    this.allSolicitations.forEach((el) => {
+      if (el.status === status) {
+        this.solicitations.push(el);
+      }
+    });
   }
 }

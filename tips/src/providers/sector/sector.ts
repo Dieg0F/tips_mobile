@@ -1,7 +1,7 @@
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { UUID } from 'angular2-uuid';
-import { Constants } from "../../util/constants/constants";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { Injectable } from "@angular/core";
+import { Constants } from '../../util/constants/constants';
 
 @Injectable()
 export class SectorProvider {
@@ -9,24 +9,20 @@ export class SectorProvider {
     constructor(
         private db: AngularFirestore) { }
 
-    async getSectorsByArea(areaUid: string): Promise<any> {
-        console.log('getSectors >> Get All Sectors', areaUid)
-
-        return this.db.collection(Constants.SECTORS_COLLECTION, ref => {
-            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            return query.where('areaUid', '==', areaUid);
-        }).valueChanges()
+    /**
+     * @description request all jobs on database.
+     */
+    public async getSectors(): Promise<any> {
+        return this.db.collection(Constants.SECTORS_COLLECTION).valueChanges();
     }
 
-    async getSectors(): Promise<any> {
-        console.log('getSectors >> Get All Sectors')
-        return this.db.collection(Constants.SECTORS_COLLECTION).valueChanges()
-    }
-
-    async insertSector(sector: any): Promise<void> {
-        console.log('insertSector >> sector', sector)
-        sector.uid = UUID.UUID();
+    /**
+     * @description save a new job on database.
+     * @param job job to be saved on database.
+     */
+    public async insertSector(job: any): Promise<void> {
+        job.uid = UUID.UUID();
         this.db.collection(Constants.SECTORS_COLLECTION)
-            .doc(sector.uid).set(sector)
+            .doc(job.uid).set(job);
     }
 }
