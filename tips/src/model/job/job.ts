@@ -2,5 +2,4 @@
 export interface Job {
     uId: string;
     sectorName: string;
-    areaUid: string;
 }

@@ -64,6 +64,7 @@ export class ProfilePage {
    */
   public starsRate(value: number): string[] {
     const starsRateHelper = new StarRateHelper();
+    value = value - this.profile.avaliationsCount;
     return starsRateHelper.starsRate(value);
   }
 
@@ -73,6 +74,7 @@ export class ProfilePage {
    */
   public starsRateColor(value: number): string {
     const starsRateHelper = new StarRateHelper();
+    value = value - this.profile.avaliationsCount;
     return starsRateHelper.starsRateColor(value);
   }
 
