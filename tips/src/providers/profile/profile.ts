@@ -70,7 +70,7 @@ export class ProfileProvider {
             if (filter.profileCity !== '') { query = query.where('city', '==', filter.profileCity); }
             if (filter.profileJob !== '') { query = query.where('job', '==', filter.profileJob); }
             if (filter.profileRate !== 0) {
-                query = query.where('userRate', '==', filter.profileRate);
+                query = query.where('userRateStars', '==', filter.profileRate);
             } else { query = query.orderBy('userRate', 'desc'); }
             return query.where('hideMyProfile', '==', false)
                 .where('isActive', '==', true)
@@ -118,11 +118,21 @@ export class ProfileProvider {
             profilePhotoUrl: '',
             hideMyProfile: false,
             userRate: 0,
+            userRateStars: 0,
             userMaxRate: 0,
             userMinRate: 0,
             solicitationCount: 0,
             avaliationsCount: 0,
             deviceToken: '',
+            social: {
+                facebook: '',
+                showFacebook: false,
+                instagram: '',
+                showInstagram: false,
+                whatsapp: '',
+                showWhatsApp: false,
+                directCall: false,
+            },
         };
 
         return profile;

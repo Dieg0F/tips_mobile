@@ -26,11 +26,21 @@ export class AppConfig {
         profilePhotoUrl: '',
         hideMyProfile: false,
         userRate: 0,
+        userRateStars: 0,
         userMaxRate: 0,
         userMinRate: 0,
         solicitationCount: 0,
         avaliationsCount: 0,
         deviceToken: '',
+        social: {
+            facebook: '',
+            showFacebook: false,
+            instagram: '',
+            showInstagram: false,
+            whatsapp: '',
+            showWhatsApp: false,
+            directCall: false,
+        },
     };
 
     public static PROFILE_PHOTO_PATH = 'profilePhoto/';

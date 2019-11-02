@@ -39,8 +39,8 @@ export class Notifications {
      * @description request device token.
      */
     public getToken(): Promise<string> {
-        return this.fcm.getToken();
-        //return new Promise((res, err) => { res('') });
+        //return this.fcm.getToken();
+        return new Promise((res, err) => { res('') });
     }
 
     /**

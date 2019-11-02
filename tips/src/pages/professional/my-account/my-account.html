@@ -23,7 +23,8 @@
                 </ion-item>
                 <ion-item>
                     <ion-label stacked>CPF: </ion-label>
-                    <ion-input [(ngModel)]="profile.cpf" disabled next-input type="text" placeholder="Digite o seu CPF" name="cpf" [brmasker]="{mask:'000.000.000-00', len:14}"></ion-input>
+                    <ion-input [(ngModel)]="profile.cpf" [disabled]="lockFiels" next-input type="text" placeholder="Digite o seu CPF" name="cpf" [brmasker]="{mask:'000.000.000-00', len:14}">
+                    </ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label stacked>Email: </ion-label>
@@ -32,6 +33,11 @@
                 <ion-item>
                     <ion-label stacked>Celular: </ion-label>
                     <ion-input [(ngModel)]="profile.phone" next-input type="text" placeholder="Digite o numero" name="phone" [brmasker]="{phone: true}">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>WhatsApp: </ion-label>
+                    <ion-input [(ngModel)]="profile.social.whatsapp" next-input type="text" placeholder="Digite o numero de seu WhatsApp" name="whatsapp" [brmasker]="{phone: true}">
                     </ion-input>
                 </ion-item>
                 <ion-row>
@@ -80,9 +86,27 @@
                 </div>
                 <ion-item *ngIf="profile.isAPro">
                     <ion-label stacked>Sobre mim: </ion-label>
-                    <ion-textarea [(ngModel)]="profile.aboutMe" name="aboutMe" maxLength="300" placeholder="Descreva sobre você e seu serviço." name="firstName">
+                    <ion-textarea [(ngModel)]="profile.aboutMe" next-input name="aboutMe" maxLength="300" placeholder="Descreva sobre você e seu serviço." name="firstName">
                     </ion-textarea>
                 </ion-item>
+                <div class="social-contacts" *ngIf="profile.isAPro">
+                    <h3>Rede Sociais:</h3>
+                    <p>Informe os seus perfils nas redes sociais para melhorar o seu perfil.</p>
+                    <ion-item>
+                        <ion-label stacked>Instagram: </ion-label>
+                        <ion-input [(ngModel)]="profile.social.instagram" next-input placeholder="Digite o seu perfil no Instagram: " name="instagram">
+                        </ion-input>
+                    </ion-item>
+                    <div class="facebook">
+                        <ion-item>
+                            <ion-label stacked>Facebook: </ion-label>
+                            <ion-input [(ngModel)]="profile.social.facebook" placeholder="Digite o seu usuário no Facebook: " name="facebook">
+                            </ion-input>
+                        </ion-item>
+                        <p class="facebookDetail">Você pode encontra-lo na sessão de configurações de conta, no Facebook!
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="cardFooter" (click)="save()">
