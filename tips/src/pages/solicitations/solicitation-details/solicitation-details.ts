@@ -10,6 +10,7 @@ import { ProfileProvider } from './../../../providers/profile/profile';
 import { Alert } from './../../../util/alert/alert';
 import { Loading } from './../../../util/loading/loading';
 import { Popover } from './../../../util/popover/popover';
+import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 
 @IonicPage()
 @Component({
@@ -41,7 +42,8 @@ export class SolicitationDetailsPage {
     public toast: Toast,
     public events: Events,
     public solicitationProvider: SolicitationProvider,
-    public profileProvider: ProfileProvider) { }
+    public profileProvider: ProfileProvider,
+    public extApp: ExternalAppProvider) { }
 
   /**
    * @description on page will enter.
@@ -238,6 +240,38 @@ export class SolicitationDetailsPage {
    */
   public avaliation() {
     this.navCtrl.push('NewAvaliationPage', { solicitation: this.solicitation });
+  }
+
+  /**
+   * @description Open a specific application to make contact with other user.
+   * @param app Application name to be open.
+   */
+  public goToApp(app: string) {
+    switch (app) {
+      case 'whats':
+        this.extApp.openWhatsApp(this.hiredPf.social.whatsapp);
+        break;
+      case 'face':
+        this.extApp.openFacebook(this.hiredPf.social.facebook);
+        break;
+      case 'inst':
+        this.extApp.openPhoneApp(this.hiredPf.social.instagram);
+        break;
+      case 'phone':
+        const phone = this.hiredPf.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
+        this.extApp.openPhoneApp(phone);
+        break;
+      case 'email':
+        this.extApp.openMailApp(this.hiredPf.email);
+        break;
+      case 'maps':
+        const fullAddress = this.hiredPf.street + ' ' + this.hiredPf.houseNumber + ' ' + this.hiredPf.district +
+          ' ' + this.hiredPf.city + ' ' + this.hiredPf.state;
+        this.extApp.openMapsApp(fullAddress);
+        break;
+      default:
+        break;
+    }
   }
 
   /**

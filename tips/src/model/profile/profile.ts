@@ -28,9 +28,19 @@ export interface Profile {
     profilePhotoUrl: string;
     hideMyProfile: boolean;
     userRate: number;
+    userRateStars: number;
     userMinRate: number;
     userMaxRate: number;
     solicitationCount: number;
     avaliationsCount: number;
     deviceToken: string;
+    social: {
+        facebook: string;
+        showFacebook: boolean;
+        instagram: string;
+        showInstagram: boolean;
+        whatsapp: string;
+        showWhatsApp: boolean;
+        directCall: boolean;
+    };
 }

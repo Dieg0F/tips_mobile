@@ -35,6 +35,10 @@ import { Notifications } from '../util/notifications/notifications';
 import { Popover } from '../util/popover/popover';
 import { Toast } from '../util/toast/toast';
 import { MyApp } from './app.component';
+import { AppAvailability } from '@ionic-native/app-availability';
+import { Device } from '@ionic-native/device';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { ExternalAppProvider } from '../providers/external-app/external-app';
 
 const config = {
   apiKey: 'AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc',
@@ -83,6 +87,7 @@ const config = {
     SolicitationProvider,
     JobProvider,
     DataProvider,
+    ExternalAppProvider,
     HttpService,
     FileChooser,
     Geolocation,
@@ -94,6 +99,8 @@ const config = {
     Locations,
     Popover,
     AppConfigProvider,
+    AppAvailability,
+    InAppBrowser,
     FCM,
   ],
 })

@@ -3,6 +3,7 @@ import { UUID } from 'angular2-uuid';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Solicitation } from '../../../model/solicitation/solicitation';
 import { AppConfig } from '../../../model/static/static';
+import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
@@ -30,6 +31,7 @@ export class SendSolicitationPage {
     public navParams: NavParams,
     public loading: Loading,
     public toast: Toast,
+    public extApp: ExternalAppProvider,
     public solicitationProvider: SolicitationProvider) { }
 
   /**
@@ -131,6 +133,38 @@ export class SendSolicitationPage {
     }
 
     return true;
+  }
+
+  /**
+   * @description Open a specific application to make contact with other user.
+   * @param app Application name to be open.
+   */
+  public goToApp(app: string) {
+    switch (app) {
+      case 'whats':
+        this.extApp.openWhatsApp(this.hiredPf.social.whatsapp);
+        break;
+      case 'face':
+        this.extApp.openFacebook(this.hiredPf.social.facebook);
+        break;
+      case 'inst':
+        this.extApp.openPhoneApp(this.hiredPf.social.instagram);
+        break;
+      case 'phone':
+        const phone = this.hiredPf.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
+        this.extApp.openPhoneApp(phone);
+        break;
+      case 'email':
+        this.extApp.openMailApp(this.hiredPf.email);
+        break;
+      case 'maps':
+        const fullAddress = this.hiredPf.street + ' ' + this.hiredPf.houseNumber + ' ' + this.hiredPf.district +
+          ' ' + this.hiredPf.city + ' ' + this.hiredPf.state;
+        this.extApp.openMapsApp(fullAddress);
+        break;
+      default:
+        break;
+    }
   }
 
   /**

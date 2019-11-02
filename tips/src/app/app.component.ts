@@ -22,14 +22,14 @@ export class MyApp {
     private appConfigProvider: AppConfigProvider) {
     this.platform.ready()
       .then(async () => {
-        //this.rootPage = 'MockUsersPage';
+        //this.rootPage = 'LauncherAppPage';
         // tslint:disable-next-line:comment-format
         this.verifyUser();
         this.statusBar.backgroundColorByHexString('#273A56');
         this.statusBar.styleLightContent();
 
         // tslint:disable-next-line:comment-format
-        this.notifications.initService();
+        //this.notifications.initService();
       });
   }
 

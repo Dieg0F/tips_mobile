@@ -3,8 +3,8 @@ import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic
 import { Job } from '../../../model/job/job';
 import { AppConfig } from '../../../model/static/static';
 import { DataProvider } from '../../../providers/data/data';
-import { ProfileProvider } from '../../../providers/profile/profile';
 import { JobProvider } from '../../../providers/job/job';
+import { ProfileProvider } from '../../../providers/profile/profile';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { CameraProvider } from '../../../util/camera/camera';
@@ -21,6 +21,7 @@ export class MyAccountPage {
   public profile = { ...AppConfig.USER_PROFILE };
   public jobs: Job[] = [];
   public stateId: number;
+  public lockFiels: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -40,6 +41,7 @@ export class MyAccountPage {
    * @description on page will enter.
    */
   public ionViewWillEnter() {
+    this.initializeFields();
     this.getJobs();
   }
 
@@ -129,6 +131,16 @@ export class MyAccountPage {
     if (this.formValidation()) {
       this.loading.showLoading('Salvando perfil...')
         .then(() => {
+          if (this.profile.social.whatsapp) {
+            this.profile.social.whatsapp = '+55' + this.profile.social.whatsapp.replace('(', '').replace(')', '')
+              .replace(' ', '').replace('-', '').replace('+55', '');
+          }
+          if (this.profile.social.instagram) {
+            this.profile.social.instagram = this.profile.social.instagram.replace('@', '');
+          }
+          if (this.profile.cpf.length === 14) {
+            this.lockFiels = true;
+          }
           this.profileProvider.saveProfile({ ...this.profile })
             .then(() => {
               this.loading.hideLoading();
@@ -266,5 +278,21 @@ export class MyAccountPage {
       }
       this.events.unsubscribe('jobSelected');
     });
+  }
+
+  private initializeFields() {
+    let whatsAppNumber = this.profile.social.whatsapp.replace('+55', '');
+    if (whatsAppNumber === '') {
+      this.profile.social.whatsapp = '';
+    } else {
+      const ddd = '(' + whatsAppNumber.substr(0, 2) + ') ';
+      whatsAppNumber = whatsAppNumber.replace(whatsAppNumber.substr(0, 2), '');
+      whatsAppNumber = ddd + whatsAppNumber.substr(0, 5) + '-' + whatsAppNumber.substr(5, 4);
+      this.profile.social.whatsapp = whatsAppNumber;
+    }
+
+    if (this.profile.cpf.length === 14) {
+      this.lockFiels = true;
+    }
   }
 }

@@ -81,4 +81,31 @@ page-my-account {
             border-radius: 100%;
         }
     }
+    .social-contacts {
+        margin-top: 35px;
+        h3 {
+            font-size: 17px !important;
+            opacity: 0.6;
+            margin: 0px !important;
+        }
+        p {
+            font-size: 14px !important;
+            opacity: 0.6;
+            margin: 10px 0 !important;
+        }
+    }
+    .facebook {
+        .item-ios,
+        .item-md {
+            margin-bottom: 10px !important;
+        }
+        p {
+            text-align: left;
+            font-size: 11px !important;
+            margin: 0px 0 0 0 !important;
+            opacity: 0.6;
+            line-height: 14px !important;
+            padding-right: 35px !important;
+        }
+    }
 }
