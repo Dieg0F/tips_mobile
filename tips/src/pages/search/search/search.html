@@ -12,8 +12,8 @@
                 <div class="profileName">
                     <h3>{{profile.name.firstName + " " + profile.name.lastName}}</h3>
                 </div>
-                <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRate); let i of index">
-                    <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRate)" *ngIf="i != 5"></ion-icon>
+                <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRate - profile.avaliationsCount); let i of index">
+                    <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRate - profile.avaliationsCount)" *ngIf="i != 5"></ion-icon>
                 </div>
             </div>
             <div class="clearfix"></div>

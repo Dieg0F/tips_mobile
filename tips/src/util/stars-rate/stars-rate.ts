@@ -1,33 +1,41 @@
 export class StarRateHelper {
 
-    starsRate(value: number): Array<String> {
-        var array = new Array<String>()
-        var style = ""
+    /**
+     * @description Build a array of string with all stars rate icons.
+     * @param value User rate value.
+     */
+    public starsRate(value: number): string[] {
+        const array = new Array<string>();
+        const style = '';
 
         for (let i = 1; i <= 5; i++) {
             if (i <= value) {
-                array.push('star')
+                array.push('star');
             } else {
-                array.push('star-outline')
+                array.push('star-outline');
             }
         }
 
-        array.push(style)
+        array.push(style);
 
-        return array
+        return array;
     }
 
-    starsRateColor(value: number): String {
-        var style = ""
+    /**
+     * @description Build a string with a specific color by user rate.
+     * @param value User rate value.
+     */
+    public starsRateColor(value: number): string {
+        let style = '';
 
-        if (value == 0) {
-            style = "grey"
+        if (value === 0) {
+            style = 'grey';
         } else if (value > 0 && value < 2) {
-            style = "bronze"
+            style = 'bronze';
         } else if (value >= 2 && value < 4) {
-            style = "silver"
+            style = 'silver';
         } else if (value >= 4) {
-            style = "gold"
+            style = 'gold';
         }
 
         return style;

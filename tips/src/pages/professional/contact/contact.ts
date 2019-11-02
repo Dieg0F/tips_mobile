@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Profile } from '../../../model/profile/profile';
 import { Constants } from '../../../util/constants/constants';
 import { GoogleMaps } from '../../../util/google-map/google-map';
-import { GeoLocation } from '../../../model/geoLocation/geoLocation';
-import { Profile } from '../../../model/profile/profile';
 
 @IonicPage()
 @Component({
@@ -21,18 +20,27 @@ export class ContactPage {
     this.getProfile();
   }
 
-  getProfile() {
-    this.profile = this.navParams.get(Constants.CONTACT_PROFILE)
+  /**
+   * @description get profile from params.
+   */
+  public getProfile() {
+    this.profile = this.navParams.get(Constants.CONTACT_PROFILE);
   }
 
-  ionViewDidLoad() {
+  /**
+   * @description on page has loaded.
+   */
+  public ionViewDidLoad() {
     this.buildMap();
   }
 
-  buildMap() {
+  /**
+   * @description build Google Maps map.
+   */
+  public buildMap() {
 
-    var fullAddress = this.profile.street + " " + this.profile.houseNumber + " " + this.profile.district +
-      " " + this.profile.city + " " + this.profile.state;
+    const fullAddress = this.profile.street + ' ' + this.profile.houseNumber + ' ' + this.profile.district +
+      ' ' + this.profile.city + ' ' + this.profile.state;
 
     this.map = new GoogleMaps(document.getElementById('map')).getLocation(fullAddress);
   }

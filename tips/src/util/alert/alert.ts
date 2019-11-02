@@ -1,54 +1,62 @@
-import { AlertController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
+import { AlertController } from 'ionic-angular';
 
 @Injectable()
 export class Alert {
 
     constructor(private alertCtrl: AlertController) { }
 
-    // Alert para mensagens simples
-    simpleAlert(title: string, subTitle: string) {
-        let alert = this.alertCtrl.create({
-            title: title,
-            subTitle: subTitle,
-            buttons: ['Ok']
+    /**
+     * @description create a simple alert.
+     * @param title alert title.
+     * @param subTitle alert subtitle.
+     */
+    public simpleAlert(title: string, subTitle: string) {
+        const alert = this.alertCtrl.create({
+            title,
+            subTitle,
+            buttons: ['Ok'],
         });
         alert.present();
     }
 
-    //Alert para confirmações, com ações nos botões, os métodos são passados como parametros.
-    confirmAlert(title: string,
-        subTitle: string,
-        submitFunction: any,
-        cancelFunction: any,
-        cancelButtonText: string = 'Cancelar',
+    /**
+     * @description create a alert with cancel and accept options.
+     * @param title alert title.
+     * @param subTitle alert subtitle.
+     * @param submitFunction alert submit function.
+     * @param cancelFunction alert cancel function.
+     * @param cancelButtonText alert cancel text button.
+     * @param acceptButtonText alert accept text button.
+     */
+    public confirmAlert(title: string, subTitle: string, submitFunction: any, cancelFunction: any, cancelButtonText: string = 'Cancelar',
         acceptButtonText: string = 'Ok'): Promise<any> {
-        let alert = this.alertCtrl.create({
-            title: title,
+        const alert = this.alertCtrl.create({
+            title,
             message: subTitle,
             buttons: [
                 {
-                    text: cancelButtonText,
-                    role: 'cancel',
                     handler: () => {
                         alert.dismiss()
                             .then(() => {
                                 cancelFunction();
-                            })
+                            });
                         return false;
-                    }
+                    },
+                    role: 'cancel',
+                    text: cancelButtonText,
                 },
                 {
-                    text: acceptButtonText,
                     handler: () => {
                         alert.dismiss()
                             .then(() => {
                                 submitFunction();
-                            })
+                            });
                         return false;
-                    }
-                }
-            ]
+                    },
+                    text: acceptButtonText,
+                },
+            ],
         });
         return alert.present();
     }

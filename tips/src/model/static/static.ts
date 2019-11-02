@@ -1,37 +1,37 @@
-import { Profile } from "../profile/profile";
+import { Profile } from '../profile/profile';
 
 export class AppConfig {
     public static USER_PROFILE: Profile = {
-        uid: "",
+        uid: '',
         name: {
-            firstName: "",
-            lastName: "",
+            firstName: '',
+            lastName: '',
         },
-        email: "",
+        email: '',
         isAPro: true,
         isActive: true,
-        phone: "",
-        street: "",
-        houseNumber: "",
-        district: "",
-        city: "",
-        state: "",
-        cpf: "",
+        phone: '',
+        street: '',
+        houseNumber: '',
+        district: '',
+        city: '',
+        state: '',
+        cpf: '',
         geoLocation: {
             lat: 0,
-            lng: 0
+            lng: 0,
         },
-        job: "",
-        aboutMe: "",
-        profilePhotoUrl: "",
+        job: '',
+        aboutMe: '',
+        profilePhotoUrl: '',
         hideMyProfile: false,
         userRate: 0,
         userMaxRate: 0,
         userMinRate: 0,
         solicitationCount: 0,
         avaliationsCount: 0,
-        deviceToken: ""
-    }
+        deviceToken: '',
+    };
 
-    public static PROFILE_PHOTO_PATH = 'profilePhoto/'
+    public static PROFILE_PHOTO_PATH = 'profilePhoto/';
 }

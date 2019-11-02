@@ -1,13 +1,25 @@
 export class Regex {
 
+    /**
+     * @description verify user name is correct.
+     * @param name user name.
+     */
     public verifyName(name: string): boolean {
         return new RegExp(/\w/).test(name);
     }
 
-    public verifyEmail(email: string): Boolean {
+    /**
+     * @description verify user email is correct.
+     * @param email user email.
+     */
+    public verifyEmail(email: string): boolean {
         return new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email);
     }
 
+    /**
+     * @description verify user pass is correct.
+     * @param pass user pass.
+     */
     public verifyPassword(pass: string): boolean {
         return new RegExp(/\w{6,10}/).test(pass);
     }

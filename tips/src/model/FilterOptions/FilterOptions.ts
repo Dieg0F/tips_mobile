@@ -1,8 +1,7 @@
 export class FilterOptions {
-    profileName: String = "";
-    profileSector: String = "";
-    profileState: String = "";
-    profileCity: String = "";
-    profileRate: number = 0;
+    public profileName: string = '';
+    public profileJob: string = '';
+    public profileState: string = '';
+    public profileCity: string = '';
+    public profileRate: number = 0;
 }
-

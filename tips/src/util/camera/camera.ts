@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @Injectable()
@@ -11,12 +11,15 @@ export class CameraProvider {
         targetWidth: 250,
         targetHeight: 250,
         allowEdit: true,
-        correctOrientation: true  //Corrects Android orientation quirks
-    }
+        correctOrientation: true,
+    };
 
     constructor(private camera: Camera) { }
 
-    async getPicture(): Promise<any> {
-        return this.camera.getPicture(this.options)
+    /**
+     * @description request picures from device gallery.
+     */
+    public async getPicture(): Promise<any> {
+        return this.camera.getPicture(this.options);
     }
 }

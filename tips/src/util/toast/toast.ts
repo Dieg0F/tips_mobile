@@ -1,16 +1,20 @@
-import { ToastController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
+import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class Toast {
 
     constructor(private toastCtrl: ToastController) { }
 
-    showToast(toastMesssage: string): Promise<any> {
-        let toast = this.toastCtrl.create({
+    /**
+     * @description show a toast on view.
+     * @param toastMesssage message to be showed on toast.
+     */
+    public showToast(toastMesssage: string): Promise<any> {
+        const toast = this.toastCtrl.create({
             message: toastMesssage,
             duration: 3000,
-            position: 'bottom'
+            position: 'bottom',
         });
 
         return toast.present();

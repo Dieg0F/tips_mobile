@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, normalizeURL, Events } from 'ionic-angular';
-import { UserProvider } from '../../../providers/user/user';
-import { ProfileProvider } from '../../../providers/profile/profile';
-import { StorageProvider } from '../../../providers/storage/storage';
-import { Toast } from '../../../util/toast/toast';
-import { CameraProvider } from '../../../util/camera/camera';
-import { DataProvider } from '../../../providers/data/data';
-import { Loading } from '../../../util/loading/loading';
+import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
+import { Job } from '../../../model/job/job';
 import { AppConfig } from '../../../model/static/static';
-import { SectorProvider } from '../../../providers/sector/sector';
-import { Sector } from '../../../model/sector/sector';
+import { DataProvider } from '../../../providers/data/data';
+import { ProfileProvider } from '../../../providers/profile/profile';
+import { JobProvider } from '../../../providers/job/job';
+import { StorageProvider } from '../../../providers/storage/storage';
+import { UserProvider } from '../../../providers/user/user';
+import { CameraProvider } from '../../../util/camera/camera';
+import { Loading } from '../../../util/loading/loading';
+import { Toast } from '../../../util/toast/toast';
 
 @IonicPage()
 @Component({
@@ -18,8 +18,8 @@ import { Sector } from '../../../model/sector/sector';
 })
 export class MyAccountPage {
 
-  public profile = { ...AppConfig.USER_PROFILE }
-  public sectors: Array<Sector> = [];
+  public profile = { ...AppConfig.USER_PROFILE };
+  public jobs: Job[] = [];
   public stateId: number;
 
   constructor(
@@ -30,85 +30,102 @@ export class MyAccountPage {
     public storageProvider: StorageProvider,
     public loading: Loading,
     public dataProvider: DataProvider,
-    public sectorsProvider: SectorProvider,
+    public jobProvider: JobProvider,
     public toast: Toast,
     public events: Events,
     public camera: CameraProvider) {
   }
 
-  ionViewWillEnter() {
-    this.getSectors();
+  /**
+   * @description on page will enter.
+   */
+  public ionViewWillEnter() {
+    this.getJobs();
   }
 
-  setAvatarImage() {
-    var profilePhoto = "";
+  /**
+   * @description Build user avatar image on a view list.
+   */
+  public setAvatarImage() {
+    let profilePhoto = '';
     if (this.profile.profilePhotoUrl) {
       profilePhoto = this.profile.profilePhotoUrl;
     } else {
-      profilePhoto = "../../../assets/imgs/149071.png";
+      profilePhoto = '../../../assets/imgs/149071.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',
+      'background-position': 'center',
       'background-size': 'cover',
-      'background-position': 'center'
     };
   }
-
-  getSectors() {
-    this.loading.showLoading("Carregando...")
-    this.sectors = new Array<Sector>();
-    this.sectorsProvider.getSectors()
+  /**
+   * @description request all jobs from database.
+   */
+  public getJobs() {
+    this.loading.showLoading('Carregando...');
+    this.jobs = new Array<Job>();
+    this.jobProvider.getJobs()
       .then((res) => {
-        res.subscribe(values => {
-          this.sectors = values;
+        res.subscribe((values) => {
+          this.jobs = values;
           this.loading.hideLoading();
         });
       })
       .catch((err) => {
-        console.log("Erro: ", err);
-        this.toast.showToast("Erro ao preparar busca, Profissiões não encontradas! ");
+        this.toast.showToast('Erro ao preparar busca, Profissiões não encontradas! ');
       });
   }
 
-  skipProfile() {
+  /**
+   * @description cancel profile configuration.
+   */
+  public skipProfile() {
     this.navCtrl.setRoot('ProfilePage');
-    this.navCtrl.goToRoot;
   }
 
-  setProfilePhoto() {
-    this.loading.showLoading("Salvando imagem...")
+  /**
+   * @description update profile photo on database.
+   */
+  public setProfilePhoto() {
+    this.loading.showLoading('Salvando imagem...')
       .then(() => {
-        console.log("setProfilePhoto >> Get Profile Photo and Save on Database");
         this.camera.getPicture()
           .then((img) => {
-            var fileUrl = normalizeURL('data:image/jpeg;base64,' + img)
-            let selectedPhoto: any = this.dataURItoBlob(fileUrl);
+            const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
+            const selectedPhoto: any = this.dataURItoBlob(fileUrl);
             return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
               .then((downloadURL) => {
                 this.profile.profilePhotoUrl = downloadURL;
-                var elm = document.getElementById('set_profileImage');
-                elm.style.backgroundImage = "url('" + downloadURL + "')";
-                elm.style.backgroundSize = "cover";
-                this.loading.hideLoading()
-              })
+                const elm = document.getElementById('set_profileImage');
+                elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
+                elm.style.backgroundSize = 'cover';
+                this.loading.hideLoading();
+              });
           })
           .catch((error) => {
-            console.log("setProfilePhoto >> Error: ", error)
-            this.loading.hideLoading()
-          })
-      })
+            this.loading.hideLoading();
+          });
+      });
   }
 
-  dataURItoBlob(dataURI: string) {
-    let binary = atob(dataURI.split(',')[1]);
-    let array = [];
+  /**
+   * @description convert a URI file to blob
+   * @param dataURI URI file.
+   */
+  public dataURItoBlob(dataURI: string) {
+    const binary = atob(dataURI.split(',')[1]);
+    const array = [];
     for (let i = 0; i < binary.length; i++) {
       array.push(binary.charCodeAt(i));
     }
     return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
   }
 
-  save() {
+  /**
+   * @description update profile on database.
+   */
+  public save() {
     if (this.formValidation()) {
       this.loading.showLoading('Salvando perfil...')
         .then(() => {
@@ -122,115 +139,132 @@ export class MyAccountPage {
             .catch(() => {
               this.loading.hideLoading();
               this.toast.showToast('Erro ao salvar o perfil!');
-            })
-        })
+            });
+        });
     }
   }
 
-  selectJob() {
+  /**
+   * @description redirect user to a select job modal.
+   */
+  public selectJob() {
     this.onJobSelected();
-    this.navCtrl.push("JobSearchPage", { 'jobList': this.sectors });
+    this.navCtrl.push('JobSearchPage', { jobList: this.jobs });
   }
 
-  selectState() {
+  /**
+   * @description redirect user to a select state modal.
+   */
+  public selectState() {
     this.onStateSelected();
-    this.navCtrl.push("StateSearchPage");
+    this.navCtrl.push('StateSearchPage');
   }
 
-  selectCity() {
+  /**
+   * @description redirect user to a select city modal.
+   */
+  public selectCity() {
     if (this.profile.state) {
       this.onCitySelected();
-      this.navCtrl.push("CitySearchPage", { 'stateId': this.stateId });
+      this.navCtrl.push('CitySearchPage', { stateId: this.stateId });
     } else {
-      this.toast.showToast("Selecione o estado primeiro!");
+      this.toast.showToast('Selecione o estado primeiro!');
     }
   }
 
+  /**
+   * @description validate if user has complete all fields.
+   */
+  public formValidation(): boolean {
+    if (!this.profile.name.firstName) {
+      this.toast.showToast('Insira seu primeiro nome!');
+      return false;
+    }
+    if (!this.profile.name.lastName) {
+      this.toast.showToast('Insira seu ultimo nome!');
+      return false;
+    }
+    if (!this.profile.cpf) {
+      this.toast.showToast('Insira seu CPF!');
+      return false;
+    }
+    if (!this.profile.phone) {
+      this.toast.showToast('Insira seu número de telefone!');
+      return false;
+    }
+    if (!this.profile.street) {
+      this.toast.showToast('Insira o nome da rua em que mora!');
+      return false;
+    }
+    if (!this.profile.houseNumber) {
+      this.toast.showToast('Insira o numero da sua casa!');
+      return false;
+    }
+    if (!this.profile.district) {
+      this.toast.showToast('Insira o nome do seu bairro!');
+      return false;
+    }
+    if (!this.profile.state) {
+      this.toast.showToast('Selecione o estado de sua cidade!');
+      return false;
+    }
+    if (!this.profile.city) {
+      this.toast.showToast('Selecione a cidade onde mora!');
+      return false;
+    }
+    if (this.profile.isAPro) {
+      if (!this.profile.job) {
+        this.toast.showToast('Selecione a profissão em que trabalha!');
+        return false;
+      }
+      if (!this.profile.aboutMe) {
+        this.toast.showToast('Escreva um pouco sobre você!');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * @description event when user select a city on city modal.
+   */
   private onCitySelected() {
     this.events.subscribe('citySelected', async (city: string) => {
-      if (city != undefined) {
+      if (city !== undefined) {
         this.profile.city = city;
-      }
-      else {
-        this.profile.city = "";
+      } else {
+        this.profile.city = '';
       }
       this.events.unsubscribe('citySelected');
     });
   }
 
+  /**
+   * @description event when user select a state on state modal.
+   */
   private onStateSelected() {
     this.events.subscribe('stateSelected', async (state: any) => {
-      if (state != undefined) {
-        this.profile.state = state.sigla
-        this.stateId = state.id
-      }
-      else {
-        this.profile.state = "";
+      if (state !== undefined) {
+        this.profile.state = state.sigla;
+        this.stateId = state.id;
+      } else {
+        this.profile.state = '';
       }
       this.events.unsubscribe('stateSelected');
     });
   }
 
+  /**
+   * @description event when user select a job on job modal.
+   */
   private onJobSelected() {
     this.events.subscribe('jobSelected', async (job: string) => {
-      if (job != undefined) {
-        this.profile.job = job
-      }
-      else {
-        this.profile.job = "";
+      if (job !== undefined) {
+        this.profile.job = job;
+      } else {
+        this.profile.job = '';
       }
       this.events.unsubscribe('jobSelected');
     });
-  }
-
-
-  formValidation(): boolean {
-    if (!this.profile.name.firstName) {
-      this.toast.showToast("Insira seu primeiro nome!");
-      return false;
-    }
-    if (!this.profile.name.lastName) {
-      this.toast.showToast("Insira seu ultimo nome!");
-      return false;
-    }
-    if (!this.profile.cpf) {
-      this.toast.showToast("Insira seu CPF!");
-      return false;
-    }
-    if (!this.profile.phone) {
-      this.toast.showToast("Insira seu número de telefone!");
-      return false;
-    }
-    if (!this.profile.street) {
-      this.toast.showToast("Insira o nome da rua em que mora!");
-      return false;
-    }
-    if (!this.profile.houseNumber) {
-      this.toast.showToast("Insira o numero da sua casa!");
-      return false;
-    }
-    if (!this.profile.district) {
-      this.toast.showToast("Insira o nome do seu bairro!");
-      return false;
-    }
-    if (!this.profile.state) {
-      this.toast.showToast("Selecione o estado de sua cidade!");
-      return false;
-    }
-    if (!this.profile.city) {
-      this.toast.showToast("Selecione a cidade onde mora!");
-      return false;
-    }
-    if (this.profile.isAPro) {
-      if (!this.profile.job) {
-        this.toast.showToast("Selecione a profissão em que trabalha!");
-        return false;
-      }
-      if (!this.profile.aboutMe) {
-        this.toast.showToast("Escreva um pouco sobre você!");
-        return false;
-      }
-    }
-    return true;
   }
 }

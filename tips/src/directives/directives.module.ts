@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { NextInputDirective } from './next-input/next-input';
+
 @NgModule({
 	declarations: [NextInputDirective],
+	exports: [NextInputDirective],
 	imports: [],
-	exports: [NextInputDirective]
 })
-export class DirectivesModule {}
+
+export class DirectivesModule { }

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, Events } from 'ionic-angular';
-import { Locations } from '../../../providers/locations/locations';
-import { Toast } from '../../../util/toast/toast';
-import { Loading } from '../../../util/loading/loading';
+import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Solicitation, SolicitationObservation } from '../../../model/solicitation/solicitation';
-import { Constants } from '../../../util/constants/constants';
-import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { AppConfig } from '../../../model/static/static';
+import { Locations } from '../../../providers/locations/locations';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
+import { Constants } from '../../../util/constants/constants';
+import { Loading } from '../../../util/loading/loading';
+import { Toast } from '../../../util/toast/toast';
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ import { AppConfig } from '../../../model/static/static';
 })
 export class SolicitationObservationPage {
 
-  public solicitationObs: string = "";
+  public solicitationObs: string = '';
   public solicitation: Solicitation;
 
   constructor(
@@ -30,13 +30,16 @@ export class SolicitationObservationPage {
     this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
   }
 
-  finish() {
-    let observation: SolicitationObservation = {
+  /**
+   * @description build a Solicitation Observation object and save it on solicitation.
+   */
+  public finish() {
+    const observation: SolicitationObservation = {
       userUid: AppConfig.USER_PROFILE.uid,
-      userName: AppConfig.USER_PROFILE.name.firstName + " " + AppConfig.USER_PROFILE.name.lastName,
+      userName: AppConfig.USER_PROFILE.name.firstName + ' ' + AppConfig.USER_PROFILE.name.lastName,
       body: this.solicitationObs,
       cause: Constants.SOLICITATION_IS_CANCELED,
-      date: new Date(parseInt(Date.now().toString())).toLocaleDateString()
+      date: new Date(parseInt(Date.now().toString(), 0)).toLocaleDateString(),
     };
     this.solicitation.observations = new Array<SolicitationObservation>();
     this.solicitation.observations.push(observation);
@@ -44,25 +47,31 @@ export class SolicitationObservationPage {
     this.updateSolicitation();
   }
 
-  updateSolicitation() {
-    this.loading.showLoading("Atualizando solicitação...")
+  /**
+   * @description update solicitation with a new observation.
+   */
+  public updateSolicitation() {
+    this.loading.showLoading('Atualizando solicitação...')
       .then(() => {
         this.solicitation.lastActionByUserUid = AppConfig.USER_PROFILE.uid;
         this.solicitationProvider.updateSolicitation(this.solicitation)
           .then(() => {
             this.loading.hideLoading();
-            this.toast.showToast("Solicitação cancelada!");
-            this.events.publish("USER_CHANGE_SOLICITATION", this.solicitation);
+            this.toast.showToast('Solicitação cancelada!');
+            this.events.publish('USER_CHANGE_SOLICITATION', this.solicitation);
             this.viewCtrl.dismiss();
           })
           .catch(() => {
-            this.toast.showToast("Erro ao alterar solicitação!");
+            this.toast.showToast('Erro ao alterar solicitação!');
             this.viewCtrl.dismiss();
-          })
-      })
+          });
+      });
   }
 
-  cancel() {
+  /**
+   * @description close this modal.
+   */
+  public cancel() {
     this.viewCtrl.dismiss();
   }
 }

@@ -19,7 +19,7 @@ export class NextInputDirective {
    * @description If enter is pressed, goes to the next input.
    * @param e the event of clicking.
    */
-  public onInputChange(e) {
+  public onInputChange(e: any) {
     const code = e.keyCode || e.which;
     if (code === ENTER_CODE) {
       e.preventDefault();

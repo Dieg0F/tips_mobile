@@ -1,0 +1,15 @@
+page-mock-avals {
+    .scroll-content>div>div:first-child {
+        top: 15px;
+    }
+    .scroll-content>div>div:last-child {
+        bottom: 15px;
+    }
+    .scroll-content>div>div {
+        width: calc(100% - 32px);
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}

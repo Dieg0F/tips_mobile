@@ -2,12 +2,13 @@
  * Classe para perfis, o memso obj será usado para empresas e autonomos, pois assim fica tudo em uma tabela só
  * Podendo ocorrer alterações!!!!
  */
+// tslint:disable-next-line:interface-name
 export interface Profile {
     uid: string;
     name: {
         firstName: string;
         lastName: string;
-    }
+    };
     email: string;
     isAPro: boolean;
     isActive: boolean;
@@ -21,7 +22,7 @@ export interface Profile {
     geoLocation: {
         lat: number;
         lng: number;
-    },
+    };
     job: string;
     aboutMe: string;
     profilePhotoUrl: string;
@@ -33,5 +34,3 @@ export interface Profile {
     avaliationsCount: number;
     deviceToken: string;
 }
-
-

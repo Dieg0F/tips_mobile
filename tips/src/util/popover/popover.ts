@@ -1,15 +1,21 @@
+import { Injectable } from '@angular/core';
 import { PopoverController } from 'ionic-angular';
-import { Injectable, Component } from '@angular/core';
 
 @Injectable()
 export class Popover {
     constructor(public popoverCtrl: PopoverController) { }
 
-    showPopover(popoverPage: any, data?: {}, event?) {
+    /**
+     * @description show popover on view.
+     * @param popoverPage popovercomponent to be open.
+     * @param data data bo be send as value.
+     * @param event event from view.
+     */
+    public showPopover(popoverPage: any, data?: {}, event?) {
 
-        let popover = this.popoverCtrl.create(popoverPage, data);
+        const popover = this.popoverCtrl.create(popoverPage, data);
         popover.present({
-            ev: event
+            ev: event,
         });
     }
 }

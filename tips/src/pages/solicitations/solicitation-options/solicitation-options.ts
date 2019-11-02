@@ -1,14 +1,14 @@
+import { Component } from '@angular/core';
+import { Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { AppConfig } from '../../../model/static/static';
+import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
+import { Constants } from '../../../util/constants/constants';
 import { Solicitation } from './../../../model/solicitation/solicitation';
 import { AvaliationProvider } from './../../../providers/avaliation/avaliation';
 import { Alert } from './../../../util/alert/alert';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { Constants } from '../../../util/constants/constants';
-import { AppConfig } from '../../../model/static/static';
-import { Events } from 'ionic-angular';
-import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 
 @IonicPage()
 @Component({
@@ -18,18 +18,13 @@ import { SolicitationProvider } from '../../../providers/solicitations/solicitat
 export class SolicitationOptionsPage {
 
   public solicitation: Solicitation;
-
   public solicitationFinishedStatus = Constants.SOLICITATION_IS_FINISHED;
   public userUid = AppConfig.USER_PROFILE.uid;
-
-  public loadingMessage = "";
-  public toastMessage = "";
-
+  public loadingMessage = '';
+  public toastMessage = '';
   public removeAction: boolean = false;
   public cancelAction: boolean = false;
-
   public asContractor: boolean = true;
-
   private userCloseThisModal: boolean = true;
 
   constructor(
@@ -45,10 +40,13 @@ export class SolicitationOptionsPage {
     this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
   }
 
-  ionViewWillEnter() {
+  /**
+   * @description on page will enter.
+   */
+  public ionViewWillEnter() {
     this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
 
-    if (this.solicitation.contractorUid == this.userUid) {
+    if (this.solicitation.contractorUid === this.userUid) {
       this.asContractor = true;
     } else {
       this.asContractor = false;
@@ -57,127 +55,162 @@ export class SolicitationOptionsPage {
     this.setButtons();
   }
 
-  ionViewWillLeave() {
-    if (this.userCloseThisModal) this.events.unsubscribe('USER_CHANGE_SOLICITATION');
+  /**
+   * @description on page will leave.
+   */
+  public ionViewWillLeave() {
+    if (this.userCloseThisModal) { this.events.unsubscribe('USER_CHANGE_SOLICITATION'); }
   }
 
-  setButtons() {
-    if (this.solicitation.status == Constants.SOLICITATION_IS_FINISHED ||
-      this.solicitation.status == Constants.SOLICITATION_IS_CANCELED) {
+  /**
+   * @description handle buttons that will be displayed.
+   */
+  public setButtons() {
+    if (this.solicitation.status === Constants.SOLICITATION_IS_FINISHED ||
+      this.solicitation.status === Constants.SOLICITATION_IS_CANCELED) {
       this.removeAction = true;
       this.cancelAction = false;
     }
-    if (this.solicitation.status == Constants.SOLICITATION_IS_RUNNING) {
+    if (this.solicitation.status === Constants.SOLICITATION_IS_RUNNING) {
       this.cancelAction = true;
       this.removeAction = false;
     }
-    if (this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
+    if (this.solicitation.status === Constants.SOLICITATION_IS_OPEN) {
       this.cancelAction = true;
       this.removeAction = false;
     }
   }
 
-  cancelSolicitationAlert() {
+  /**
+   * @description cancel solicitation alert information.
+   */
+  public cancelSolicitationAlert() {
     this.close()
       .then(() => {
         this.alert.confirmAlert(
-          "Cancelar solicitação",
-          "Tem certeza que deseja cancelar esta solicitação?",
+          'Cancelar solicitação',
+          'Tem certeza que deseja cancelar esta solicitação?',
           this.cancelSolicitation.bind(this),
-          () => { })
-      })
+          // tslint:disable-next-line:no-empty
+          () => { });
+      });
   }
 
-  removeSolicitationAlert() {
+  /**
+   * @description remove solicitation alert information.
+   */
+  public removeSolicitationAlert() {
     this.close()
       .then(() => {
         this.alert.confirmAlert(
-          "Remover solicitação",
-          "Tem certeza que deseja remover esta solicitação?",
+          'Remover solicitação',
+          'Tem certeza que deseja remover esta solicitação?',
           this.removeSolicitation.bind(this),
-          () => { })
-      })
+          // tslint:disable-next-line:no-empty
+          () => { });
+      });
   }
 
-  finishSolicitationAlert() {
+  /**
+   * @description finish solicitation alert information.
+   */
+  public finishSolicitationAlert() {
     this.close()
       .then(() => {
         this.alert.confirmAlert(
-          "Finalizar solicitação",
-          "Tem certeza que deseja finalizar esta solicitação?",
+          'Finalizar solicitação',
+          'Tem certeza que deseja finalizar esta solicitação?',
           this.finishSolicitation.bind(this),
-          () => { })
-      })
+          // tslint:disable-next-line:no-empty
+          () => { });
+      });
   }
 
-
-  finishSolicitation() {
+  /**
+   * @description apply finish solicitation changes.
+   */
+  public finishSolicitation() {
     this.solicitation.status = Constants.SOLICITATION_IS_FINISHED;
-    this.loadingMessage = "Finalizando solicitação...";
-    this.toastMessage = "Solicitação finalizado!";
+    this.loadingMessage = 'Finalizando solicitação...';
+    this.toastMessage = 'Solicitação finalizado!';
     this.updateSolicitation();
   }
 
-  cancelSolicitation() {
+  /**
+   * @description apply cancel solicitation changes.
+   */
+  public cancelSolicitation() {
     if (this.asContractor &&
-      this.solicitation.status == Constants.SOLICITATION_IS_OPEN) {
+      this.solicitation.status === Constants.SOLICITATION_IS_OPEN) {
       this.solicitation.removedTo.hiredUid = this.solicitation.hiredUid;
     }
     this.solicitation.status = Constants.SOLICITATION_IS_CANCELED;
-    this.loadingMessage = "Cancelando solicitação...";
-    this.toastMessage = "Solicitação cancelado!";
-    this.navCtrl.push('SolicitationObservationPage', { 'solicitation': this.solicitation });
+    this.loadingMessage = 'Cancelando solicitação...';
+    this.toastMessage = 'Solicitação cancelado!';
+    this.navCtrl.push('SolicitationObservationPage', { solicitation: this.solicitation });
   }
 
-  removeSolicitation() {
+  /**
+   * @description apply remove solicitation changes.
+   */
+  public removeSolicitation() {
     if (this.asContractor) {
       this.solicitation.removedTo.contractorUid = this.userUid;
     } else {
       this.solicitation.removedTo.hiredUid = this.userUid;
     }
-    this.loadingMessage = "Removendo solicitação...";
-    this.toastMessage = "Solicitação removido!";
+    this.loadingMessage = 'Removendo solicitação...';
+    this.toastMessage = 'Solicitação removido!';
     this.updateSolicitation();
   }
 
-  async updateSolicitation() {
+  /**
+   * @description update solicitation on database.
+   */
+  public async updateSolicitation() {
     this.solicitation.lastActionByUserUid = this.userUid;
     await this.loading.showLoading(this.loadingMessage)
       .then(async () => {
         return await this.serviceProvider.updateSolicitation(this.solicitation)
           .then(async () => {
             this.success();
-          })
+          });
       })
       .catch((err) => {
-        console.log("Error: SolicitationOptionsPage, Loading Hide");
-        console.log("Error: ", err);
         this.error();
-      })
+      });
   }
 
-  success() {
+  /**
+   * @description handle solicitation success messages and start solicitation update event.
+   */
+  public success() {
     try {
       this.loading.hideLoading();
       this.toast.showToast(this.toastMessage);
       this.events.publish('USER_CHANGE_SOLICITATION', this.solicitation);
     } catch (error) {
-      console.log("Error: SolicitationOptionsPage, Loading Hide");
-      console.log("Error: ", error);
+      // tslint:disable-next-line:no-console
+      console.log('Error: SolicitationOptionsPage, Loading Hide');
+      // tslint:disable-next-line:no-console
+      console.log('Error: ', error);
     }
   }
 
-  error() {
+  /**
+   * @description handle solicitation error messages.
+   */
+  public error() {
     this.loading.hideLoadingPromise()
       .then(() => {
-        return this.toast.showToast("Erro ao atualizar o status do serviço.");
-      })
-      .catch(() => {
-        console.log("Error: SolicitationOptionsPage, Loading Hide")
-      })
+        return this.toast.showToast('Erro ao atualizar o status do serviço.');
+      });
   }
 
-  close(): Promise<any> {
+  /**
+   * @description close this popup.
+   */
+  public close(): Promise<any> {
     this.userCloseThisModal = false;
     return this.viewCtrl.dismiss();
   }
