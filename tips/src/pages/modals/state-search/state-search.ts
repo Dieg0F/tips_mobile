@@ -65,8 +65,9 @@ export class StateSearchPage {
    */
   public finish() {
     const filterState = this.states.filter((state: any) => {
-      return state.id === this.stateSelected;
+      return state.id.toString() === this.stateSelected;
     });
+
     this.events.publish('stateSelected', filterState[0]);
     this.viewCtrl.dismiss();
   }

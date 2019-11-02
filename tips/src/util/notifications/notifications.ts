@@ -40,6 +40,7 @@ export class Notifications {
      */
     public getToken(): Promise<string> {
         return this.fcm.getToken();
+        //return new Promise((res, err) => { res('') });
     }
 
     /**

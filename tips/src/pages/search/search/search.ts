@@ -116,6 +116,19 @@ export class SearchPage {
     if (this.filterOptions.profileState === undefined) {
       this.filterOptions.profileState = AppConfig.USER_PROFILE.state;
     }
+
+    if (this.filterOptions.profileRate === undefined) {
+      this.filterOptions.profileRate = 0;
+    }
+
+    if (this.filterOptions.profileName === undefined) {
+      this.filterOptions.profileName = '';
+    }
+
+    if (this.filterOptions.profileJob === undefined) {
+      this.filterOptions.profileJob = '';
+    }
+
     this.requestProfiles();
   }
 

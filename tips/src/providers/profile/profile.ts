@@ -32,6 +32,14 @@ export class ProfileProvider {
      * @description save profile on database.
      * @param profile profile to be saved.
      */
+    public async saveProfileMock(profile: any): Promise<void> {
+        this.db.collection(Constants.PROFILES_COLLECTION).doc(profile.uid).set(profile);
+    }
+
+    /**
+     * @description save profile on database.
+     * @param profile profile to be saved.
+     */
     public async saveProfileOnStorage(profile: any): Promise<void> {
         return this.storage.setItem(Constants.USER_PROFILE_LOCAL_DB, profile)
             .then(() => {
@@ -57,10 +65,10 @@ export class ProfileProvider {
     public async getProfiles(filter: FilterOptions, limit: number) {
         return this.db.collection(Constants.PROFILES_COLLECTION, (ref) => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            if (filter.profileName !== '') { query = query.where('nome', '==', filter.profileName); }
-            if (filter.profileState !== '') { query = query.where('estado', '==', filter.profileState); }
-            if (filter.profileCity !== '') { query = query.where('cidade', '==', filter.profileCity); }
-            if (filter.profileJob !== '') { query = query.where('setor', '==', filter.profileJob); }
+            if (filter.profileName !== '') { query = query.where('name.firstName', '==', filter.profileName); }
+            if (filter.profileState !== '') { query = query.where('state', '==', filter.profileState); }
+            if (filter.profileCity !== '') { query = query.where('city', '==', filter.profileCity); }
+            if (filter.profileJob !== '') { query = query.where('job', '==', filter.profileJob); }
             if (filter.profileRate !== 0) {
                 query = query.where('userRate', '==', filter.profileRate);
             } else { query = query.orderBy('userRate', 'desc'); }
