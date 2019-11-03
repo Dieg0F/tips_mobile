@@ -1,3 +1,4 @@
+import { Alert } from './../../../util/alert/alert';
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
@@ -10,6 +11,9 @@ import { UserProvider } from '../../../providers/user/user';
 import { CameraProvider } from '../../../util/camera/camera';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
+
+const CAMERA_SOURCE = 'CAMERA_SOURCE';
+const GALLERY_SOURCE = 'GALLERY_SOURCE';
 
 @IonicPage()
 @Component({
@@ -33,6 +37,7 @@ export class MyAccountPage {
     public dataProvider: DataProvider,
     public jobProvider: JobProvider,
     public toast: Toast,
+    public alert: Alert,
     public events: Events,
     public camera: CameraProvider) {
   }
@@ -90,25 +95,12 @@ export class MyAccountPage {
    * @description update profile photo on database.
    */
   public setProfilePhoto() {
-    this.loading.showLoading('Salvando imagem...')
-      .then(() => {
-        this.camera.getPicture()
-          .then((img) => {
-            const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
-            const selectedPhoto: any = this.dataURItoBlob(fileUrl);
-            return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
-              .then((downloadURL) => {
-                this.profile.profilePhotoUrl = downloadURL;
-                const elm = document.getElementById('set_profileImage');
-                elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
-                elm.style.backgroundSize = 'cover';
-                this.loading.hideLoading();
-              });
-          })
-          .catch((error) => {
-            this.loading.hideLoading();
-          });
-      });
+    this.alert.confirmAlert(
+      'Foto de perfil.',
+      'Selecione uma imagem da sua galeria ou tire uma foto com a câmera!',
+      this.takeAPhoto.bind(this), this.getImageOnGallery.bind(this),
+      'Galeria', 'Tirar uma foto',
+    );
   }
 
   /**
@@ -280,6 +272,56 @@ export class MyAccountPage {
     });
   }
 
+  /**
+   * @description GEt a image from gallery.
+   */
+  private getImageOnGallery() {
+    this.loading.showLoading('Salvando imagem...')
+      .then(() => {
+        this.camera.getPicture(GALLERY_SOURCE)
+          .then((img) => {
+            return this.savingImage(img);
+          })
+          .catch((error) => {
+            this.loading.hideLoading();
+          });
+      });
+  }
+
+  /**
+   * @description Get a image from camera.
+   */
+  private takeAPhoto() {
+    this.loading.showLoading('Salvando imagem...')
+      .then(() => {
+        this.camera.getPicture(CAMERA_SOURCE)
+          .then((img) => {
+            return this.savingImage(img);
+          })
+          .catch((error) => {
+            this.loading.hideLoading();
+          });
+      });
+  }
+
+  /**
+   * @description Save a image on Firebase Storage.
+   * @param img Image to be saved.
+   */
+  private async savingImage(img: any) {
+    const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
+    const selectedPhoto: any = this.dataURItoBlob(fileUrl);
+    const downloadURL = await this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid);
+    this.profile.profilePhotoUrl = downloadURL;
+    const elm = document.getElementById('set_profileImage');
+    elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
+    elm.style.backgroundSize = 'cover';
+    this.loading.hideLoading();
+  }
+
+  /**
+   * @description initialize fields.
+   */
   private initializeFields() {
     let whatsAppNumber = this.profile.social.whatsapp.replace('+55', '');
     if (whatsAppNumber === '') {

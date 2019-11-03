@@ -387,11 +387,14 @@ page-solicitations-filter,
     }
 }
 
+.alert-md,
+.alert-ios,
 .select-alert.single-select-alert {
     .alert-wrapper {
         border-radius: $smallRadius !important;
         max-width: 300px !important;
         min-width: 280px !important;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4) !important;
         .alert-head {
             padding: $mediumSpace $highSpace !important;
         }
