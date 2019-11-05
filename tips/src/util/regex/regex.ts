@@ -21,7 +21,7 @@ export class Regex {
      * @param pass user pass.
      */
     public verifyPassword(pass: string): boolean {
-        return new RegExp(/\w{6,10}/).test(pass);
+        return new RegExp(/^[0-9A-Za-z\ !@#$%ˆ*()_+-`=;:',.?/]{6,10}$/).test(pass);
     }
 }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ExternalAppProvider } from '../../providers/external-app/external-app';
 
 /**
  * Generated class for the AboutPage page.
@@ -15,11 +16,24 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  constructor(private extApp: ExternalAppProvider) { }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AboutPage');
+  /**
+   * @description Open a specific application to make contact with other user.
+   * @param app Application name to be open.
+   */
+  public goToApp(app: string) {
+    switch (app) {
+      case 'face':
+        this.extApp.openFacebook('tips.servicos');
+        break;
+      case 'inst':
+        this.extApp.openInstagram('tips.servicos');
+        break;
+      case 'email':
+        this.extApp.openMailApp('tips.applications@gmail.com');
+        break;
+    }
   }
 
 }

@@ -56,7 +56,6 @@ export class ProfileDetailsPage {
    * @param value User rate value.
    */
   public starsRate(value: number): string[] {
-    value = value - this.profile.avaliationsCount;
     return this.starsRateHelper.starsRate(value);
   }
 
@@ -65,7 +64,6 @@ export class ProfileDetailsPage {
    * @param value User rate value.
    */
   public starsRateColor(value: number): string {
-    value = value - this.profile.avaliationsCount;
     return this.starsRateHelper.starsRateColor(value);
   }
 

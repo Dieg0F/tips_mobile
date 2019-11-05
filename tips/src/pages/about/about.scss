@@ -9,25 +9,61 @@ page-about {
     }
     .appSession {
         position: absolute;
-        top: 25px !important;
+        top: 0px !important;
         display: grid;
         align-items: center;
         justify-items: center;
         padding: 16px;
         text-align: center;
         img {
-            width: 100px !important;
+            width: 75px !important;
             margin: 10px;
         }
         h1 {
-            font-size: 25px;
+            font-size: 20px;
             margin: 15px 0px 10px !important;
             opacity: 0.8;
         }
         p {
-            font-size: 18px !important;
+            font-size: 16px !important;
             margin: 0px !important;
             opacity: 0.8;
+        }
+        .social-links {
+            margin-top: 25px;
+            p {
+                font-size: 15px !important;
+                margin: 0px 0px 10px !important;
+            }
+            div {
+                width: 40px !important;
+                height: 50px !important;
+                margin: 10px 0px;
+                display: inline-block;
+                justify-items: center;
+                align-items: center;
+                ion-icon {
+                    font-size: 40px !important;
+                    fill: rgba(0, 0, 0, 0.60);
+                    color: rgba(0, 0, 0, 0.60);
+                    stroke: rgba(0, 0, 0, 0.60);
+                    fill-opacity: 0.6;
+                }
+            }
+        }
+        .facebook ion-icon {
+            fill: #3b5999 !important;
+            color: #3b5999 !important;
+            stroke: #3b5999 !important;
+            opacity: 0.9 !important;
+            fill-opacity: 0.9 !important;
+        }
+        .instagram ion-icon {
+            fill: #e4405f !important;
+            color: #e4405f !important;
+            stroke: #e4405f !important;
+            opacity: 1 !important;
+            fill-opacity: 1 !important;
         }
     }
     .devSession {
