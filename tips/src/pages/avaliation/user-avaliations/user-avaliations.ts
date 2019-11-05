@@ -228,8 +228,9 @@ export class UserAvaliationsPage {
     this.avaliations.forEach((a) => {
       if (a.evaluatorUid === this.profile.uid) {
         a.name = 'Avaliação para ' + a.profileNames.ratedName;
-      } else {
-        a.name = 'Avaliação de ' + a.profileNames.evaluatorName;
+      }
+      if (a.ratedUid === this.profile.uid) {
+        a.name = 'Avaliação de ' + a.profileNames.ratedName;
       }
     });
   }
