@@ -29,7 +29,7 @@ export class MyApp {
         this.statusBar.styleLightContent();
 
         // tslint:disable-next-line:comment-format
-        this.notifications.initService();
+        //this.notifications.initService();
       });
   }
 
@@ -64,7 +64,6 @@ export class MyApp {
         }
       })
       .catch(() => {
-        this.toast.showToast('Sessão expirada, entre novamente!');
         this.rootPage = 'LoginPage';
       });
   }

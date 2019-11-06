@@ -225,13 +225,18 @@ export class UserAvaliationsPage {
    * @description set avaliation name to show on view.
    */
   private setAvaliationName() {
+    let fullName = this.profile.name.firstName + ' ' + this.profile.name.lastName;
     this.avaliations.forEach((a) => {
-      if (a.evaluatorUid === this.profile.uid) {
+      if (a.evaluatorUid === this.profile.uid && a.profileNames.evaluatorName === fullName) {
         a.name = 'Avaliação para ' + a.profileNames.ratedName;
-      }
-      if (a.ratedUid === this.profile.uid) {
+      } else if (a.evaluatorUid === this.profile.uid && a.profileNames.evaluatorName !== fullName) {
+        a.name = 'Avaliação para ' + a.profileNames.evaluatorName;
+      } else if (a.ratedUid === this.profile.uid && a.profileNames.ratedName === fullName) {
+        a.name = 'Avaliação de ' + a.profileNames.evaluatorName;
+      } else if (a.ratedUid === this.profile.uid && a.profileNames.ratedName !== fullName) {
         a.name = 'Avaliação de ' + a.profileNames.ratedName;
       }
     });
+    console.log(this.avaliations);
   }
 }
