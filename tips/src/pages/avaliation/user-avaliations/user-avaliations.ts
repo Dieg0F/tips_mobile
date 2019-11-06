@@ -69,7 +69,8 @@ export class UserAvaliationsPage {
     if (!this.navParams.get(Constants.AVALIATION_OWNER_ID)) {
       this.ownerAvaliationsUid = AppConfig.USER_PROFILE.uid;
     } else {
-      this.ownerAvaliationsUid = this.navParams.get(Constants.AVALIATION_OWNER_ID);
+      this.profile = this.navParams.get(Constants.AVALIATION_OWNER_ID);
+      this.ownerAvaliationsUid = this.profile.uid;
     }
   }
 
@@ -225,18 +226,17 @@ export class UserAvaliationsPage {
    * @description set avaliation name to show on view.
    */
   private setAvaliationName() {
-    let fullName = this.profile.name.firstName + ' ' + this.profile.name.lastName;
+    const fullName = this.profile.name.firstName + ' ' + this.profile.name.lastName;
     this.avaliations.forEach((a) => {
-      if (a.evaluatorUid === this.profile.uid && a.profileNames.evaluatorName === fullName) {
-        a.name = 'Avaliação para ' + a.profileNames.ratedName;
-      } else if (a.evaluatorUid === this.profile.uid && a.profileNames.evaluatorName !== fullName) {
-        a.name = 'Avaliação para ' + a.profileNames.evaluatorName;
-      } else if (a.ratedUid === this.profile.uid && a.profileNames.ratedName === fullName) {
-        a.name = 'Avaliação de ' + a.profileNames.evaluatorName;
-      } else if (a.ratedUid === this.profile.uid && a.profileNames.ratedName !== fullName) {
-        a.name = 'Avaliação de ' + a.profileNames.ratedName;
+      if (a.evaluatorUid === this.ownerAvaliationsUid && a.profileNames.evaluatorName === fullName) {
+        a.name = 'Para ' + a.profileNames.ratedName;
+      } else if (a.evaluatorUid === this.ownerAvaliationsUid && a.profileNames.evaluatorName !== fullName) {
+        a.name = 'Para ' + a.profileNames.evaluatorName;
+      } else if (a.ratedUid === this.ownerAvaliationsUid && a.profileNames.ratedName === fullName) {
+        a.name = 'Por ' + a.profileNames.evaluatorName;
+      } else if (a.ratedUid === this.ownerAvaliationsUid && a.profileNames.ratedName !== fullName) {
+        a.name = 'Por ' + a.profileNames.ratedName;
       }
     });
-    console.log(this.avaliations);
   }
 }

@@ -9,8 +9,9 @@
             <div class="profilePhoto" [ngStyle]="setAvatarImage()"></div>
             <div class="mainTitle">
                 <h1>{{profile.name.firstName + ' ' + profile.name.lastName }}</h1>
-                <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRate); let i of index">
-                    <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRate)" *ngIf="i != 5"></ion-icon>
+                <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRateStars); let i of index">
+                    <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRateStars)" *ngIf="i != 5">
+                    </ion-icon>
                 </div>
             </div>
             <div class="clearfix"></div>

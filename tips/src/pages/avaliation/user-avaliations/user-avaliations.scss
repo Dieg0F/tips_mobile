@@ -25,28 +25,29 @@ page-user-avaliations {
         }
     }
     .rate {
-        margin: $smallSpace 0;
+        margin: 0px 0px 16px;
         ion-icon {
-            font-size: 18px !important;
+            font-size: 24px !important;
         }
     }
     .card {
-        .cardTitle {
-            overflow: hidden;
-            h3 {
-                font-size: 18px !important;
-                opacity: 0.5 !important;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-        }
         .cardBody {
             overflow: hidden;
-            p {
+            width: 100%;
+            h6 {
+                font-size: 17px !important;
+                opacity: 0.7;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
+                margin: 0;
+            }
+            p {
+                font-size: 14px !important;
+                opacity: 0.5 !important;
+                margin: 10px 2px 0px 0px;
+                font-style: italic;
+                text-align: justify;
             }
         }
     }

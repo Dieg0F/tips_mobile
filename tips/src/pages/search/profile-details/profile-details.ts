@@ -71,7 +71,7 @@ export class ProfileDetailsPage {
    * @description redirect user to send a professional avaliations page.
    */
   public rating() {
-    this.navCtrl.push('UserAvaliationsPage', { ownerAvaliationsUid: this.profile.uid, asVisitor: true });
+    this.navCtrl.push('UserAvaliationsPage', { ownerAvaliationsUid: this.profile, asVisitor: true });
   }
 
   /**
