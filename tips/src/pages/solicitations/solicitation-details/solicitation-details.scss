@@ -139,7 +139,7 @@ page-solicitation-details {
         p {
             color: $darkTextColor;
             font-size: 17px;
-            line-height: $cardBodyLineHeight;
+            line-height: 20px !important;
             opacity: 0.5;
             margin: 0px;
             text-align: left;
@@ -159,6 +159,7 @@ page-solicitation-details {
             text-align: right !important;
             margin: 5px 0 !important;
             font-style: italic;
+            line-height: 20px !important;
         }
         div {
             font-style: italic;

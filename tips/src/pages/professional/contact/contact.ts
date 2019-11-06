@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { Profile } from '../../../model/profile/profile';
 import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 import { Constants } from '../../../util/constants/constants';
 import { GoogleMaps } from '../../../util/google-map/google-map';
+import { AppConfig } from '../../../model/static/static';
 
 @IonicPage()
 @Component({
@@ -52,15 +53,18 @@ export class ContactPage {
    * @param app Application name to be open.
    */
   public goToApp(app: string) {
+    if (this.profile.uid === AppConfig.USER_PROFILE.uid) {
+      return;
+    }
     switch (app) {
       case 'whats':
         this.extApp.openWhatsApp(this.profile.social.whatsapp);
         break;
       case 'face':
-        this.extApp.openFacebook(this.profile.social.facebook);
+        this.extApp.openInstagram(this.profile.social.facebook);
         break;
       case 'inst':
-        this.extApp.openPhoneApp(this.profile.social.instagram);
+        this.extApp.openInstagram(this.profile.social.instagram);
         break;
       case 'phone':
         const phone = this.profile.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');

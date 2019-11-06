@@ -42,7 +42,9 @@ export class ExternalAppProvider {
     }
 
     public openWhatsApp(userNumber: string) {
-        this.launchExternalApp('whatsapp://', 'com.whatsapp', 'whatsapp://send?phone=', 'https://web.whatsapp.com//', userNumber);
+        const finalNumber = '+55' + userNumber.replace('(', '').replace(')', '')
+            .replace(' ', '').replace('-', '');
+        this.launchExternalApp('whatsapp://', 'com.whatsapp', 'whatsapp://send?phone=', 'https://web.whatsapp.com//', finalNumber);
     }
 
     public openPhoneApp(phoneNumber: string) {

@@ -301,7 +301,7 @@ export class SolicitationManagerPage {
         this.extApp.openFacebook(this.contractorPf.social.facebook);
         break;
       case 'inst':
-        this.extApp.openPhoneApp(this.contractorPf.social.instagram);
+        this.extApp.openInstagram(this.contractorPf.social.instagram);
         break;
       case 'phone':
         const phone = this.contractorPf.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');

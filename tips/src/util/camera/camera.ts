@@ -19,7 +19,13 @@ export class CameraProvider {
     /**
      * @description request picures from device gallery.
      */
-    public async getPicture(): Promise<any> {
+    public async getPicture(source): Promise<any> {
+        if (source === 'CAMERA_SOURCE') {
+            this.options.sourceType = this.camera.PictureSourceType.CAMERA;
+        } else {
+            this.options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+        }
+
         return this.camera.getPicture(this.options);
     }
 }

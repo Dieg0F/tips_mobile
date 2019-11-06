@@ -70,6 +70,13 @@ export class ProfileMenuComponent {
   }
 
   /**
+   * @description redirect user to about app page.
+   */
+  public about() {
+    this.navCtrl.push('AboutPage');
+  }
+
+  /**
    * @description redirect user to login page.
    */
   private goToLoginPage() {

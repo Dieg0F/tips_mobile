@@ -1,3 +1,4 @@
+import { Alert } from './../../../util/alert/alert';
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
@@ -11,6 +12,9 @@ import { CameraProvider } from '../../../util/camera/camera';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
 
+const CAMERA_SOURCE = 'CAMERA_SOURCE';
+const GALLERY_SOURCE = 'GALLERY_SOURCE';
+
 @IonicPage()
 @Component({
   selector: 'page-my-account',
@@ -22,6 +26,7 @@ export class MyAccountPage {
   public jobs: Job[] = [];
   public stateId: number;
   public lockFiels: boolean = false;
+  public wappNumber: string;
 
   constructor(
     public navCtrl: NavController,
@@ -33,6 +38,7 @@ export class MyAccountPage {
     public dataProvider: DataProvider,
     public jobProvider: JobProvider,
     public toast: Toast,
+    public alert: Alert,
     public events: Events,
     public camera: CameraProvider) {
   }
@@ -90,25 +96,12 @@ export class MyAccountPage {
    * @description update profile photo on database.
    */
   public setProfilePhoto() {
-    this.loading.showLoading('Salvando imagem...')
-      .then(() => {
-        this.camera.getPicture()
-          .then((img) => {
-            const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
-            const selectedPhoto: any = this.dataURItoBlob(fileUrl);
-            return this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
-              .then((downloadURL) => {
-                this.profile.profilePhotoUrl = downloadURL;
-                const elm = document.getElementById('set_profileImage');
-                elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
-                elm.style.backgroundSize = 'cover';
-                this.loading.hideLoading();
-              });
-          })
-          .catch((error) => {
-            this.loading.hideLoading();
-          });
-      });
+    this.alert.confirmAlert(
+      'Foto de perfil.',
+      'Selecione uma imagem da sua galeria ou tire uma foto com a câmera!',
+      this.takeAPhoto.bind(this), this.getImageOnGallery.bind(this),
+      'Galeria', 'Tirar uma foto',
+    );
   }
 
   /**
@@ -131,10 +124,6 @@ export class MyAccountPage {
     if (this.formValidation()) {
       this.loading.showLoading('Salvando perfil...')
         .then(() => {
-          if (this.profile.social.whatsapp) {
-            this.profile.social.whatsapp = '+55' + this.profile.social.whatsapp.replace('(', '').replace(')', '')
-              .replace(' ', '').replace('-', '').replace('+55', '');
-          }
           if (this.profile.social.instagram) {
             this.profile.social.instagram = this.profile.social.instagram.replace('@', '');
           }
@@ -280,17 +269,57 @@ export class MyAccountPage {
     });
   }
 
-  private initializeFields() {
-    let whatsAppNumber = this.profile.social.whatsapp.replace('+55', '');
-    if (whatsAppNumber === '') {
-      this.profile.social.whatsapp = '';
-    } else {
-      const ddd = '(' + whatsAppNumber.substr(0, 2) + ') ';
-      whatsAppNumber = whatsAppNumber.replace(whatsAppNumber.substr(0, 2), '');
-      whatsAppNumber = ddd + whatsAppNumber.substr(0, 5) + '-' + whatsAppNumber.substr(5, 4);
-      this.profile.social.whatsapp = whatsAppNumber;
-    }
+  /**
+   * @description GEt a image from gallery.
+   */
+  private getImageOnGallery() {
+    this.loading.showLoading('Salvando imagem...')
+      .then(() => {
+        this.camera.getPicture(GALLERY_SOURCE)
+          .then((img) => {
+            return this.savingImage(img);
+          })
+          .catch((error) => {
+            this.loading.hideLoading();
+          });
+      });
+  }
 
+  /**
+   * @description Get a image from camera.
+   */
+  private takeAPhoto() {
+    this.loading.showLoading('Salvando imagem...')
+      .then(() => {
+        this.camera.getPicture(CAMERA_SOURCE)
+          .then((img) => {
+            return this.savingImage(img);
+          })
+          .catch((error) => {
+            this.loading.hideLoading();
+          });
+      });
+  }
+
+  /**
+   * @description Save a image on Firebase Storage.
+   * @param img Image to be saved.
+   */
+  private async savingImage(img: any) {
+    const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
+    const selectedPhoto: any = this.dataURItoBlob(fileUrl);
+    const downloadURL = await this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid);
+    this.profile.profilePhotoUrl = downloadURL;
+    const elm = document.getElementById('set_profileImage');
+    elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
+    elm.style.backgroundSize = 'cover';
+    this.loading.hideLoading();
+  }
+
+  /**
+   * @description initialize fields.
+   */
+  private initializeFields() {
     if (this.profile.cpf.length === 14) {
       this.lockFiels = true;
     }

@@ -255,7 +255,7 @@ export class SolicitationDetailsPage {
         this.extApp.openFacebook(this.hiredPf.social.facebook);
         break;
       case 'inst':
-        this.extApp.openPhoneApp(this.hiredPf.social.instagram);
+        this.extApp.openInstagram(this.hiredPf.social.instagram);
         break;
       case 'phone':
         const phone = this.hiredPf.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
