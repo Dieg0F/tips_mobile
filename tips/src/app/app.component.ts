@@ -4,6 +4,7 @@ import { Platform } from 'ionic-angular';
 import { AppConfig } from '../model/static/static';
 import { AppConfigProvider } from '../providers/app-config/app-config';
 import { ProfileProvider } from '../providers/profile/profile';
+import { StorageProvider } from '../providers/storage/storage';
 import { Notifications } from '../util/notifications/notifications';
 import { Toast } from '../util/toast/toast';
 
@@ -17,12 +18,13 @@ export class MyApp {
     private platform: Platform,
     private statusBar: StatusBar,
     private toast: Toast,
+    private storage: StorageProvider,
     private notifications: Notifications,
     private profileProvider: ProfileProvider,
     private appConfigProvider: AppConfigProvider) {
     this.platform.ready()
       .then(async () => {
-        //this.rootPage = 'AboutPage';
+        // this.rootPage = 'AboutPage';
         // tslint:disable-next-line:comment-format
         this.verifyUser();
         this.statusBar.backgroundColorByHexString('#273A56');
@@ -54,9 +56,16 @@ export class MyApp {
             .then(async (res: any) => {
               return this.profileProvider.saveProfileOnStorage(res.data())
                 .then(() => {
-                  this.rootPage = 'ProfilePage';
-                  this.toast.showToast('Bem vindo novamente!');
-                  this.profileProvider.updateProfile();
+                  this.storage.getItem('ACCOUNT_STATUS')
+                    .then((res) => {
+                      if (JSON.parse(res) === 'ACCOUNT_IS_CREATING') {
+                        this.rootPage = 'MyAccountPage';
+                      } else {
+                        this.rootPage = 'ProfilePage';
+                        this.toast.showToast('Bem vindo novamente!');
+                        this.profileProvider.updateProfile();
+                      }
+                    });
                 });
             });
         } else {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../../providers/auth/auth';
+import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { Alert } from '../../../util/alert/alert';
 import { Loading } from '../../../util/loading/loading';
@@ -23,6 +24,7 @@ export class NewAccountPage {
     public navParams: NavParams,
     public authProvider: AuthProvider,
     public userProvider: UserProvider,
+    public storage: StorageProvider,
     public loading: Loading,
     public alert: Alert,
     public toast: Toast) { }
@@ -108,7 +110,10 @@ export class NewAccountPage {
       .then(async () => {
         return this.userProvider.saveUserAuth(newUser.uid)
           .then(() => {
-            this.setProfileConfigurations();
+            this.storage.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATING')
+              .then(() => {
+                this.setProfileConfigurations();
+              });
           });
       });
   }

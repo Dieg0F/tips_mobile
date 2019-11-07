@@ -101,7 +101,7 @@ export class ProfileProvider {
             },
             email: user.email,
             isAPro: user.isAPro,
-            isActive: true,
+            isActive: false,
             phone: '',
             street: '',
             houseNumber: '',

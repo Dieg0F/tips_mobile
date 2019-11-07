@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
+import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Toast } from '../../../util/toast/toast';
@@ -10,7 +11,6 @@ import { ProfileProvider } from './../../../providers/profile/profile';
 import { Alert } from './../../../util/alert/alert';
 import { Loading } from './../../../util/loading/loading';
 import { Popover } from './../../../util/popover/popover';
-import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 
 @IonicPage()
 @Component({
@@ -311,8 +311,7 @@ export class SolicitationManagerPage {
         this.extApp.openMailApp(this.contractorPf.email);
         break;
       case 'maps':
-        const fullAddress = this.contractorPf.street + ' ' + this.contractorPf.houseNumber + ' ' + this.contractorPf.district +
-          ' ' + this.contractorPf.city + ' ' + this.contractorPf.state;
+        const fullAddress = this.contractorPf.city + ' ' + this.contractorPf.state;
         this.extApp.openMapsApp(fullAddress);
         break;
       default:
@@ -347,13 +346,13 @@ export class SolicitationManagerPage {
     let toastMessage = '';
     switch (this.solicitation.status) {
       case Constants.SOLICITATION_IS_RUNNING:
-        toastMessage = 'Solicitação aprovada por' + this.contractorPf.name.firstName + '!';
+        toastMessage = 'Solicitação aprovada por ' + this.contractorPf.name.firstName + '!';
         break;
       case Constants.SOLICITATION_IS_CANCELED:
-        toastMessage = 'Solicitação cancelada por' + this.contractorPf.name.firstName + '!';
+        toastMessage = 'Solicitação cancelada por ' + this.contractorPf.name.firstName + '!';
         break;
       case Constants.SOLICITATION_IS_FINISHED:
-        toastMessage = 'Solicitação finalizada por' + this.contractorPf.name.firstName + '!';
+        toastMessage = 'Solicitação finalizada por ' + this.contractorPf.name.firstName + '!';
         break;
     }
     this.toast.showToast(toastMessage);

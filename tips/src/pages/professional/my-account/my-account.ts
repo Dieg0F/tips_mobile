@@ -11,6 +11,7 @@ import { UserProvider } from '../../../providers/user/user';
 import { CameraProvider } from '../../../util/camera/camera';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
+import { Regex, REGEXP } from '../../../util/regex/regex';
 
 const CAMERA_SOURCE = 'CAMERA_SOURCE';
 const GALLERY_SOURCE = 'GALLERY_SOURCE';
@@ -27,6 +28,7 @@ export class MyAccountPage {
   public stateId: number;
   public lockFiels: boolean = false;
   public wappNumber: string;
+  private regex: Regex;
 
   constructor(
     public navCtrl: NavController,
@@ -125,19 +127,25 @@ export class MyAccountPage {
       this.loading.showLoading('Salvando perfil...')
         .then(() => {
           if (this.profile.social.instagram) {
-            this.profile.social.instagram = this.profile.social.instagram.replace('@', '');
+            this.profile.social.instagram = this.profile.social.instagram.replace('@', '').toLowerCase();
+          }
+          if (this.profile.social.facebook) {
+            this.profile.social.facebook = this.profile.social.facebook.toLowerCase();
           }
           if (this.profile.cpf.length === 14) {
             this.lockFiels = true;
           }
+          this.profile.isActive = true;
           this.profileProvider.saveProfile({ ...this.profile })
-            .then(() => {
+            .then(async () => {
+              const res = await this.storageProvider.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATED');
               this.loading.hideLoading();
               this.toast.showToast('Perfil salvo com sucesso!');
               this.skipProfile();
               AppConfig.USER_PROFILE = this.profile;
             })
             .catch(() => {
+              this.profile.isActive = false;
               this.loading.hideLoading();
               this.toast.showToast('Erro ao salvar o perfil!');
             });
@@ -177,32 +185,17 @@ export class MyAccountPage {
    * @description validate if user has complete all fields.
    */
   public formValidation(): boolean {
-    if (!this.profile.name.firstName) {
+    this.regex = new Regex();
+    if (!this.regex.verifyName(this.profile.name.firstName)) {
       this.toast.showToast('Insira seu primeiro nome!');
       return false;
     }
-    if (!this.profile.name.lastName) {
+    if (!this.regex.verifyName(this.profile.name.lastName)) {
       this.toast.showToast('Insira seu ultimo nome!');
-      return false;
-    }
-    if (!this.profile.cpf) {
-      this.toast.showToast('Insira seu CPF!');
       return false;
     }
     if (!this.profile.phone) {
       this.toast.showToast('Insira seu número de telefone!');
-      return false;
-    }
-    if (!this.profile.street) {
-      this.toast.showToast('Insira o nome da rua em que mora!');
-      return false;
-    }
-    if (!this.profile.houseNumber) {
-      this.toast.showToast('Insira o numero da sua casa!');
-      return false;
-    }
-    if (!this.profile.district) {
-      this.toast.showToast('Insira o nome do seu bairro!');
       return false;
     }
     if (!this.profile.state) {
@@ -307,13 +300,17 @@ export class MyAccountPage {
    */
   private async savingImage(img: any) {
     const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
+    this.profile.profilePhotoUrl = fileUrl;
     const selectedPhoto: any = this.dataURItoBlob(fileUrl);
-    const downloadURL = await this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid);
-    this.profile.profilePhotoUrl = downloadURL;
-    const elm = document.getElementById('set_profileImage');
-    elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
-    elm.style.backgroundSize = 'cover';
-    this.loading.hideLoading();
+    this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
+      .then((res) => {
+        //this.profile.profilePhotoUrl = res;
+        this.loading.hideLoading();
+      })
+      .catch((err) => {
+        this.toast.showToast('Erro ao carregar imagem.');
+        this.loading.hideLoading();
+      });
   }
 
   /**

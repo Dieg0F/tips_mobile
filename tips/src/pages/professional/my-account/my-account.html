@@ -12,20 +12,21 @@
     <div class="card my_account">
         <div class="cardBody">
             <div class="content_form">
-                <ion-item>
-                    <ion-label stacked>Nome:</ion-label>
-                    <ion-input [(ngModel)]="profile.name.firstName" next-input type="text" placeholder="Digite o nome" name="firstName">
-                    </ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label stacked>Sobrenome: </ion-label>
-                    <ion-input [(ngModel)]="profile.name.lastName" next-input type="text" placeholder="Digite o sobrenome" name="firstName"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label stacked>CPF: </ion-label>
-                    <ion-input [(ngModel)]="profile.cpf" [disabled]="lockFiels" next-input type="text" placeholder="Digite o seu CPF" name="cpf" [brmasker]="{mask:'000.000.000-00', len:14}">
-                    </ion-input>
-                </ion-item>
+                <ion-row>
+                    <ion-col col-6>
+                        <ion-item>
+                            <ion-label stacked>Nome:</ion-label>
+                            <ion-input [(ngModel)]="profile.name.firstName" next-input type="text" placeholder="Digite o nome" name="firstName">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col col-6>
+                        <ion-item>
+                            <ion-label stacked>Sobrenome: </ion-label>
+                            <ion-input [(ngModel)]="profile.name.lastName" next-input type="text" placeholder="Digite o sobrenome" name="firstName"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
                 <ion-item>
                     <ion-label stacked>Email: </ion-label>
                     <ion-input [(ngModel)]="profile.email" disabled next-input type="email" placeholder="Digite o e-mail" name="email"></ion-input>
@@ -39,26 +40,6 @@
                     <ion-label stacked>WhatsApp: </ion-label>
                     <ion-input [(ngModel)]="profile.social.whatsapp" next-input type="text" placeholder="Digite o numero de seu WhatsApp" name="whatsapp" [brmasker]="{phone: true}">
                     </ion-input>
-                </ion-item>
-                <ion-row>
-                    <ion-col col-8>
-                        <ion-item>
-                            <ion-label stacked>Logradouro: </ion-label>
-                            <ion-input [(ngModel)]="profile.street" next-input placeholder="Digite o endereço" name="street">
-                            </ion-input>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col class="position_bottom" col-4>
-                        <ion-item>
-                            <ion-label stacked>Número:</ion-label>
-                            <ion-input [(ngModel)]="profile.houseNumber" next-input type="number" placeholder="Número" name="houseNumber">
-                            </ion-input>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-                <ion-item>
-                    <ion-label stacked>Bairro: </ion-label>
-                    <ion-input [(ngModel)]="profile.district" next-input type="text" placeholder="Digite o bairro" name="district"></ion-input>
                 </ion-item>
                 <ion-row>
                     <ion-col class="position_bottom" col-4>
