@@ -157,11 +157,6 @@ export class SendSolicitationPage {
       case 'email':
         this.extApp.openMailApp(this.hiredPf.email);
         break;
-      case 'maps':
-        const fullAddress = this.hiredPf.street + ' ' + this.hiredPf.houseNumber + ' ' + this.hiredPf.district +
-          ' ' + this.hiredPf.city + ' ' + this.hiredPf.state;
-        this.extApp.openMapsApp(fullAddress);
-        break;
       default:
         break;
     }

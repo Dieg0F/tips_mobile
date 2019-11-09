@@ -55,10 +55,6 @@ export class ContactPage {
       case 'email':
         this.extApp.openMailApp(this.profile.email);
         break;
-      case 'maps':
-        const fullAddress = this.profile.city + ' ' + this.profile.state;
-        this.extApp.openMapsApp(fullAddress);
-        break;
       default:
         break;
     }

@@ -1,4 +1,3 @@
-import { Alert } from './../../../util/alert/alert';
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
@@ -10,8 +9,9 @@ import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { CameraProvider } from '../../../util/camera/camera';
 import { Loading } from '../../../util/loading/loading';
-import { Toast } from '../../../util/toast/toast';
 import { Regex, REGEXP } from '../../../util/regex/regex';
+import { Toast } from '../../../util/toast/toast';
+import { Alert } from './../../../util/alert/alert';
 
 const CAMERA_SOURCE = 'CAMERA_SOURCE';
 const GALLERY_SOURCE = 'GALLERY_SOURCE';
@@ -300,14 +300,26 @@ export class MyAccountPage {
    */
   private async savingImage(img: any) {
     const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
+    const oldFile = this.profile.profilePhotoUrl;
     this.profile.profilePhotoUrl = fileUrl;
     const selectedPhoto: any = this.dataURItoBlob(fileUrl);
     this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
       .then((res) => {
-        //this.profile.profilePhotoUrl = res;
         this.loading.hideLoading();
+        return this.profileProvider.saveProfile({ ...this.profile })
+          .then(async () => {
+            this.loading.hideLoading();
+            this.toast.showToast('Foto de perfil salva com sucesso!');
+            AppConfig.USER_PROFILE = this.profile;
+          })
+          .catch(() => {
+            this.profile.profilePhotoUrl = oldFile;
+            this.loading.hideLoading();
+            this.toast.showToast('Erro ao salvar foto de perfil!');
+          });
       })
       .catch((err) => {
+        this.profile.profilePhotoUrl = oldFile;
         this.toast.showToast('Erro ao carregar imagem.');
         this.loading.hideLoading();
       });
