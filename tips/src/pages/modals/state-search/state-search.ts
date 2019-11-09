@@ -31,7 +31,7 @@ export class StateSearchPage {
    * @description request all states.
    */
   public getStates() {
-    this.loading.showLoading('Buscando cidades...');
+    this.loading.showLoading('Buscando estados...');
     this.locations.getStates()
       .then((res) => {
         this.states = res;
@@ -40,7 +40,7 @@ export class StateSearchPage {
       })
       .catch(() => {
         this.loading.hideLoading();
-        this.toast.showToast('Cidade não encontrada! ');
+        this.toast.showToast('Estado não encontrado! ');
       });
   }
 

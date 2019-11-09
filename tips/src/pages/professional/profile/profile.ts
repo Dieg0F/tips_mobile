@@ -114,4 +114,11 @@ export class ProfilePage {
       this.greetingMesage = 'Boa noite, ';
     }
   }
+
+  /**
+   * @description Open Profile Photo Modal, for edit and better image view.
+   */
+  public viewProfileImage() {
+    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': false });
+  }
 }

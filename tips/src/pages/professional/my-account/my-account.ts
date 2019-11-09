@@ -13,9 +13,6 @@ import { Regex, REGEXP } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
 
-const CAMERA_SOURCE = 'CAMERA_SOURCE';
-const GALLERY_SOURCE = 'GALLERY_SOURCE';
-
 @IonicPage()
 @Component({
   selector: 'page-my-account',
@@ -98,25 +95,7 @@ export class MyAccountPage {
    * @description update profile photo on database.
    */
   public setProfilePhoto() {
-    this.alert.confirmAlert(
-      'Foto de perfil.',
-      'Selecione uma imagem da sua galeria ou tire uma foto com a câmera!',
-      this.takeAPhoto.bind(this), this.getImageOnGallery.bind(this),
-      'Galeria', 'Tirar uma foto',
-    );
-  }
 
-  /**
-   * @description convert a URI file to blob
-   * @param dataURI URI file.
-   */
-  public dataURItoBlob(dataURI: string) {
-    const binary = atob(dataURI.split(',')[1]);
-    const array = [];
-    for (let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
   }
 
   /**
@@ -260,69 +239,6 @@ export class MyAccountPage {
       }
       this.events.unsubscribe('jobSelected');
     });
-  }
-
-  /**
-   * @description GEt a image from gallery.
-   */
-  private getImageOnGallery() {
-    this.loading.showLoading('Salvando imagem...')
-      .then(() => {
-        this.camera.getPicture(GALLERY_SOURCE)
-          .then((img) => {
-            return this.savingImage(img);
-          })
-          .catch((error) => {
-            this.loading.hideLoading();
-          });
-      });
-  }
-
-  /**
-   * @description Get a image from camera.
-   */
-  private takeAPhoto() {
-    this.loading.showLoading('Salvando imagem...')
-      .then(() => {
-        this.camera.getPicture(CAMERA_SOURCE)
-          .then((img) => {
-            return this.savingImage(img);
-          })
-          .catch((error) => {
-            this.loading.hideLoading();
-          });
-      });
-  }
-
-  /**
-   * @description Save a image on Firebase Storage.
-   * @param img Image to be saved.
-   */
-  private async savingImage(img: any) {
-    const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
-    const oldFile = this.profile.profilePhotoUrl;
-    this.profile.profilePhotoUrl = fileUrl;
-    const selectedPhoto: any = this.dataURItoBlob(fileUrl);
-    this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid)
-      .then((res) => {
-        this.loading.hideLoading();
-        return this.profileProvider.saveProfile({ ...this.profile })
-          .then(async () => {
-            this.loading.hideLoading();
-            this.toast.showToast('Foto de perfil salva com sucesso!');
-            AppConfig.USER_PROFILE = this.profile;
-          })
-          .catch(() => {
-            this.profile.profilePhotoUrl = oldFile;
-            this.loading.hideLoading();
-            this.toast.showToast('Erro ao salvar foto de perfil!');
-          });
-      })
-      .catch((err) => {
-        this.profile.profilePhotoUrl = oldFile;
-        this.toast.showToast('Erro ao carregar imagem.');
-        this.loading.hideLoading();
-      });
   }
 
   /**

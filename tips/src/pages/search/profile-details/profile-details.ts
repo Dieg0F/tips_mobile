@@ -87,4 +87,11 @@ export class ProfileDetailsPage {
   public contact() {
     this.navCtrl.push('ContactPage', { userProfile: this.profile });
   }
+
+  /**
+   * @description Open Profile Photo Modal, for edit and better image view.
+   */
+  public viewProfileImage() {
+    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': true });
+  }
 }

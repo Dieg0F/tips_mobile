@@ -13,9 +13,9 @@ export class DataProvider {
      * @param file image file.
      * @param userUid user unique id.
      */
-    public uploadPhoto(path: string, file: string, userUid: string): Promise<any> {
+    public async uploadPhoto(path: string, file: string, userUid: string): Promise<any> {
         if (file) {
-            firebase.storage().ref().child(path + userUid + '.jpg').put(file);
+            const upload = await firebase.storage().ref().child(path + userUid + '.jpg').put(file);
             return firebase.storage().ref().child(path + userUid + '.jpg').getDownloadURL();
         }
     }
