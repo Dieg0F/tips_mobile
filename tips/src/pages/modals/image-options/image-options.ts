@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, normalizeURL, ViewController } from 'ionic-angular';
+import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { DataProvider } from '../../../providers/data/data';
 import { ProfileProvider } from '../../../providers/profile/profile';
@@ -18,7 +19,7 @@ const GALLERY_SOURCE = 'GALLERY_SOURCE';
 export class ImageOptionsPage {
 
   public isVisitor: boolean = false;
-  public profile = { ...AppConfig.USER_PROFILE };
+  public profile: Profile;
 
   constructor(
     public navCtrl: NavController,
@@ -29,10 +30,13 @@ export class ImageOptionsPage {
     public loading: Loading,
     public toast: Toast,
     public camera: CameraProvider) {
+    this.isVisitor = this.navParams.get('isVisitor');
+    this.profile = this.navParams.get('profile');
   }
 
   public ionViewWillEnter() {
     this.isVisitor = this.navParams.get('isVisitor');
+    this.profile = this.navParams.get('profile');
   }
 
   /**
@@ -43,7 +47,7 @@ export class ImageOptionsPage {
     if (this.profile.profilePhotoUrl) {
       profilePhoto = this.profile.profilePhotoUrl;
     } else {
-      profilePhoto = '../../../assets/imgs/149071.png';
+      profilePhoto = '../../../assets/imgs/user_default_image.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',

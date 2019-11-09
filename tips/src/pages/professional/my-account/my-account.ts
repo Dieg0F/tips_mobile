@@ -58,7 +58,7 @@ export class MyAccountPage {
     if (this.profile.profilePhotoUrl) {
       profilePhoto = this.profile.profilePhotoUrl;
     } else {
-      profilePhoto = '../../../assets/imgs/149071.png';
+      profilePhoto = '../../../assets/imgs/user_default_image.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',
@@ -92,10 +92,10 @@ export class MyAccountPage {
   }
 
   /**
-   * @description update profile photo on database.
+   * @description Open Profile Photo Modal, for edit and better image view.
    */
   public setProfilePhoto() {
-
+    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': true, 'profile': this.profile });
   }
 
   /**

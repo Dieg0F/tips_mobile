@@ -58,7 +58,7 @@ export class SendSolicitationPage {
     if (imagePath) {
       profilePhoto = imagePath;
     } else {
-      profilePhoto = '../../../assets/imgs/149071.png';
+      profilePhoto = '../../../assets/imgs/user_default_image.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',

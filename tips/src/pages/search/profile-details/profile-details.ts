@@ -42,7 +42,7 @@ export class ProfileDetailsPage {
     if (this.profile.profilePhotoUrl) {
       profilePhoto = this.profile.profilePhotoUrl;
     } else {
-      profilePhoto = '../../../assets/imgs/149071.png';
+      profilePhoto = '../../../assets/imgs/user_default_image.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',
@@ -92,6 +92,6 @@ export class ProfileDetailsPage {
    * @description Open Profile Photo Modal, for edit and better image view.
    */
   public viewProfileImage() {
-    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': true });
+    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': true, 'profile': this.profile });
   }
 }
