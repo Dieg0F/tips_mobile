@@ -5,6 +5,7 @@ import { AuthProvider } from '../../../providers/auth/auth';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { Alert } from '../../../util/alert/alert';
+import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
@@ -49,9 +50,8 @@ export class NewAccountPage {
               };
               return this.saveUser(newUser);
             })
-            .catch((e) => {
-              this.loading.hideLoading();
-              this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
+            .catch((error) => {
+              this.onError(error);
             });
         });
     }
@@ -62,8 +62,8 @@ export class NewAccountPage {
    */
   public alertInformation() {
     this.alert.simpleAlert(
-      'Sou um profissional?',
-      'Se você é um profissional e quer divilgar seu serviços, deixe essa opção ativa!',
+      'Profissional Autônomo?',
+      'Se você é um profissional autônomo e deseja divulgar seus serviços, deixe essa opção ativa!',
     );
   }
 
@@ -99,6 +99,26 @@ export class NewAccountPage {
       return false;
     }
     return true;
+  }
+
+  private onError(error?: any) {
+    this.loading.hideLoading();
+    if (error) {
+      switch (error.code) {
+        case Constants.NEW_ACCOUNT_EMAIL_IN_USE:
+          this.toast.showToast('E-mail em uso por outro usuário.');
+          break;
+        case Constants.LOGIN_NETWORK_FAIL:
+          this.toast.showToast('Erro ao criar conta, verifique sua conexão com a internet.');
+          break;
+        default:
+          this.toast.showToast('Erro ao criar conta.');
+          break;
+      }
+    } else {
+      this.toast.showToast('Erro ao criar conta.');
+    }
+
   }
 
   /**

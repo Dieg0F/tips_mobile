@@ -11,6 +11,7 @@ import { Alert } from '../../../util/alert/alert';
 import { Loading } from '../../../util/loading/loading';
 import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -52,6 +53,7 @@ export class LoginPage {
               this.successLogin(result);
             })
             .catch((error) => {
+              console.log('Error: ', error);
               this.errorLogin();
             });
         });
@@ -140,8 +142,25 @@ export class LoginPage {
    * @description do a error login flow.
    * @param result user authenticate success response.
    */
-  private errorLogin() {
+  private errorLogin(error?: any) {
     this.loading.hideLoading();
-    this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!');
+    if (error) {
+      switch (error.code) {
+        case Constants.USER_NOT_FOUND:
+          this.toast.showToast('E-mail de usuário não encontrado.');
+          break;
+        case Constants.USER_WRONG_PASS:
+          this.toast.showToast('E-mail ou senha incorretos.');
+          break;
+        case Constants.LOGIN_NETWORK_FAIL:
+          this.toast.showToast('Erro ao realizar login, verifique sua conexão com a internet.');
+          break;
+        default:
+          this.toast.showToast('Erro ao realizar login.');
+          break;
+      }
+    } else {
+      this.toast.showToast('Erro ao realizar login.');
+    }
   }
 }
