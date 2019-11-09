@@ -53,8 +53,7 @@ export class LoginPage {
               this.successLogin(result);
             })
             .catch((error) => {
-              console.log('Error: ', error);
-              this.errorLogin();
+              this.errorLogin(error);
             });
         });
     }
