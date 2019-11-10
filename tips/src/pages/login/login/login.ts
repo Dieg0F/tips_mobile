@@ -20,6 +20,9 @@ import { Toast } from '../../../util/toast/toast';
 })
 export class LoginPage {
 
+  public email: string;
+  public password: string;
+
   private regex: Regex;
 
   constructor(
@@ -44,11 +47,11 @@ export class LoginPage {
    * @description start user autentication on application.
    * @param form view form with all user data values.
    */
-  public login(form: NgForm): void {
-    if (this.validateAccount(form)) {
+  public login(): void {
+    if (this.validateAccount()) {
       this.loading.showLoading('Entrando em sua conta...')
         .then(async () => {
-          this.afAuth.login(form)
+          this.afAuth.login(this.email, this.password)
             .then(async (result) => {
               this.successLogin(result);
             })
@@ -63,17 +66,17 @@ export class LoginPage {
    * @description validate if user account is valid.
    * @param form view form with all user data values.
    */
-  public validateAccount(form: NgForm): boolean {
+  public validateAccount(): boolean {
     this.regex = new Regex();
-    if (!form.value.email || !form.value.password) {
+    if (!this.email || !this.password) {
       this.toast.showToast('Insira um e-mail e sua senha!');
       return false;
     }
-    if (!this.regex.verifyEmail(form.value.email)) {
+    if (!this.regex.verifyEmail(this.email)) {
       this.toast.showToast('E-mail não é valido!');
       return false;
     }
-    if (!this.regex.verifyPassword(form.value.password)) {
+    if (!this.regex.verifyPassword(this.password)) {
       this.toast.showToast('Senha deve conter no minimo 6 caracteres!');
       return false;
     }

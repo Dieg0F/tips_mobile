@@ -14,9 +14,9 @@ export class AuthProvider {
    * @description make a authentication by e-mail and password.
    * @param form all values from login form.
    */
-  public login(form: NgForm): Promise<any> {
+  public login(email: string, password: string): Promise<any> {
     return this.afAuth.auth
-      .signInWithEmailAndPassword(form.value.email, form.value.password);
+      .signInWithEmailAndPassword(email, password);
   }
 
   /**
