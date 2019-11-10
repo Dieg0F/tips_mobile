@@ -95,7 +95,7 @@ export class MyAccountPage {
    * @description Open Profile Photo Modal, for edit and better image view.
    */
   public setProfilePhoto() {
-    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': true, 'profile': this.profile });
+    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': false, 'profile': this.profile });
   }
 
   /**

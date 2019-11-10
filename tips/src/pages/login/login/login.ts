@@ -8,10 +8,10 @@ import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { Alert } from '../../../util/alert/alert';
+import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
-import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase';
-import { AppConfig } from '../../model/static/static';
+import { AngularFireStorage } from '@angular/fire/storage';
+
+//import * as firebase from 'firebase/storage';
 
 @Injectable()
 export class DataProvider {
 
-    constructor() { }
+    constructor(private data: AngularFireStorage) { }
 
     /**
      * @description upload user profile photo.
@@ -15,8 +16,9 @@ export class DataProvider {
      */
     public async uploadPhoto(path: string, file: string, userUid: string): Promise<any> {
         if (file) {
-            const upload = await firebase.storage().ref().child(path + userUid + '.jpg').put(file);
-            return firebase.storage().ref().child(path + userUid + '.jpg').getDownloadURL();
+
+            const upload = await this.data.storage.ref().child(path + userUid + '.jpg').put(file);
+            return this.data.storage.ref().child(path + userUid + '.jpg').getDownloadURL();
         }
     }
 
@@ -26,6 +28,6 @@ export class DataProvider {
      * @param userId user unique id.
      */
     public getFile(path: string, userId: string): Promise<any> {
-        return firebase.storage().ref().child(path + userId + '.jpg').getDownloadURL();
+        return this.data.storage.ref().child(path + userId + '.jpg').getDownloadURL();
     }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference, Query } from '@angular/fire/firestore';
 import { Constants } from '../../util/constants/constants';
 
-import firebase from 'firebase';
+//import firebase from 'firebase/firestore';
 
 @Injectable()
 export class SolicitationProvider {
@@ -47,7 +47,7 @@ export class SolicitationProvider {
     public async getReceivedSolicitations(userId: string): Promise<any> {
         return this.db.collection(Constants.SOLICITATION_COLLECTION,
             (ref) => {
-                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+                let query: CollectionReference | Query = ref;
                 if (userId) { query = query.where('hiredUid', '==', userId); }
                 query = query.orderBy('date', 'desc');
                 return query;
@@ -61,7 +61,7 @@ export class SolicitationProvider {
     public async getDoneSolicitations(userId: string): Promise<any> {
         return this.db.collection(Constants.SOLICITATION_COLLECTION,
             (ref) => {
-                let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+                let query: CollectionReference | Query = ref;
                 if (userId) { query = query.where('contractorUid', '==', userId); }
                 query = query.orderBy('date', 'desc');
                 return query;
