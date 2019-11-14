@@ -34,7 +34,7 @@ export class MyApp {
         this.statusBar.styleLightContent();
 
         // tslint:disable-next-line:comment-format
-        this.notifications.initService();
+        //this.notifications.initService();
       });
   }
 
@@ -53,7 +53,7 @@ export class MyApp {
               if (JSON.parse(res) === 'ACCOUNT_IS_CREATING') {
                 this.rootPage = 'MyAccountPage';
               } else {
-                this.rootPage = 'ProfilePage';
+                this.rootPage = 'MainPage';
                 this.toast.showToast('Bem vindo novamente!');
                 this.profileProvider.updateProfile();
               }

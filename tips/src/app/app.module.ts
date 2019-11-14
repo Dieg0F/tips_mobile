@@ -68,7 +68,8 @@ const config = {
           scrollAssist: true,
           scrollPadding: false,
         },
-      }
+        tabsHideOnSubPages: true,
+      },
     }),
     IonicStorageModule.forRoot({
       driverOrder: ['indexeddb'],
