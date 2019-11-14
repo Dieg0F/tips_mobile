@@ -45,7 +45,7 @@ export class MyApp {
     this.appConfigProvider.verifyAuth()
       .then((userProfile) => {
         const profile = JSON.parse(userProfile);
-        if (profile !== undefined) {
+        if (profile) {
           this.storage.getItem('ACCOUNT_STATUS')
             .then((res) => {
               AppConfig.USER_PROFILE = profile;
