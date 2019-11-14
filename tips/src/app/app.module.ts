@@ -60,7 +60,16 @@ const config = {
   imports: [
     BrowserModule,
     ComponentsModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      pageTransition: 'md-transition',
+      platforms: {
+        android: {
+          autoFocusAssist: false,
+          scrollAssist: true,
+          scrollPadding: false,
+        },
+      }
+    }),
     IonicStorageModule.forRoot({
       driverOrder: ['indexeddb'],
       name: '_userData',
