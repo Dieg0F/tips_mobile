@@ -174,11 +174,9 @@ export class NewAvaliationPage {
    * @description Method that show success messages.
    */
   public async onSuccess() {
-    setTimeout(async () => {
-      await this.loading.hideLoadingPromise();
-      await this.navCtrl.pop();
-      await this.toast.showToast('Avaliação concluída!');
-    }, 1000);
+    await this.loading.hideLoadingPromise();
+    await this.navCtrl.pop();
+    await this.toast.showToast('Avaliação concluída!');
   }
 
   /**

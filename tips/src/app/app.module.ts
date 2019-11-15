@@ -3,13 +3,16 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorage, AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppAvailability } from '@ionic-native/app-availability';
 import { Camera } from '@ionic-native/camera';
 import { FCM } from '@ionic-native/fcm';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Geolocation } from '@ionic-native/geolocation';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
@@ -21,6 +24,7 @@ import { AppConfigProvider } from '../providers/app-config/app-config';
 import { AuthProvider } from '../providers/auth/auth';
 import { AvaliationProvider } from '../providers/avaliation/avaliation';
 import { DataProvider } from '../providers/data/data';
+import { ExternalAppProvider } from '../providers/external-app/external-app';
 import { JobProvider } from '../providers/job/job';
 import { Locations } from '../providers/locations/locations';
 import { ProfileProvider } from '../providers/profile/profile';
@@ -35,10 +39,6 @@ import { Notifications } from '../util/notifications/notifications';
 import { Popover } from '../util/popover/popover';
 import { Toast } from '../util/toast/toast';
 import { MyApp } from './app.component';
-import { AppAvailability } from '@ionic-native/app-availability';
-import { Device } from '@ionic-native/device';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { ExternalAppProvider } from '../providers/external-app/external-app';
 
 const config = {
   apiKey: 'AIzaSyBUzDf7u-UXxfNLch_ucKZTxo9pfsXgxpc',
@@ -60,14 +60,25 @@ const config = {
   imports: [
     BrowserModule,
     ComponentsModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      pageTransition: 'md-transition',
+      platforms: {
+        android: {
+          autoFocusAssist: false,
+          scrollAssist: true,
+          scrollPadding: false,
+        },
+      }
+    }),
     IonicStorageModule.forRoot({
       driverOrder: ['indexeddb'],
       name: '_userData',
     }),
     AngularFireModule.initializeApp(config),
+    AngularFirestoreModule.enablePersistence({ experimentalTabSynchronization: true }),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     HttpClientModule,
     HttpModule,
     FormsModule,

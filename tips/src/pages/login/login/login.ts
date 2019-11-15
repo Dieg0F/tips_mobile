@@ -8,6 +8,7 @@ import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { Alert } from '../../../util/alert/alert';
+import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
@@ -18,6 +19,9 @@ import { Toast } from '../../../util/toast/toast';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+
+  public email: string;
+  public password: string;
 
   private regex: Regex;
 
@@ -43,16 +47,16 @@ export class LoginPage {
    * @description start user autentication on application.
    * @param form view form with all user data values.
    */
-  public login(form: NgForm): void {
-    if (this.validateAccount(form)) {
+  public login(): void {
+    if (this.validateAccount()) {
       this.loading.showLoading('Entrando em sua conta...')
         .then(async () => {
-          this.afAuth.login(form)
+          this.afAuth.login(this.email, this.password)
             .then(async (result) => {
               this.successLogin(result);
             })
             .catch((error) => {
-              this.errorLogin();
+              this.errorLogin(error);
             });
         });
     }
@@ -62,17 +66,17 @@ export class LoginPage {
    * @description validate if user account is valid.
    * @param form view form with all user data values.
    */
-  public validateAccount(form: NgForm): boolean {
+  public validateAccount(): boolean {
     this.regex = new Regex();
-    if (!form.value.email || !form.value.password) {
+    if (!this.email || !this.password) {
       this.toast.showToast('Insira um e-mail e sua senha!');
       return false;
     }
-    if (!this.regex.verifyEmail(form.value.email)) {
+    if (!this.regex.verifyEmail(this.email)) {
       this.toast.showToast('E-mail não é valido!');
       return false;
     }
-    if (!this.regex.verifyPassword(form.value.password)) {
+    if (!this.regex.verifyPassword(this.password)) {
       this.toast.showToast('Senha deve conter no minimo 6 caracteres!');
       return false;
     }
@@ -140,8 +144,25 @@ export class LoginPage {
    * @description do a error login flow.
    * @param result user authenticate success response.
    */
-  private errorLogin() {
+  private errorLogin(error?: any) {
     this.loading.hideLoading();
-    this.alert.simpleAlert('Opps!', 'Houve um erro ao fazer login!');
+    if (error) {
+      switch (error.code) {
+        case Constants.USER_NOT_FOUND:
+          this.toast.showToast('E-mail de usuário não encontrado.');
+          break;
+        case Constants.USER_WRONG_PASS:
+          this.toast.showToast('E-mail ou senha incorretos.');
+          break;
+        case Constants.LOGIN_NETWORK_FAIL:
+          this.toast.showToast('Erro ao realizar login, verifique sua conexão com a internet.');
+          break;
+        default:
+          this.toast.showToast('Erro ao realizar login.');
+          break;
+      }
+    } else {
+      this.toast.showToast('Erro ao realizar login.');
+    }
   }
 }

@@ -45,7 +45,7 @@
             </div>
             <div class="cardFooter">
                 <ion-item>
-                    <ion-textarea [(ngModel)]="avaliationBody" type="text" name="avaliationDescription" placeholder="Ex: Gostei muito do serviço prestado. Excelente profissional!" maxLength="350">
+                    <ion-textarea [(ngModel)]="avaliationBody" type="text" name="avaliationDescription" placeholder="{{asContractor ? 'Ex: Gostei muito do serviço prestado. Excelente profissional!': 'Ex: Excelente cliente! Recomendo.'}}" maxLength="350">
                     </ion-textarea>
                 </ion-item>
             </div>

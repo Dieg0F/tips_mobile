@@ -1,4 +1,3 @@
-import { Alert } from './../../../util/alert/alert';
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
@@ -10,10 +9,9 @@ import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { CameraProvider } from '../../../util/camera/camera';
 import { Loading } from '../../../util/loading/loading';
+import { Regex, REGEXP } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
-
-const CAMERA_SOURCE = 'CAMERA_SOURCE';
-const GALLERY_SOURCE = 'GALLERY_SOURCE';
+import { Alert } from './../../../util/alert/alert';
 
 @IonicPage()
 @Component({
@@ -27,6 +25,7 @@ export class MyAccountPage {
   public stateId: number;
   public lockFiels: boolean = false;
   public wappNumber: string;
+  private regex: Regex;
 
   constructor(
     public navCtrl: NavController,
@@ -59,7 +58,7 @@ export class MyAccountPage {
     if (this.profile.profilePhotoUrl) {
       profilePhoto = this.profile.profilePhotoUrl;
     } else {
-      profilePhoto = '../../../assets/imgs/149071.png';
+      profilePhoto = '../../../assets/imgs/user_default_image.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',
@@ -93,28 +92,10 @@ export class MyAccountPage {
   }
 
   /**
-   * @description update profile photo on database.
+   * @description Open Profile Photo Modal, for edit and better image view.
    */
   public setProfilePhoto() {
-    this.alert.confirmAlert(
-      'Foto de perfil.',
-      'Selecione uma imagem da sua galeria ou tire uma foto com a câmera!',
-      this.takeAPhoto.bind(this), this.getImageOnGallery.bind(this),
-      'Galeria', 'Tirar uma foto',
-    );
-  }
-
-  /**
-   * @description convert a URI file to blob
-   * @param dataURI URI file.
-   */
-  public dataURItoBlob(dataURI: string) {
-    const binary = atob(dataURI.split(',')[1]);
-    const array = [];
-    for (let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': false, 'profile': this.profile });
   }
 
   /**
@@ -125,19 +106,25 @@ export class MyAccountPage {
       this.loading.showLoading('Salvando perfil...')
         .then(() => {
           if (this.profile.social.instagram) {
-            this.profile.social.instagram = this.profile.social.instagram.replace('@', '');
+            this.profile.social.instagram = this.profile.social.instagram.replace('@', '').toLowerCase();
+          }
+          if (this.profile.social.facebook) {
+            this.profile.social.facebook = this.profile.social.facebook.toLowerCase();
           }
           if (this.profile.cpf.length === 14) {
             this.lockFiels = true;
           }
+          this.profile.isActive = true;
           this.profileProvider.saveProfile({ ...this.profile })
-            .then(() => {
+            .then(async () => {
+              const res = await this.storageProvider.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATED');
               this.loading.hideLoading();
               this.toast.showToast('Perfil salvo com sucesso!');
               this.skipProfile();
               AppConfig.USER_PROFILE = this.profile;
             })
             .catch(() => {
+              this.profile.isActive = false;
               this.loading.hideLoading();
               this.toast.showToast('Erro ao salvar o perfil!');
             });
@@ -177,32 +164,17 @@ export class MyAccountPage {
    * @description validate if user has complete all fields.
    */
   public formValidation(): boolean {
-    if (!this.profile.name.firstName) {
+    this.regex = new Regex();
+    if (!this.regex.verifyName(this.profile.name.firstName)) {
       this.toast.showToast('Insira seu primeiro nome!');
       return false;
     }
-    if (!this.profile.name.lastName) {
+    if (!this.regex.verifyName(this.profile.name.lastName)) {
       this.toast.showToast('Insira seu ultimo nome!');
-      return false;
-    }
-    if (!this.profile.cpf) {
-      this.toast.showToast('Insira seu CPF!');
       return false;
     }
     if (!this.profile.phone) {
       this.toast.showToast('Insira seu número de telefone!');
-      return false;
-    }
-    if (!this.profile.street) {
-      this.toast.showToast('Insira o nome da rua em que mora!');
-      return false;
-    }
-    if (!this.profile.houseNumber) {
-      this.toast.showToast('Insira o numero da sua casa!');
-      return false;
-    }
-    if (!this.profile.district) {
-      this.toast.showToast('Insira o nome do seu bairro!');
       return false;
     }
     if (!this.profile.state) {
@@ -267,53 +239,6 @@ export class MyAccountPage {
       }
       this.events.unsubscribe('jobSelected');
     });
-  }
-
-  /**
-   * @description GEt a image from gallery.
-   */
-  private getImageOnGallery() {
-    this.loading.showLoading('Salvando imagem...')
-      .then(() => {
-        this.camera.getPicture(GALLERY_SOURCE)
-          .then((img) => {
-            return this.savingImage(img);
-          })
-          .catch((error) => {
-            this.loading.hideLoading();
-          });
-      });
-  }
-
-  /**
-   * @description Get a image from camera.
-   */
-  private takeAPhoto() {
-    this.loading.showLoading('Salvando imagem...')
-      .then(() => {
-        this.camera.getPicture(CAMERA_SOURCE)
-          .then((img) => {
-            return this.savingImage(img);
-          })
-          .catch((error) => {
-            this.loading.hideLoading();
-          });
-      });
-  }
-
-  /**
-   * @description Save a image on Firebase Storage.
-   * @param img Image to be saved.
-   */
-  private async savingImage(img: any) {
-    const fileUrl = normalizeURL('data:image/jpeg;base64,' + img);
-    const selectedPhoto: any = this.dataURItoBlob(fileUrl);
-    const downloadURL = await this.dataProvider.uploadPhoto(AppConfig.PROFILE_PHOTO_PATH, selectedPhoto, this.profile.uid);
-    this.profile.profilePhotoUrl = downloadURL;
-    const elm = document.getElementById('set_profileImage');
-    elm.style.backgroundImage = 'url(\'' + downloadURL + '\')';
-    elm.style.backgroundSize = 'cover';
-    this.loading.hideLoading();
   }
 
   /**

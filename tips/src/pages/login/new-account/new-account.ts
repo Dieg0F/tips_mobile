@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../../providers/auth/auth';
+import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
 import { Alert } from '../../../util/alert/alert';
+import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
@@ -23,6 +25,7 @@ export class NewAccountPage {
     public navParams: NavParams,
     public authProvider: AuthProvider,
     public userProvider: UserProvider,
+    public storage: StorageProvider,
     public loading: Loading,
     public alert: Alert,
     public toast: Toast) { }
@@ -47,9 +50,8 @@ export class NewAccountPage {
               };
               return this.saveUser(newUser);
             })
-            .catch((e) => {
-              this.loading.hideLoading();
-              this.alert.simpleAlert('Opps!', 'Houve um erro ao criar conta!');
+            .catch((error) => {
+              this.onError(error);
             });
         });
     }
@@ -60,8 +62,8 @@ export class NewAccountPage {
    */
   public alertInformation() {
     this.alert.simpleAlert(
-      'Sou um profissional?',
-      'Se você é um profissional e quer divilgar seu serviços, deixe essa opção ativa!',
+      'Profissional Autônomo?',
+      'Se você é um profissional autônomo e deseja divulgar seus serviços, deixe essa opção ativa!',
     );
   }
 
@@ -99,6 +101,26 @@ export class NewAccountPage {
     return true;
   }
 
+  private onError(error?: any) {
+    this.loading.hideLoading();
+    if (error) {
+      switch (error.code) {
+        case Constants.NEW_ACCOUNT_EMAIL_IN_USE:
+          this.toast.showToast('E-mail em uso por outro usuário.');
+          break;
+        case Constants.LOGIN_NETWORK_FAIL:
+          this.toast.showToast('Erro ao criar conta, verifique sua conexão com a internet.');
+          break;
+        default:
+          this.toast.showToast('Erro ao criar conta.');
+          break;
+      }
+    } else {
+      this.toast.showToast('Erro ao criar conta.');
+    }
+
+  }
+
   /**
    * @description save a new user and his authenticated data on database and storage.
    * @param newUser new user created.
@@ -108,7 +130,10 @@ export class NewAccountPage {
       .then(async () => {
         return this.userProvider.saveUserAuth(newUser.uid)
           .then(() => {
-            this.setProfileConfigurations();
+            this.storage.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATING')
+              .then(() => {
+                this.setProfileConfigurations();
+              });
           });
       });
   }

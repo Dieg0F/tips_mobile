@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference, Query } from '@angular/fire/firestore';
 import { AppConfig } from '../../model/static/static';
 import { StorageProvider } from '../storage/storage';
 
@@ -64,7 +64,7 @@ export class ProfileProvider {
      */
     public async getProfiles(filter: FilterOptions, limit: number) {
         return this.db.collection(Constants.PROFILES_COLLECTION, (ref) => {
-            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            let query: CollectionReference | Query = ref;
             if (filter.profileName !== '') { query = query.where('name.firstName', '==', filter.profileName); }
             if (filter.profileState !== '') { query = query.where('state', '==', filter.profileState); }
             if (filter.profileCity !== '') { query = query.where('city', '==', filter.profileCity); }
@@ -101,7 +101,7 @@ export class ProfileProvider {
             },
             email: user.email,
             isAPro: user.isAPro,
-            isActive: true,
+            isActive: false,
             phone: '',
             street: '',
             houseNumber: '',

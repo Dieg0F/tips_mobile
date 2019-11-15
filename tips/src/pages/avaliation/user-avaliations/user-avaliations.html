@@ -16,17 +16,16 @@
     </div>
     <div class="list">
         <div *ngIf="avaliations.length > 0">
-            <div class="card" *ngFor="let avaliation of avaliations" (click)="goToDetails(avaliation)">
-                <div class="cardTitle">
-                    <h3>{{ avaliation.name }}</h3>
-                </div>
+            <div class="card" [class.toEnd]="avaliation.evaluatorUid === profile.uid" [class.toStart]="avaliation.ratedUid === profile.uid" *ngFor="let avaliation of avaliations" (click)="goToDetails(avaliation)">
                 <div class="rate">
                     <div class="profileRating rating" *ngFor="let star of starsRate(avaliation.rate); let i of index">
-                        <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5"></ion-icon>
+                        <ion-icon name="{{star}}" [ngClass]="starsRateColor(avaliation.rate)" *ngIf="i != 5">
+                        </ion-icon>
                     </div>
                 </div>
                 <div class="cardBody">
-                    <p>{{avaliation.body}}</p>
+                    <h6>{{ avaliation.name }}</h6>
+                    <p>"{{ avaliation.body }}"</p>
                 </div>
             </div>
         </div>

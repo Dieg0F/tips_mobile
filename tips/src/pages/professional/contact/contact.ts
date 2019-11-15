@@ -31,24 +31,6 @@ export class ContactPage {
   }
 
   /**
-   * @description on page has loaded.
-   */
-  public ionViewDidLoad() {
-    this.buildMap();
-  }
-
-  /**
-   * @description build Google Maps map.
-   */
-  public buildMap() {
-
-    const fullAddress = this.profile.street + ' ' + this.profile.houseNumber + ' ' + this.profile.district +
-      ' ' + this.profile.city + ' ' + this.profile.state;
-
-    this.map = new GoogleMaps(document.getElementById('map')).getLocation(fullAddress);
-  }
-
-  /**
    * @description Open a specific application to make contact with other user.
    * @param app Application name to be open.
    */
@@ -72,11 +54,6 @@ export class ContactPage {
         break;
       case 'email':
         this.extApp.openMailApp(this.profile.email);
-        break;
-      case 'maps':
-        const fullAddress = this.profile.street + ' ' + this.profile.houseNumber + ' ' + this.profile.district +
-          ' ' + this.profile.city + ' ' + this.profile.state;
-        this.extApp.openMapsApp(fullAddress);
         break;
       default:
         break;

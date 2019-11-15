@@ -73,6 +73,14 @@ page-contact {
                 opacity: 0.5 !important;
             }
         }
+        .info.map {
+            display: flex !important;
+            justify-items: center !important;
+            -webkit-box-align: center !important;
+            -webkit-align-items: center !important;
+            -ms-flex-align: center !important;
+            align-items: center !important;
+        }
         .info.simple {
             display: flex;
             justify-items: center;

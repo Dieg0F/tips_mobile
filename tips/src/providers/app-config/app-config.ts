@@ -31,14 +31,7 @@ export class AppConfigProvider {
    * Caso contrario, ele retorna false, pedindo o login do usuário
    */
   public async verifyAuth(): Promise<any> {
-    return this.storage.getItem(Constants.USER_PROFILE_LOCAL_DB)
-      .then(async (userProfile) => {
-        AppConfig.USER_PROFILE = JSON.parse(userProfile);
-      })
-      .catch((error) => {
-        // tslint:disable-next-line:no-console
-        console.log('Error: ', error);
-      });
+    return this.storage.getItem(Constants.USER_PROFILE_LOCAL_DB);
   }
 
   /**

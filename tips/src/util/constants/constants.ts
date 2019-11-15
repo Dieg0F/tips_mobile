@@ -70,4 +70,12 @@ export class Constants {
     public static SEARCH_COMPLETE = 'SEARCH_COMPLETE';
     public static SEARCH_BASIC = 'SEARCH_BASIC';
     public static SEARCH_DISABLED = 'SEARCH_DISABLED';
+
+    /**
+     * Login error values
+     */
+    public static USER_NOT_FOUND = 'auth/user-not-found';
+    public static LOGIN_NETWORK_FAIL = 'auth/network-request-failed';
+    public static USER_WRONG_PASS = 'auth/wrong-password';
+    public static NEW_ACCOUNT_EMAIL_IN_USE = 'auth/email-already-in-use';
 }

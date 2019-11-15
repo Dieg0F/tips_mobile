@@ -60,7 +60,7 @@ export class AvaliationDetailsPage {
     if (this.avaliationOwner.profilePhotoUrl) {
       profilePhoto = this.avaliationOwner.profilePhotoUrl;
     } else {
-      profilePhoto = '../../../assets/imgs/149071.png';
+      profilePhoto = '../../../assets/imgs/user_default_image.png';
     }
     return {
       'background-image': 'url(' + profilePhoto + ')',

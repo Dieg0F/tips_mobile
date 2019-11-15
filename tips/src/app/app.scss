@@ -87,7 +87,7 @@ page-results {
     border: 2px solid #ffffff;
     background-size: cover;
     background-position: center;
-    background-image: url("../assets/imgs/149071.png");
+    background-image: url("../assets/imgs/user_default_image.png");
     float: left;
     margin-left: $mediumSpace;
     img {
@@ -398,6 +398,11 @@ page-solicitations-filter,
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4) !important;
         .alert-head {
             padding: $mediumSpace $highSpace !important;
+            margin-top: 10px;
+            h3 {
+                margin-top: 15px;
+                opacity: 0.6;
+            }
         }
         .alert-radio-group {
             border: none !important;

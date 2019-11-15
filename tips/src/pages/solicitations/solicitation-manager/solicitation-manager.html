@@ -25,6 +25,14 @@
             </div>
             <div class="serviceDescription">
                 <h5>Formas de contato:</h5>
+                <div class="contact-field" (click)="goToApp('maps')">
+                    <div class="icon-field maps">
+                        <ion-icon name="pin"></ion-icon>
+                    </div>
+                    <div class="info map">
+                        <p>{{contractorPf.city}} - {{contractorPf.state}}</p>
+                    </div>
+                </div>
                 <div class="contact-field" (click)="goToApp('phone')">
                     <div class="icon-field phone">
                         <ion-icon name="call"></ion-icon>
@@ -41,15 +49,6 @@
                     <div class="info">
                         <p>{{contractorPf.email}}</p>
                         <span>Me envie um e-mail!</span>
-                    </div>
-                </div>
-                <div class="contact-field" (click)="goToApp('maps')">
-                    <div class="icon-field maps">
-                        <ion-icon name="pin"></ion-icon>
-                    </div>
-                    <div class="info">
-                        <p>{{contractorPf.street}}, {{contractorPf.houseNumber}} - {{contractorPf.district}}, {{contractorPf.city}} - {{contractorPf.state}}</p>
-                        <span>Abrir no Google Maps!</span>
                     </div>
                 </div>
                 <div class="contact-field" (click)="goToApp('whats')" *ngIf="contractorPf.social.whatsapp">

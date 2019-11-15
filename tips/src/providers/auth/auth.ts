@@ -1,39 +1,22 @@
 
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 
-import firebase from 'firebase';
+//import firebase from 'firebase/fire';
 
 @Injectable()
 export class AuthProvider {
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) { }
+  constructor(private afAuth: AngularFireAuth) { }
 
   /**
    * @description make a authentication by e-mail and password.
    * @param form all values from login form.
    */
-  public login(form: NgForm): Promise<any> {
-    return firebase.auth()
-      .signInWithEmailAndPassword(form.value.email, form.value.password);
-  }
-
-  /**
-   * @description call firebase google authentication.
-   */
-  public googleLogin(): Promise<any> {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
-  }
-
-  /**
-   * @description call firebase facebook authentication.
-   */
-  public facebookLogin(): Promise<any> {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
+  public login(email: string, password: string): Promise<any> {
+    return this.afAuth.auth
+      .signInWithEmailAndPassword(email, password);
   }
 
   /**
