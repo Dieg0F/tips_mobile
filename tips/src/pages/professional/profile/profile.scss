@@ -1,5 +1,32 @@
 page-profile {
-    .toolbar-content-md{
-      margin-top: -30px !important;
+    .toolbar-content-md {
+        margin-top: -30px !important;
+    }
+    .profileHeader {
+        margin: -16px -16px 22px;
+        padding: 28px 32px 0px;
+        .profilePhoto {
+            width: 100px !important;
+            height: 100px !important;
+            margin: 0px !important;
+        }
+        .mainTitle {
+            span {
+                margin-top: 5px;
+                margin-bottom: 2px;
+            }
+            button {
+                border: 0.5px solid rgba(255, 255, 255, 0.85);
+                color: rgba(255, 255, 255, 0.85);
+                text-align: center;
+                font-size: 13px;
+                border-radius: 2px;
+                height: 20px;
+                width: 105px;
+                text-transform: uppercase;
+                margin-top: 10px;
+                background: transparent;
+            }
+        }
     }
 }

@@ -1,3 +1,11 @@
 page-main {
-
+    .tabs-md .tabbar {
+        background-color: #273A56 !important;
+    }
+    .tab-button[aria-selected=true] .tab-button-icon {
+        color: #29B6F6 !important;
+    }
+    .tab-button .tab-button-icon {
+        color: #29b6f670 !important;
+    }
 }

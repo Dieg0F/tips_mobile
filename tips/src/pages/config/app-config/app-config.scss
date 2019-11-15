@@ -3,49 +3,75 @@ page-app-config {
         margin-left: 0px !important;
         margin-top: 3px;
     }
-    .profileSession {
-        margin-bottom: $largeSpace;
+    .config {
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        height: 100% !important;
     }
-    .sessionHeader {
-        h3 {
-            color: $darkTextColor;
-            font-size: $cardTitleSize;
-            margin: 0px 0px $highSpace;
-            opacity: 0.95;
-            text-align: left;
-        }
-    }
-    .sessionOption {
-        margin-bottom: $largeSpace;
-        .item-md,
-        .item-ios,
-        .label-md,
-        .label-ios {
-            padding: 0px !important;
-            margin: 0px !important;
-            .item-inner {
-                border: none !important;
+    .appInfo {
+        .appLogo {
+            img {
+                width: 75px;
+                height: 75px;
             }
         }
-        .item-md .toggle-ios,
-        .item-md .toggle-md {
-            padding: 12px 0px !important;
+    }
+    .configOptions {
+        width: 200px !important;
+        .title {
+            text-align: center;
+            h3 {
+                font-size: 27px !important;
+                margin: 0px 0px 30px;
+                color: #fff;
+            }
         }
-        h5 {
-            color: $darkTextColor !important;
-            font-size: 16px;
-            margin: 0px 0px !important;
-            opacity: 0.6;
-            text-align: left;
-            font-weight: bold !important;
+        .configOption {
+            opacity: 0.8;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            text-align: center;
+            p {
+                font-size: 17px !important;
+                line-height: 30px;
+                margin: 5px 0 !important;
+            }
         }
-        p {
-            color: $darkTextColor;
-            font-size: 13px;
-            line-height: cardBodyLineHeight;
-            opacity: 0.5;
-            margin: 0px;
-            text-align: left;
+        .configOption:last-child {
+            border: none !important;
+        }
+    }
+    .devSession {
+        width: 100% !important;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        text-align: center !important;
+        color: #fff;
+        .powerBy {
+            margin: 10px 0 15px !important;
+            p {
+                display: block !important;
+                font-size: 15px !important;
+                opacity: 0.6;
+                margin: 5px !important;
+            }
+            #ionic-io-logo {
+                width: 50px;
+                color: #FFF;
+                fill: #FFF;
+            }
+        }
+        .devBy,
+        .version {
+            margin: 5px 0;
+            p {
+                display: block !important;
+                font-size: 13px !important;
+                opacity: 0.6;
+                margin: 0px !important;
+            }
         }
     }
 }
