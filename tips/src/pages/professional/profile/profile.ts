@@ -5,6 +5,7 @@ import { ProfileProvider } from '../../../providers/profile/profile';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 import { Alert } from './../../../util/alert/alert';
 import { Toast } from './../../../util/toast/toast';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -39,6 +40,10 @@ export class ProfilePage {
               this.profile = { ...AppConfig.USER_PROFILE };
             });
         });
+    });
+    this.events.subscribe(Constants.PROFILE_CONTINUE_CONFIGURATION, () => {
+      console.log('ProfileProvider | Call MyAccount Page!');
+      this.navCtrl.setRoot('MyAccountPage');
     });
   }
   /**

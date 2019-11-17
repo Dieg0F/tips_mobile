@@ -130,7 +130,7 @@ export class NewAccountPage {
       .then(async () => {
         return this.userProvider.saveUserAuth(newUser.uid)
           .then(() => {
-            this.storage.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATING')
+            this.storage.setItem(Constants.ACCOUNT_STATUS, Constants.ACCOUNT_IS_CREATING)
               .then(() => {
                 this.setProfileConfigurations();
               });

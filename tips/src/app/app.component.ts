@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { AppConfig } from '../model/static/static';
 import { AppConfigProvider } from '../providers/app-config/app-config';
 import { ProfileProvider } from '../providers/profile/profile';
 import { StorageProvider } from '../providers/storage/storage';
+import { Constants } from '../util/constants/constants';
 import { Notifications } from '../util/notifications/notifications';
 import { Toast } from '../util/toast/toast';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
 @Component({
   templateUrl: 'app.html',
@@ -34,7 +35,7 @@ export class MyApp {
         this.statusBar.styleLightContent();
 
         // tslint:disable-next-line:comment-format
-        this.notifications.initService();
+        //this.notifications.initService();
       });
   }
 
@@ -46,16 +47,16 @@ export class MyApp {
       .then((userProfile) => {
         const profile = JSON.parse(userProfile);
         if (profile) {
-          this.storage.getItem('ACCOUNT_STATUS')
+          this.storage.getItem(Constants.ACCOUNT_STATUS)
             .then((res) => {
               AppConfig.USER_PROFILE = profile;
               this.splash.hide();
-              if (JSON.parse(res) === 'ACCOUNT_IS_CREATING') {
+              if (JSON.parse(res) === Constants.ACCOUNT_IS_CREATING) {
                 this.rootPage = 'MyAccountPage';
               } else {
                 this.rootPage = 'ProfilePage';
                 this.toast.showToast('Bem vindo novamente!');
-                this.profileProvider.updateProfile();
+                this.profileProvider.updateProfile(true);
               }
             });
         } else {

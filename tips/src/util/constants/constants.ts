@@ -42,7 +42,9 @@ export class Constants {
     public static SOLICITATION_DETAILS_HIRED = 'hiredProfile';
     public static SOLICITATION_PROFILE = 'profileToSolicitation';
 
+
     public static PROFILE_LIST = 'profiles';
+    public static ACCOUNT_STATUS = 'ACCOUNT_STATUS';
 
     public static CONTACT_PROFILE = 'userProfile';
 
@@ -63,6 +65,13 @@ export class Constants {
     public static SOLICITATIONS_RECEIVED = 'SOLICITATIONS_RECEIVED';
     public static SOLICITATIONS_DONE = 'SOLICITATIONS_DONE';
     public static ALL_SOLICITATIONS = 'ALL_SOLICITATIONS';
+
+    /**
+     * Profile tags.
+     */
+    public static ACCOUNT_IS_CREATING = 'ACCOUNT_IS_CREATING';
+    public static ACCOUNT_IS_CREATED = 'ACCOUNT_IS_CREATED';
+    public static PROFILE_CONTINUE_CONFIGURATION = 'PROFILE_CONTINUE_CONFIGURATION';
 
     /**
      * Search values

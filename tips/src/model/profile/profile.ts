@@ -43,4 +43,5 @@ export interface Profile {
         showWhatsApp: boolean;
         directCall: boolean;
     };
+    accStatus: string;
 }

@@ -41,6 +41,7 @@ export class AppConfig {
             showWhatsApp: false,
             directCall: false,
         },
+        accStatus: '',
     };
 
     public static PROFILE_PHOTO_PATH = 'profilePhoto/';

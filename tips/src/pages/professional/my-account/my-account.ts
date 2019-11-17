@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
+import { Events, IonicPage, NavController, NavParams, normalizeURL, ViewController } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
 import { AppConfig } from '../../../model/static/static';
 import { DataProvider } from '../../../providers/data/data';
@@ -12,6 +12,7 @@ import { Loading } from '../../../util/loading/loading';
 import { Regex, REGEXP } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
+import { Constants } from '../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -29,6 +30,7 @@ export class MyAccountPage {
 
   constructor(
     public navCtrl: NavController,
+    public viewCtrl: ViewController,
     public navParams: NavParams,
     public userProvider: UserProvider,
     public profileProvider: ProfileProvider,
@@ -46,6 +48,7 @@ export class MyAccountPage {
    * @description on page will enter.
    */
   public ionViewWillEnter() {
+    this.verifyAcc();
     this.initializeFields();
     this.getJobs();
   }
@@ -117,7 +120,7 @@ export class MyAccountPage {
           this.profile.isActive = true;
           this.profileProvider.saveProfile({ ...this.profile })
             .then(async () => {
-              const res = await this.storageProvider.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATED');
+              const res = await this.storageProvider.setItem(Constants.ACCOUNT_STATUS, Constants.ACCOUNT_IS_CREATED);
               this.loading.hideLoading();
               this.toast.showToast('Perfil salvo com sucesso!');
               this.skipProfile();
@@ -247,6 +250,16 @@ export class MyAccountPage {
   private initializeFields() {
     if (this.profile.cpf.length === 14) {
       this.lockFiels = true;
+    }
+  }
+
+  /**
+   * @description verify if user complete the account profile configuration, and show a message!
+   */
+  private verifyAcc() {
+    if (this.profile.accStatus === Constants.ACCOUNT_IS_CREATING) {
+      this.alert.simpleAlert('Configuração de perfil!',
+        'Parece que você não terminou de configurar a sua conta! Configure para utilizar o aplicativo.');
     }
   }
 }

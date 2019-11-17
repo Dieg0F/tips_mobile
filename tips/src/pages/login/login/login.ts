@@ -134,6 +134,7 @@ export class LoginPage {
    */
   private goToProfilePage(showToast: boolean = true) {
     this.navCtrl.setRoot('ProfilePage');
+    this.profileProvider.updateProfile(true);
     this.loading.hideLoading();
     if (showToast) {
       this.toast.showToast('Bem vindo!');
