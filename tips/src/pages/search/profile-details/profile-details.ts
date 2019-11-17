@@ -11,6 +11,7 @@ import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 export class ProfileDetailsPage {
 
   public profile: Profile;
+  public isVisitor: boolean;
   private starsRateHelper: StarRateHelper;
 
   constructor(
@@ -24,6 +25,7 @@ export class ProfileDetailsPage {
    * @description on page will enter.
    */
   public ionViewWillEnter() {
+    this.isVisitor = this.navParams.get('isVisitor');
     this.getProfile();
   }
 
@@ -32,23 +34,6 @@ export class ProfileDetailsPage {
    */
   public getProfile() {
     this.profile = this.navParams.get('profile');
-  }
-
-  /**
-   * @description Build user avatar image.
-   */
-  public setAvatarImage() {
-    let profilePhoto = '';
-    if (this.profile.profilePhotoUrl) {
-      profilePhoto = this.profile.profilePhotoUrl;
-    } else {
-      profilePhoto = '../../../assets/imgs/user_default_image.png';
-    }
-    return {
-      'background-image': 'url(' + profilePhoto + ')',
-      'background-position': 'center',
-      'background-size': 'cover',
-    };
   }
 
   /**

@@ -119,55 +119,6 @@ export class SolicitationDetailsPage {
   }
 
   /**
-   * @description set solicitation view class by status.
-   */
-  public setSolicitationStatusClass() {
-    let statusClass = ' ';
-
-    switch (this.solicitation.status) {
-      case Constants.SOLICITATION_IS_OPEN:
-        statusClass += 'newSolicitation';
-        break;
-      case Constants.SOLICITATION_IS_RUNNING:
-        statusClass += 'runningSolicitation';
-        break;
-      case Constants.SOLICITATION_IS_FINISHED:
-        statusClass += 'finishedSolicitation';
-        break;
-      case Constants.SOLICITATION_IS_CANCELED:
-        statusClass += 'canceledSolicitation';
-        break;
-    }
-
-    this.solicitationStatusClass = statusClass;
-  }
-
-  /**
-   * @description build a string based on solicitation status.
-   * @param status solicitation status.
-   */
-  public setStatusValueToShow(status: string): string {
-    let statusValue = '';
-
-    switch (status) {
-      case Constants.SOLICITATION_IS_OPEN:
-        statusValue += 'Novo';
-        break;
-      case Constants.SOLICITATION_IS_RUNNING:
-        statusValue += 'Em Andamento';
-        break;
-      case Constants.SOLICITATION_IS_FINISHED:
-        statusValue += 'Finalizado';
-        break;
-      case Constants.SOLICITATION_IS_CANCELED:
-        statusValue += 'Cancelado';
-        break;
-    }
-
-    return statusValue;
-  }
-
-  /**
    * @description cancel solicitation alert information.
    */
   public cancelSolicitationAction() {
@@ -243,34 +194,17 @@ export class SolicitationDetailsPage {
   }
 
   /**
-   * @description Open a specific application to make contact with other user.
-   * @param app Application name to be open.
+   * @description Open Profile Photo Modal, for edit and better image view.
    */
-  public goToApp(app: string) {
-    switch (app) {
-      case 'whats':
-        this.extApp.openWhatsApp(this.hiredPf.social.whatsapp);
-        break;
-      case 'face':
-        this.extApp.openFacebook(this.hiredPf.social.facebook);
-        break;
-      case 'inst':
-        this.extApp.openInstagram(this.hiredPf.social.instagram);
-        break;
-      case 'phone':
-        const phone = this.hiredPf.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
-        this.extApp.openPhoneApp(phone);
-        break;
-      case 'email':
-        this.extApp.openMailApp(this.hiredPf.email);
-        break;
-      case 'maps':
-        const fullAddress = this.hiredPf.city + ' ' + this.hiredPf.state;
-        this.extApp.openMapsApp(fullAddress);
-        break;
-      default:
-        break;
-    }
+  public viewProfileImage() {
+    this.navCtrl.push('ImageOptionsPage', { isVisitor: true, profile: this.hiredPf });
+  }
+
+  /**
+   * @description Open profile page for more details.
+   */
+  public viewProfile() {
+    this.navCtrl.push('ProfileDetailsPage', { isVisitor: true, profile: this.hiredPf });
   }
 
   /**
@@ -279,7 +213,6 @@ export class SolicitationDetailsPage {
   private updateSolicitationByEvent(res: any) {
     this.solicitation = res.data();
     this.buildSolicitationStatusMessage();
-    this.setSolicitationStatusClass();
     this.avaliationPending();
 
     let toastMessage = '';
@@ -313,7 +246,6 @@ export class SolicitationDetailsPage {
   private updateSolicitationOut(serv: any) {
     this.solicitation = serv;
     this.buildSolicitationStatusMessage();
-    this.setSolicitationStatusClass();
     if (this.solicitation.removedTo.contractorUid === this.userUid) {
       this.navCtrl.pop();
     }
@@ -340,7 +272,6 @@ export class SolicitationDetailsPage {
       .then((res) => {
         this.hiredPf = res.data();
         this.buildSolicitationStatusMessage();
-        this.setSolicitationStatusClass();
         this.avaliationPending();
       })
       .catch(() => {
@@ -355,7 +286,6 @@ export class SolicitationDetailsPage {
   private onSuccess() {
     this.loading.hideLoading();
     this.toast.showToast(this.toastMessage);
-    this.setSolicitationStatusClass();
     this.buildSolicitationStatusMessage();
     if (this.solicitation.removedTo.contractorUid === this.userUid) {
       this.navCtrl.pop();

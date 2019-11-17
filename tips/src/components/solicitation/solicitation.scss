@@ -1,0 +1,132 @@
+solicitation {
+    .serviceHeader {
+        margin: -16px -16px 0px;
+        padding: 8px 32px 0px;
+        .profilePhoto {
+            width: 100px !important;
+            height: 100px !important;
+            margin: 0px !important;
+        }
+        .mainTitle {
+            span {
+                margin-top: 5px;
+                margin-bottom: 2px;
+            }
+            button {
+                border: 0.5px solid rgba(255, 255, 255, 0.85);
+                color: rgba(255, 255, 255, 0.85);
+                text-align: center;
+                font-size: 13px;
+                border-radius: 2px;
+                height: 20px;
+                width: 105px;
+                text-transform: uppercase;
+                margin-top: 10px;
+                background: transparent;
+            }
+        }
+    }
+    .service {
+        padding: $smallSpace 0px;
+        .cardTitle {
+            font-size: 23px;
+        }
+        .cardTitle,
+        .cardBody p {
+            opacity: 0.5;
+            text-align: center !important;
+            margin: $smallSpace $mediumSpace;
+        }
+        .cardBody {
+            margin-bottom: $largeSpace;
+        }
+    }
+    .service.newSolicitation {
+        border-bottom: 10px solid #81C784;
+    }
+    .service.runningSolicitation {
+        border-bottom: 10px solid #64B5F6;
+    }
+    .service.finishedSolicitation {
+        border-bottom: 10px solid #FF8A65;
+    }
+    .service.canceledSolicitation {
+        border-bottom: 10px solid #e57373;
+    }
+    .service.removedSolicitation {
+        border-bottom: 10px solid #444;
+    }
+    .serviceDescription {
+        margin: $mediumSpace $mediumSpace $largeSpace;
+        .item-md,
+        .item-ios,
+        .label-md,
+        .label-ios {
+            padding: 0px !important;
+            margin: 0px !important;
+            .item-inner {
+                border: none !important;
+            }
+        }
+        .item-md .toggle-ios,
+        .item-md .toggle-md {
+            padding: 12px 0px !important;
+        }
+        h5 {
+            color: $darkTextColor !important;
+            font-size: 18px;
+            margin: 0px 0px !important;
+            opacity: 0.9;
+            text-align: left;
+            font-weight: 500 !important;
+        }
+        p {
+            color: $darkTextColor;
+            font-size: 17px;
+            line-height: 20px !important;
+            opacity: 0.5;
+            margin: 0px;
+            text-align: left;
+            margin-top: $smallSpace;
+        }
+    }
+    .observations {
+        margin-bottom: 10px !important;
+        text-align: right;
+        h5 {
+            font-size: 15px !important;
+            text-align: left !important;
+            margin-bottom: 10px !important;
+        }
+        p {
+            font-size: 14px !important;
+            text-align: right !important;
+            margin: 5px 0 !important;
+            font-style: italic;
+            line-height: 20px !important;
+        }
+        div {
+            font-style: italic;
+            .by,
+            .when {
+                color: $darkTextColor;
+                font-size: 14px;
+                line-height: $cardBodyLineHeight;
+                opacity: 0.5;
+                text-align: left;
+            }
+            .when {
+                font-size: 10px !important;
+                font-style: italic;
+            }
+        }
+    }
+    .solicitationDate {
+        text-align: right;
+        font-style: italic;
+        font-size: 12px;
+        opacity: 0.5;
+        padding-right: 16px;
+        margin-top: $largeSpace !important;
+    }
+}

@@ -8,7 +8,7 @@
     <div class="results scale-up-ver-top transition" *ngIf="searchMode == 'SEARCH_DISABLED'">
         <div class="card profile" *ngFor="let profile of profiles" (click)="goToDetails(profile)">
             <div class="profileTitle">
-                <div class="profilePhotoResult" [ngStyle]="setAvatarImage(profile.profilePhotoUrl)"></div>
+                <profile-photo [photoUrl]="profile.profilePhotoUrl"></profile-photo>
                 <div class="profileName">
                     <h3>{{profile.name.firstName + " " + profile.name.lastName}}</h3>
                 </div>

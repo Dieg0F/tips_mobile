@@ -7,7 +7,7 @@
 <ion-content padding>
     <div class="card avaliation">
         <div class="profileTitle">
-            <div class="profilePhoto" [ngStyle]="setAvatarImage()"></div>
+            <profile-photo [photoUrl]="avaliationOwner.profilePhotoUrl"></profile-photo>
             <div class="profileName">
                 <h3>{{avaliationOwner.name.firstName}} {{avaliationOwner.name.lastName}}</h3>
             </div>

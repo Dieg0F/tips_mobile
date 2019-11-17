@@ -6,22 +6,10 @@
 
 <ion-content padding>
     <div *ngIf="contractorPf != undefined && hiredPf != undefined">
-        <div class="usersPhotos">
-            <div class="userProfilePhoto" [ngStyle]="setAvatarImage(contractorPf.profilePhotoUrl)"></div>
-            <div class="hiredProfilePhoto" [ngStyle]="setAvatarImage(hiredPf.profilePhotoUrl)"></div>
-            <div class="syncIcon">
-                <ion-icon name="sync"></ion-icon>
-            </div>
-            <div class="clearfix"></div>
-        </div>
+        <solicitation-photo [hiredPhoto]="hiredPf.profilePhotoUrl" [contractorPhoto]="contractorPf.profilePhotoUrl">
+        </solicitation-photo>
         <div class="card service" *ngIf="!solicitationDone">
-            <div class="cardBody" *ngIf="!enableDescription">
-                <p>Deseja enviar uma solicitação de serviço para
-                    <b>{{ hiredPf.name.firstName }}</b>?
-                </p>
-                <button ion-button (click)="setServiceDescription()" *ngIf="!enableDescription">Confirmar</button>
-            </div>
-            <div class="serviceDesciption" *ngIf="enableDescription">
+            <div class="serviceDesciption">
                 <div class="cardTitle">
                     <h2>Descrição da solicitação</h2>
                 </div>
@@ -37,77 +25,8 @@
                 </div>
             </div>
         </div>
-        <div class="card service newSolicitation" *ngIf="solicitationDone">
-            <div class="serviceDescription">
-                <h5>Solicitação de serviço para:</h5>
-                <p>{{hiredPf.name.firstName}} {{hiredPf.name.lastName}}</p>
-            </div>
-            <div class="serviceDescription">
-                <h5>Meios de contato:</h5>
-                <div class="contact-field" (click)="goToApp('maps')">
-                    <div class="icon-field maps">
-                        <ion-icon name="pin"></ion-icon>
-                    </div>
-                    <div class="info map">
-                        <p>{{hiredPf.city}} - {{hiredPf.state}}</p>
-                    </div>
-                </div>
-                <div class="contact-field" (click)="goToApp('phone')">
-                    <div class="icon-field phone">
-                        <ion-icon name="call"></ion-icon>
-                    </div>
-                    <div class="info">
-                        <p>{{hiredPf.phone}}</p>
-                        <span>Me ligue!</span>
-                    </div>
-                </div>
-                <div class="contact-field" (click)="goToApp('email')">
-                    <div class="icon-field mail">
-                        <ion-icon name="mail"></ion-icon>
-                    </div>
-                    <div class="info">
-                        <p>{{hiredPf.email}}</p>
-                        <span>Me envie um e-mail!</span>
-                    </div>
-                </div>
-                <div class="contact-field" (click)="goToApp('whats')" *ngIf="hiredPf.social.whatsapp">
-                    <div class="icon-field whatsapp">
-                        <ion-icon name="logo-whatsapp"></ion-icon>
-                    </div>
-                    <div class="info">
-                        <p>Me chame no WhatsApp!</p>
-                        <span>Falar com {{hiredPf.name.firstName + ' ' + hiredPf.name.lastName}}!</span>
-                    </div>
-                </div>
-                <div class="contact-field" (click)="goToApp('inst')" *ngIf="hiredPf.social.instagram">
-                    <div class="icon-field instagram">
-                        <ion-icon name="logo-instagram"></ion-icon>
-                    </div>
-                    <div class="info">
-                        <p>Veja meu perfil no Instagram!</p>
-                        <span>Ver o perfil de {{hiredPf.name.firstName + ' ' + hiredPf.name.lastName}}!</span>
-                    </div>
-                </div>
-                <div class="contact-field" (click)="goToApp('face')" *ngIf="hiredPf.social.facebook">
-                    <div class="icon-field facebook">
-                        <ion-icon name="logo-facebook"></ion-icon>
-                    </div>
-                    <div class="info">
-                        <p>Veja meu perfil no Facebook!</p>
-                        <span>Ver o perfil de {{hiredPf.name.firstName}} no Facebook!</span>
-                    </div>
-                </div>
-            </div>
-            <div class="serviceDescription">
-                <h5>Descrição do serviço: </h5>
-                <p>{{ solicitation.description }}</p>
-            </div>
-            <div class="cardFooter solicitationDate">
-                <p>Criado em: {{ solicitationDate }}</p>
-            </div>
-        </div>
-        <div class="fullBackButton" *ngIf="solicitationDone">
-            <button ion-button (click)="backToMyProfile()">Voltar ao meu perfil</button>
+        <div *ngIf="solicitationDone">
+            <solicitation [profile]="hiredPf" [solicitation]="solicitation"></solicitation>
         </div>
     </div>
 </ion-content>

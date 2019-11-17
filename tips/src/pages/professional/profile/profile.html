@@ -1,29 +1,7 @@
-<!-- <ion-menu [content]="mycontent" type="overlay" persistent="true">
-    <ion-content>
-        <profile-menu></profile-menu>
-    </ion-content>
-</ion-menu>
-<ion-nav #mycontent></ion-nav>
-
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons>
-            <button ion-button icon-only menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-buttons (click)="search()">
-            <button ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
-            </button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header> -->
-
 <ion-content padding #pageContent>
     <div *ngIf="this.profile != undefined || this.profile != null">
         <div class="profileHeader">
-            <div class="profilePhoto" [ngStyle]="setAvatarImage()" (click)="viewProfileImage()"></div>
+            <profile-photo [photoUrl]="profile.profilePhotoUrl" (onClick)="viewProfileImage()"></profile-photo>
             <div class="mainTitle">
                 <h1><span>{{ greetingMesage }}</span>{{profile.name.firstName}} {{profile.name.lastName}}</h1>
                 <button (click)="goToMyAccount()">Editar Perfil</button>

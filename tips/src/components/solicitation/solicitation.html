@@ -1,0 +1,32 @@
+<div class="serviceHeader">
+    <profile-photo [photoUrl]="profile.profilePhotoUrl" (onClick)="photoClick()"></profile-photo>
+    <div class="mainTitle">
+        <h1>{{profile.name.firstName + ' ' + profile.name.lastName }}</h1>
+        <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRateStars); let i of index">
+            <ion-icon name="{{star}}" [ngClass]="starsRateColor(profile.userRateStars)" *ngIf="i != 5">
+            </ion-icon>
+        </div>
+        <button (click)="profileClick()">Ver Perfil</button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="card service" [ngClass]="setSolicitationStatusClass()">
+    <div class="serviceDescription">
+        <contacts [profile]="profile"></contacts>
+    </div>
+    <div class="serviceDescription">
+        <h5>Descrição do serviço: </h5>
+        <p>{{ solicitation.description }}</p>
+    </div>
+    <div class="serviceDescription observations" *ngIf="solicitation.observations">
+        <h5>Observações: </h5>
+        <div *ngFor="let obs of solicitation.observations">
+            <span class="by">Por {{ obs.userName }}</span>
+            <p>{{obs.body}}</p>
+            <span class="when">Feito em: {{obs.date}}</span>
+        </div>
+    </div>
+    <div class="cardFooter solicitationDate">
+        <p>Solicitado em: {{ solicitationDate }}</p>
+    </div>
+</div>

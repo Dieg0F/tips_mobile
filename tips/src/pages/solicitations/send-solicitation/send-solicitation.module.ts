@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
+import { ComponentsModule } from '../../../components/components.module';
 import { SendSolicitationPage } from './send-solicitation';
 
 @NgModule({
@@ -8,6 +9,7 @@ import { SendSolicitationPage } from './send-solicitation';
   ],
   imports: [
     IonicPageModule.forChild(SendSolicitationPage),
+    ComponentsModule,
   ],
 })
-export class SendSolicitationPageModule {}
+export class SendSolicitationPageModule { }

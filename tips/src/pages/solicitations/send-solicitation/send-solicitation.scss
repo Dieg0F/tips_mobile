@@ -3,124 +3,28 @@ page-send-solicitation {
         margin-left: 0px !important;
         margin-top: 3px;
     }
-    .usersPhotos {
-        width: 230px;
-        height: auto;
-        margin: $smallSpace auto $largeSpace;
-        .userProfilePhoto {
-            margin: $mediumSpace;
+    .cardBody {
+        padding: $smallSpace 0;
+        .button-md,
+        .button-ios {
+            margin: 0 auto !important;
+            display: inline-block;
+            border-radius: $bigRadius;
+            margin-top: $mediumSpace !important;
+            width: 100%;
+            background-color: $primaryColor !important;
         }
-        .hiredProfilePhoto {
-            margin: $mediumSpace;
+        .item-md,
+        .item-ios {
+            padding-left: 0px !important;
+            margin: 5px 0 !important;
         }
-        .userProfilePhoto,
-        .hiredProfilePhoto {
-            border-radius: 100% !important;
-            width: 100px;
-            height: 100px;
-            float: left;
-            z-index: 2 !important;
-            background-size: cover;
-            background-position: center;
-            border: 2px solid #fff;
+        .label-md,
+        .label-ios {
             margin: 0px !important;
-            img {
-                width: 96px;
-                height: 96px;
-                border-radius: 100% !important;
-            }
         }
-        .hiredProfilePhoto {
-            margin-left: 30px !important;
-        }
-        .syncIcon {
-            width: 45px;
-            height: 45px;
-            float: left;
-            margin: 30px 0 0 -138px;
-            background-color: $primaryColor;
-            border-radius: 100%;
-            text-align: center !important;
-            -webkit-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
-            -moz-box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
-            box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.25);
-            ion-icon {
-                font-size: 18px !important;
-                color: $lightTextColor;
-                line-height: 45px !important;
-                display: block !important;
-            }
-        }
-    }
-    .service {
-        .cardTitle {
-            font-size: 23px;
-        }
-        .cardBody p {
-            font-size: 16px;
-        }
-        .cardBody {
-            padding: $smallSpace 0;
-            .button-md,
-            .button-ios {
-                margin: 0 auto !important;
-                display: inline-block;
-                border-radius: $bigRadius;
-                margin-top: $mediumSpace !important;
-                width: 100%;
-                background-color: $primaryColor !important;
-            }
-            .item-md.item-toggle {
-                margin: $mediumSpace 0 0 0 !important;
-                color: $greyTextColor !important;
-                .item-inner {
-                    border: none !important;
-                    .toggle-md.toggle-checked .toggle-icon {
-                        background-color: $lightPrimaryColor;
-                    }
-                    .toggle-md.toggle-checked .toggle-inner {
-                        background-color: $primaryColor;
-                    }
-                }
-            }
-            .item-md,
-            .item-ios {
-                padding-left: 0px !important;
-                margin: 5px 0 !important;
-            }
-            .label-md,
-            .label-ios {
-                margin: 0px !important;
-            }
-            ion-textarea {
-                height: 200px !important;
-            }
-        }
-    }
-    .serviceMainText {
-        text-align: center;
-        p {
-            color: $darkTextColor;
-            font-size: $cardBodySize;
-            line-height: cardBodyLineHeight;
-            opacity: 0.5;
-            margin: $largeSpace 0;
-            b {
-                display: block;
-                line-height: 45px;
-                font-size: 22px;
-            }
-        }
-    }
-    .contactWithService {
-        text-align: center;
-        padding: 0px $mediumSpace;
-        p {
-            color: $darkTextColor;
-            font-size: 14px;
-            line-height: cardBodyLineHeight;
-            opacity: 0.5;
-            margin: $smallSpace 0 $largeSpace;
+        ion-textarea {
+            height: 200px !important;
         }
     }
     .fullBackButton {
@@ -134,151 +38,5 @@ page-send-solicitation {
             box-shadow: none !important;
             border: none !important;
         }
-    }
-    .serviceDescription {
-        margin: 0 0 $largeSpace;
-        .item-md,
-        .item-ios,
-        .label-md,
-        .label-ios {
-            padding: 0px !important;
-            margin: 0px !important;
-            .item-inner {
-                border: none !important;
-            }
-        }
-        .item-md .toggle-ios,
-        .item-md .toggle-md {
-            padding: 12px 0px !important;
-        }
-        h5 {
-            color: $darkTextColor !important;
-            font-size: 18px;
-            margin: 0px 0px !important;
-            opacity: 0.9;
-            text-align: left;
-            font-weight: 500 !important;
-        }
-        p {
-            color: $darkTextColor;
-            font-size: 17px;
-            line-height: cardBodyLineHeight;
-            opacity: 0.5;
-            margin: 0px;
-            text-align: left;
-            margin-top: $smallSpace;
-        }
-    }
-    .contact-field {
-        padding: $smallSpace 0px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        div {
-            display: block;
-            text-align: center !important;
-        }
-        .icon-field {
-            width: 40px !important;
-            height: 50px !important;
-            margin-right: 10px;
-            display: grid;
-            justify-items: center;
-            align-items: center;
-            ion-icon {
-                font-size: 35px !important;
-                fill: rgba(0, 0, 0, 0.60);
-                color: rgba(0, 0, 0, 0.60);
-                stroke: rgba(0, 0, 0, 0.60);
-                fill-opacity: 0.6;
-            }
-        }
-        .info {
-            display: grid;
-            justify-items: start;
-            align-items: start;
-            text-align: left !important;
-            min-height: 50px;
-            width: calc(100% - 50px);
-            p {
-                font-size: 17px;
-                margin: 0px !important;
-                opacity: 0.7 !important;
-                line-height: 24px !important;
-            }
-            span {
-                font-size: 12px;
-                margin: 0px !important;
-                opacity: 0.5 !important;
-            }
-        }
-        .info.map {
-            display: flex !important;
-            justify-items: center !important;
-            -webkit-box-align: center !important;
-            -webkit-align-items: center !important;
-            -ms-flex-align: center !important;
-            align-items: center !important;
-        }
-        .info.simple {
-            display: flex;
-            justify-items: center;
-            align-items: center;
-            p {
-                font-size: 15px !important;
-            }
-        }
-    }
-    .facebook ion-icon {
-        fill: #3b5999 !important;
-        color: #3b5999 !important;
-        stroke: #3b5999 !important;
-        opacity: 0.9 !important;
-        fill-opacity: 0.9 !important;
-    }
-    .instagram ion-icon {
-        fill: #e4405f !important;
-        color: #e4405f !important;
-        stroke: #e4405f !important;
-        opacity: 1 !important;
-        fill-opacity: 1 !important;
-    }
-    .whatsapp ion-icon {
-        fill: #25D366 !important;
-        color: #25D366 !important;
-        stroke: #25D366 !important;
-        opacity: 0.9 !important;
-        fill-opacity: 0.9 !important;
-    }
-    .phone ion-icon {
-        fill: #00AFF0 !important;
-        color: #00AFF0 !important;
-        stroke: #00AFF0 !important;
-        opacity: 0.9 !important;
-        fill-opacity: 0.9 !important;
-    }
-    .mail ion-icon {
-        fill: #FFD54F !important;
-        color: #FFD54F !important;
-        stroke: #FFD54F !important;
-        opacity: 0.9 !important;
-        fill-opacity: 0.9 !important;
-    }
-    .maps ion-icon {
-        fill: #dd4b39 !important;
-        color: #dd4b39 !important;
-        stroke: #dd4b39 !important;
-        opacity: 0.9 !important;
-        fill-opacity: 0.9 !important;
-    }
-    .solicitationDate {
-        text-align: right;
-        font-style: italic;
-        font-size: 12px;
-        opacity: 0.5;
-        margin-top: $largeSpace !important;
-    }
-    .service.newSolicitation {
-        border-bottom: 10px solid #81C784;
     }
 }

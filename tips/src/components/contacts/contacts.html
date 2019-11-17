@@ -1,0 +1,55 @@
+<h3>Meios de contato:</h3>
+<div class="contact-field" (click)="goToApp('maps')">
+    <div class="icon-field maps">
+        <ion-icon name="pin"></ion-icon>
+    </div>
+    <div class="info map">
+        <p>{{profile.city}} - {{profile.state}}</p>
+    </div>
+</div>
+<div class="contact-field" (click)="goToApp('phone')">
+    <div class="icon-field phone">
+        <ion-icon name="call"></ion-icon>
+    </div>
+    <div class="info">
+        <p>{{profile.phone}}</p>
+        <span>Me ligue!</span>
+    </div>
+</div>
+<div class="contact-field" (click)="goToApp('email')">
+    <div class="icon-field mail">
+        <ion-icon name="mail"></ion-icon>
+    </div>
+    <div class="info">
+        <p>{{profile.email}}</p>
+        <span>Me envie um e-mail!</span>
+    </div>
+</div>
+
+<div class="contact-field" (click)="goToApp('whats')" *ngIf="profile.social.whatsapp">
+    <div class="icon-field whatsapp">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+    </div>
+    <div class="info">
+        <p>Me chame no WhatsApp!</p>
+        <span>Falar com {{profile.name.firstName + ' ' + profile.name.lastName}}!</span>
+    </div>
+</div>
+<div class="contact-field" (click)="goToApp('inst')" *ngIf="profile.social.instagram">
+    <div class="icon-field instagram">
+        <ion-icon name="logo-instagram"></ion-icon>
+    </div>
+    <div class="info">
+        <p>Veja meu perfil no Instagram!</p>
+        <span>Ver o perfil de {{profile.name.firstName + ' ' + profile.name.lastName}}!</span>
+    </div>
+</div>
+<div class="contact-field" (click)="goToApp('face')" *ngIf="profile.social.facebook">
+    <div class="icon-field facebook">
+        <ion-icon name="logo-facebook"></ion-icon>
+    </div>
+    <div class="info">
+        <p>Veja meu perfil no Facebook!</p>
+        <span>Ver o perfil de {{profile.name.firstName}} no Facebook!</span>
+    </div>
+</div>

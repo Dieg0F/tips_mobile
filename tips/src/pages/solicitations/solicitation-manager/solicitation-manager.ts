@@ -126,55 +126,6 @@ export class SolicitationManagerPage {
   }
 
   /**
-   * @description set solicitation view class by status.
-   */
-  public setSolicitationStatusClass() {
-    let statusClass = ' ';
-
-    switch (this.solicitation.status) {
-      case Constants.SOLICITATION_IS_OPEN:
-        statusClass += 'newSolicitation';
-        break;
-      case Constants.SOLICITATION_IS_RUNNING:
-        statusClass += 'runningSolicitation';
-        break;
-      case Constants.SOLICITATION_IS_FINISHED:
-        statusClass += 'finishedSolicitation';
-        break;
-      case Constants.SOLICITATION_IS_CANCELED:
-        statusClass += 'canceledSolicitation';
-        break;
-    }
-
-    this.solicitationStatusClass = statusClass;
-  }
-
-  /**
-   * @description build a string based on solicitation status.
-   * @param status solicitation status.
-   */
-  public setStatusValueToShow(status: string): string {
-    let statusValue = '';
-
-    switch (status) {
-      case Constants.SOLICITATION_IS_OPEN:
-        statusValue += 'Novo';
-        break;
-      case Constants.SOLICITATION_IS_RUNNING:
-        statusValue += 'Em Andamento';
-        break;
-      case Constants.SOLICITATION_IS_FINISHED:
-        statusValue += 'Finalizado';
-        break;
-      case Constants.SOLICITATION_IS_CANCELED:
-        statusValue += 'Cancelado';
-        break;
-    }
-
-    return statusValue;
-  }
-
-  /**
    * @description finish solicitation alert information.
    */
   public finishSolicitationAction() {
@@ -320,6 +271,20 @@ export class SolicitationManagerPage {
   }
 
   /**
+   * @description Open Profile Photo Modal, for edit and better image view.
+   */
+  public viewProfileImage() {
+    this.navCtrl.push('ImageOptionsPage', { isVisitor: true, profile: this.contractorPf });
+  }
+
+  /**
+   * @description Open profile page for more details.
+   */
+  public viewProfile() {
+    this.navCtrl.push('ProfileDetailsPage', { isVisitor: true, profile: this.contractorPf });
+  }
+
+  /**
    * @description handle option menu visibility
    */
   private setMenuVisibility() {
@@ -340,7 +305,6 @@ export class SolicitationManagerPage {
   private updateSolicitationByEvent(res: any) {
     this.solicitation = res.data();
     this.buildSolicitationStatusMessage();
-    this.setSolicitationStatusClass();
     this.avaliationPending();
     this.setMenuVisibility();
     let toastMessage = '';
@@ -374,7 +338,6 @@ export class SolicitationManagerPage {
   private updateSolicitationOut(serv: any) {
     this.solicitation = serv;
     this.buildSolicitationStatusMessage();
-    this.setSolicitationStatusClass();
     this.setMenuVisibility();
     if (this.solicitation.removedTo.hiredUid === this.userUid) {
       this.navCtrl.pop();
@@ -390,7 +353,6 @@ export class SolicitationManagerPage {
       .then((res) => {
         this.contractorPf = res.data();
         this.buildSolicitationStatusMessage();
-        this.setSolicitationStatusClass();
         this.avaliationPending();
         this.setMenuVisibility();
       })
@@ -406,7 +368,6 @@ export class SolicitationManagerPage {
   private onSuccess() {
     this.loading.hideLoading();
     this.toast.showToast(this.toastMessage);
-    this.setSolicitationStatusClass();
     this.buildSolicitationStatusMessage();
     this.verifyAvaliation();
     this.setMenuVisibility();

@@ -21,7 +21,6 @@ export class SendSolicitationPage {
   public hiredPf: Profile;
   public solicitationDone: boolean = false;
   public solicitation: Solicitation;
-  public solicitationDate = '';
   public solicitationName = '';
   public solicitationDescription = '';
   public enableDescription: boolean = false;
@@ -47,24 +46,6 @@ export class SendSolicitationPage {
   public getProfileToService() {
     this.contractorPf = { ...AppConfig.USER_PROFILE };
     this.hiredPf = this.navParams.get(Constants.SOLICITATION_PROFILE);
-  }
-
-  /**
-   * @description Build user avatar image.
-   * @param imagePath profile image path.
-   */
-  public setAvatarImage(imagePath: string) {
-    let profilePhoto = '';
-    if (imagePath) {
-      profilePhoto = imagePath;
-    } else {
-      profilePhoto = '../../../assets/imgs/user_default_image.png';
-    }
-    return {
-      'background-image': 'url(' + profilePhoto + ')',
-      'background-position': 'center',
-      'background-size': 'cover',
-    };
   }
 
   /**
@@ -136,33 +117,6 @@ export class SendSolicitationPage {
   }
 
   /**
-   * @description Open a specific application to make contact with other user.
-   * @param app Application name to be open.
-   */
-  public goToApp(app: string) {
-    switch (app) {
-      case 'whats':
-        this.extApp.openWhatsApp(this.hiredPf.social.whatsapp);
-        break;
-      case 'face':
-        this.extApp.openFacebook(this.hiredPf.social.facebook);
-        break;
-      case 'inst':
-        this.extApp.openPhoneApp(this.hiredPf.social.instagram);
-        break;
-      case 'phone':
-        const phone = this.hiredPf.phone.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
-        this.extApp.openPhoneApp(phone);
-        break;
-      case 'email':
-        this.extApp.openMailApp(this.hiredPf.email);
-        break;
-      default:
-        break;
-    }
-  }
-
-  /**
    * @description save solicitation on database.
    * @param solicitation solicitation to be saved on database.
    */
@@ -194,7 +148,6 @@ export class SendSolicitationPage {
    */
   private onSuccess(solicitation: Solicitation) {
     this.solicitation = solicitation;
-    this.solicitationDate = new Date(this.solicitation.date).toLocaleDateString();
     this.loading.hideLoading();
     this.solicitationDone = true;
     this.toast.showToast('Solicitação enviada com sucesso!');

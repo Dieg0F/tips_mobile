@@ -6,7 +6,7 @@
 <ion-content padding>
     <div *ngIf="profile != undefined || profile != null">
         <div>
-            <div class="profilePhoto" [ngStyle]="setAvatarImage()" (click)="viewProfileImage()"></div>
+            <profile-photo [photoUrl]="profile.profilePhotoUrl" (onClick)="viewProfileImage()"></profile-photo>
             <div class="mainTitle">
                 <h1>{{profile.name.firstName + ' ' + profile.name.lastName }}</h1>
                 <div class="profileRating rating" *ngFor="let star of starsRate(profile.userRateStars); let i of index">
@@ -71,7 +71,7 @@
         </div>
     </div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="isVisitor">
     <ion-toolbar>
         <ion-title>
             <button ion-button full (click)="makeService()">Solicitar Serviço</button>

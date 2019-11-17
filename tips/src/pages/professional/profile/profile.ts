@@ -41,22 +41,6 @@ export class ProfilePage {
         });
     });
   }
-  /**
-   * @description Build user avatar image.
-   */
-  public setAvatarImage() {
-    let profilePhoto = '';
-    if (this.profile.profilePhotoUrl) {
-      profilePhoto = this.profile.profilePhotoUrl;
-    } else {
-      profilePhoto = '../../../assets/imgs/user_default_image.png';
-    }
-    return {
-      'background-image': 'url(' + profilePhoto + ')',
-      'background-position': 'center',
-      'background-size': 'cover',
-    };
-  }
 
   /**
    * @description Build a array of string with all stars rate icons.
