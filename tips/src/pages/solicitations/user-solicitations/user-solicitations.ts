@@ -3,7 +3,6 @@ import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Solicitation } from '../../../model/solicitation/solicitation';
 import { AppConfig } from '../../../model/static/static';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
-import { ProfileProvider } from './../../../providers/profile/profile';
 import { Constants } from './../../../util/constants/constants';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
@@ -22,11 +21,9 @@ export class UserSolicitationsPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public toast: Toast,
     public events: Events,
     public loading: Loading,
-    public profileProvider: ProfileProvider,
     public solicitationProvider: SolicitationProvider) {
   }
 

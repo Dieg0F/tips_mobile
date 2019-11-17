@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Solicitation, SolicitationObservation } from '../../../model/solicitation/solicitation';
 import { AppConfig } from '../../../model/static/static';
-import { Locations } from '../../../providers/locations/locations';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
@@ -23,7 +22,6 @@ export class SolicitationObservationPage {
     public viewCtrl: ViewController,
     public toast: Toast,
     public loading: Loading,
-    public locations: Locations,
     public navParams: NavParams,
     public solicitationProvider: SolicitationProvider,
     public events: Events) {

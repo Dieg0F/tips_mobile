@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore, CollectionReference, Query } from '@angular/fire/firestore';
@@ -13,7 +12,6 @@ import { Constants } from '../../util/constants/constants';
 export class ProfileProvider {
 
     constructor(
-        public http: HttpClient,
         private db: AngularFirestore,
         private storage: StorageProvider) { }
 

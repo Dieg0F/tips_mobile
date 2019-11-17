@@ -3,7 +3,6 @@ import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Profile } from '../../../model/profile/profile';
 import { Solicitation } from '../../../model/solicitation/solicitation';
 import { AppConfig } from '../../../model/static/static';
-import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Toast } from '../../../util/toast/toast';
@@ -42,8 +41,7 @@ export class SolicitationDetailsPage {
     public toast: Toast,
     public events: Events,
     public solicitationProvider: SolicitationProvider,
-    public profileProvider: ProfileProvider,
-    public extApp: ExternalAppProvider) { }
+    public profileProvider: ProfileProvider) { }
 
   /**
    * @description on page will enter.

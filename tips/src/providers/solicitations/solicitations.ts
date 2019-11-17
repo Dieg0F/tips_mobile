@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, CollectionReference, Query } from '@angular/fire/firestore';
 import { Constants } from '../../util/constants/constants';
 
-//import firebase from 'firebase/firestore';
-
 @Injectable()
 export class SolicitationProvider {
 

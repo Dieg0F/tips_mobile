@@ -71,7 +71,7 @@
         </div>
     </div>
 </ion-content>
-<ion-footer *ngIf="isVisitor">
+<ion-footer *ngIf="!isVisitor">
     <ion-toolbar>
         <ion-title>
             <button ion-button full (click)="makeService()">Solicitar Serviço</button>

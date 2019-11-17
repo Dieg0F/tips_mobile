@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams, normalizeURL } from 'ionic-angular';
+import { Events, IonicPage, NavController } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
 import { AppConfig } from '../../../model/static/static';
-import { DataProvider } from '../../../providers/data/data';
 import { JobProvider } from '../../../providers/job/job';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StorageProvider } from '../../../providers/storage/storage';
-import { UserProvider } from '../../../providers/user/user';
-import { CameraProvider } from '../../../util/camera/camera';
 import { Loading } from '../../../util/loading/loading';
-import { Regex, REGEXP } from '../../../util/regex/regex';
+import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
 import { Alert } from './../../../util/alert/alert';
 
@@ -29,17 +26,13 @@ export class MyAccountPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
-    public userProvider: UserProvider,
     public profileProvider: ProfileProvider,
     public storageProvider: StorageProvider,
     public loading: Loading,
-    public dataProvider: DataProvider,
     public jobProvider: JobProvider,
     public toast: Toast,
     public alert: Alert,
-    public events: Events,
-    public camera: CameraProvider) {
+    public events: Events) {
   }
 
   /**
@@ -50,22 +43,6 @@ export class MyAccountPage {
     this.getJobs();
   }
 
-  /**
-   * @description Build user avatar image on a view list.
-   */
-  public setAvatarImage() {
-    let profilePhoto = '';
-    if (this.profile.profilePhotoUrl) {
-      profilePhoto = this.profile.profilePhotoUrl;
-    } else {
-      profilePhoto = '../../../assets/imgs/user_default_image.png';
-    }
-    return {
-      'background-image': 'url(' + profilePhoto + ')',
-      'background-position': 'center',
-      'background-size': 'cover',
-    };
-  }
   /**
    * @description request all jobs from database.
    */

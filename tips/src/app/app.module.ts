@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -76,7 +76,6 @@ const config = {
       name: '_userData',
     }),
     AngularFireModule.initializeApp(config),
-    AngularFirestoreModule.enablePersistence({ experimentalTabSynchronization: true }),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,

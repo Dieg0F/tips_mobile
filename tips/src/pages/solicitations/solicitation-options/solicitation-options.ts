@@ -5,7 +5,6 @@ import { AppConfig } from '../../../model/static/static';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Solicitation } from './../../../model/solicitation/solicitation';
-import { AvaliationProvider } from './../../../providers/avaliation/avaliation';
 import { Alert } from './../../../util/alert/alert';
 import { Loading } from './../../../util/loading/loading';
 import { Toast } from './../../../util/toast/toast';
@@ -35,8 +34,7 @@ export class SolicitationOptionsPage {
     public loading: Loading,
     public alert: Alert,
     public events: Events,
-    public serviceProvider: SolicitationProvider,
-    public avaliationProvider: AvaliationProvider) {
+    public serviceProvider: SolicitationProvider) {
     this.solicitation = this.navParams.get(Constants.SOLICITATION_DETAILS);
   }
 

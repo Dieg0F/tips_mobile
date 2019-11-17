@@ -6,7 +6,7 @@
 
 <ion-content padding>
     <div class="profilePic">
-        <div (click)="setProfilePhoto()" [ngStyle]="setAvatarImage()"></div>
+        <profile-photo [photoUrl]="profile.profilePhotoUrl" (onClick)="setProfilePhoto()"></profile-photo>
         <h3>{{profile.profilePhotoUrl == '' ? 'Adicionar foto' : 'Alterar foto'}}</h3>
     </div>
     <div class="card my_account">

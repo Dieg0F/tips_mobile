@@ -5,10 +5,10 @@ import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
 import { ProfileProvider } from '../../../providers/profile/profile';
+import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 import { Toast } from '../../../util/toast/toast';
-import { Constants } from './../../../util/constants/constants';
 
 @IonicPage()
 @Component({
@@ -33,9 +33,8 @@ export class UserAvaliationsPage {
     public loading: Loading,
     public profileProvider: ProfileProvider,
     public avaliationsProvider: AvaliationProvider,
-    private events: Events) {
+    public events: Events) {
     this.getOwnerUid();
-    this.onFilterChange();
   }
 
   /**
@@ -68,9 +67,11 @@ export class UserAvaliationsPage {
 
     if (!this.navParams.get(Constants.AVALIATION_OWNER_ID)) {
       this.ownerAvaliationsUid = AppConfig.USER_PROFILE.uid;
+      this.onFilterChange();
     } else {
       this.profile = this.navParams.get(Constants.AVALIATION_OWNER_ID);
       this.ownerAvaliationsUid = this.profile.uid;
+      this.onFilterChange();
     }
   }
 

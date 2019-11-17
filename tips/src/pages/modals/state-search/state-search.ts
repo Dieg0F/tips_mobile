@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Events, IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { Locations } from '../../../providers/locations/locations';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
@@ -17,7 +17,6 @@ export class StateSearchPage {
   public stateSelected: string;
 
   constructor(
-    public navCtrl: NavController,
     public viewCtrl: ViewController,
     public toast: Toast,
     public loading: Loading,

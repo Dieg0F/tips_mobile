@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { AppConfig } from '../model/static/static';
@@ -7,7 +8,6 @@ import { ProfileProvider } from '../providers/profile/profile';
 import { StorageProvider } from '../providers/storage/storage';
 import { Notifications } from '../util/notifications/notifications';
 import { Toast } from '../util/toast/toast';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
 @Component({
   templateUrl: 'app.html',

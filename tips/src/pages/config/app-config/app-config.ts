@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
+import { App, IonicPage, NavController } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { StorageProvider } from '../../../providers/storage/storage';
@@ -21,7 +21,6 @@ export class AppConfigPage {
   constructor(
     public app: App,
     public navCtrl: NavController,
-    public navParams: NavParams,
     public profileProvider: ProfileProvider,
     public authProvider: AuthProvider,
     public storage: StorageProvider,
@@ -181,7 +180,7 @@ export class AppConfigPage {
       'Sair da sua conta.',
       'Deseja sair de sua conta?',
       () => { this.goToLoginPage(); },
-      () => { }
+      () => { },
     );
   }
 

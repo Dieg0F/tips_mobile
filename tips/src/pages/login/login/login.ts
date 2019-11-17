@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Events, IonicPage, NavController } from 'ionic-angular';
 
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
@@ -27,7 +26,6 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public afAuth: AuthProvider,
     public loading: Loading,
     public profileProvider: ProfileProvider,

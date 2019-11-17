@@ -3,7 +3,6 @@ import { UUID } from 'angular2-uuid';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Solicitation } from '../../../model/solicitation/solicitation';
 import { AppConfig } from '../../../model/static/static';
-import { ExternalAppProvider } from '../../../providers/external-app/external-app';
 import { SolicitationProvider } from '../../../providers/solicitations/solicitations';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
@@ -30,7 +29,6 @@ export class SendSolicitationPage {
     public navParams: NavParams,
     public loading: Loading,
     public toast: Toast,
-    public extApp: ExternalAppProvider,
     public solicitationProvider: SolicitationProvider) { }
 
   /**

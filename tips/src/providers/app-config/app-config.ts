@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Profile } from '../../model/profile/profile';
-import { AppConfig } from '../../model/static/static';
 import { Constants } from '../../util/constants/constants';
 import { Notifications } from '../../util/notifications/notifications';
 import { Toast } from '../../util/toast/toast';
-import { DataProvider } from '../data/data';
 import { ProfileProvider } from '../profile/profile';
 import { StorageProvider } from '../storage/storage';
-import { UserProvider } from '../user/user';
 
 const LOGIN_TIMEOUT = 35000;
 
@@ -17,8 +14,6 @@ export class AppConfigProvider {
 
   constructor(
     public storage: StorageProvider,
-    public userProvider: UserProvider,
-    public dataProvider: DataProvider,
     public toast: Toast,
     public events: Events,
     public notifications: Notifications,

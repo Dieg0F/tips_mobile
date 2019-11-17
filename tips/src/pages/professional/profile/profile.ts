@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Events, IonicPage, NavController } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
@@ -21,8 +21,7 @@ export class ProfilePage {
     public profileProvider: ProfileProvider,
     public alert: Alert,
     public toast: Toast,
-    public events: Events,
-    public navParams: NavParams) { }
+    public events: Events) { }
 
   /**
    * @description on page will enter.

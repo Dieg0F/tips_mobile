@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FilterOptions } from '../../../model/FilterOptions/FilterOptions';
-import { Profile } from '../../../model/profile/profile';
 import { Job } from '../../../model/job/job';
+import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
+import { JobProvider } from '../../../providers/job/job';
 import { Locations } from '../../../providers/locations/locations';
 import { ProfileProvider } from '../../../providers/profile/profile';
-import { JobProvider } from '../../../providers/job/job';
 import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Toast } from '../../../util/toast/toast';
@@ -38,7 +38,6 @@ export class SearchPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public locations: Locations,
     public toast: Toast,
     public loading: Loading,
@@ -73,19 +72,6 @@ export class SearchPage {
       })
       .catch((err) => {
         this.toast.showToast('Erro ao preparar busca, Profissiões não encontradas! ');
-      });
-  }
-
-  /**
-   * @description request all states from IBGE Api.
-   */
-  public getStates() {
-    this.locations.getStates()
-      .then((res) => {
-        this.states = res;
-      })
-      .catch(() => {
-        this.toast.showToast('Estado não encontrado! ');
       });
   }
 
@@ -260,7 +246,7 @@ export class SearchPage {
    */
   public selectState() {
     this.onStateSelected();
-    this.navCtrl.push('StateSearchPage', { stateList: this.states });
+    this.navCtrl.push('StateSearchPage');
   }
 
   /**

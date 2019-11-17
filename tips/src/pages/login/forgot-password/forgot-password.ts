@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { Alert } from '../../../util/alert/alert';
 import { Loading } from '../../../util/loading/loading';
@@ -17,8 +17,6 @@ export class ForgotPasswordPage {
   private regex: Regex;
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
     public authProvider: AuthProvider,
     public loading: Loading,
     public toast: Toast,

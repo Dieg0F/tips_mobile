@@ -22,7 +22,6 @@ export class NewAccountPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public authProvider: AuthProvider,
     public userProvider: UserProvider,
     public storage: StorageProvider,

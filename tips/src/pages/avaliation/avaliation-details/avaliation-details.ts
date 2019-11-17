@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Events, IonicPage, NavParams } from 'ionic-angular';
 import { Avaliation } from '../../../model/avaliation/avaliation';
 import { Profile } from '../../../model/profile/profile';
 import { AvaliationProvider } from '../../../providers/avaliation/avaliation';
@@ -21,7 +21,6 @@ export class AvaliationDetailsPage {
   public avaliationDate: string = '';
 
   constructor(
-    public navCtrl: NavController,
     public navParams: NavParams,
     public loading: Loading,
     public events: Events,

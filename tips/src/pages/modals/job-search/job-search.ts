@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Events, IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { Job } from '../../../model/job/job';
 import { JobProvider } from '../../../providers/job/job';
 import { Loading } from '../../../util/loading/loading';
@@ -18,7 +18,6 @@ export class JobSearchPage {
   public sectorSelected: string;
 
   constructor(
-    public navCtrl: NavController,
     public viewCtrl: ViewController,
     public toast: Toast,
     public loading: Loading,

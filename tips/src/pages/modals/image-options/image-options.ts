@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams, normalizeURL, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, normalizeURL, ViewController } from 'ionic-angular';
 import { Profile } from '../../../model/profile/profile';
 import { AppConfig } from '../../../model/static/static';
 import { DataProvider } from '../../../providers/data/data';
@@ -22,7 +22,6 @@ export class ImageOptionsPage {
   public profile: Profile;
 
   constructor(
-    public navCtrl: NavController,
     public viewCtrl: ViewController,
     public navParams: NavParams,
     public dataProvider: DataProvider,
