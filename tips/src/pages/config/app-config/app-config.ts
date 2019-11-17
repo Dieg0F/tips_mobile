@@ -191,6 +191,5 @@ export class AppConfigPage {
   private goToLoginPage() {
     this.app.getRootNav().setRoot('LoginPage');
     this.loading.hideLoading();
-    this.toast.showToast('Conta removida com sucesso!');
   }
 }

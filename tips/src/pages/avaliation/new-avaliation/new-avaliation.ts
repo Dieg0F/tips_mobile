@@ -174,6 +174,7 @@ export class NewAvaliationPage {
    * @description Method that show success messages.
    */
   public async onSuccess() {
+    this.events.publish('UPDATE_PROFILE_RATED');
     await this.loading.hideLoadingPromise();
     await this.navCtrl.pop();
     await this.toast.showToast('Avaliação concluída!');

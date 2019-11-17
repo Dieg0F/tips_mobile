@@ -58,25 +58,10 @@ export class SolicitationManagerPage {
           this.updateSolicitationByEvent(res);
         });
     });
+    this.events.subscribe('UPDATE_PROFILE_RATED', (data: any) => {
+      this.getProfiles();
+    });
     this.setMenuVisibility();
-  }
-
-  /**
-   * @description Build user avatar image.
-   * @param imagePath profile image path.
-   */
-  public setAvatarImage(imagePath: string) {
-    let profilePhoto = '';
-    if (imagePath) {
-      profilePhoto = imagePath;
-    } else {
-      profilePhoto = '../../../assets/imgs/user_default_image.png';
-    }
-    return {
-      'background-image': 'url(' + profilePhoto + ')',
-      'background-position': 'center',
-      'background-size': 'cover',
-    };
   }
 
   /**
@@ -85,6 +70,7 @@ export class SolicitationManagerPage {
   public ionViewWillLeave() {
     this.events.unsubscribe('CHANGE_SOLICITATION');
     this.events.unsubscribe('USER_CHANGE_SOLICITATION');
+    this.events.unsubscribe('UPDATE_PROFILE_RATED');
   }
 
   /**
