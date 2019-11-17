@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore, CollectionReference, Query } from '@angular/fire/firestore';
@@ -8,13 +7,14 @@ import { StorageProvider } from '../storage/storage';
 import { FilterOptions } from '../../model/FilterOptions/FilterOptions';
 import { Profile } from '../../model/profile/profile';
 import { Constants } from '../../util/constants/constants';
+import { FirebaseProvider } from '../firebase/firebase';
 
 @Injectable()
 export class ProfileProvider {
 
     constructor(
-        public http: HttpClient,
         private db: AngularFirestore,
+        private firebaseProvider: FirebaseProvider,
         private storage: StorageProvider) { }
 
     /**
@@ -26,14 +26,6 @@ export class ProfileProvider {
             .then(async () => {
                 return this.saveProfileOnStorage(profile);
             });
-    }
-
-    /**
-     * @description save profile on database.
-     * @param profile profile to be saved.
-     */
-    public async saveProfileMock(profile: any): Promise<void> {
-        this.db.collection(Constants.PROFILES_COLLECTION).doc(profile.uid).set(profile);
     }
 
     /**
@@ -63,7 +55,7 @@ export class ProfileProvider {
      * @param limit data limit on request.
      */
     public async getProfiles(filter: FilterOptions, limit: number) {
-        return this.db.collection(Constants.PROFILES_COLLECTION, (ref) => {
+        return this.firebaseProvider.getDataWithFilters(Constants.PROFILES_COLLECTION, (ref) => {
             let query: CollectionReference | Query = ref;
             if (filter.profileName !== '') { query = query.where('name.firstName', '==', filter.profileName); }
             if (filter.profileState !== '') { query = query.where('state', '==', filter.profileState); }
@@ -76,7 +68,21 @@ export class ProfileProvider {
                 .where('isActive', '==', true)
                 .where('isAPro', '==', true)
                 .limit(limit);
-        }).valueChanges();
+        });
+        // return this.db.collection(Constants.PROFILES_COLLECTION, (ref) => {
+        //     let query: CollectionReference | Query = ref;
+        //     if (filter.profileName !== '') { query = query.where('name.firstName', '==', filter.profileName); }
+        //     if (filter.profileState !== '') { query = query.where('state', '==', filter.profileState); }
+        //     if (filter.profileCity !== '') { query = query.where('city', '==', filter.profileCity); }
+        //     if (filter.profileJob !== '') { query = query.where('job', '==', filter.profileJob); }
+        //     if (filter.profileRate !== 0) {
+        //         query = query.where('userRateStars', '==', filter.profileRate);
+        //     } else { query = query.orderBy('userRate', 'desc'); }
+        //     return query.where('hideMyProfile', '==', false)
+        //         .where('isActive', '==', true)
+        //         .where('isAPro', '==', true)
+        //         .limit(limit);
+        // }).valueChanges();
     }
 
     /**

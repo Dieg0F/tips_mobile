@@ -25,6 +25,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { AvaliationProvider } from '../providers/avaliation/avaliation';
 import { DataProvider } from '../providers/data/data';
 import { ExternalAppProvider } from '../providers/external-app/external-app';
+import { FirebaseProvider } from '../providers/firebase/firebase';
 import { JobProvider } from '../providers/job/job';
 import { Locations } from '../providers/locations/locations';
 import { ProfileProvider } from '../providers/profile/profile';
@@ -114,6 +115,7 @@ const config = {
     AppAvailability,
     InAppBrowser,
     FCM,
+    FirebaseProvider,
   ],
 })
 export class AppModule { }
