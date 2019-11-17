@@ -26,7 +26,7 @@
             <div class="profilePhoto" [ngStyle]="setAvatarImage()" (click)="viewProfileImage()"></div>
             <div class="mainTitle">
                 <h1><span>{{ greetingMesage }}</span>{{profile.name.firstName}} {{profile.name.lastName}}</h1>
-                <button>Editar Perfil</button>
+                <button (click)="goToMyAccount()">Editar Perfil</button>
             </div>
             <div class="clearfix"></div>
         </div>

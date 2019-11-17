@@ -39,34 +39,27 @@
 
 <ion-content>
     <div class="config">
-        <div class="appInfo">
-            <div class="appLogo">
-                <img src="../../../assets/imgs/logo.png" />
-            </div>
-        </div>
         <div class="configOptions">
             <div class="title">
                 <h3>Configurações</h3>
             </div>
-            <div class="configOption">
+            <div class="configOption" (click)="updateProfileExibition()">
                 <p>Exibição de Perfil</p>
             </div>
-            <div class="configOption">
+            <div class="configOption" (click)="updatePassword()">
                 <p>Alterar senha</p>
             </div>
-            <div class="configOption">
+            <div class="configOption" (click)="updateAccountType()">
                 <p>Alterar tipo de conta</p>
             </div>
-            <div class="configOption">
+            <div class="configOption" (click)="disableAccount()">
                 <p>Desativar conta</p>
             </div>
-        </div>
-        <div class="devSession">
-            <div class="devBy">
-                <p>Tips Applications<sup>®</sup></p>
+            <div class="configOption" (click)="goToAboutApp()">
+                <p>Sobre o Tips</p>
             </div>
-            <div class="version">
-                <p>Versão - 1.0.85</p>
+            <div class="configOption" (click)="logout()">
+                <p>Sair</p>
             </div>
         </div>
     </div>

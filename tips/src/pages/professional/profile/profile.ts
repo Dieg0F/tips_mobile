@@ -98,6 +98,13 @@ export class ProfilePage {
   }
 
   /**
+   * @description redirect user to send a professional avaliations page.
+   */
+  public goToMyAccount() {
+    this.navCtrl.push('MyAccountPage');
+  }
+
+  /**
    * @description build user greeting message.
    */
   public greetingMessageBuilder() {

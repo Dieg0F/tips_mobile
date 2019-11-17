@@ -133,7 +133,7 @@ export class LoginPage {
    * @description redirect user to profile page.
    */
   private goToProfilePage(showToast: boolean = true) {
-    this.navCtrl.setRoot('ProfilePage');
+    this.navCtrl.setRoot('MainPage');
     this.loading.hideLoading();
     if (showToast) {
       this.toast.showToast('Bem vindo!');

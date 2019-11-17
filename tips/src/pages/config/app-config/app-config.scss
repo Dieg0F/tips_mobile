@@ -9,69 +9,30 @@ page-app-config {
         align-items: center;
         height: 100% !important;
     }
-    .appInfo {
-        .appLogo {
-            img {
-                width: 75px;
-                height: 75px;
-            }
-        }
-    }
     .configOptions {
-        width: 200px !important;
+        width: 240px !important;
+        opacity: 1 !important;
         .title {
             text-align: center;
             h3 {
-                font-size: 27px !important;
+                font-size: 30px !important;
                 margin: 0px 0px 30px;
                 color: #fff;
             }
         }
         .configOption {
-            opacity: 0.8;
             border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
             color: #fff;
             text-align: center;
             p {
                 font-size: 17px !important;
                 line-height: 30px;
-                margin: 5px 0 !important;
+                text-transform: uppercase;
+                margin: 10px 0 !important;
             }
         }
         .configOption:last-child {
             border: none !important;
-        }
-    }
-    .devSession {
-        width: 100% !important;
-        display: grid;
-        align-items: center;
-        justify-items: center;
-        text-align: center !important;
-        color: #fff;
-        .powerBy {
-            margin: 10px 0 15px !important;
-            p {
-                display: block !important;
-                font-size: 15px !important;
-                opacity: 0.6;
-                margin: 5px !important;
-            }
-            #ionic-io-logo {
-                width: 50px;
-                color: #FFF;
-                fill: #FFF;
-            }
-        }
-        .devBy,
-        .version {
-            margin: 5px 0;
-            p {
-                display: block !important;
-                font-size: 13px !important;
-                opacity: 0.6;
-                margin: 0px !important;
-            }
         }
     }
 }
