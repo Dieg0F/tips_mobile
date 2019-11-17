@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, NavController } from 'ionic-angular';
+import { Events, IonicPage, NavController, App } from 'ionic-angular';
 import { AppConfig } from '../../../model/static/static';
 import { ProfileProvider } from '../../../providers/profile/profile';
+import { Constants } from '../../../util/constants/constants';
 import { StarRateHelper } from '../../../util/stars-rate/stars-rate';
 import { Alert } from './../../../util/alert/alert';
 import { Toast } from './../../../util/toast/toast';
@@ -17,6 +18,7 @@ export class ProfilePage {
   public greetingMesage = '';
 
   constructor(
+    public app: App,
     public navCtrl: NavController,
     public profileProvider: ProfileProvider,
     public alert: Alert,
@@ -38,6 +40,11 @@ export class ProfilePage {
               this.profile = { ...AppConfig.USER_PROFILE };
             });
         });
+    });
+    this.events.subscribe(Constants.PROFILE_CONTINUE_CONFIGURATION, () => {
+      // tslint:disable-next-line:no-console
+      console.log('ProfileProvider | Call MyAccount Page!');
+      this.app.getRootNav().setRoot('MyAccountPage');
     });
   }
 
@@ -109,6 +116,6 @@ export class ProfilePage {
    * @description Open Profile Photo Modal, for edit and better image view.
    */
   public viewProfileImage() {
-    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': false, 'profile': this.profile });
+    this.navCtrl.push('ImageOptionsPage', { isVisitor: false, profile: this.profile });
   }
 }

@@ -8,6 +8,7 @@ import { ProfileProvider } from '../providers/profile/profile';
 import { StorageProvider } from '../providers/storage/storage';
 import { Notifications } from '../util/notifications/notifications';
 import { Toast } from '../util/toast/toast';
+import { Constants } from '../util/constants/constants';
 
 @Component({
   templateUrl: 'app.html',
@@ -46,16 +47,16 @@ export class MyApp {
       .then((userProfile) => {
         const profile = JSON.parse(userProfile);
         if (profile) {
-          this.storage.getItem('ACCOUNT_STATUS')
+          this.storage.getItem(Constants.ACCOUNT_STATUS)
             .then((res) => {
               AppConfig.USER_PROFILE = profile;
               this.splash.hide();
-              if (JSON.parse(res) === 'ACCOUNT_IS_CREATING') {
+              if (JSON.parse(res) === Constants.ACCOUNT_IS_CREATING) {
                 this.rootPage = 'MyAccountPage';
               } else {
                 this.rootPage = 'MainPage';
                 this.toast.showToast('Bem vindo novamente!');
-                this.profileProvider.updateProfile();
+                this.profileProvider.updateProfile(true);
               }
             });
         } else {

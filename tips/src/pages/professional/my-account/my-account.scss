@@ -60,7 +60,13 @@ page-my-account {
         }
     }
     .profilePic {
-        text-align: center;
+        width: 100%;
+        display: grid;
+        justify-content: center;
+        align-content: center;
+        justify-items: center;
+        align-items: center;
+        width: 100%;
         h3 {
             color: $darkTextColor;
             font-size: 15px !important;

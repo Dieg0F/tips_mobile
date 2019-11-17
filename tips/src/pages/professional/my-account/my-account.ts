@@ -5,6 +5,7 @@ import { AppConfig } from '../../../model/static/static';
 import { JobProvider } from '../../../providers/job/job';
 import { ProfileProvider } from '../../../providers/profile/profile';
 import { StorageProvider } from '../../../providers/storage/storage';
+import { Constants } from '../../../util/constants/constants';
 import { Loading } from '../../../util/loading/loading';
 import { Regex } from '../../../util/regex/regex';
 import { Toast } from '../../../util/toast/toast';
@@ -39,26 +40,8 @@ export class MyAccountPage {
    * @description on page will enter.
    */
   public ionViewWillEnter() {
+    this.verifyAcc();
     this.initializeFields();
-    this.getJobs();
-  }
-
-  /**
-   * @description request all jobs from database.
-   */
-  public getJobs() {
-    this.loading.showLoading('Carregando...');
-    this.jobs = new Array<Job>();
-    this.jobProvider.getJobs()
-      .then((res) => {
-        res.subscribe((values) => {
-          this.jobs = values;
-          this.loading.hideLoading();
-        });
-      })
-      .catch((err) => {
-        this.toast.showToast('Erro ao preparar busca, Profissiões não encontradas! ');
-      });
   }
 
   /**
@@ -72,7 +55,7 @@ export class MyAccountPage {
    * @description Open Profile Photo Modal, for edit and better image view.
    */
   public setProfilePhoto() {
-    this.navCtrl.push('ImageOptionsPage', { 'isVisitor': false, 'profile': this.profile });
+    this.navCtrl.push('ImageOptionsPage', { isVisitor: false, profile: this.profile });
   }
 
   /**
@@ -224,6 +207,16 @@ export class MyAccountPage {
   private initializeFields() {
     if (this.profile.cpf.length === 14) {
       this.lockFiels = true;
+    }
+  }
+
+  /**
+   * @description verify if user complete the account profile configuration, and show a message!
+   */
+  private verifyAcc() {
+    if (this.profile.accStatus === Constants.ACCOUNT_IS_CREATING) {
+      this.alert.simpleAlert('Configuração de perfil!',
+        'Parece que você não terminou de configurar a sua conta! Configure para utilizar o aplicativo.');
     }
   }
 }

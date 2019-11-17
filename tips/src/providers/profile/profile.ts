@@ -4,6 +4,7 @@ import { AngularFirestore, CollectionReference, Query } from '@angular/fire/fire
 import { AppConfig } from '../../model/static/static';
 import { StorageProvider } from '../storage/storage';
 
+import { Events } from 'ionic-angular';
 import { FilterOptions } from '../../model/FilterOptions/FilterOptions';
 import { Profile } from '../../model/profile/profile';
 import { Constants } from '../../util/constants/constants';
@@ -13,7 +14,8 @@ export class ProfileProvider {
 
     constructor(
         private db: AngularFirestore,
-        private storage: StorageProvider) { }
+        private storage: StorageProvider,
+        private events: Events) { }
 
     /**
      * @description save profile on database.
@@ -131,6 +133,7 @@ export class ProfileProvider {
                 showWhatsApp: false,
                 directCall: false,
             },
+            accStatus: Constants.ACCOUNT_IS_CREATING,
         };
 
         return profile;
@@ -139,14 +142,41 @@ export class ProfileProvider {
     /**
      * @description update profile on memory and storage task.
      */
-    public updateProfile() {
+    public updateProfile(firstTime?: boolean) {
+        if (firstTime) {
+            this.getProfile(AppConfig.USER_PROFILE.uid)
+                .then(async (res: any) => {
+                    const profile: Profile = res.data();
+                    if (profile.aboutMe && profile.accStatus === Constants.ACCOUNT_IS_CREATED) {
+                        return this.saveProfileOnStorage(res.data())
+                            .then(() => {
+                                // tslint:disable-next-line:no-console
+                                console.log('ProfileProvider | Profile Updated!');
+                            });
+                    } else if (profile.job && profile.city && profile.state && profile.aboutMe && profile.phone) {
+                        profile.accStatus = Constants.ACCOUNT_IS_CREATED;
+                        // tslint:disable-next-line:no-console
+                        console.log('ProfileProvider | Profile Updated and Configured!');
+                    } else {
+                        // tslint:disable-next-line:no-console
+                        console.log('ProfileProvider | Profile Updated but not Configured!');
+                        profile.accStatus = Constants.ACCOUNT_IS_CREATING;
+                        this.events.publish(Constants.PROFILE_CONTINUE_CONFIGURATION);
+                    }
+                }).catch((error) => {
+                    // tslint:disable-next-line:no-console
+                    console.log('ProfileProvider | Update Profile task error!');
+                    // tslint:disable-next-line:no-console
+                    console.log('ProfileProvider | Error: ', error);
+                });
+        }
         // tslint:disable-next-line:no-console
         console.log('ProfileProvider | Update Profile task created!');
         setInterval(() => {
             // tslint:disable-next-line:no-console
             console.log('ProfileProvider | Update Profile task started!');
             this.getProfile(AppConfig.USER_PROFILE.uid)
-                .then((res: any) => {
+                .then(async (res: any) => {
                     return this.saveProfileOnStorage(res.data()).then(() => {
                         // tslint:disable-next-line:no-console
                         console.log('ProfileProvider | Profile Updated!');

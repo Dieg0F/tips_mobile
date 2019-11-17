@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { StorageProvider } from '../../../providers/storage/storage';
 import { UserProvider } from '../../../providers/user/user';
@@ -129,7 +129,7 @@ export class NewAccountPage {
       .then(async () => {
         return this.userProvider.saveUserAuth(newUser.uid)
           .then(() => {
-            this.storage.setItem('ACCOUNT_STATUS', 'ACCOUNT_IS_CREATING')
+            this.storage.setItem(Constants.ACCOUNT_STATUS, Constants.ACCOUNT_IS_CREATING)
               .then(() => {
                 this.setProfileConfigurations();
               });

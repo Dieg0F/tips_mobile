@@ -13,9 +13,9 @@ import { Toast } from '../../../util/toast/toast';
 export class JobSearchPage {
 
   public searchQuery: string = '';
-  public sectors: Job[] = [];
-  public sectorsFiltered: Job[] = [];
-  public sectorSelected: string;
+  public jobs: Job[] = [];
+  public jobsFiltered: Job[] = [];
+  public jobSelected: string;
 
   constructor(
     public viewCtrl: ViewController,
@@ -25,14 +25,25 @@ export class JobSearchPage {
     public navParams: NavParams,
     public events: Events) {
     this.getJobs();
-    this.sectorsFiltered = this.sectors;
   }
 
   /**
-   * @description recovery a job list from params.
+   * @description request all jobs from database.
    */
   public getJobs() {
-    this.sectors = this.navParams.get('jobList');
+    this.loading.showLoading('Carregando...');
+    this.jobs = new Array<Job>();
+    this.jobProvider.getJobs()
+      .then((res) => {
+        res.subscribe((values) => {
+          this.jobs = values;
+          this.jobsFiltered = this.jobs;
+          this.loading.hideLoading();
+        });
+      })
+      .catch((err) => {
+        this.toast.showToast('Erro ao buscar lista de profissões!');
+      });
   }
 
   /**
@@ -40,12 +51,12 @@ export class JobSearchPage {
    * @param ev event from select filter.
    */
   public getItems(ev: any) {
-    this.sectorsFiltered = this.sectors;
+    this.jobsFiltered = this.jobs;
     const val = ev.target.value;
 
     if (val && val.trim() !== '') {
-      this.sectorsFiltered = this.sectorsFiltered.filter((sector) => {
-        return (sector.sectorName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      this.jobsFiltered = this.jobsFiltered.filter((job) => {
+        return (job.sectorName.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
     }
   }
@@ -54,7 +65,7 @@ export class JobSearchPage {
    * @description close this modal and emit selected job event.
    */
   public finish() {
-    this.events.publish('jobSelected', this.sectorSelected);
+    this.events.publish('jobSelected', this.jobSelected);
     this.viewCtrl.dismiss();
   }
 
