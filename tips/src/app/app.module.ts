@@ -75,7 +75,6 @@ const config = {
       name: '_userData',
     }),
     AngularFireModule.initializeApp(config),
-    AngularFirestoreModule.enablePersistence({ experimentalTabSynchronization: true }),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,

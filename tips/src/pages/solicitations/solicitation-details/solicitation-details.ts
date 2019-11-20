@@ -285,13 +285,13 @@ export class SolicitationDetailsPage {
     let toastMessage = '';
     switch (this.solicitation.status) {
       case Constants.SOLICITATION_IS_RUNNING:
-        toastMessage = 'Solicitação aprovada por ' + this.contractorPf.name.firstName + '!';
+        toastMessage = 'Solicitação aprovada por ' + this.hiredPf.name.firstName + '!';
         break;
       case Constants.SOLICITATION_IS_CANCELED:
-        toastMessage = 'Solicitação cancelada por ' + this.contractorPf.name.firstName + '!';
+        toastMessage = 'Solicitação cancelada por ' + this.hiredPf.name.firstName + '!';
         break;
       case Constants.SOLICITATION_IS_FINISHED:
-        toastMessage = 'Solicitação finalizada por ' + this.contractorPf.name.firstName + '!';
+        toastMessage = 'Solicitação finalizada por ' + this.hiredPf.name.firstName + '!';
         break;
     }
     this.toast.showToast(toastMessage);
