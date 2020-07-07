@@ -52,7 +52,7 @@
         "ionic2-rating": "^1.2.2",
         "ionic3-star-rating": "^2.1.0",
         "ionicons": "3.0.0",
-        "npm": "^6.7.0",
+        "npm": "^6.14.6",
         "phonegap-plugin-mobile-accessibility": "^1.0.5",
         "rxjs": "^6.3.3",
         "rxjs-compat": "^6.3.3",
